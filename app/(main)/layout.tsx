@@ -7,6 +7,9 @@ import { Footer } from '~/app/(main)/Footer'
 import { Header } from '~/app/(main)/Header'
 import { QueryProvider } from '~/app/QueryProvider'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export default function BlogLayout({
   children,
 }: {

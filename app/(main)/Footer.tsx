@@ -15,6 +15,9 @@ import { redis } from '~/lib/redis'
 
 import { Newsletter } from './Newsletter'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 function NavLink({
   href,
   children,

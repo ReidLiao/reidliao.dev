@@ -13,7 +13,7 @@ export const config = {
 }
 
 async function beforeAuthMiddleware(req: NextRequest) {
-  const { geo, nextUrl } = req
+  const { nextUrl } = req
   const isApi = nextUrl.pathname.startsWith('/api/')
 
   if (process.env.EDGE_CONFIG) {
@@ -38,9 +38,32 @@ async function beforeAuthMiddleware(req: NextRequest) {
     }
   }
 
-  if (geo && !isApi && env.VERCEL_ENV === 'production') {
-    const country = geo.country
-    const city = geo.city
+  if (!isApi && env.VERCEL_ENV === 'production') {
+    let ip =
+      req.headers.get('x-forwarded-for') ||
+      req.headers.get('x-real-ip') ||
+      '127.0.0.1'
+    if (ip.includes(',')) {
+      ip = ip.split(',')[0].trim()
+    }
+
+    let country = 'US'
+    let city = 'Unknown'
+
+    if (ip !== '127.0.0.1' && ip !== '::1') {
+      try {
+        const res = await fetch(`http://ip-api.com/json/${ip}`, {
+          cache: 'no-store',
+        })
+        if (res.ok) {
+          const data = await res.json()
+          if (data.countryCode) country = data.countryCode
+          if (data.city) city = data.city
+        }
+      } catch {
+        // keep defaults
+      }
+    }
 
     const countryInfo = countries.find((x) => x.cca2 === country)
     if (countryInfo) {

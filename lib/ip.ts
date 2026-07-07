@@ -5,10 +5,18 @@ export function getIP(request: Request | NextRequest): string {
     return request.ip
   }
 
-  const xff = request.headers.get('x-forwarded-for')
-  if (xff === '::1') {
+  let ip =
+    request.headers.get('x-forwarded-for') ||
+    request.headers.get('x-real-ip') ||
+    '127.0.0.1'
+
+  if (ip.includes(',')) {
+    ip = ip.split(',')[0].trim()
+  }
+
+  if (ip === '::1') {
     return '127.0.0.1'
   }
 
-  return xff?.split(',')?.[0] ?? '127.0.0.1'
+  return ip
 }
