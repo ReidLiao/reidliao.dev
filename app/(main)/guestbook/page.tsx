@@ -8,7 +8,7 @@ import { Guestbook } from './Guestbook'
 
 const title = '留言墙'
 const description =
-  '在这里，你可以留下你想对我说的话，或是你的建议，或是你的想法，或是你的批评，或是你的赞美，或是你的鼓励，或是你的吐槽。'
+  '欢迎在这个「终端」留下你的足迹。无论是针对博客文章的想法、技术上的指正建议，哪怕只是随性的赞美、鼓励与闲聊吐槽，我都会在这里认真读取。'
 export const metadata = {
   title,
   description,

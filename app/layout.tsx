@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     default: seo.title,
   },
   description: seo.description,
-  keywords: 'Reidliao.dev,佐玩,创始人,CEO,开发者,设计师,细节控,创新',
+  keywords: 'Reidliao.dev, 全栈建站, 系统运维, Docker容器, 云服务器方案, 软件下载, 个人博客',
   manifest: '/site.webmanifest',
   robots: {
     index: true,

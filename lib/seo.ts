@@ -1,7 +1,7 @@
 export const seo = {
-  title: 'Reidliao.dev | 开发者、设计师、细节控、创始人',
+  title: 'Reidliao.dev | 开发者、运维工程师、内容创作者',
   description:
-    '我叫 Reidliao.dev，一名开发者，设计师，细节控，同时也是佐玩创始人，目前带领着佐玩致力于创造一个充满创造力的工作环境，同时鼓励团队创造影响世界的产品。',
+    '我是 Reidliao.dev，在云端与系统底层探索的创作者。本站专注于全栈网站搭建、Docker 容器化应用与系统运维实战，不定期带来硬核技术干货、靠谱的云服务推荐以及优质软件下载分享。保持好奇，折腾不止。',
   url: new URL(
     process.env.NODE_ENV === 'production'
       ? 'https://reidliao.dev'
