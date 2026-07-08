@@ -50,35 +50,14 @@ export default function Layout({
                   <strong>Reidliao.dev</strong>
                 </Link>
                 <br />
-                开发者、设计师、细节控、创始人
+                开发者、运维工程师、内容创作者
               </Text>
               <Text className="text-center">
                 <Link
-                  href="https://reidliao.dev/twitter"
-                  className="text-xs text-zinc-600 underline"
-                >
-                  Twitter
-                </Link>{' '}
-                |&nbsp;
-                <Link
-                  href="https://reidliao.dev/youtube"
-                  className="text-xs text-zinc-600 underline"
-                >
-                  YouTube
-                </Link>{' '}
-                |&nbsp;
-                <Link
-                  href="https://reidliao.dev/github"
+                  href="https://github.com/ReidLiao/reidliao.dev"
                   className="text-xs text-zinc-600 underline"
                 >
                   GitHub
-                </Link>{' '}
-                |&nbsp;
-                <Link
-                  href="https://reidliao.dev/bilibili"
-                  className="text-xs text-zinc-600 underline"
-                >
-                  哔哩哔哩
                 </Link>
               </Text>
             </Section>

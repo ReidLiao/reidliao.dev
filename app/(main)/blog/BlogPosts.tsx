@@ -1,5 +1,5 @@
 import { kvKeys } from '~/config/kv'
-import { env } from '~/env.mjs'
+import { isProduction } from '~/lib/is-production'
 import { redis } from '~/lib/redis'
 import { getLatestBlogPosts } from '~/sanity/queries'
 
@@ -10,7 +10,7 @@ export async function BlogPosts({ limit = 5 }) {
   const postIdKeys = posts.map(({ _id }) => kvKeys.postViews(_id))
 
   let views: number[] = []
-  if (env.VERCEL_ENV === 'development') {
+  if (!isProduction) {
     views = posts.map(() => Math.floor(Math.random() * 1000))
   } else {
     if (postIdKeys.length > 0) {

@@ -1,4 +1,5 @@
 import { count, isNotNull } from 'drizzle-orm'
+import { unstable_noStore as noStore } from 'next/cache'
 import Link from 'next/link'
 import React from 'react'
 
@@ -9,14 +10,11 @@ import { kvKeys } from '~/config/kv'
 import { navigationItems } from '~/config/nav'
 import { db } from '~/db'
 import { subscribers } from '~/db/schema'
-import { env } from '~/env.mjs'
+import { isProduction } from '~/lib/is-production'
 import { prettifyNumber } from '~/lib/math'
 import { redis } from '~/lib/redis'
 
 import { Newsletter } from './Newsletter'
-
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
 
 function NavLink({
   href,
@@ -48,8 +46,10 @@ function Links() {
 }
 
 async function TotalPageViews() {
+  noStore()
+
   let views: number
-  if (env.VERCEL_ENV === 'production') {
+  if (isProduction) {
     views = await redis.incr(kvKeys.totalPageViews)
   } else {
     views = 345678
@@ -72,8 +72,10 @@ type VisitorGeolocation = {
   flag: string
 }
 async function LastVisitorInfo() {
+  noStore()
+
   let lastVisitor: VisitorGeolocation | undefined = undefined
-  if (env.VERCEL_ENV === 'production') {
+  if (isProduction) {
     const [lv, cv] = await redis.mget<VisitorGeolocation[]>(
       kvKeys.lastVisitor,
       kvKeys.currentVisitor

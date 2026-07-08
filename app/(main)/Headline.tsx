@@ -96,29 +96,9 @@ export function Headline() {
         }}
       >
         <SocialLink
-          href="https://reidliao.dev/twitter"
-          aria-label="我的推特"
-          platform="twitter"
-        />
-        <SocialLink
-          href="https://reidliao.dev/youtube"
-          aria-label="我的 YouTube"
-          platform="youtube"
-        />
-        <SocialLink
-          href="https://reidliao.dev/bilibili"
-          aria-label="我的 Bilibili"
-          platform="bilibili"
-        />
-        <SocialLink
-          href="https://reidliao.dev/github"
+          href="https://github.com/ReidLiao/reidliao.dev"
           aria-label="我的 GitHub"
           platform="github"
-        />
-        <SocialLink
-          href="https://reidliao.dev/tg"
-          aria-label="我的 Telegram"
-          platform="telegram"
         />
         <SocialLink href="/feed.xml" platform="rss" aria-label="RSS 订阅" />
         <SocialLink

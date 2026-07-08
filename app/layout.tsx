@@ -43,8 +43,6 @@ export const metadata: Metadata = {
     url: 'https://reidliao.dev',
   },
   twitter: {
-    site: '@thecalicastle',
-    creator: '@thecalicastle',
     card: 'summary_large_image',
     title: seo.title,
     description: seo.description,

@@ -262,22 +262,6 @@ export function Header() {
                   <ThemeSwitcher />
                 </div>
               </motion.div>
-              {/* 
-              <AnimatePresence>
-                {!isHomePage && (
-                  <motion.div
-                    className="absolute left-14 top-1 flex h-8 items-center"
-                    initial={{ opacity: 0, scale: 0.3 }}
-                    animate={{
-                      opacity: 1,
-                      scale: 1,
-                      transition: { delay: 1 },
-                    }}
-                  >
-                    <Activity />
-                  </motion.div>
-                )}
-              </AnimatePresence> */}
             </div>
           </Container>
         </div>

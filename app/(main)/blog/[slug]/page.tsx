@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 
 import { BlogPostPage } from '~/app/(main)/blog/BlogPostPage'
 import { kvKeys } from '~/config/kv'
-import { env } from '~/env.mjs'
+import { isProduction } from '~/lib/is-production'
 import { url } from '~/lib'
 import { redis } from '~/lib/redis'
 import { getBlogPost } from '~/sanity/queries'
@@ -42,8 +42,6 @@ export const generateMetadata = async ({
       title,
       description,
       card: 'summary_large_image',
-      site: '@thecalicastle',
-      creator: '@thecalicastle',
     },
   } satisfies Metadata
 }
@@ -59,7 +57,7 @@ export default async function BlogPage({
   }
 
   let views: number
-  if (env.VERCEL_ENV === 'production') {
+  if (isProduction) {
     views = await redis.incr(kvKeys.postViews(post._id))
   } else {
     views = 30578
@@ -67,7 +65,7 @@ export default async function BlogPage({
 
   let reactions: number[] = []
   try {
-    if (env.VERCEL_ENV === 'production') {
+    if (isProduction) {
       const res = await fetch(url(`/api/reactions?id=${post._id}`), {
         next: {
           tags: [`reactions:${post._id}`],
@@ -88,7 +86,7 @@ export default async function BlogPage({
 
   let relatedViews: number[] = []
   if (typeof post.related !== 'undefined' && post.related.length > 0) {
-    if (env.VERCEL_ENV === 'development') {
+    if (!isProduction) {
       relatedViews = post.related.map(() => Math.floor(Math.random() * 1000))
     } else {
       const postIdKeys = post.related.map(({ _id }) => kvKeys.postViews(_id))
