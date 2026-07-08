@@ -1,7 +1,6 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import va from '@vercel/analytics'
 import { clsxm } from '@zolplay/utils'
 import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
@@ -40,8 +39,6 @@ export function Newsletter({ subCount }: { subCount?: string }) {
     async (data: NewsletterForm) => {
       try {
         if (isSubmitting) return
-
-        va.track('Newsletter:Subscribe')
 
         const response = await fetch('/api/newsletter', {
           method: 'POST',
