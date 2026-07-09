@@ -9,13 +9,21 @@ const ConfirmSubscriptionEmail = ({ link = 'link.com/confirm?fake-token' }) => {
 
   return (
     <Layout previewText={previewText}>
-      <Section className="mt-[24px]">
+      <Section className="mt-[24px] text-center">
         <Img
-          src={`${emailConfig.baseUrl}/subscription-email-header.jpg`}
-          width="250"
-          height="129.28"
+          src={`${emailConfig.baseUrl}/avatar.jpg`}
+          width="80"
+          height="80"
           alt="Reidliao.dev"
           className="mx-auto my-0"
+          style={{
+            width: '80px',
+            height: '80px',
+            borderRadius: '50%',
+            objectFit: 'cover',
+            display: 'block',
+            margin: '0 auto',
+          }}
         />
       </Section>
       <Heading className="mx-0 my-[30px] p-0 text-center text-[24px] font-bold text-black">

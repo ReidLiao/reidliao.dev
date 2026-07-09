@@ -94,5 +94,10 @@ export default authMiddleware({
     '/about',
     '/rss',
     '/feed',
+    '/sign-in(.*)',
+    '/blocked',
+    // Allow unmatched routes (404) without redirecting to sign-in.
+    // /admin is still protected by app/admin/layout.tsx (siteOwner check).
+    '/(.*)',
   ],
 })

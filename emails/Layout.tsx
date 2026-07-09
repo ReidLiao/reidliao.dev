@@ -34,13 +34,21 @@ export default function Layout({
 
           <Container className="mx-auto mt-[32px] w-[465px]">
             <Hr className="mx-0 my-[20px] h-px w-full bg-zinc-100" />
-            <Section>
+            <Section className="text-center">
               <Img
-                src={`${emailConfig.baseUrl}/icon.png`}
-                width="24"
-                height="24"
+                src={`${emailConfig.baseUrl}/avatar.jpg`}
+                width="80"
+                height="80"
                 alt="Reidliao.dev"
                 className="mx-auto my-0"
+                style={{
+                  width: '80px',
+                  height: '80px',
+                  borderRadius: '50%',
+                  objectFit: 'cover',
+                  display: 'block',
+                  margin: '0 auto',
+                }}
               />
               <Text className="text-center">
                 <Link
