@@ -119,6 +119,8 @@ export default function AboutPage() {
             <div className="mt-5 flex flex-wrap justify-center gap-3 lg:justify-start">
               <Link
                 href="https://github.com/ReidLiao/reidliao.dev"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 rounded-full bg-zinc-900 px-4 py-2 text-xs font-medium text-white transition hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
               >
                 <GitHubIcon className="h-3.5 w-3.5" />
@@ -142,8 +144,20 @@ export default function AboutPage() {
             服务器选择
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-            本站运行在一台 <strong className="text-zinc-800 dark:text-zinc-200">DMIT VPS</strong>{' '}
+            本站运行在一台{' '}
+            <PeekabooLink
+              href="https://www.dmit.io/aff.php?aff=7399"
+              target="_blank"
+            >
+              DMIT VPS
+            </PeekabooLink>{' '}
             上，系统环境为 Debian/Ubuntu。这不是「租来就跑」的共享虚拟主机，而是一台承载独立精神的小型服务器——CPU、内存与带宽都由我自行规划与监控。
+          </p>
+          <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+            <PeekabooLink href="https://www.dmit.io" target="_blank">
+              DMIT
+            </PeekabooLink>{' '}
+            是一家主打优质国际线路的 VPS 服务商，在香港、洛杉矶、东京等地均有机房节点，以稳定低延迟的网络表现著称，非常适合搭建个人博客、代理节点或开发测试环境。如果你也在寻找高性价比的 VPS，不妨通过上方链接了解一下。
           </p>
           <ul className="mt-4 space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
             <li className="flex gap-2">

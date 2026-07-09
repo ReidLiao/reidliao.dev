@@ -32,7 +32,7 @@ type PlatformInfo = {
 }
 const iconMapper: { [key: string]: PlatformInfo } = {
   '(?:github.com)': { icon: GitHubIcon, platform: 'github', label: 'GitHub' },
-  '((?:t.co)|(?:twitter.com))': {
+  '((?:t.co)|(?:twitter.com)|(?:x.com))': {
     icon: TwitterIcon,
     platform: 'twitter',
     label: 'Twitter',
