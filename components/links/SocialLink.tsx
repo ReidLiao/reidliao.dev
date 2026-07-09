@@ -31,23 +31,27 @@ type PlatformInfo = {
   label: string
 }
 const iconMapper: { [key: string]: PlatformInfo } = {
-  '(?:github.com)': { icon: GitHubIcon, platform: 'github', label: 'GitHub' },
-  '((?:t.co)|(?:twitter.com)|(?:x.com))': {
+  '(?:github.com)|(?:/github$)': {
+    icon: GitHubIcon,
+    platform: 'github',
+    label: 'GitHub',
+  },
+  '((?:t.co)|(?:twitter.com)|(?:x.com)|(?:/twitter$)|(?:/x$))': {
     icon: TwitterIcon,
     platform: 'twitter',
     label: 'Twitter',
   },
-  '((?:youtu.be)|(?:youtube.com))': {
+  '((?:youtu.be)|(?:youtube.com)|(?:/youtube$))': {
     icon: YouTubeIcon,
     platform: 'youtube',
     label: 'YouTube',
   },
-  '((?:t.me)|(?:telegram.com))': {
+  '((?:t.me)|(?:telegram.com)|(?:/tg$))': {
     icon: TelegramIcon,
     platform: 'telegram',
     label: 'Telegram',
   },
-  '(?:bilibili.com)': {
+  '(?:bilibili.com)|(?:/bilibili$)': {
     icon: BilibiliIcon,
     platform: 'bilibili',
     label: '哔哩哔哩',
@@ -59,7 +63,7 @@ const iconMapper: { [key: string]: PlatformInfo } = {
 function getIconForUrl(url: string): PlatformInfo | undefined {
   for (const regexStr in iconMapper) {
     const regex = new RegExp(
-      `^(?:https?:\/\/)?(?:[^@/\\n]+@)?(?:www.)?` + regexStr
+      `^(?:https?:\\/\\/)?(?:[^@/\\n]+@)?(?:www.)?` + regexStr
     )
     if (regex.test(url)) {
       return iconMapper[regexStr]

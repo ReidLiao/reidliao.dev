@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import Balancer from 'react-wrap-balancer'
 
 import { SparkleIcon, UserSecurityIcon } from '~/assets'
+import { PeekabooLink } from '~/components/links/PeekabooLink'
 import { SocialLink } from '~/components/links/SocialLink'
 
 function Developer() {
@@ -80,7 +81,10 @@ export function Headline() {
       >
         <Balancer>
           我是 Reidliao.dev，本站
-          独立博主，目前致力于打造一个纯粹的技术分享环境，同时鼓励大家去折腾和创造属于自己的服务。我热爱运维，开发，分享，享受技术，以及在云端领域中探索。
+          <PeekabooLink href="https://github.com/ReidLiao/reidliao.dev">
+            独立博主
+          </PeekabooLink>
+          ，目前致力于打造一个纯粹的技术分享环境，同时鼓励大家去折腾和创造属于自己的服务。我热爱运维，开发，分享，享受技术，以及在云端领域中探索。
         </Balancer>
       </motion.p>
       <motion.div
