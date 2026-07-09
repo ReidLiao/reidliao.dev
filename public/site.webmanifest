@@ -3,9 +3,9 @@
   "short_name": "Reidliao.dev",
   "icons": [
     {
-      "src": "/avatar.jpg",
-      "sizes": "512x512",
-      "type": "image/jpeg"
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
     },
     {
       "src": "/android-chrome-192x192.png",

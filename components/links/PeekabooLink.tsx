@@ -14,11 +14,13 @@ import { makeBlurDataURL } from '~/lib/image'
 type PeekabooLinkProps = LinkProps &
   React.ComponentPropsWithoutRef<'a'> & {
     children: React.ReactNode
+    faviconUrl?: string
   }
 export function PeekabooLink({
   href,
   children,
   className,
+  faviconUrl,
   ...props
 }: PeekabooLinkProps) {
   const [isOpen, setIsOpen] = React.useState(false)
@@ -36,6 +38,7 @@ export function PeekabooLink({
     return (
       <RichLink
         href={href}
+        faviconUrl={faviconUrl}
         className={clsxm(
           'font-semibold text-zinc-800 hover:underline dark:text-zinc-100',
           className
@@ -57,6 +60,7 @@ export function PeekabooLink({
       <HoverCard.Trigger asChild>
         <RichLink
           href={href}
+          faviconUrl={faviconUrl}
           className={clsxm(
             'font-semibold text-zinc-800 hover:underline dark:text-zinc-100',
             className

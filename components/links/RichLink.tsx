@@ -14,14 +14,18 @@ type RichLinkProps = LinkProps &
     children: React.ReactNode
   } & {
     favicon?: boolean
+    faviconUrl?: string
   }
 export const RichLink = React.forwardRef<HTMLAnchorElement, RichLinkProps>(
-  ({ children, href, favicon = true, className, ...props }, ref) => {
+  ({ children, href, favicon = true, faviconUrl, className, ...props }, ref) => {
     const hrefHost = new URL(href).host
-    const faviconUrl = React.useMemo(
-      () => (href.startsWith('http') ? `/api/favicon?url=${hrefHost}` : null),
-      [href, hrefHost]
-    )
+    const resolvedFaviconUrl = React.useMemo(() => {
+      if (faviconUrl) {
+        return faviconUrl
+      }
+
+      return href.startsWith('http') ? `/api/favicon?url=${hrefHost}` : null
+    }, [faviconUrl, href, hrefHost])
 
     // if it's a relative link, use a fallback Link
     if (!href.startsWith('http')) {
@@ -44,15 +48,17 @@ export const RichLink = React.forwardRef<HTMLAnchorElement, RichLinkProps>(
         target="_blank"
         {...props}
       >
-        {favicon && faviconUrl && (
+        {favicon && resolvedFaviconUrl && (
           <span
             className={clsxm(
               'mr-px inline-flex translate-y-0.5',
-              hostsThatNeedInvertedFavicons.includes(hrefHost) && 'dark:invert'
+              !faviconUrl &&
+                hostsThatNeedInvertedFavicons.includes(hrefHost) &&
+                'dark:invert'
             )}
           >
             <Image
-              src={faviconUrl}
+              src={resolvedFaviconUrl}
               alt=""
               aria-hidden="true"
               className="inline h-4 w-4 rounded"
@@ -65,7 +71,7 @@ export const RichLink = React.forwardRef<HTMLAnchorElement, RichLinkProps>(
         )}
 
         {children}
-        {faviconUrl && (
+        {resolvedFaviconUrl && (
           <ExternalLinkIcon
             width="0.95em"
             height="0.95em"

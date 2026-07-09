@@ -80,8 +80,11 @@ export function Headline() {
         }}
       >
         <Balancer>
-          我是 Reidliao.dev，本站
-          <PeekabooLink href="https://github.com/ReidLiao/reidliao.dev">
+          我是 Reidliao.dev，本站{' '}
+          <PeekabooLink
+            href="https://github.com/ReidLiao/reidliao.dev"
+            faviconUrl="/avatar.jpg"
+          >
             独立博主
           </PeekabooLink>
           ，目前致力于打造一个纯粹的技术分享环境，同时鼓励大家去折腾和创造属于自己的服务。我热爱运维，开发，分享，享受技术，以及在云端领域中探索。
