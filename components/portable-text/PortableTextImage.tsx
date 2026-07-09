@@ -66,7 +66,7 @@ export function PortableTextImage({
                       hasLabel ? 'rounded-xl' : 'rounded-xl md:rounded-3xl'
                     )}
                     alt={value.alt || ''}
-                    fetchPriority="high"
+                    loading="lazy"
                     unoptimized
                   />
                 </Dialog.Trigger>

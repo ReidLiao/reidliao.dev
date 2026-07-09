@@ -1,7 +1,7 @@
 import { count, isNotNull } from 'drizzle-orm'
 import { unstable_noStore as noStore } from 'next/cache'
 import Link from 'next/link'
-import React from 'react'
+import React, { Suspense } from 'react'
 
 import { CursorClickIcon, UsersIcon } from '~/assets'
 import { PeekabooLink } from '~/components/links/PeekabooLink'
@@ -45,6 +45,19 @@ function Links() {
   )
 }
 
+async function FooterNewsletter() {
+  noStore()
+
+  const [subs] = await db
+    .select({
+      subCount: count(),
+    })
+    .from(subscribers)
+    .where(isNotNull(subscribers.subscribedAt))
+
+  return <Newsletter subCount={`${subs?.subCount ?? '0'}`} />
+}
+
 async function TotalPageViews() {
   noStore()
 
@@ -71,6 +84,7 @@ type VisitorGeolocation = {
   city?: string
   flag: string
 }
+
 async function LastVisitorInfo() {
   noStore()
 
@@ -103,21 +117,16 @@ async function LastVisitorInfo() {
   )
 }
 
-export async function Footer() {
-  const [subs] = await db
-    .select({
-      subCount: count(),
-    })
-    .from(subscribers)
-    .where(isNotNull(subscribers.subscribedAt))
-
+export function Footer() {
   return (
     <footer className="mt-32">
       <Container.Outer>
         <div className="border-t border-zinc-100 pb-16 pt-10 dark:border-zinc-700/40">
           <Container.Inner>
             <div className="mx-auto mb-8 max-w-md">
-              <Newsletter subCount={`${subs?.subCount ?? '0'}`} />
+              <Suspense fallback={<Newsletter subCount="0" />}>
+                <FooterNewsletter />
+              </Suspense>
             </div>
             <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
               <p className="text-sm text-zinc-500/80 dark:text-zinc-400/80">
@@ -131,12 +140,12 @@ export async function Footer() {
           </Container.Inner>
           <Container.Inner className="mt-6">
             <div className="flex flex-col items-center justify-start gap-2 sm:flex-row">
-              <React.Suspense>
+              <Suspense>
                 <TotalPageViews />
-              </React.Suspense>
-              <React.Suspense>
+              </Suspense>
+              <Suspense>
                 <LastVisitorInfo />
-              </React.Suspense>
+              </Suspense>
             </div>
           </Container.Inner>
         </div>

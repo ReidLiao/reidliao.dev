@@ -1,13 +1,68 @@
 import { type Metadata } from 'next'
+import Image from 'next/image'
+import Link from 'next/link'
 import Balancer from 'react-wrap-balancer'
 
-import { CloudIcon, ScriptIcon, SparkleIcon } from '~/assets'
+import {
+  AtomIcon,
+  BriefcaseIcon,
+  CloudIcon,
+  GitHubIcon,
+  Layers3Icon,
+  ScriptIcon,
+  SparkleIcon,
+} from '~/assets'
+import { PeekabooLink } from '~/components/links/PeekabooLink'
 import { Container } from '~/components/ui/Container'
-import { Prose } from '~/components/Prose'
 
 const title = '关于本站'
 const description =
   '了解 Reidliao.dev 的部署架构、技术理念与内容定位——一台 DMIT VPS 上的纯 Docker 自建博客。'
+
+const techStack = [
+  'Next.js 14',
+  'Docker',
+  'Nginx Proxy Manager',
+  'Neon PostgreSQL',
+  'Sanity CMS',
+  'Upstash Redis',
+  'Clerk Auth',
+  'Resend',
+]
+
+const contentTopics = [
+  {
+    title: '全栈建站架构',
+    detail: 'Next.js App Router、数据库、CMS、认证与邮件系统的整合实践。',
+  },
+  {
+    title: 'Docker 容器化',
+    detail: '镜像构建、Compose 编排、生产部署与跨平台交叉编译经验。',
+  },
+  {
+    title: '系统运维实战',
+    detail: 'Linux 服务管理、反向代理、监控告警与线上故障排查。',
+  },
+  {
+    title: '软件 & 云服务',
+    detail: 'macOS / Windows 工具安利，以及高性价比 VPS 真实评测。',
+  },
+]
+
+const deployReasons = [
+  {
+    title: '极致控制权',
+    detail: '镜像、反代、环境变量、日志策略——全部由自己掌控，不依赖平台黑盒。',
+  },
+  {
+    title: '摆脱平台绑定',
+    detail: '随时迁移 VPS、换机房，数据与进程始终在自己手里。',
+  },
+  {
+    title: '运维即乐趣',
+    detail: '从构建镜像到排障上线，折腾过程本身就是值得记录的技术资产。',
+  },
+]
 
 export const metadata = {
   title,
@@ -25,92 +80,183 @@ export const metadata = {
 
 export default function AboutPage() {
   return (
-    <Container className="mt-16 sm:mt-24">
-      <header className="max-w-2xl">
-        <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-          关于本站
+    <Container className="mt-16 sm:mt-32">
+      <header className="max-w-3xl">
+        <p className="inline-flex items-center rounded-full border border-lime-500/20 bg-lime-500/5 px-3 py-1 text-xs font-medium text-lime-700 dark:border-lime-400/20 dark:bg-lime-400/10 dark:text-lime-300">
+          <AtomIcon className="mr-1.5 h-3.5 w-3.5" />
+          Independent · Self-hosted · Docker
+        </p>
+        <h1 className="mt-6 text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
+          关于 Reidliao.dev
         </h1>
-        <p className="my-6 text-base text-zinc-600 dark:text-zinc-400">
+        <p className="mt-6 text-lg text-zinc-600 dark:text-zinc-400">
           <Balancer>
-            Reidliao.dev 是一台独立服务器上的个人实验室，记录我在全栈建站、容器化与系统运维领域的折腾与思考。
+            这不是一份简历，而是一台独立服务器上的技术实验室——记录我在全栈建站、容器化与系统运维领域的真实折腾。
           </Balancer>
         </p>
       </header>
 
-      <Prose className="mt-12 max-w-2xl">
-        <h2 className="flex items-center gap-2">
-          <CloudIcon className="h-5 w-5 text-lime-600 dark:text-lime-400" />
-          服务器选择
-        </h2>
-        <p>
-          本站运行在一台 <strong>DMIT VPS</strong> 上，系统环境为 Debian/Ubuntu。
-          这不是一台「租来就跑」的共享主机，而是一台承载着独立精神的小型服务器——CPU、内存、带宽都由我自行规划与监控。
-        </p>
-        <p>
-          选择 VPS 而非传统虚拟主机，是因为我需要完整的 root 权限、可预期的资源配额，以及随时折腾底层环境的自由。
-          对独立博主来说，这台机器既是博客的宿主，也是运维实战的试验田。
-        </p>
+      <section className="mt-12 overflow-hidden rounded-3xl border border-zinc-100 bg-gradient-to-br from-zinc-50 via-white to-lime-50/40 p-6 ring-1 ring-zinc-900/5 dark:border-zinc-700/40 dark:from-zinc-900 dark:via-zinc-900 dark:to-lime-950/20 dark:ring-white/10 sm:p-8">
+        <div className="flex flex-col gap-8 lg:flex-row lg:items-center">
+          <div className="relative mx-auto h-28 w-28 shrink-0 overflow-hidden rounded-full ring-4 ring-white shadow-lg shadow-zinc-800/10 dark:ring-zinc-800">
+            <Image
+              src="/avatar.jpg"
+              alt="Reidliao.dev"
+              width={112}
+              height={112}
+              className="h-full w-full object-cover"
+              priority
+            />
+          </div>
+          <div className="flex-1 text-center lg:text-left">
+            <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
+              独立博主 · 全栈折腾者 · 运维工程师
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+              我维护着这台服务器的每一个细节：从 Docker 镜像构建、Nginx 反代，到 Redis
+              缓存与邮件通知。写博客、搭服务、测工具——保持好奇，折腾不止。
+            </p>
+            <div className="mt-5 flex flex-wrap justify-center gap-3 lg:justify-start">
+              <Link
+                href="https://github.com/ReidLiao/reidliao.dev"
+                className="inline-flex items-center gap-1.5 rounded-full bg-zinc-900 px-4 py-2 text-xs font-medium text-white transition hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
+              >
+                <GitHubIcon className="h-3.5 w-3.5" />
+                查看源码
+              </Link>
+              <Link
+                href="/guestbook"
+                className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-4 py-2 text-xs font-medium text-zinc-700 transition hover:border-lime-500/40 hover:text-lime-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:border-lime-400/40 dark:hover:text-lime-400"
+              >
+                留言交流
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        <h2 className="flex items-center gap-2">
-          <ScriptIcon className="h-5 w-5 text-lime-600 dark:text-lime-400" />
-          部署理念
-        </h2>
-        <p>
-          本项目最初 fork 自优秀的开源博客模板，原作者的部署方案面向 Vercel 等 Serverless
-          平台，上手极快，但对基础设施的控制粒度有限。
-        </p>
-        <p>我没有沿用那条路径，原因很直接：</p>
-        <ul>
-          <li>
-            <strong>极致控制权</strong>：容器镜像、反向代理、环境变量、日志策略——全部由自己掌控，不依赖平台黑盒。
-          </li>
-          <li>
-            <strong>摆脱平台绑定</strong>：Serverless 生态迁移成本高，自建 Docker 方案可随时换 VPS、换机房，数据与进程都在自己手里。
-          </li>
-          <li>
-            <strong>运维本身就是乐趣</strong>：从构建镜像、推送部署，到 Nginx Proxy Manager
-            反代、监控与排障——这些「折腾」过程，正是我想记录和分享的一部分。
-          </li>
-        </ul>
-        <p>
-          最终方案是 <strong>纯 Docker 容器化自建</strong>：本地交叉编译镜像，推送到 VPS
-          运行，由 Nginx 反代对外服务。构建与运行分离，小内存机器也能稳定承载。
-        </p>
+      <div className="mt-10 grid gap-6 lg:grid-cols-2">
+        <article className="rounded-2xl border border-zinc-100 p-6 dark:border-zinc-700/40">
+          <h2 className="flex items-center gap-2 text-base font-semibold text-zinc-900 dark:text-zinc-100">
+            <CloudIcon className="h-5 w-5 text-lime-600 dark:text-lime-400" />
+            服务器选择
+          </h2>
+          <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+            本站运行在一台 <strong className="text-zinc-800 dark:text-zinc-200">DMIT VPS</strong>{' '}
+            上，系统环境为 Debian/Ubuntu。这不是「租来就跑」的共享虚拟主机，而是一台承载独立精神的小型服务器——CPU、内存与带宽都由我自行规划与监控。
+          </p>
+          <ul className="mt-4 space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
+            <li className="flex gap-2">
+              <span className="text-lime-600 dark:text-lime-400">▸</span>
+              完整 root 权限，可自由定制内核参数与服务
+            </li>
+            <li className="flex gap-2">
+              <span className="text-lime-600 dark:text-lime-400">▸</span>
+              可预期的资源配额，适合长期稳定运行个人服务
+            </li>
+            <li className="flex gap-2">
+              <span className="text-lime-600 dark:text-lime-400">▸</span>
+              博客宿主 + 运维试验田，一举两得
+            </li>
+          </ul>
+        </article>
 
-        <h2 className="flex items-center gap-2">
+        <article className="rounded-2xl border border-zinc-100 p-6 dark:border-zinc-700/40">
+          <h2 className="flex items-center gap-2 text-base font-semibold text-zinc-900 dark:text-zinc-100">
+            <ScriptIcon className="h-5 w-5 text-lime-600 dark:text-lime-400" />
+            部署理念
+          </h2>
+          <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+            本项目 fork 自优秀的开源博客模板，原作者方案面向 Vercel 等 Serverless
+            平台。我没有沿用那条路径，而是选择{' '}
+            <strong className="text-zinc-800 dark:text-zinc-200">纯 Docker 容器化自建</strong>
+            ：本地交叉编译镜像 → 推送 VPS → Nginx Proxy Manager 反代对外。
+          </p>
+          <div className="mt-4 space-y-3">
+            {deployReasons.map((item) => (
+              <div
+                key={item.title}
+                className="rounded-xl bg-zinc-50 px-4 py-3 dark:bg-zinc-800/50"
+              >
+                <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
+                  {item.title}
+                </p>
+                <p className="mt-1 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+                  {item.detail}
+                </p>
+              </div>
+            ))}
+          </div>
+        </article>
+      </div>
+
+      <section className="mt-10 rounded-2xl border border-zinc-100 p-6 dark:border-zinc-700/40">
+        <h2 className="flex items-center gap-2 text-base font-semibold text-zinc-900 dark:text-zinc-100">
+          <Layers3Icon className="h-5 w-5 text-lime-600 dark:text-lime-400" />
+          技术栈
+        </h2>
+        <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-400">
+          构建与运行分离，小内存 VPS 也能稳定承载完整博客服务。
+        </p>
+        <div className="mt-5 flex flex-wrap gap-2">
+          {techStack.map((item) => (
+            <span
+              key={item}
+              className="rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-xs font-medium text-zinc-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
+            >
+              {item}
+            </span>
+          ))}
+        </div>
+        <div className="mt-6 rounded-xl bg-zinc-900 px-4 py-3 font-mono text-xs leading-relaxed text-lime-400 dark:bg-zinc-950">
+          <p className="text-zinc-500"># 部署链路</p>
+          <p>本地 Docker Buildx (amd64) → 镜像导出 .tar → SFTP 推送 VPS</p>
+          <p>→ Dockge 运行容器 → NPM 反代 → reidliao.dev</p>
+        </div>
+      </section>
+
+      <section className="mt-10">
+        <h2 className="flex items-center gap-2 text-base font-semibold text-zinc-900 dark:text-zinc-100">
           <SparkleIcon className="h-5 w-5 text-lime-600 dark:text-lime-400" />
           内容定位
         </h2>
-        <p>本博客主要聚焦以下方向：</p>
-        <ul>
-          <li>
-            <strong>全栈建站架构</strong>：Next.js、数据库、CMS、认证与邮件等模块的整合实践
-          </li>
-          <li>
-            <strong>Docker 容器化应用</strong>：镜像构建、Compose 编排、生产环境部署经验
-          </li>
-          <li>
-            <strong>系统运维实战</strong>：Linux 服务管理、反向代理、监控与故障排查
-          </li>
-          <li>
-            <strong>软件与云服务分享</strong>：macOS / Windows 优质工具安利，以及高性价比 VPS
-            与云服务的真实评测
-          </li>
-        </ul>
-        <p>
-          这里不追求流量密码，只希望把踩过的坑、验证过的方案，整理成对你有参考价值的技术干货。
+        <p className="mt-3 max-w-2xl text-sm text-zinc-600 dark:text-zinc-400">
+          不追流量密码，只分享踩过坑、验证过的硬核干货。
         </p>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          {contentTopics.map((topic) => (
+            <div
+              key={topic.title}
+              className="group rounded-2xl border border-zinc-100 p-5 transition hover:border-lime-500/30 hover:shadow-sm dark:border-zinc-700/40 dark:hover:border-lime-400/20"
+            >
+              <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                {topic.title}
+              </h3>
+              <p className="mt-2 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+                {topic.detail}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-        <h2>下载策略</h2>
-        <p>
-          本站运行在一台轻量级 VPS 上，带宽和存储都是宝贵资源。因此，博客内分享的软件、工具包等资源，
-          <strong>不会直接托管在本服务器上</strong>，而是统一通过第三方优质网盘（如阿里云盘、123
-          盘等）提供下载链接。
+      <section className="mt-10 rounded-2xl border border-dashed border-zinc-200 bg-zinc-50/50 p-6 dark:border-zinc-700 dark:bg-zinc-800/30">
+        <h2 className="flex items-center gap-2 text-base font-semibold text-zinc-900 dark:text-zinc-100">
+          <BriefcaseIcon className="h-5 w-5 text-lime-600 dark:text-lime-400" />
+          下载策略
+        </h2>
+        <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+          本站运行在一台轻量级 VPS 上，带宽和存储都是宝贵资源。因此博客内分享的软件、工具包等资源，
+          <strong className="text-zinc-800 dark:text-zinc-200">不会直接托管在本服务器上</strong>
+          ，而是统一通过第三方优质网盘（阿里云盘、123 盘等）提供下载链接。
         </p>
-        <p>
-          这样做既能保证下载速度，也能让服务器专心做好「展示与写作」这一件事。如果你在某个资源的链接上遇到问题，欢迎在留言墙反馈。
+        <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+          这样做既能保证下载速度，也能让服务器专心做好「展示与写作」。链接失效欢迎在{' '}
+          <PeekabooLink href="/guestbook">留言墙</PeekabooLink> 反馈。
         </p>
-      </Prose>
+      </section>
     </Container>
   )
 }
+
+export const revalidate = 3600
