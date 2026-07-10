@@ -3,7 +3,8 @@
 import { motion } from 'framer-motion'
 import Balancer from 'react-wrap-balancer'
 
-import { GitHubBrandIcon, SparkleIcon, UserSecurityIcon } from '~/assets'
+import { SparkleIcon, UserSecurityIcon } from '~/assets'
+import { PeekabooLink } from '~/components/links/PeekabooLink'
 import { SocialLink } from '~/components/links/SocialLink'
 
 function Developer() {
@@ -87,17 +88,13 @@ export function Headline() {
         }}
       >
         <Balancer>
-          Reidliao.dev{' '}
-          <a
+          <PeekabooLink
             href="https://github.com/ReidLiao/reidliao.dev"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 font-semibold text-zinc-800 transition hover:underline dark:text-zinc-100"
+            faviconUrl="/avatar.jpg"
           >
-            <GitHubBrandIcon className="h-4 w-4" />
-            自建者
-          </a>
-          。热衷于
+            reidliao.dev
+          </PeekabooLink>{' '}
+          自建者。热衷于
           <Highlight>全栈开发</Highlight>、
           <Highlight>云端架构</Highlight>
           与

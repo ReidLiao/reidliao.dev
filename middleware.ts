@@ -34,46 +34,69 @@ async function beforeAuthMiddleware(req: NextRequest) {
   const isApi = nextUrl.pathname.startsWith('/api/')
 
   if (isProduction && !isApi) {
+    try {
+      await redis.incr(kvKeys.totalPageViews)
+    } catch {
+      // ignore view counter failures
+    }
+
     const ip = getClientIP(req)
     let country = 'US'
     let city = 'Unknown'
+    let geoResolved = false
 
     if (ip !== '127.0.0.1') {
       const cacheKey = `geo:${ip}`
-      const cached = await redis.get<{ country: string; city: string }>(cacheKey)
-
-      if (cached?.country) {
-        country = cached.country
-        city = cached.city ?? 'Unknown'
-      } else {
-        try {
-          const res = await fetch(`http://ip-api.com/json/${ip}`, {
-            cache: 'no-store',
-          })
-          if (res.ok) {
-            const data = await res.json()
-            if (data.countryCode) country = data.countryCode
-            if (data.city) city = data.city
-          }
-        } catch {
-          // keep defaults
-        }
-
-        await redis.set(
-          cacheKey,
-          { country, city },
-          { ex: GEO_CACHE_TTL_SECONDS }
+      try {
+        const cached = await redis.get<{ country: string; city: string }>(
+          cacheKey
         )
+
+        if (cached?.country) {
+          country = cached.country
+          city = cached.city ?? 'Unknown'
+          geoResolved = true
+        } else {
+          try {
+            const res = await fetch(`http://ip-api.com/json/${ip}`, {
+              cache: 'no-store',
+            })
+            if (res.ok) {
+              const data = await res.json()
+              if (data.countryCode) {
+                country = data.countryCode
+                geoResolved = true
+              }
+              if (data.city) city = data.city
+            }
+          } catch {
+            // keep defaults; do not cache failed lookups
+          }
+
+          if (geoResolved) {
+            await redis.set(
+              cacheKey,
+              { country, city },
+              { ex: GEO_CACHE_TTL_SECONDS }
+            )
+          }
+        }
+      } catch {
+        // geo lookup optional
       }
     }
 
     const countryInfo = countries.find((x) => x.cca2 === country)
-    if (countryInfo) {
-      await redis.set(kvKeys.currentVisitor, {
-        country,
-        city,
-        flag: countryInfo.flag,
-      })
+    if (countryInfo && geoResolved) {
+      try {
+        await redis.set(kvKeys.currentVisitor, {
+          country,
+          city,
+          flag: countryInfo.flag,
+        })
+      } catch {
+        // ignore
+      }
     }
   }
 

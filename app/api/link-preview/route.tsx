@@ -7,7 +7,7 @@ import { ratelimit } from '~/lib/redis'
 const width = 1200
 const height = 750
 
-export const runtime = 'edge'
+export const runtime = 'nodejs'
 export const revalidate = 3600 // 1 hour
 
 export async function GET(req: NextRequest) {

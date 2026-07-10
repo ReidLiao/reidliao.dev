@@ -15,6 +15,8 @@ import { redis } from '~/lib/redis'
 
 import { Newsletter } from './Newsletter'
 
+const VIEWS_CACHE_TTL_SECONDS = 60
+
 function NavLink({
   href,
   children,
@@ -62,7 +64,15 @@ async function TotalPageViews() {
 
   let views: number
   if (isProduction) {
-    views = await redis.incr(kvKeys.totalPageViews)
+    const cached = await redis.get<number>(kvKeys.totalPageViewsCached)
+    if (typeof cached === 'number') {
+      views = cached
+    } else {
+      views = (await redis.get<number>(kvKeys.totalPageViews)) ?? 0
+      await redis.set(kvKeys.totalPageViewsCached, views, {
+        ex: VIEWS_CACHE_TTL_SECONDS,
+      })
+    }
   } else {
     views = 345678
   }
@@ -94,7 +104,9 @@ async function LastVisitorInfo() {
       kvKeys.currentVisitor
     )
     lastVisitor = lv
-    await redis.set(kvKeys.lastVisitor, cv)
+    if (cv) {
+      await redis.set(kvKeys.lastVisitor, cv)
+    }
   }
 
   if (!lastVisitor) {
@@ -113,6 +125,23 @@ async function LastVisitorInfo() {
       </span>
       <span className="font-medium">{lastVisitor.flag}</span>
     </span>
+  )
+}
+
+function DeployInfo() {
+  const sha = process.env.GIT_SHA
+  const buildTime = process.env.BUILD_TIME
+
+  if (!sha && !buildTime) {
+    return null
+  }
+
+  return (
+    <p className="mt-4 text-center font-mono text-[10px] text-zinc-400 dark:text-zinc-500 md:text-left">
+      {sha ? <span>build {sha.slice(0, 7)}</span> : null}
+      {sha && buildTime ? <span className="mx-1.5 opacity-40">·</span> : null}
+      {buildTime ? <span>{buildTime}</span> : null}
+    </p>
   )
 }
 
@@ -159,6 +188,7 @@ export function Footer() {
                 <LastVisitorInfo />
               </Suspense>
             </div>
+            <DeployInfo />
           </Container.Inner>
         </div>
       </Container.Outer>

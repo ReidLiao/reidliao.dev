@@ -22,13 +22,18 @@ import { ElegantTooltip } from '~/components/ui/Tooltip'
 import { type GuestbookDto } from '~/db/dto/guestbook.dto'
 
 const MAX_MESSAGE_LENGTH = 600
+const MAX_ANONYMOUS_MESSAGE_LENGTH = 120
 const REWARDS_ID = 'guestbook-rewards'
 
 export function GuestbookInput() {
-  const { user } = useUser()
+  const { user, isLoaded } = useUser()
   const textareaRef = React.useRef<HTMLTextAreaElement>(null)
   const [message, setMessage] = React.useState('')
   const [isPreviewing, setIsPreviewing] = React.useState(false)
+  const [error, setError] = React.useState<string | null>(null)
+
+  const maxLength = user ? MAX_MESSAGE_LENGTH : MAX_ANONYMOUS_MESSAGE_LENGTH
+  const avatarUrl = user?.imageUrl ?? '/avatar.jpg'
 
   const { reward } = useReward(REWARDS_ID, 'emoji', {
     position: 'absolute',
@@ -59,6 +64,7 @@ export function GuestbookInput() {
   const { mutate: signGuestbook, isLoading } = useMutation(
     ['guestbook'],
     async () => {
+      setError(null)
       const res = await fetch('/api/guestbook', {
         method: 'POST',
         headers: {
@@ -66,8 +72,19 @@ export function GuestbookInput() {
         },
         body: JSON.stringify({
           message,
+          anonymous: !user,
         }),
       })
+      if (!res.ok) {
+        const payload = await res.json().catch(() => ({}))
+        throw new Error(
+          typeof payload.error === 'string'
+            ? payload.error
+            : res.status === 429
+              ? '发送太频繁，请稍后再试'
+              : '发送失败，请稍后重试'
+        )
+      }
       const data: GuestbookDto = await res.json()
       return data
     },
@@ -78,11 +95,18 @@ export function GuestbookInput() {
         reward()
         signBook(data)
       },
+      onError: (err: Error) => {
+        setError(err.message)
+      },
     }
   )
 
   const onClickSend = () => {
-    if (isLoading) {
+    if (isLoading || message.trim().length === 0) {
+      return
+    }
+    if (message.length > maxLength) {
+      setError(`留言不能超过 ${maxLength} 字`)
       return
     }
 
@@ -108,7 +132,7 @@ export function GuestbookInput() {
   )
   const background = useMotionTemplate`radial-gradient(320px circle at ${mouseX}px ${mouseY}px, var(--spotlight-color) 0%, transparent 85%)`
 
-  if (!user) {
+  if (!isLoaded) {
     return (
       <div className="h-[82px] animate-pulse rounded-xl bg-white/70 ring-2 ring-zinc-200/30 dark:bg-zinc-800/80 dark:ring-zinc-700/30" />
     )
@@ -164,7 +188,7 @@ export function GuestbookInput() {
 
       <div className="z-10 h-8 w-8 shrink-0 md:h-10 md:w-10">
         <Image
-          src={user.imageUrl}
+          src={avatarUrl}
           alt=""
           width={40}
           height={40}
@@ -187,7 +211,11 @@ export function GuestbookInput() {
             className="block w-full shrink-0 resize-none border-0 bg-transparent p-0 text-sm leading-6 text-zinc-800 placeholder-zinc-400 outline-none transition-[height] will-change-[height] focus:outline-none focus:ring-0 dark:text-zinc-200 dark:placeholder-zinc-500"
             value={message}
             onChange={(event) => setMessage(event.target.value)}
-            placeholder="说点什么吧，万一火不了呢..."
+            placeholder={
+              user
+                ? '说点什么吧，万一火不了呢...'
+                : '匿名短留言（最多 120 字）...'
+            }
             onKeyDown={handleKeyDown}
             maxRows={8}
             autoFocus
@@ -201,14 +229,20 @@ export function GuestbookInput() {
               message.length > 0 ? 'opacity-100' : 'opacity-0'
             )}
           >
-            支持 <b>Markdown</b> 与{' '}
-            <RichLink
-              favicon={false}
-              href="https://docs.github.com/zh/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax"
-              className="font-bold hover:underline"
-            >
-              GFM
-            </RichLink>
+            {error ? (
+              <span className="text-red-500">{error}</span>
+            ) : (
+              <>
+                支持 <b>Markdown</b> 与{' '}
+                <RichLink
+                  favicon={false}
+                  href="https://docs.github.com/zh/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax"
+                  className="font-bold hover:underline"
+                >
+                  GFM
+                </RichLink>
+              </>
+            )}
           </span>
           <AnimatePresence>
             {message.length > 0 && (
@@ -222,12 +256,12 @@ export function GuestbookInput() {
                 <span
                   className={clsxm(
                     'font-mono text-[10px]',
-                    message.length > MAX_MESSAGE_LENGTH
+                    message.length > maxLength
                       ? 'text-red-500'
                       : 'text-zinc-500'
                   )}
                 >
-                  {message.length}/{MAX_MESSAGE_LENGTH}
+                  {message.length}/{maxLength}
                 </span>
 
                 <ElegantTooltip

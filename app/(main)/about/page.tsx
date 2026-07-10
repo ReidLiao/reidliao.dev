@@ -3,11 +3,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Balancer from 'react-wrap-balancer'
 
-import { AtomIcon, GitHubIcon } from '~/assets'
+import { GitHubIcon } from '~/assets'
 import { PeekabooLink } from '~/components/links/PeekabooLink'
 import { Container } from '~/components/ui/Container'
 
-const title = '关于本站'
+const title = '关于 reidliao.dev'
 const description =
   '了解 Reidliao.dev 的部署架构、技术理念与内容定位——一台 DMIT VPS 上的纯 Docker 自建博客。'
 
@@ -76,14 +76,18 @@ export default function AboutPage() {
   return (
     <Container className="mt-16 sm:mt-32">
       <header className="max-w-3xl">
-        <p className="inline-flex items-center rounded-full border border-lime-500/20 bg-lime-500/5 px-3 py-1 text-xs font-medium text-lime-700 dark:border-lime-400/20 dark:bg-lime-400/10 dark:text-lime-300">
-          <AtomIcon className="mr-1.5 h-3.5 w-3.5" />
-          Independent · Self-hosted · Docker
+        <p className="font-mono text-sm text-zinc-500 dark:text-zinc-400">
+          /about
         </p>
-        <h1 className="mt-6 text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-          关于 Reidliao.dev
+        <h1 className="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">
+          <span className="font-normal text-zinc-400 dark:text-zinc-500">
+            关于
+          </span>{' '}
+          <span className="font-mono text-zinc-800 dark:text-zinc-100">
+            reidliao.dev
+          </span>
         </h1>
-        <p className="mt-6 text-lg text-zinc-600 dark:text-zinc-400">
+        <p className="mt-5 max-w-2xl text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
           <Balancer>
             这不是一份简历，而是一台独立服务器上的技术实验室——记录我在全栈建站、容器化与系统运维领域的真实折腾。
           </Balancer>

@@ -20,14 +20,22 @@ type GetBlogPostsOptions = {
   limit?: number
   offset?: number
   forDisplay?: boolean
+  category?: string
 }
+
 export const getLatestBlogPostsQuery = ({
   limit = 5,
+  offset = 0,
   forDisplay = true,
-}: GetBlogPostsOptions) =>
-  groq`
+  category,
+}: GetBlogPostsOptions) => {
+  const categoryFilter = category
+    ? '&& $category in categories[]->title'
+    : ''
+
+  return groq`
   *[_type == "post" && !(_id in path("drafts.**")) && publishedAt <= "${getDate().toISOString()}"
-  && defined(slug.current)] | order(publishedAt desc)[0...${limit}] {
+  && defined(slug.current) ${categoryFilter}] | order(publishedAt desc)[${offset}...${offset + limit}] {
     _id,
     title,
     "slug": slug.current,
@@ -47,8 +55,39 @@ export const getLatestBlogPostsQuery = ({
       }
     }
   }`
+}
+
 export const getLatestBlogPosts = (options: GetBlogPostsOptions) =>
-  client.fetch<Post[] | null>(getLatestBlogPostsQuery(options))
+  client.fetch<Post[] | null>(
+    getLatestBlogPostsQuery(options),
+    options.category ? { category: options.category } : {}
+  )
+
+export const getBlogPostsCountQuery = ({ category }: { category?: string } = {}) => {
+  const categoryFilter = category
+    ? '&& $category in categories[]->title'
+    : ''
+
+  return groq`
+  count(*[_type == "post" && !(_id in path("drafts.**")) && publishedAt <= "${getDate().toISOString()}"
+  && defined(slug.current) ${categoryFilter}])
+  `
+}
+
+export const getBlogPostsCount = (options: { category?: string } = {}) =>
+  client.fetch<number>(
+    getBlogPostsCountQuery(options),
+    options.category ? { category: options.category } : {}
+  )
+
+export const getBlogCategoriesQuery = () =>
+  groq`
+  array::unique(*[_type == "post" && !(_id in path("drafts.**")) && publishedAt <= "${getDate().toISOString()}"
+  && defined(slug.current) && defined(categories)].categories[]->title)
+  `
+
+export const getBlogCategories = () =>
+  client.fetch<string[] | null>(getBlogCategoriesQuery())
 
 export const getBlogPostQuery = groq`
   *[_type == "post" && slug.current == $slug && !(_id in path("drafts.**"))][0] {

@@ -4,7 +4,7 @@ import { type NextRequest, NextResponse } from 'next/server'
 
 import { ratelimit, redis } from '~/lib/redis'
 
-export const runtime = 'edge'
+export const runtime = 'nodejs'
 export const revalidate = 259200 // 3 days
 
 function getKey(url: string) {

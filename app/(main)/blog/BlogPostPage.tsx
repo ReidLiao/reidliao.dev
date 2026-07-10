@@ -169,10 +169,25 @@ export function BlogPostPage({
                   <span>{post.readingTime.toFixed(0)}分钟阅读</span>
                 </span>
               </motion.div>
+              <p className="mt-4 w-full text-xs text-zinc-400 dark:text-zinc-500">
+                提示：将鼠标移到段落旁，可针对该段留言讨论。
+              </p>
             </header>
             <Prose className="mt-8">
               <PostPortableText value={post.body} />
             </Prose>
+
+            <div
+              id="discussion"
+              className="mt-10 rounded-xl border border-dashed border-zinc-200 px-4 py-3 text-sm text-zinc-500 dark:border-zinc-700 dark:text-zinc-400"
+            >
+              <p className="font-medium text-zinc-700 dark:text-zinc-300">
+                讨论
+              </p>
+              <p className="mt-1 text-xs leading-relaxed">
+                将鼠标移到段落旁，点击气泡图标即可针对该段留言（需登录）。欢迎技术勘误与补充讨论。
+              </p>
+            </div>
           </article>
         </div>
         <aside className="hidden w-[90px] shrink-0 lg:block">

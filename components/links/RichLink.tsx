@@ -61,7 +61,7 @@ export const RichLink = React.forwardRef<HTMLAnchorElement, RichLinkProps>(
               src={resolvedFaviconUrl}
               alt=""
               aria-hidden="true"
-              className="inline h-4 w-4 rounded"
+              className="inline h-4 w-4 rounded-sm object-cover"
               width={16}
               height={16}
               unoptimized

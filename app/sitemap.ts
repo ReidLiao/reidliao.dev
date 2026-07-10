@@ -33,5 +33,5 @@ export default async function sitemap() {
   return [...staticMap, ...dynamicMap]
 }
 
-export const runtime = 'edge'
+export const runtime = 'nodejs'
 export const revalidate = 60

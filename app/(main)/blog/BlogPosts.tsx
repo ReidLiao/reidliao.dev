@@ -5,17 +5,29 @@ import { getLatestBlogPosts } from '~/sanity/queries'
 
 import { BlogPostCard } from './BlogPostCard'
 
-export async function BlogPosts({ limit = 5 }) {
-  const posts = await getLatestBlogPosts({ limit, forDisplay: true }) || []
+export async function BlogPosts({
+  limit = 5,
+  offset = 0,
+  category,
+}: {
+  limit?: number
+  offset?: number
+  category?: string
+}) {
+  const posts =
+    (await getLatestBlogPosts({
+      limit,
+      offset,
+      category,
+      forDisplay: true,
+    })) || []
   const postIdKeys = posts.map(({ _id }) => kvKeys.postViews(_id))
 
   let views: number[] = []
   if (!isProduction) {
     views = posts.map(() => Math.floor(Math.random() * 1000))
-  } else {
-    if (postIdKeys.length > 0) {
-      views = await redis.mget<number[]>(...postIdKeys)
-    }
+  } else if (postIdKeys.length > 0) {
+    views = await redis.mget<number[]>(...postIdKeys)
   }
 
   return (

@@ -8,7 +8,7 @@ import Layout from './Layout'
 const NewReplyCommentEmail = ({
   postLink = 'https://reidliao.dev',
   postTitle = '测试文章 Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-  postImageUrl = 'https://cn.zolplay.com/api/og?title=测试文章',
+  postImageUrl = 'https://reidliao.dev/avatar.jpg',
   userFirstName = 'Reidliao.dev',
   userLastName = '',
   userImageUrl = 'https://reidliao.dev/avatar.jpg',
