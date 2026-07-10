@@ -66,6 +66,7 @@ export function PortableTextImage({
                       hasLabel ? 'rounded-xl' : 'rounded-xl md:rounded-3xl'
                     )}
                     alt={value.alt || ''}
+                    sizes="(min-width: 768px) 42rem, 100vw"
                     loading="lazy"
                     unoptimized
                   />

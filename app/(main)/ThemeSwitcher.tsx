@@ -31,6 +31,11 @@ export function ThemeSwitcher() {
   React.useEffect(() => setMounted(true), [])
 
   function toggleTheme() {
+    const root = document.documentElement
+    root.classList.add('theme-transition')
+    window.setTimeout(() => {
+      root.classList.remove('theme-transition')
+    }, 400)
     setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
   }
 

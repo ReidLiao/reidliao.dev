@@ -58,6 +58,32 @@ const deployReasons = [
   },
 ]
 
+const changelog = [
+  {
+    date: '2026-07',
+    title: '上线打磨',
+    detail:
+      '统一品牌与 favicon，留言墙支持匿名短评，阅读进度条与主题切换过渡上线。',
+  },
+  {
+    date: '2026-06',
+    title: 'Docker 自建落地',
+    detail:
+      '脱离 Vercel 路径：Buildx 交叉编译 → 镜像推送 VPS → Dockge + NPM 反代。',
+  },
+  {
+    date: '2026-05',
+    title: '运行时收敛',
+    detail:
+      'Edge API 改回 Node、Geo 查询加 Redis 缓存，Footer 浏览量短缓存减负。',
+  },
+  {
+    date: '2026-04',
+    title: 'fork 起步',
+    detail: '基于开源模板 fork，替换域名与内容，开始按自建场景裁剪功能。',
+  },
+]
+
 export const metadata = {
   title,
   description,
@@ -102,6 +128,7 @@ export default function AboutPage() {
               alt="Reidliao.dev"
               width={96}
               height={96}
+              sizes="96px"
               className="h-full w-full object-cover"
               priority
             />
@@ -274,6 +301,35 @@ export default function AboutPage() {
           这样做既能保证下载速度，也能让服务器专心做好「展示与写作」。链接失效欢迎在{' '}
           <PeekabooLink href="/guestbook">留言墙</PeekabooLink> 反馈。
         </p>
+      </section>
+
+      <section className="mt-14 border-t border-zinc-100 pt-10 dark:border-zinc-700/40">
+        <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
+          Changelog
+        </h2>
+        <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-400">
+          运维与站点大事记——不记流水账，只记值得回看的节点。
+        </p>
+        <ol className="mt-6 space-y-6">
+          {changelog.map((entry) => (
+            <li key={entry.date} className="flex gap-4">
+              <time
+                dateTime={entry.date}
+                className="w-14 shrink-0 pt-0.5 font-mono text-[11px] tabular-nums text-zinc-400 dark:text-zinc-500"
+              >
+                {entry.date}
+              </time>
+              <div className="min-w-0 flex-1 border-l-2 border-lime-500/40 pl-4 dark:border-lime-400/30">
+                <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
+                  {entry.title}
+                </p>
+                <p className="mt-1 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+                  {entry.detail}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
       </section>
     </Container>
   )

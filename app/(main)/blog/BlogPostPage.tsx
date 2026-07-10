@@ -7,6 +7,7 @@ import React from 'react'
 import Balancer from 'react-wrap-balancer'
 
 import { BlogPostStateLoader } from '~/app/(main)/blog/BlogPostStateLoader'
+import { BlogReadingProgress } from '~/app/(main)/blog/BlogReadingProgress'
 import { BlogReactions } from '~/app/(main)/blog/BlogReactions'
 import {
   CalendarIcon,
@@ -39,7 +40,9 @@ export function BlogPostPage({
   relatedViews: number[]
 }) {
   return (
-    <Container className="mt-16 lg:mt-32">
+    <>
+      <BlogReadingProgress />
+      <Container className="mt-16 lg:mt-32">
       <div className="w-full md:flex md:justify-between xl:relative">
         <aside className="hidden w-[160px] shrink-0 lg:block">
           <div className="sticky top-2 pt-20">
@@ -75,6 +78,8 @@ export function BlogPostPage({
                     className="select-none"
                     unoptimized
                     fill
+                    sizes="(max-width: 768px) 100vw, 800px"
+                    loading="lazy"
                     aria-hidden={true}
                   />
                 </div>
@@ -86,6 +91,8 @@ export function BlogPostPage({
                   blurDataURL={post.mainImage.asset.lqip}
                   unoptimized
                   fill
+                  sizes="(max-width: 768px) 100vw, 800px"
+                  priority
                 />
               </motion.div>
               <motion.div
@@ -212,5 +219,6 @@ export function BlogPostPage({
         <BlogPostStateLoader post={post} />
       </ClientOnly>
     </Container>
+    </>
   )
 }

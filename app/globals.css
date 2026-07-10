@@ -10,11 +10,30 @@ body {
   scroll-padding-top: 3rem;
 }
 
+html {
+  transition: background-color 0.35s ease;
+}
+
 html.light {
   --bg-color: theme('colors.zinc.50');
 }
 html.dark {
   --bg-color: theme('colors.primary.900');
+}
+
+/* Smooth theme switch: only while ThemeSwitcher toggles */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    color 0.25s ease,
+    fill 0.25s ease,
+    stroke 0.25s ease,
+    box-shadow 0.35s ease,
+    opacity 0.35s ease !important;
 }
 
 [data-radix-popper-content-wrapper] {

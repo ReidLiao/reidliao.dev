@@ -12,7 +12,7 @@ function getKey(id?: string) {
 }
 
 export async function DELETE(
-  req: NextRequest,
+  _req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   const user = await currentUser()
@@ -24,10 +24,7 @@ export async function DELETE(
 
   const { success } = await ratelimit.limit(getKey(`delete:${user.id}`))
   if (!success) {
-    return NextResponse.json(
-      { error: 'Too Many Requests' },
-      { status: 429 }
-    )
+    return NextResponse.json({ error: 'Too Many Requests' }, { status: 429 })
   }
 
   const decoded = GuestbookHashids.decode(params.id)

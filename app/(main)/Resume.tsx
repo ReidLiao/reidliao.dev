@@ -28,6 +28,8 @@ export function Resume({ resume }: { resume: Resume[] }) {
                 className="h-8 w-8 rounded-full"
                 width={100}
                 height={100}
+                sizes="32px"
+                loading="lazy"
                 unoptimized
               />
             </div>

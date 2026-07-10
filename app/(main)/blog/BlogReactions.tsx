@@ -134,6 +134,7 @@ function ReactIcon({
         src={image}
         alt=""
         fill
+        sizes="32px"
         loading="lazy"
         unoptimized
       />

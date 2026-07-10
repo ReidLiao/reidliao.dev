@@ -13,7 +13,6 @@ export function setMessages(messages: GuestbookDto[]) {
 }
 
 export function signBook(message: GuestbookDto) {
-  // insert message at index 0
   guestbookState.messages.splice(0, 0, message)
 }
 

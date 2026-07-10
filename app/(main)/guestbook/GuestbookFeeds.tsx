@@ -68,7 +68,9 @@ function Message({
           alt=""
           width={40}
           height={40}
+          sizes="40px"
           className="h-10 w-10 flex-shrink-0 rounded-full bg-zinc-200 ring-2 ring-zinc-200 dark:bg-zinc-800 dark:ring-zinc-800"
+          loading="lazy"
           unoptimized
         />
         <div className="-mt-1 flex min-w-0 flex-1 items-center gap-3">
@@ -132,8 +134,6 @@ export function GuestbookFeeds(props: { messages?: GuestbookDto[] }) {
 
   return (
     <div className="relative mt-12">
-      <div className="absolute inset-0 flex items-center" aria-hidden="true" />
-
       <ul role="list" className="-mb-8 px-1 md:px-4">
         {messages.map((message, idx) => (
           <MessageBlock

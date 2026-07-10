@@ -192,7 +192,9 @@ export function GuestbookInput() {
           alt=""
           width={40}
           height={40}
+          sizes="40px"
           className="h-8 w-8 select-none rounded-full md:h-10 md:w-10"
+          loading="lazy"
           unoptimized
         />
       </div>
@@ -226,7 +228,7 @@ export function GuestbookInput() {
           <span
             className={clsxm(
               'flex-1 shrink-0 select-none text-[10px] text-zinc-500 transition-opacity',
-              message.length > 0 ? 'opacity-100' : 'opacity-0'
+              message.length > 0 || error ? 'opacity-100' : 'opacity-0'
             )}
           >
             {error ? (
