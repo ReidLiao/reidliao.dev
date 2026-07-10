@@ -52,8 +52,9 @@ export const RichLink = React.forwardRef<HTMLAnchorElement, RichLinkProps>(
           <span
             className={clsxm(
               'mr-px inline-flex translate-y-0.5',
-              !faviconUrl &&
-                hostsThatNeedInvertedFavicons.includes(hrefHost) &&
+              (faviconUrl?.includes('github') ||
+                (!faviconUrl &&
+                  hostsThatNeedInvertedFavicons.includes(hrefHost))) &&
                 'dark:invert'
             )}
           >

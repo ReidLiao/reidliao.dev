@@ -5,22 +5,9 @@ import { getLatestBlogPosts } from '~/sanity/queries'
 
 import { BlogPostCard } from './BlogPostCard'
 
-export async function BlogPosts({
-  limit = 5,
-  offset = 0,
-  category,
-}: {
-  limit?: number
-  offset?: number
-  category?: string
-}) {
+export async function BlogPosts({ limit = 5 }: { limit?: number }) {
   const posts =
-    (await getLatestBlogPosts({
-      limit,
-      offset,
-      category,
-      forDisplay: true,
-    })) || []
+    (await getLatestBlogPosts({ limit, forDisplay: true })) || []
   const postIdKeys = posts.map(({ _id }) => kvKeys.postViews(_id))
 
   let views: number[] = []

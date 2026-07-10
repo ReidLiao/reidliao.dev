@@ -2,18 +2,24 @@
 
 import 'dayjs/locale/zh-cn'
 
+import { useUser } from '@clerk/nextjs'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import Image from 'next/image'
 import React from 'react'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { useSnapshot } from 'valtio'
 
+import { XIcon } from '~/assets'
 import { CommentMarkdown } from '~/components/CommentMarkdown'
 import { type GuestbookDto } from '~/db/dto/guestbook.dto'
 import { parseDisplayName } from '~/lib/string'
 
-import { guestbookState, setMessages } from './guestbook.state'
+import {
+  guestbookState,
+  removeMessage,
+  setMessages,
+} from './guestbook.state'
 
 dayjs.extend(relativeTime)
 
@@ -21,11 +27,31 @@ function Message({
   message,
   idx,
   length,
+  canDelete,
 }: {
   message: GuestbookDto
   idx: number
   length: number
+  canDelete: boolean
 }) {
+  const { mutate: onDelete, isLoading } = useMutation(
+    ['guestbook-delete', message.id],
+    async () => {
+      const res = await fetch(`/api/guestbook/${message.id}`, {
+        method: 'DELETE',
+      })
+      if (!res.ok) {
+        throw new Error('删除失败')
+      }
+      return message.id
+    },
+    {
+      onSuccess: (id) => {
+        removeMessage(id)
+      },
+    }
+  )
+
   return (
     <li className="relative pb-8">
       {idx !== length - 1 && (
@@ -55,6 +81,22 @@ function Message({
           >
             {dayjs(message.createdAt).locale('zh-cn').fromNow()}
           </time>
+          {canDelete ? (
+            <button
+              type="button"
+              disabled={isLoading}
+              onClick={() => {
+                if (window.confirm('确定删除这条留言？')) {
+                  onDelete()
+                }
+              }}
+              className="ml-auto inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[11px] text-zinc-400 transition hover:bg-red-50 hover:text-red-600 disabled:opacity-50 dark:hover:bg-red-950/40 dark:hover:text-red-400"
+              aria-label="删除留言"
+            >
+              <XIcon className="h-3.5 w-3.5" />
+              删除
+            </button>
+          ) : null}
         </div>
       </div>
       <div className="comment__message -mt-4 mb-1 pl-[3.25rem] text-sm">
@@ -66,6 +108,11 @@ function Message({
 const MessageBlock = React.memo(Message)
 
 export function GuestbookFeeds(props: { messages?: GuestbookDto[] }) {
+  const { user } = useUser()
+  const isSiteOwner = Boolean(
+    (user?.publicMetadata as { siteOwner?: boolean } | undefined)?.siteOwner
+  )
+
   const { data: feed } = useQuery(
     ['guestbook'],
     async () => {
@@ -94,6 +141,7 @@ export function GuestbookFeeds(props: { messages?: GuestbookDto[] }) {
             message={message}
             idx={idx}
             length={messages.length}
+            canDelete={isSiteOwner}
           />
         ))}
       </ul>

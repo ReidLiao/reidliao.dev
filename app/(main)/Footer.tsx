@@ -128,23 +128,6 @@ async function LastVisitorInfo() {
   )
 }
 
-function DeployInfo() {
-  const sha = process.env.GIT_SHA
-  const buildTime = process.env.BUILD_TIME
-
-  if (!sha && !buildTime) {
-    return null
-  }
-
-  return (
-    <p className="mt-4 text-center font-mono text-[10px] text-zinc-400 dark:text-zinc-500 md:text-left">
-      {sha ? <span>build {sha.slice(0, 7)}</span> : null}
-      {sha && buildTime ? <span className="mx-1.5 opacity-40">·</span> : null}
-      {buildTime ? <span>{buildTime}</span> : null}
-    </p>
-  )
-}
-
 export function Footer() {
   return (
     <footer className="mt-32">
@@ -188,7 +171,6 @@ export function Footer() {
                 <LastVisitorInfo />
               </Suspense>
             </div>
-            <DeployInfo />
           </Container.Inner>
         </div>
       </Container.Outer>

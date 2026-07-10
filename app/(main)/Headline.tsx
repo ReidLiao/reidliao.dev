@@ -90,7 +90,7 @@ export function Headline() {
         <Balancer>
           <PeekabooLink
             href="https://github.com/ReidLiao/reidliao.dev"
-            faviconUrl="/avatar.jpg"
+            faviconUrl="/favicons/github.png"
           >
             reidliao.dev
           </PeekabooLink>{' '}
