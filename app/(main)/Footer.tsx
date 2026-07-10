@@ -4,7 +4,6 @@ import Link from 'next/link'
 import React, { Suspense } from 'react'
 
 import { CursorClickIcon, UsersIcon } from '~/assets'
-import { PeekabooLink } from '~/components/links/PeekabooLink'
 import { Container } from '~/components/ui/Container'
 import { kvKeys } from '~/config/kv'
 import { navigationItems } from '~/config/nav'
@@ -129,11 +128,25 @@ export function Footer() {
               </Suspense>
             </div>
             <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
-              <p className="text-sm text-zinc-500/80 dark:text-zinc-400/80">
-                &copy; {new Date().getFullYear()} Reidliao.dev 网站已开源：
-                <PeekabooLink href="https://github.com/ReidLiao/reidliao.dev">
-                  GitHub
-                </PeekabooLink>
+              <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-sm text-zinc-500/80 dark:text-zinc-400/80">
+                <span>&copy; {new Date().getFullYear()} Reidliao.dev</span>
+                <span className="hidden opacity-40 sm:inline">•</span>
+                <span className="inline-flex items-center gap-1.5">
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+                    <span className="relative inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+                  </span>
+                  <span>
+                    Crafted with{' '}
+                    <span className="font-semibold text-zinc-700 dark:text-zinc-200">
+                      Next.js
+                    </span>{' '}
+                    &{' '}
+                    <span className="font-semibold text-zinc-700 dark:text-zinc-200">
+                      Tailwind
+                    </span>
+                  </span>
+                </span>
               </p>
               <Links />
             </div>

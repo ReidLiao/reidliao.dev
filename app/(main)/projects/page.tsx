@@ -1,11 +1,12 @@
 import { type Metadata } from 'next'
+import Balancer from 'react-wrap-balancer'
 
 import { Projects } from '~/app/(main)/projects/Projects'
 import { Container } from '~/components/ui/Container'
 
 const title = '我的项目'
 const description =
-  '多年来，我一直在做各种各样的小项目，这里就是我筛选出来我觉得还不错的项目合集，也是我在技术领域中尝试和探索的最好见证。'
+  '聚合开源脚本，沉淀容器应用。这里收录了我多年来折腾、筛选并重点维护的极客项目，既有实用的提效利器，也有纯粹有趣的工程实验，见证着我在技术领域的持续探索。'
 export const metadata = {
   title,
   description,
@@ -20,6 +21,14 @@ export const metadata = {
   },
 } satisfies Metadata
 
+function Highlight({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="font-semibold text-zinc-800 dark:text-zinc-100">
+      {children}
+    </span>
+  )
+}
+
 export default function ProjectsPage() {
   return (
     <Container className="mt-16 sm:mt-32">
@@ -28,8 +37,15 @@ export default function ProjectsPage() {
           我开发与精选的项目合集。
         </h1>
         <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-          多年来，我一直在折腾和汇总各种好用的技术项目，有开源的脚本、有容器化的应用，也有
-          purely for fun 的极客实验。下面是我精心筛选并重点分享的项目清单，它们也是我在技术领域不断探索的最真实见证。
+          <Balancer>
+            聚合
+            <Highlight>开源脚本</Highlight>
+            ，沉淀
+            <Highlight>容器应用</Highlight>
+            。这里收录了我多年来折腾、筛选并重点维护的
+            <Highlight>极客项目</Highlight>
+            ，既有实用的提效利器，也有纯粹有趣的工程实验，见证着我在技术领域的持续探索。
+          </Balancer>
         </p>
       </header>
       <div className="mt-16 sm:mt-20">

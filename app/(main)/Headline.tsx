@@ -3,8 +3,7 @@
 import { motion } from 'framer-motion'
 import Balancer from 'react-wrap-balancer'
 
-import { SparkleIcon, UserSecurityIcon } from '~/assets'
-import { PeekabooLink } from '~/components/links/PeekabooLink'
+import { GitHubBrandIcon, SparkleIcon, UserSecurityIcon } from '~/assets'
 import { SocialLink } from '~/components/links/SocialLink'
 
 function Developer() {
@@ -49,6 +48,14 @@ function Founder() {
   )
 }
 
+function Highlight({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="font-semibold text-zinc-800 dark:text-zinc-100">
+      {children}
+    </span>
+  )
+}
+
 export function Headline() {
   return (
     <div className="max-w-2xl">
@@ -80,14 +87,26 @@ export function Headline() {
         }}
       >
         <Balancer>
-          我是 Reidliao.dev，本站{' '}
-          <PeekabooLink
+          Reidliao.dev{' '}
+          <a
             href="https://github.com/ReidLiao/reidliao.dev"
-            faviconUrl="/avatar.jpg"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 font-semibold text-zinc-800 transition hover:underline dark:text-zinc-100"
           >
+            <GitHubBrandIcon className="h-4 w-4" />
             独立博主
-          </PeekabooLink>
-          ，目前致力于打造一个纯粹的技术分享环境，同时鼓励大家去折腾和创造属于自己的服务。我热爱运维，开发，分享，享受技术，以及在云端领域中探索。
+          </a>
+          。热衷于
+          <Highlight>全栈开发</Highlight>、
+          <Highlight>云端架构</Highlight>
+          与
+          <Highlight>系统运维</Highlight>
+          。建立本站是为了记录纯粹的技术
+          <Highlight>折腾</Highlight>
+          日常，并和你一起，享受创造与
+          <Highlight>掌控</Highlight>
+          专属服务的乐趣。
         </Balancer>
       </motion.p>
       <motion.div

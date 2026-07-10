@@ -6,7 +6,7 @@ import { Container } from '~/components/ui/Container'
 import { BlogPosts } from './BlogPosts'
 
 const description =
-  '写博客记录折腾日常是我最喜欢的分享方式，我希望把有价值的技术干货传递出去。这里主要聚焦于全栈建站、系统运维等硬核话题，同时也会夹杂一些好用的软件安利、高性价比云服务评测和个人折腾心得。'
+  '记录折腾日常，传递技术干货。这里聚焦现代全栈架构与系统运维实战，同时收录高效的软件工具推荐、优质云服务评测，以及那些填坑与创造路上的真实心得。'
 export const metadata = {
   title: '我的博客',
   description,
@@ -21,6 +21,14 @@ export const metadata = {
   },
 }
 
+function Highlight({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="font-semibold text-zinc-800 dark:text-zinc-100">
+      {children}
+    </span>
+  )
+}
+
 // TODO: add pagination or infinite scroll
 export default function BlogPage() {
   return (
@@ -30,7 +38,15 @@ export default function BlogPage() {
           欢迎光临我的博客
         </h1>
         <p className="my-6 text-base text-zinc-600 dark:text-zinc-400">
-          <Balancer>{description}</Balancer>
+          <Balancer>
+            记录折腾日常，传递
+            <Highlight>技术干货</Highlight>
+            。这里聚焦
+            <Highlight>现代全栈架构</Highlight>
+            与
+            <Highlight>系统运维实战</Highlight>
+            ，同时收录高效的软件工具推荐、优质云服务评测，以及那些填坑与创造路上的真实心得。
+          </Balancer>
         </p>
         <p className="flex items-center">
           <SocialLink href="/feed.xml" platform="rss" />

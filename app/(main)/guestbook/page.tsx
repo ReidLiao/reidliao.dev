@@ -8,7 +8,7 @@ import { Guestbook } from './Guestbook'
 
 const title = '留言墙'
 const description =
-  '欢迎在这个「终端」留下你的足迹。无论是针对博客文章的想法、技术上的指正建议，哪怕只是随性的赞美、鼓励与闲聊吐槽，我都会在这里认真读取。'
+  '欢迎在这台「终端」留下你的足迹。无论是对文章的独特见解、硬核的技术勘误，还是随意的友情赞美、鼓励与槽点，每一条私信都将在这里被真诚接收并读取。'
 export const metadata = {
   title,
   description,
@@ -23,6 +23,14 @@ export const metadata = {
   },
 } satisfies Metadata
 
+function Highlight({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="font-semibold text-zinc-800 dark:text-zinc-100">
+      {children}
+    </span>
+  )
+}
+
 export default async function GuestBookPage() {
   const messages = await fetchGuestbookMessages()
 
@@ -33,7 +41,17 @@ export default async function GuestBookPage() {
           欢迎来到我的留言墙
         </h1>
         <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-          <Balancer>{description}</Balancer>
+          <Balancer>
+            欢迎在这台
+            <span className="font-mono font-medium text-emerald-500">
+              「终端」
+            </span>
+            留下你的足迹。无论是对文章的独特见解、硬核的
+            <Highlight>技术勘误</Highlight>
+            ，还是随意的友情赞美、鼓励与槽点，每一条私信都将在这里
+            <Highlight>被真诚接收并读取</Highlight>
+            。
+          </Balancer>
         </p>
       </header>
       <div className="mt-16 sm:mt-20">
