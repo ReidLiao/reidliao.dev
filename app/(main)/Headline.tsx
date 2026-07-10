@@ -95,18 +95,18 @@ export function Headline() {
             className="inline-flex items-center gap-1.5 font-semibold text-zinc-800 transition hover:underline dark:text-zinc-100"
           >
             <GitHubBrandIcon className="h-4 w-4" />
-            独立博主
+            自建者
           </a>
           。热衷于
           <Highlight>全栈开发</Highlight>、
           <Highlight>云端架构</Highlight>
           与
           <Highlight>系统运维</Highlight>
-          。建立本站是为了记录纯粹的技术
+          。建立本站是为了记录技术
           <Highlight>折腾</Highlight>
-          日常，并和你一起，享受创造与
+          ，并和你一起创造、
           <Highlight>掌控</Highlight>
-          专属服务的乐趣。
+          属于自己的服务。
         </Balancer>
       </motion.p>
       <motion.div

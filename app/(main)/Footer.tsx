@@ -130,7 +130,6 @@ export function Footer() {
             <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
               <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-sm text-zinc-500/80 dark:text-zinc-400/80">
                 <span>&copy; {new Date().getFullYear()} Reidliao.dev</span>
-                <span className="hidden opacity-40 sm:inline">•</span>
                 <span className="inline-flex items-center gap-1.5">
                   <span className="relative flex h-1.5 w-1.5">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />

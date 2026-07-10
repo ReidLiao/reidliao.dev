@@ -3,21 +3,15 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Balancer from 'react-wrap-balancer'
 
-import {
-  AtomIcon,
-  BriefcaseIcon,
-  CloudIcon,
-  GitHubIcon,
-  Layers3Icon,
-  ScriptIcon,
-  SparkleIcon,
-} from '~/assets'
+import { AtomIcon, GitHubIcon } from '~/assets'
 import { PeekabooLink } from '~/components/links/PeekabooLink'
 import { Container } from '~/components/ui/Container'
 
 const title = '关于本站'
 const description =
   '了解 Reidliao.dev 的部署架构、技术理念与内容定位——一台 DMIT VPS 上的纯 Docker 自建博客。'
+
+const rolePills = ['Self-hosted', 'Docker', 'Ops'] as const
 
 const techStack = [
   'Next.js 14',
@@ -96,27 +90,34 @@ export default function AboutPage() {
         </p>
       </header>
 
-      <section className="mt-12 overflow-hidden rounded-3xl border border-zinc-100 bg-gradient-to-br from-zinc-50 via-white to-lime-50/40 p-6 ring-1 ring-zinc-900/5 dark:border-zinc-700/40 dark:from-zinc-900 dark:via-zinc-900 dark:to-lime-950/20 dark:ring-white/10 sm:p-8">
-        <div className="flex flex-col gap-8 lg:flex-row lg:items-center">
-          <div className="relative mx-auto h-28 w-28 shrink-0 overflow-hidden rounded-full ring-4 ring-white shadow-lg shadow-zinc-800/10 dark:ring-zinc-800">
+      <section className="mt-12 border-t border-zinc-100 pt-10 dark:border-zinc-700/40">
+        <div className="flex flex-col gap-8 sm:flex-row sm:items-start">
+          <div className="relative mx-auto h-24 w-24 shrink-0 overflow-hidden rounded-full sm:mx-0">
             <Image
               src="/avatar.jpg"
               alt="Reidliao.dev"
-              width={112}
-              height={112}
+              width={96}
+              height={96}
               className="h-full w-full object-cover"
               priority
             />
           </div>
-          <div className="flex-1 text-center lg:text-left">
-            <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
-              独立博主 · 全栈折腾者 · 运维工程师
-            </h2>
-            <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+          <div className="flex-1 text-center sm:text-left">
+            <div className="flex flex-wrap justify-center gap-2 sm:justify-start">
+              {rolePills.map((pill) => (
+                <span
+                  key={pill}
+                  className="rounded-md border border-zinc-200 px-2.5 py-1 font-mono text-[11px] font-medium tracking-wide text-zinc-600 dark:border-zinc-700 dark:text-zinc-300"
+                >
+                  {pill}
+                </span>
+              ))}
+            </div>
+            <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
               我维护着这台服务器的每一个细节：从 Docker 镜像构建、Nginx 反代，到 Redis
               缓存与邮件通知。写博客、搭服务、测工具——保持好奇，折腾不止。
             </p>
-            <div className="mt-5 flex flex-wrap justify-center gap-3 lg:justify-start">
+            <div className="mt-5 flex flex-wrap justify-center gap-3 sm:justify-start">
               <Link
                 href="https://github.com/ReidLiao/reidliao.dev"
                 target="_blank"
@@ -128,7 +129,7 @@ export default function AboutPage() {
               </Link>
               <Link
                 href="/guestbook"
-                className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-4 py-2 text-xs font-medium text-zinc-700 transition hover:border-lime-500/40 hover:text-lime-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:border-lime-400/40 dark:hover:text-lime-400"
+                className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-transparent px-4 py-2 text-xs font-medium text-zinc-700 transition hover:border-lime-500/40 hover:text-lime-600 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-lime-400/40 dark:hover:text-lime-400"
               >
                 留言交流
               </Link>
@@ -137,10 +138,9 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <div className="mt-10 grid gap-6 lg:grid-cols-2">
-        <article className="rounded-2xl border border-zinc-100 p-6 dark:border-zinc-700/40">
-          <h2 className="flex items-center gap-2 text-base font-semibold text-zinc-900 dark:text-zinc-100">
-            <CloudIcon className="h-5 w-5 text-lime-600 dark:text-lime-400" />
+      <div className="mt-14 grid gap-10 lg:grid-cols-2 lg:gap-12">
+        <section>
+          <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
             服务器选择
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
@@ -173,24 +173,25 @@ export default function AboutPage() {
               博客宿主 + 运维试验田，一举两得
             </li>
           </ul>
-        </article>
+        </section>
 
-        <article className="rounded-2xl border border-zinc-100 p-6 dark:border-zinc-700/40">
-          <h2 className="flex items-center gap-2 text-base font-semibold text-zinc-900 dark:text-zinc-100">
-            <ScriptIcon className="h-5 w-5 text-lime-600 dark:text-lime-400" />
+        <section>
+          <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
             部署理念
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
             本项目 fork 自优秀的开源博客模板，原作者方案面向 Vercel 等 Serverless
             平台。我没有沿用那条路径，而是选择{' '}
-            <strong className="text-zinc-800 dark:text-zinc-200">纯 Docker 容器化自建</strong>
+            <strong className="text-zinc-800 dark:text-zinc-200">
+              纯 Docker 容器化自建
+            </strong>
             ：本地交叉编译镜像 → 推送 VPS → Nginx Proxy Manager 反代对外。
           </p>
-          <div className="mt-4 space-y-3">
+          <div className="mt-5 space-y-4">
             {deployReasons.map((item) => (
               <div
                 key={item.title}
-                className="rounded-xl bg-zinc-50 px-4 py-3 dark:bg-zinc-800/50"
+                className="border-l-2 border-lime-500/50 pl-4 dark:border-lime-400/40"
               >
                 <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
                   {item.title}
@@ -201,47 +202,47 @@ export default function AboutPage() {
               </div>
             ))}
           </div>
-        </article>
+        </section>
       </div>
 
-      <section className="mt-10 rounded-2xl border border-zinc-100 p-6 dark:border-zinc-700/40">
-        <h2 className="flex items-center gap-2 text-base font-semibold text-zinc-900 dark:text-zinc-100">
-          <Layers3Icon className="h-5 w-5 text-lime-600 dark:text-lime-400" />
+      <section className="mt-14 border-t border-zinc-100 pt-10 dark:border-zinc-700/40">
+        <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
           技术栈
         </h2>
         <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-400">
           构建与运行分离，小内存 VPS 也能稳定承载完整博客服务。
         </p>
-        <div className="mt-5 flex flex-wrap gap-2">
+        <ul className="mt-5 grid grid-cols-2 gap-x-6 gap-y-2 font-mono text-xs text-zinc-600 dark:text-zinc-400 sm:grid-cols-4">
           {techStack.map((item) => (
-            <span
-              key={item}
-              className="rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-xs font-medium text-zinc-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
-            >
+            <li key={item} className="flex items-center gap-2">
+              <span className="text-lime-600 dark:text-lime-400">$</span>
               {item}
-            </span>
+            </li>
           ))}
-        </div>
-        <div className="mt-6 rounded-xl bg-zinc-900 px-4 py-3 font-mono text-xs leading-relaxed text-lime-400 dark:bg-zinc-950">
-          <p className="text-zinc-500"># 部署链路</p>
-          <p>本地 Docker Buildx (amd64) → 镜像导出 .tar → SFTP 推送 VPS</p>
-          <p>→ Dockge 运行容器 → NPM 反代 → reidliao.dev</p>
-        </div>
+        </ul>
+        <pre className="mt-6 overflow-x-auto rounded-lg bg-zinc-950 px-4 py-4 font-mono text-xs leading-relaxed text-lime-400">
+          <code>
+            <span className="text-zinc-500"># 部署链路</span>
+            {'\n'}
+            本地 Docker Buildx (amd64) → 镜像导出 .tar → SFTP 推送 VPS
+            {'\n'}
+            → Dockge 运行容器 → NPM 反代 → reidliao.dev
+          </code>
+        </pre>
       </section>
 
-      <section className="mt-10">
-        <h2 className="flex items-center gap-2 text-base font-semibold text-zinc-900 dark:text-zinc-100">
-          <SparkleIcon className="h-5 w-5 text-lime-600 dark:text-lime-400" />
+      <section className="mt-14 border-t border-zinc-100 pt-10 dark:border-zinc-700/40">
+        <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
           内容定位
         </h2>
         <p className="mt-3 max-w-2xl text-sm text-zinc-600 dark:text-zinc-400">
           不追流量密码，只分享踩过坑、验证过的硬核干货。
         </p>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+        <div className="mt-6 grid gap-6 sm:grid-cols-2">
           {contentTopics.map((topic) => (
             <div
               key={topic.title}
-              className="group rounded-2xl border border-zinc-100 p-5 transition hover:border-lime-500/30 hover:shadow-sm dark:border-zinc-700/40 dark:hover:border-lime-400/20"
+              className="border-l-2 border-zinc-200 pl-4 dark:border-zinc-700"
             >
               <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                 {topic.title}
@@ -254,14 +255,15 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="mt-10 rounded-2xl border border-dashed border-zinc-200 bg-zinc-50/50 p-6 dark:border-zinc-700 dark:bg-zinc-800/30">
-        <h2 className="flex items-center gap-2 text-base font-semibold text-zinc-900 dark:text-zinc-100">
-          <BriefcaseIcon className="h-5 w-5 text-lime-600 dark:text-lime-400" />
+      <section className="mt-14 border-t border-dashed border-zinc-200 pt-10 dark:border-zinc-700">
+        <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
           下载策略
         </h2>
         <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
           本站运行在一台轻量级 VPS 上，带宽和存储都是宝贵资源。因此博客内分享的软件、工具包等资源，
-          <strong className="text-zinc-800 dark:text-zinc-200">不会直接托管在本服务器上</strong>
+          <strong className="text-zinc-800 dark:text-zinc-200">
+            不会直接托管在本服务器上
+          </strong>
           ，而是统一通过第三方优质网盘（阿里云盘、123 盘等）提供下载链接。
         </p>
         <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
