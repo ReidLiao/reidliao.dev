@@ -7,13 +7,22 @@ import { Photos } from '~/app/(main)/Photos'
 import { Resume } from '~/app/(main)/Resume'
 import { PencilSwooshIcon } from '~/assets'
 import { Container } from '~/components/ui/Container'
+import { cdnImageSrc } from '~/lib/cdn-image'
 import { getSettings } from '~/sanity/queries'
 
 export default async function BlogHomePage() {
   const settings = await getSettings()
+  const firstHero = settings?.heroPhotos?.[0]
+  const preloadHref = firstHero
+    ? cdnImageSrc(firstHero, { width: 720, quality: 75 })
+    : null
 
   return (
     <>
+      {preloadHref ? (
+        <link rel="preload" as="image" href={preloadHref} />
+      ) : null}
+
       <Container className="mt-10">
         <Headline />
       </Container>

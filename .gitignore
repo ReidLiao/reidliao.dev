@@ -12,6 +12,9 @@
 /.next/
 /out/
 
+# image disk cache (Sanity proxy)
+.cache/
+
 # production
 /build
 

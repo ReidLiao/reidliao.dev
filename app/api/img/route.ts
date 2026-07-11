@@ -1,11 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { isAllowedImageProxyUrl } from '~/lib/cdn-image'
+import { fetchAndCacheImage, readImageCache } from '~/lib/img-cache'
 
 export const runtime = 'nodejs'
 
-/** Cache proxied Sanity images for 30 days (ISR-style fetch cache). */
-const REVALIDATE_SECONDS = 60 * 60 * 24 * 30
+function imageResponse(body: Buffer, contentType: string, hit: boolean) {
+  return new NextResponse(body, {
+    status: 200,
+    headers: {
+      'Content-Type': contentType,
+      'Cache-Control': 'public, max-age=31536000, immutable',
+      'X-Content-Type-Options': 'nosniff',
+      'X-Image-Cache': hit ? 'HIT' : 'MISS',
+      'Content-Length': String(body.byteLength),
+    },
+  })
+}
 
 export async function GET(request: NextRequest) {
   const raw = request.nextUrl.searchParams.get('u')
@@ -14,33 +25,17 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const upstream = await fetch(raw, {
-      // Server → Sanity is usually fast (overseas VPS).
-      next: { revalidate: REVALIDATE_SECONDS },
-      headers: {
-        Accept: 'image/avif,image/webp,image/*,*/*;q=0.8',
-      },
-    })
+    const diskHit = await readImageCache(raw)
+    if (diskHit) {
+      return imageResponse(diskHit.body, diskHit.contentType, true)
+    }
 
-    if (!upstream.ok || !upstream.body) {
+    const fetched = await fetchAndCacheImage(raw)
+    if (!fetched) {
       return new NextResponse('Upstream error', { status: 502 })
     }
 
-    const contentType = upstream.headers.get('content-type') || 'image/jpeg'
-    const headers = new Headers({
-      'Content-Type': contentType,
-      // Browser + NPM can cache hard; URL already includes transform params.
-      'Cache-Control': 'public, max-age=31536000, immutable',
-      'X-Content-Type-Options': 'nosniff',
-    })
-
-    const contentLength = upstream.headers.get('content-length')
-    if (contentLength) headers.set('Content-Length', contentLength)
-
-    return new NextResponse(upstream.body, {
-      status: 200,
-      headers,
-    })
+    return imageResponse(fetched.body, fetched.contentType, false)
   } catch {
     return new NextResponse('Proxy failed', { status: 502 })
   }
