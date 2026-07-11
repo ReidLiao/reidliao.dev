@@ -69,6 +69,7 @@ export function Photos({ photos }: { photos: string[] }) {
               className="pointer-events-none absolute inset-0 h-full w-full select-none object-cover"
               priority={idx === 0}
               loading={idx === 0 ? undefined : 'lazy'}
+              unoptimized
             />
           </motion.div>
         ))}
