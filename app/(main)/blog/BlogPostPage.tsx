@@ -22,6 +22,7 @@ import { PostPortableText } from '~/components/PostPortableText'
 import { Prose } from '~/components/Prose'
 import { Button } from '~/components/ui/Button'
 import { Container } from '~/components/ui/Container'
+import { cdnImageSrc } from '~/lib/cdn-image'
 import { prettifyNumber } from '~/lib/math'
 import { type PostDetail } from '~/sanity/schemas/post'
 
@@ -39,6 +40,11 @@ export function BlogPostPage({
   reactions?: number[]
   relatedViews: number[]
 }) {
+  const coverSrc = cdnImageSrc(post.mainImage.asset.url, {
+    width: 1600,
+    quality: 80,
+  })
+
   return (
     <>
       <BlogReadingProgress />
@@ -73,7 +79,7 @@ export function BlogPostPage({
               >
                 <div className="absolute z-0 hidden aspect-[240/135] w-full blur-xl saturate-150 after:absolute after:inset-0 after:hidden after:bg-white/50 dark:after:bg-black/50 md:block md:after:block">
                   <Image
-                    src={post.mainImage.asset.url}
+                    src={coverSrc}
                     alt=""
                     className="select-none"
                     unoptimized
@@ -84,7 +90,7 @@ export function BlogPostPage({
                   />
                 </div>
                 <Image
-                  src={post.mainImage.asset.url}
+                  src={coverSrc}
                   alt={post.title}
                   className="select-none rounded-2xl ring-1 ring-zinc-900/5 transition dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 md:rounded-3xl"
                   placeholder="blur"

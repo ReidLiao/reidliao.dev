@@ -9,6 +9,7 @@ import React from 'react'
 
 import { ClientOnly } from '~/components/ClientOnly'
 import { Commentable } from '~/components/Commentable'
+import { cdnImageSrc } from '~/lib/cdn-image'
 
 export function PortableTextImage({
   value,
@@ -27,6 +28,22 @@ export function PortableTextImage({
   const hasLabel = React.useMemo(
     () => typeof value.label === 'string' && value.label.length > 0,
     [value.label]
+  )
+  const imageSrc = React.useMemo(
+    () =>
+      cdnImageSrc(value.url, {
+        width: Math.min(value.dimensions.width || 1200, 1400),
+        quality: 80,
+      }),
+    [value.url, value.dimensions.width]
+  )
+  const zoomSrc = React.useMemo(
+    () =>
+      cdnImageSrc(value.url, {
+        width: Math.min(value.dimensions.width || 2000, 2000),
+        quality: 85,
+      }),
+    [value.url, value.dimensions.width]
   )
 
   return (
@@ -56,7 +73,7 @@ export function PortableTextImage({
               <motion.div className="relative" layoutId={`image_${value._key}`}>
                 <Dialog.Trigger>
                   <Image
-                    src={value.url}
+                    src={imageSrc}
                     width={value.dimensions.width}
                     height={value.dimensions.height}
                     placeholder={value.lqip ? 'blur' : 'empty'}
@@ -109,7 +126,7 @@ export function PortableTextImage({
                         }}
                       >
                         <Image
-                          src={value.url}
+                          src={zoomSrc}
                           width={value.dimensions.width}
                           height={value.dimensions.height}
                           placeholder={value.lqip ? 'blur' : 'empty'}

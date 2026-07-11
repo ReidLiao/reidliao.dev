@@ -4,6 +4,8 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import React from 'react'
 
+import { cdnImageSrc } from '~/lib/cdn-image'
+
 export function Photos({ photos }: { photos: string[] }) {
   const [width, setWidth] = React.useState(0)
   const [isCompact, setIsCompact] = React.useState(false)
@@ -61,7 +63,7 @@ export function Photos({ photos }: { photos: string[] }) {
             layout
           >
             <Image
-              src={image}
+              src={cdnImageSrc(image, { width: 720, quality: 75 })}
               alt=""
               width={500}
               height={500}

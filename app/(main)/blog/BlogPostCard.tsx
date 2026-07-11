@@ -8,11 +8,13 @@ import {
   HourglassIcon,
   ScriptIcon,
 } from '~/assets'
+import { cdnImageSrc } from '~/lib/cdn-image'
 import { prettifyNumber } from '~/lib/math'
 import { type Post } from '~/sanity/schemas/post'
 
 export function BlogPostCard({ post, views }: { post: Post; views: number }) {
   const { title, slug, mainImage, publishedAt, categories, readingTime } = post
+  const coverSrc = cdnImageSrc(mainImage.asset.url, { width: 840, quality: 75 })
 
   return (
     <Link
@@ -23,13 +25,13 @@ export function BlogPostCard({ post, views }: { post: Post; views: number }) {
         {
           '--post-image-fg': mainImage.asset.dominant?.foreground,
           '--post-image-bg': mainImage.asset.dominant?.background,
-          '--post-image': `url(${mainImage.asset.url})`,
+          '--post-image': `url(${coverSrc})`,
         } as React.CSSProperties
       }
     >
       <div className="relative aspect-[240/135] w-full">
         <Image
-          src={mainImage.asset.url}
+          src={coverSrc}
           alt=""
           className="rounded-t-3xl object-cover"
           placeholder="blur"
