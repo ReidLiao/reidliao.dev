@@ -107,9 +107,15 @@ module.exports = {
           },
 
           // Headings
-          'h2, h3': {
+          'h1, h2, h3, h4': {
             color: 'var(--tw-prose-headings)',
             fontWeight: theme('fontWeight.semibold'),
+          },
+          h1: {
+            fontSize: theme('fontSize.2xl')[0],
+            lineHeight: theme('lineHeight.8'),
+            marginTop: theme('spacing.20'),
+            marginBottom: theme('spacing.4'),
           },
           h2: {
             fontSize: theme('fontSize.xl')[0],
@@ -123,7 +129,13 @@ module.exports = {
             marginTop: theme('spacing.16'),
             marginBottom: theme('spacing.4'),
           },
-          ':is(h2, h3) + *': {
+          h4: {
+            fontSize: theme('fontSize.sm')[0],
+            lineHeight: theme('lineHeight.6'),
+            marginTop: theme('spacing.12'),
+            marginBottom: theme('spacing.3'),
+          },
+          ':is(h1, h2, h3, h4) + *': {
             marginTop: 0,
           },
 
@@ -158,7 +170,7 @@ module.exports = {
           'a code': {
             color: 'inherit',
           },
-          ':is(h2, h3) code': {
+          ':is(h1, h2, h3, h4) code': {
             fontWeight: theme('fontWeight.bold'),
           },
 
