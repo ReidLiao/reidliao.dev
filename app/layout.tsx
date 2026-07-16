@@ -20,6 +20,29 @@ export const metadata: Metadata = {
   description: seo.description,
   keywords: 'Reidliao.dev, 全栈建站, 系统运维, Docker容器, 云服务器方案, 软件下载, 个人博客',
   manifest: '/site.webmanifest',
+  icons: {
+    icon: [
+      { url: '/favicon.ico?v=3', sizes: 'any' },
+      {
+        url: '/favicon-16x16.png?v=3',
+        sizes: '16x16',
+        type: 'image/png',
+      },
+      {
+        url: '/favicon-32x32.png?v=3',
+        sizes: '32x32',
+        type: 'image/png',
+      },
+    ],
+    apple: [
+      {
+        url: '/apple-touch-icon.png?v=3',
+        sizes: '180x180',
+        type: 'image/png',
+      },
+    ],
+    shortcut: '/favicon.ico?v=3',
+  },
   robots: {
     index: true,
     follow: true,
