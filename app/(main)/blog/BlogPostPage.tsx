@@ -18,6 +18,7 @@ import {
   UTurnLeftIcon,
 } from '~/assets'
 import { ClientOnly } from '~/components/ClientOnly'
+import { PostAuthorBadge } from '~/components/PostAuthorBadge'
 import { PostPortableText } from '~/components/PostPortableText'
 import { Prose } from '~/components/Prose'
 import { Button } from '~/components/ui/Button'
@@ -100,17 +101,7 @@ export function BlogPostPage({
                   sizes="(max-width: 768px) 100vw, 800px"
                   priority
                 />
-                <span className="pointer-events-none absolute left-3 top-3 z-10 overflow-hidden rounded-full bg-white/90 p-0.5 shadow-lg ring-1 ring-black/5 dark:bg-zinc-900/90 dark:ring-white/10 md:left-5 md:top-5">
-                  <Image
-                    src="/avatar.jpg"
-                    alt=""
-                    width={48}
-                    height={48}
-                    sizes="48px"
-                    className="h-9 w-9 rounded-full object-cover md:h-12 md:w-12"
-                    priority
-                  />
-                </span>
+                <PostAuthorBadge size="lg" priority />
               </motion.div>
               <motion.div
                 className="flex w-full items-center space-x-4 text-sm font-medium text-zinc-600/80 dark:text-zinc-400/80"
