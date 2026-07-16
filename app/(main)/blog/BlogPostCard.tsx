@@ -30,11 +30,11 @@ export function BlogPostCard({ post, views }: { post: Post; views: number }) {
         } as React.CSSProperties
       }
     >
-      <div className="relative aspect-[240/135] w-full">
+      <div className="relative aspect-[240/135] w-full overflow-hidden rounded-t-3xl">
         <Image
           src={coverSrc}
           alt=""
-          className="rounded-t-3xl object-cover"
+          className="object-cover"
           placeholder="blur"
           blurDataURL={mainImage.asset.lqip}
           fill
