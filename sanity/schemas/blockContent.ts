@@ -120,5 +120,88 @@ export default defineType({
         withFilename: true,
       },
     }),
+    defineArrayMember({
+      type: 'object',
+      name: 'download',
+      title: '下载块',
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      fields: [
+        {
+          name: 'title',
+          type: 'string',
+          title: '资源名称',
+          validation: (Rule) => Rule.required(),
+        },
+        {
+          name: 'url',
+          type: 'url',
+          title: '下载链接',
+          description: '网盘或外链，勿托管到本站服务器',
+          validation: (Rule) =>
+            Rule.required().uri({
+              scheme: ['http', 'https'],
+            }),
+        },
+        {
+          name: 'version',
+          type: 'string',
+          title: '版本',
+          description: '例如 1.2.0',
+        },
+        {
+          name: 'platform',
+          type: 'string',
+          title: '平台',
+          options: {
+            list: [
+              { title: '通用', value: 'any' },
+              { title: 'macOS', value: 'macos' },
+              { title: 'Windows', value: 'windows' },
+              { title: 'Linux', value: 'linux' },
+              { title: 'Android', value: 'android' },
+              { title: 'iOS', value: 'ios' },
+            ],
+            layout: 'radio',
+          },
+          initialValue: 'any',
+        },
+        {
+          name: 'size',
+          type: 'string',
+          title: '大小',
+          description: '例如 128 MB',
+        },
+        {
+          name: 'checksum',
+          type: 'string',
+          title: '校验和',
+          description: '可选，如 SHA256',
+        },
+        {
+          name: 'note',
+          type: 'text',
+          rows: 3,
+          title: '备注',
+          description: '提取码、密码、注意事项等',
+        },
+      ],
+      preview: {
+        select: {
+          title: 'title',
+          version: 'version',
+          platform: 'platform',
+        },
+        prepare({ title, version, platform }) {
+          const bits = [version, platform !== 'any' ? platform : null].filter(
+            Boolean
+          )
+          return {
+            title: title || '下载块',
+            subtitle: bits.length ? bits.join(' · ') : '未填写版本',
+          }
+        },
+      },
+    }),
   ],
 })
