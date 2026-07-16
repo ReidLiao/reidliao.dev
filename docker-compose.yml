@@ -1,0 +1,16 @@
+# Dockge / Compose 示例：图片缓存挂 volume，重建容器不丢预热结果
+services:
+  web:
+    image: reidliao-dev:latest
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      IMAGE_CACHE_DIR: /data/img-cache
+    volumes:
+      - reidliao-img-cache:/data/img-cache
+
+volumes:
+  reidliao-img-cache:

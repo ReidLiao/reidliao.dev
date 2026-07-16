@@ -25,6 +25,10 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV GIT_SHA=$GIT_SHA
 ENV BUILD_TIME=$BUILD_TIME
+# Sanity 图片同源代理磁盘缓存（请挂 volume，避免重建容器后丢缓存）
+ENV IMAGE_CACHE_DIR=/data/img-cache
+RUN mkdir -p /data/img-cache
+VOLUME ["/data/img-cache"]
 # 👇 采用通用模式，直接拷贝所有编译好的原文件和依赖
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next

@@ -15,6 +15,7 @@ To completely resolve Out-Of-Memory (OOM) crashes during server-side building an
 *   **Local High-Performance Build:** Compiling the Next.js application is executed locally on a Mac using Docker Buildx (`linux/amd64` cross-compilation).
 *   **Offline Image Transfer:** The built image is exported as a `.tar` package and transferred to the VPS via SFTP.
 *   **Zero-Overhead Run:** The server solely focuses on running the pre-built image managed by **Dockge** and reverse-proxied by **Nginx Proxy Manager**, reducing server CPU/RAM build overhead to 0.
+*   **Image cache volume:** Mount `reidliao-img-cache:/data/img-cache` (see `docker-compose.yml`) so Sanity image proxy cache survives container recreates.
 *   **Cleaned Dependencies:** Removed all Vercel and GitHub Actions-specific configurations (`vercel.json`, `.github/workflows`) for a 100% pure self-hosted environment.
 
 ## 💻 Tech Stack
