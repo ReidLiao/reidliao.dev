@@ -6,14 +6,16 @@ import { env } from '~/env.mjs'
 /**
  * On-demand ISR revalidation for Sanity publish.
  *
- * Sanity webhook (document publish / update):
- *   POST https://your-domain/api/revalidate?secret=YOUR_SECRET
- *   Body (optional): { "slug": { "current": "post-slug" } }
- *   or: { "slug": "post-slug" }
+ * Sanity Manage → API → Webhooks → Create webhook:
+ *   URL: https://reidliao.dev/api/revalidate
+ *   Trigger: Create + Update + Delete
+ *   Filter: _type in ["post", "settings", "project"]
+ *   Projection: {_type, "slug": slug.current}
+ *   HTTP headers: x-revalidate-secret: <REVALIDATE_SECRET>
+ *   Drafts: OFF
  *
- * Manual:
- *   POST /api/revalidate?secret=...&slug=post-slug
- *   POST /api/revalidate?secret=...&path=/blog
+ * Manual test:
+ *   curl -X POST "https://reidliao.dev/api/revalidate?secret=..." -H "Content-Type: application/json" -d '{"slug":"your-post"}'
  */
 export async function POST(req: NextRequest) {
   const secret =

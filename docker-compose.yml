@@ -1,4 +1,5 @@
 # Dockge / Compose 示例：图片缓存挂 volume，重建容器不丢预热结果
+# 环境变量从 .env 读取（含 REVALIDATE_SECRET 等），勿把密钥写进本文件
 services:
   web:
     image: reidliao-dev:latest
@@ -9,6 +10,8 @@ services:
       - .env
     environment:
       IMAGE_CACHE_DIR: /data/img-cache
+      # 确保发布刷新密钥传入容器（值来自同目录 .env）
+      REVALIDATE_SECRET: ${REVALIDATE_SECRET:-}
     volumes:
       - reidliao-img-cache:/data/img-cache
 
