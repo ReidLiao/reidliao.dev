@@ -95,7 +95,7 @@ function formatVersion(version?: string) {
 }
 
 /**
- * Chip labels stay short:
+ * Select labels stay short:
  * - multi-platform → macOS / Windows（同平台多项时带版本）
  * - same platform → v2.0 / v1.1
  */
@@ -120,7 +120,11 @@ function fileLabel(file: DownloadFile, files: DownloadFile[], idx: number) {
   return `版本 ${idx + 1}`
 }
 
-function fileMeta(file: DownloadFile, files: DownloadFile[]) {
+function fileMeta(
+  file: DownloadFile,
+  files: DownloadFile[],
+  opts?: { hidePlatform?: boolean }
+) {
   const items: string[] = []
   const ver = formatVersion(file.version)
   const platKey = file.platform || 'any'
@@ -129,11 +133,12 @@ function fileMeta(file: DownloadFile, files: DownloadFile[]) {
   const uniquePlatforms = new Set(files.map((f) => f.platform || 'any'))
   const multiPlatform = uniquePlatforms.size > 1
 
-  // Avoid repeating what the chip already shows.
   if (multiPlatform) {
     if (ver) items.push(ver)
-  } else if (plat) {
+  } else if (plat && !opts?.hidePlatform) {
     items.push(plat)
+  } else if (ver) {
+    items.push(ver)
   }
   if (file.size) items.push(file.size.replace(/^大小[：:]\s*/, ''))
   return items
@@ -161,10 +166,14 @@ export function PortableTextDownload({
 
   const safeIndex = Math.min(selected, Math.max(files.length - 1, 0))
   const active = files[safeIndex]
-  const meta = active ? fileMeta(active, files) : []
+  const multi = files.length > 1
+  const meta = active
+    ? fileMeta(active, files, { hidePlatform: !multi })
+    : []
   const updatedLabel = value.updatedAt
     ? formatUpdatedAt(value.updatedAt)
     : null
+  const singleBadge = active ? fileLabel(active, files, 0) : null
 
   const copyText = React.useCallback(async (text: string, key: string) => {
     try {
@@ -254,35 +263,40 @@ export function PortableTextDownload({
         </div>
 
         <div className="flex shrink-0 flex-col items-stretch gap-2.5 sm:items-end">
-          <label className="relative inline-flex w-full max-w-[11rem] sm:w-auto">
-            <span className="sr-only">选择平台</span>
-            <select
-              value={safeIndex}
-              onChange={(e) => setSelected(Number(e.target.value))}
-              disabled={files.length <= 1}
-              className="w-full min-w-[7.5rem] cursor-pointer appearance-none rounded-full border-0 bg-zinc-100/80 py-2 pl-3.5 pr-8 text-xs font-medium text-zinc-800 outline-none ring-1 ring-zinc-900/5 transition focus:ring-2 focus:ring-lime-500/25 disabled:cursor-default disabled:opacity-90 dark:bg-zinc-950/60 dark:text-zinc-100 dark:ring-white/10 dark:focus:ring-lime-400/20"
-            >
-              {files.map((file, idx) => (
-                <option key={file._key || `${file.url}-${idx}`} value={idx}>
-                  {fileLabel(file, files, idx)}
-                </option>
-              ))}
-            </select>
-            <span
-              aria-hidden
-              className="pointer-events-none absolute inset-y-0 right-2.5 flex items-center text-zinc-400"
-            >
-              <svg
-                viewBox="0 0 12 12"
-                className="h-3 w-3"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
+          {multi ? (
+            <label className="relative inline-flex w-full max-w-[11rem] self-start sm:w-auto sm:self-end">
+              <span className="sr-only">选择平台</span>
+              <select
+                value={safeIndex}
+                onChange={(e) => setSelected(Number(e.target.value))}
+                className="w-full min-w-[7.5rem] cursor-pointer appearance-none rounded-full border-0 bg-zinc-100/90 py-2 pl-3.5 pr-8 text-xs font-medium text-zinc-800 outline-none ring-1 ring-zinc-900/5 transition focus:ring-2 focus:ring-lime-500/25 dark:bg-zinc-950/70 dark:text-zinc-100 dark:ring-white/10 dark:focus:ring-lime-400/20"
               >
-                <path d="M2.5 4.5 6 8l3.5-3.5" strokeLinecap="round" />
-              </svg>
+                {files.map((file, idx) => (
+                  <option key={file._key || `${file.url}-${idx}`} value={idx}>
+                    {fileLabel(file, files, idx)}
+                  </option>
+                ))}
+              </select>
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-y-0 right-2.5 flex items-center text-zinc-400"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  className="h-3 w-3"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                >
+                  <path d="M2.5 4.5 6 8l3.5-3.5" strokeLinecap="round" />
+                </svg>
+              </span>
+            </label>
+          ) : singleBadge ? (
+            <span className="inline-flex self-start items-center rounded-full bg-zinc-100/90 px-3 py-1.5 text-xs font-medium text-zinc-600 ring-1 ring-zinc-900/5 dark:bg-zinc-950/70 dark:text-zinc-300 dark:ring-white/10 sm:self-end">
+              {singleBadge}
             </span>
-          </label>
+          ) : null}
 
           <a
             href={active.url}
