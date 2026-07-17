@@ -262,14 +262,14 @@ export function PortableTextDownload({
           </div>
         </div>
 
-        <div className="flex shrink-0 flex-col items-stretch gap-2.5 sm:items-end">
+        <div className="flex w-full shrink-0 flex-row items-center gap-2.5 sm:w-auto sm:flex-col sm:items-end">
           {multi ? (
-            <label className="relative inline-flex w-full max-w-[11rem] self-start sm:w-auto sm:self-end">
+            <label className="relative min-w-0 flex-1 sm:w-auto sm:max-w-[11rem] sm:flex-none">
               <span className="sr-only">选择平台</span>
               <select
                 value={safeIndex}
                 onChange={(e) => setSelected(Number(e.target.value))}
-                className="w-full min-w-[7.5rem] cursor-pointer appearance-none rounded-full border-0 bg-zinc-100/90 py-2 pl-3.5 pr-8 text-xs font-medium text-zinc-800 outline-none ring-1 ring-zinc-900/5 transition focus:ring-2 focus:ring-lime-500/25 dark:bg-zinc-950/70 dark:text-zinc-100 dark:ring-white/10 dark:focus:ring-lime-400/20"
+                className="h-10 w-full min-w-0 cursor-pointer appearance-none rounded-full border-0 bg-zinc-100/90 py-0 pl-3.5 pr-8 text-xs font-medium text-zinc-800 outline-none ring-1 ring-zinc-900/5 transition focus:ring-2 focus:ring-lime-500/25 dark:bg-zinc-950/70 dark:text-zinc-100 dark:ring-white/10 dark:focus:ring-lime-400/20 sm:min-w-[7.5rem]"
               >
                 {files.map((file, idx) => (
                   <option key={file._key || `${file.url}-${idx}`} value={idx}>
@@ -293,7 +293,7 @@ export function PortableTextDownload({
               </span>
             </label>
           ) : singleBadge ? (
-            <span className="inline-flex self-start items-center rounded-full bg-zinc-100/90 px-3 py-1.5 text-xs font-medium text-zinc-600 ring-1 ring-zinc-900/5 dark:bg-zinc-950/70 dark:text-zinc-300 dark:ring-white/10 sm:self-end">
+            <span className="inline-flex h-10 shrink-0 items-center rounded-full bg-zinc-100/90 px-3.5 text-xs font-medium text-zinc-600 ring-1 ring-zinc-900/5 dark:bg-zinc-950/70 dark:text-zinc-300 dark:ring-white/10">
               {singleBadge}
             </span>
           ) : null}
@@ -302,7 +302,7 @@ export function PortableTextDownload({
             href={active.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-zinc-800 px-4 py-2 text-sm font-semibold text-zinc-100 outline-offset-2 transition hover:bg-zinc-700 active:bg-zinc-800 active:text-zinc-100/70 dark:bg-zinc-200 dark:text-black dark:hover:bg-zinc-300 dark:active:bg-zinc-300/70"
+            className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full bg-zinc-800 px-4 text-sm font-semibold text-zinc-100 outline-offset-2 transition hover:bg-zinc-700 active:bg-zinc-800 active:text-zinc-100/70 dark:bg-zinc-200 dark:text-black dark:hover:bg-zinc-300 dark:active:bg-zinc-300/70 sm:px-5"
           >
             前往下载
             <ExternalLinkIcon className="h-3.5 w-3.5 opacity-80" />

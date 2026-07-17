@@ -61,6 +61,12 @@ const deployReasons = [
 const changelog = [
   {
     date: '2026-07',
+    title: '内容与体验深化',
+    detail:
+      '正文下载块（多平台/自动预选）、视频嵌入、文字颜色与高亮；图片同源代理与磁盘缓存；Sanity 发布即时刷新；封面圆角与 Studio 稳定性修复。',
+  },
+  {
+    date: '2026-07',
     title: '上线打磨',
     detail:
       '统一品牌与 favicon，留言墙支持匿名短评，阅读进度条与主题切换过渡上线。',
@@ -312,7 +318,7 @@ export default function AboutPage() {
         </p>
         <ol className="mt-6 space-y-6">
           {changelog.map((entry) => (
-            <li key={entry.date} className="flex gap-4">
+            <li key={`${entry.date}-${entry.title}`} className="flex gap-4">
               <time
                 dateTime={entry.date}
                 className="w-14 shrink-0 pt-0.5 font-mono text-[11px] tabular-nums text-zinc-400 dark:text-zinc-500"

@@ -13,7 +13,6 @@ import {
   PortableTextBlocksListItem,
   PortableTextBlocksNormal,
 } from '~/components/portable-text/PortableTextBlocks'
-import { PortableTextAudioEmbed } from '~/components/portable-text/PortableTextAudioEmbed'
 import { PortableTextCodeBlock } from '~/components/portable-text/PortableTextCodeBlock'
 import { PortableTextDownload } from '~/components/portable-text/PortableTextDownload'
 import { PortableTextImage } from '~/components/portable-text/PortableTextImage'
@@ -54,7 +53,6 @@ const components: PortableTextComponents = {
     codeBlock: PortableTextCodeBlock,
     download: PortableTextDownload,
     videoEmbed: PortableTextVideoEmbed,
-    audioEmbed: PortableTextAudioEmbed,
   },
 
   marks: {

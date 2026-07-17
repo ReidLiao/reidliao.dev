@@ -82,7 +82,7 @@ export function BlogPostPage({
                   <Image
                     src={coverSrc}
                     alt=""
-                    className="select-none object-cover"
+                    className="select-none rounded-2xl object-cover md:rounded-3xl"
                     unoptimized
                     fill
                     sizes="(max-width: 768px) 100vw, 800px"
@@ -90,11 +90,11 @@ export function BlogPostPage({
                     aria-hidden={true}
                   />
                 </div>
-                <div className="absolute inset-0 overflow-hidden rounded-2xl ring-1 ring-zinc-900/5 transition dark:ring-white/10 md:rounded-3xl">
+                <div className="absolute inset-0 isolate overflow-hidden rounded-2xl shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:ring-white/10 md:rounded-3xl">
                   <Image
                     src={coverSrc}
                     alt={post.title}
-                    className="select-none object-cover"
+                    className="select-none rounded-2xl object-cover md:rounded-3xl"
                     placeholder="blur"
                     blurDataURL={post.mainImage.asset.lqip}
                     unoptimized

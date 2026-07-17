@@ -334,36 +334,5 @@ export default defineType({
         },
       },
     }),
-    defineArrayMember({
-      type: 'object',
-      name: 'audioEmbed',
-      title: '音频嵌入',
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      fields: [
-        {
-          name: 'url',
-          type: 'url',
-          title: '音频链接',
-          description: '直链 mp3/m4a，或网易云歌曲页 URL',
-          validation: (Rule) =>
-            Rule.required().uri({ scheme: ['http', 'https'] }),
-        },
-        {
-          name: 'title',
-          type: 'string',
-          title: '标题（可选）',
-        },
-      ],
-      preview: {
-        select: { title: 'title', url: 'url' },
-        prepare({ title, url }) {
-          return {
-            title: title || '音频嵌入',
-            subtitle: url,
-          }
-        },
-      },
-    }),
   ],
 })
