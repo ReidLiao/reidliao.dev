@@ -58,6 +58,13 @@ const components: PortableTextComponents = {
   },
 
   marks: {
+    strong: ({ children }) => (
+      <strong className="font-semibold text-inherit">{children}</strong>
+    ),
+    em: ({ children }) => <em className="italic">{children}</em>,
+    code: ({ children }) => (
+      <code className="text-inherit">{children}</code>
+    ),
     link: ({ children, value }) => {
       const rel = !value.href.startsWith('/')
         ? 'noreferrer noopener'
@@ -70,12 +77,22 @@ const components: PortableTextComponents = {
     },
     textColor: ({ children, value }) => {
       const cls = textColorClass[value?.color as string] || textColorClass.lime
-      return <span className={cls}>{children}</span>
+      return (
+        <span className={`${cls} [&_strong]:text-inherit [&_code]:text-inherit`}>
+          {children}
+        </span>
+      )
     },
     highlight: ({ children, value }) => {
       const cls =
         highlightClass[value?.color as string] || highlightClass.lime
-      return <mark className={`${cls} text-inherit`}>{children}</mark>
+      return (
+        <mark
+          className={`${cls} text-inherit [&_strong]:text-inherit [&_code]:text-inherit`}
+        >
+          {children}
+        </mark>
+      )
     },
   },
 }

@@ -60,7 +60,8 @@ export const getLatestBlogPostsQuery = ({
 export const getLatestBlogPosts = (options: GetBlogPostsOptions) =>
   client.fetch<Post[] | null>(
     getLatestBlogPostsQuery(options),
-    options.category ? { category: options.category } : {}
+    options.category ? { category: options.category } : {},
+    { next: { tags: ['posts'], revalidate: 60 } }
   )
 
 export const getBlogPostsCountQuery = ({ category }: { category?: string } = {}) => {
@@ -134,9 +135,11 @@ export const getBlogPostQuery = groq`
     }
   }`
 export const getBlogPost = (slug: string) =>
-  client.fetch<PostDetail | undefined, { slug: string }>(getBlogPostQuery, {
-    slug,
-  })
+  client.fetch<PostDetail | undefined, { slug: string }>(
+    getBlogPostQuery,
+    { slug },
+    { next: { tags: [`post:${slug}`, 'posts'], revalidate: 60 } }
+  )
 
 export const getSettingsQuery = () =>
   groq`
@@ -158,16 +161,19 @@ export const getSettingsQuery = () =>
     }
 }`
 export const getSettings = () =>
-  client.fetch<{
-    projects: Project[] | null
-    heroPhotos?: string[] | null
-    resume?:
-      | {
-          company: string
-          title: string
-          logo: string
-          start: string
-          end?: string
-        }[]
-      | null
-  }>(getSettingsQuery())
+  client.fetch<
+    {
+      projects: Project[] | null
+      heroPhotos?: string[] | null
+      resume?:
+        | {
+            company: string
+            title: string
+            logo: string
+            start: string
+            end?: string
+          }[]
+        | null
+    },
+    Record<string, never>
+  >(getSettingsQuery(), {}, { next: { tags: ['settings'], revalidate: 60 } })

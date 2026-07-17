@@ -154,7 +154,7 @@ module.exports = {
             textDecorationColor: 'var(--tw-prose-underline-hover)',
           },
           strong: {
-            color: 'var(--tw-prose-bold)',
+            color: 'inherit',
             fontWeight: theme('fontWeight.semibold'),
           },
           code: {
@@ -168,6 +168,10 @@ module.exports = {
             paddingRight: theme('spacing.1'),
           },
           'a code': {
+            color: 'inherit',
+          },
+          // Keep colored / highlighted text when nested with bold/code
+          'span code, mark code': {
             color: 'inherit',
           },
           ':is(h1, h2, h3, h4) code': {

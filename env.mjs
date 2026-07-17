@@ -13,6 +13,8 @@ const server = z.object({
   SITE_NOTIFICATION_EMAIL_TO: z.string().optional(),
   GIT_SHA: z.string().optional(),
   BUILD_TIME: z.string().optional(),
+  /** Sanity webhook / manual cache bust */
+  REVALIDATE_SECRET: z.string().optional(),
 })
 
 const client = z.object({
@@ -46,6 +48,7 @@ const processEnv = {
   SITE_NOTIFICATION_EMAIL_TO: process.env.SITE_NOTIFICATION_EMAIL_TO,
   GIT_SHA: process.env.GIT_SHA,
   BUILD_TIME: process.env.BUILD_TIME,
+  REVALIDATE_SECRET: process.env.REVALIDATE_SECRET,
 }
 
 // Don't touch the part below
