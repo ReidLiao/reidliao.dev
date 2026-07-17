@@ -1,28 +1,27 @@
 .prismjs {
-  --tw-prose-pre-bg: rgba(245, 245, 245, .05);
+  --tw-prose-pre-bg: transparent;
   --tw-prose-pre-code: theme('colors.zinc.600');
-  background: linear-gradient(to top, rgba(235, 235, 235, .3) 0%, rgba(255, 255, 255, 0.1) 100%);
+  background: transparent;
   font-size: 12px;
-  padding: 1rem;
+  padding: 0.875rem 1rem;
+  margin: 0;
+  max-width: 100%;
+  overflow-x: auto;
   @apply antialiased;
-}
-
-[data-blockid]:not([data-filename]) > .prismjs {
-  @apply rounded-t-3xl;
 }
 
 @screen md {
   .prismjs {
     font-size: 0.875rem;
-    padding: 1.5rem;
+    padding: 1.25rem 1.5rem;
   }
 }
 
 .dark {
   .prismjs {
-    --tw-prose-pre-bg: rgba(5, 5, 5, .05);
+    --tw-prose-pre-bg: transparent;
     --tw-prose-pre-code: theme('colors.zinc.300');
-    background: linear-gradient(to bottom, rgba(35, 35, 35, .4) 0%, rgba(0, 0, 0, 0.2) 100%);
+    background: transparent;
   }
 }
 

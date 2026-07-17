@@ -36,56 +36,65 @@ export function PortableTextCodeBlock({
     <div
       data-blockid={value._key}
       data-filename={value.filename}
-      className="group relative mr-3 rounded-3xl border border-[--tw-prose-pre-border] dark:bg-zinc-800/80 md:mr-0"
+      className="group relative my-6 max-w-full overflow-hidden rounded-2xl border border-zinc-200/80 bg-zinc-50/80 dark:border-zinc-700/50 dark:bg-zinc-900/60 md:rounded-3xl"
     >
       <ClientOnly>
-        <Commentable className="z-30 -mr-1.5 md:mr-0" blockId={value._key} />
+        <Commentable className="z-30" blockId={value._key} />
       </ClientOnly>
-      <ClientOnly>
-        <>
-          <div className="relative flex text-xs leading-6 text-slate-400">
-            {Boolean(value.filename) && (
-              <>
-                <div className="mt-2 flex flex-none items-center border-b border-t border-b-emerald-700 border-t-transparent px-4 py-1 font-medium text-emerald-700 dark:border-b-emerald-200 dark:text-emerald-200">
-                  {value.filename}
-                </div>
-                <div className="flex flex-auto overflow-hidden rounded-tr-3xl pt-2">
-                  <div className="-mr-px flex-auto rounded-tl border border-zinc-300/40 bg-zinc-200/50 dark:border-zinc-500/30 dark:bg-zinc-700/50" />
-                </div>
-              </>
-            )}
-            <div className="absolute right-0 top-2 flex h-8 items-center pr-4">
-              <div className="relative -mr-0.5 flex">
-                <ElegantTooltip content="复制">
-                  <button
-                    type="button"
-                    className="text-zinc-400 hover:text-zinc-500 dark:text-zinc-500 dark:hover:text-zinc-400"
-                    onClick={onClickCopy}
-                  >
-                    {hasCopied ? (
-                      <ClipboardCheckIcon className="h-5 w-5" />
-                    ) : (
-                      <ClipboardDataIcon className="h-5 w-5" />
-                    )}
-                  </button>
-                </ElegantTooltip>
-              </div>
-            </div>
-          </div>
 
+      <div className="flex items-center gap-2 border-b border-zinc-200/70 px-3 py-2 dark:border-zinc-700/50 sm:px-4">
+        {value.filename ? (
+          <span className="min-w-0 truncate font-mono text-xs font-medium text-emerald-700 dark:text-emerald-300">
+            {value.filename}
+          </span>
+        ) : (
+          <span className="font-mono text-[11px] tracking-wide text-zinc-400 dark:text-zinc-500">
+            {value.language || 'code'}
+          </span>
+        )}
+        <div className="flex-1" />
+        <ElegantTooltip content="复制">
+          <button
+            type="button"
+            className="shrink-0 text-zinc-400 transition hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300"
+            onClick={onClickCopy}
+            aria-label="复制代码"
+          >
+            {hasCopied ? (
+              <ClipboardCheckIcon className="h-4 w-4" />
+            ) : (
+              <ClipboardDataIcon className="h-4 w-4" />
+            )}
+          </button>
+        </ElegantTooltip>
+      </div>
+
+      <div className="max-w-full overflow-x-auto overscroll-x-contain">
+        <ClientOnly>
           <SyntaxHighlighter
             language={value.language}
             showLineNumbers
             useInlineStyles={false}
+            customStyle={{
+              margin: 0,
+              borderRadius: 0,
+              background: 'transparent',
+              maxWidth: '100%',
+            }}
             codeTagProps={{
               style: {},
               className: `language-${value.language}`,
             }}
+            lineNumberStyle={{
+              minWidth: '2.25em',
+              paddingRight: '1em',
+              opacity: 0.35,
+            }}
           >
             {value.code}
           </SyntaxHighlighter>
-        </>
-      </ClientOnly>
+        </ClientOnly>
+      </div>
     </div>
   )
 }

@@ -8,7 +8,7 @@ export function Prose({
   className?: string
 }) {
   return (
-    <div className={clsxm(className, 'prose dark:prose-invert')}>
+    <div className={clsxm(className, 'prose min-w-0 max-w-full dark:prose-invert')}>
       {children}
     </div>
   )

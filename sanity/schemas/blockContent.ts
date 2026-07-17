@@ -13,6 +13,15 @@ import { Tweet } from '~/sanity/components/Tweet'
  *  }
  */
 
+const platformList = [
+  { title: '通用', value: 'any' },
+  { title: 'macOS', value: 'macos' },
+  { title: 'Windows', value: 'windows' },
+  { title: 'Linux', value: 'linux' },
+  { title: 'Android', value: 'android' },
+  { title: 'iOS', value: 'ios' },
+]
+
 export default defineType({
   title: '块级富文本',
   name: 'blockContent',
@@ -21,10 +30,6 @@ export default defineType({
     defineArrayMember({
       title: 'Block',
       type: 'block',
-      // Styles let you define what blocks can be marked up as. The default
-      // set corresponds with HTML tags, but you can set any title or value
-      // you want, and decide how you want to deal with it where you want to
-      // use your content.
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       styles: [
@@ -39,10 +44,7 @@ export default defineType({
         { title: '无序列表', value: 'bullet' },
         { title: '有序列表', value: 'number' },
       ],
-      // Marks let you mark up inline text in the Portable Text Editor
       marks: {
-        // Decorators usually describe a single property – e.g. a typographic
-        // preference or highlighting
         decorators: [
           { title: '加粗', value: 'strong' },
           { title: '斜体', value: 'em' },
@@ -50,7 +52,6 @@ export default defineType({
           { title: '删除线', value: 'strike-through' },
           { title: '代码', value: 'code' },
         ],
-        // Annotations can be any object structure – e.g. a link or a footnote.
         annotations: [
           {
             title: '链接',
@@ -64,12 +65,57 @@ export default defineType({
               },
             ],
           },
+          {
+            title: '文字颜色',
+            name: 'textColor',
+            type: 'object',
+            fields: [
+              {
+                name: 'color',
+                title: '颜色',
+                type: 'string',
+                options: {
+                  list: [
+                    { title: 'Lime', value: 'lime' },
+                    { title: 'Emerald', value: 'emerald' },
+                    { title: 'Sky', value: 'sky' },
+                    { title: 'Amber', value: 'amber' },
+                    { title: 'Rose', value: 'rose' },
+                    { title: 'Violet', value: 'violet' },
+                    { title: 'Zinc', value: 'zinc' },
+                  ],
+                  layout: 'radio',
+                },
+                initialValue: 'lime',
+              },
+            ],
+          },
+          {
+            title: '高亮底色',
+            name: 'highlight',
+            type: 'object',
+            fields: [
+              {
+                name: 'color',
+                title: '颜色',
+                type: 'string',
+                options: {
+                  list: [
+                    { title: 'Lime', value: 'lime' },
+                    { title: 'Amber', value: 'amber' },
+                    { title: 'Sky', value: 'sky' },
+                    { title: 'Rose', value: 'rose' },
+                    { title: 'Violet', value: 'violet' },
+                  ],
+                  layout: 'radio',
+                },
+                initialValue: 'lime',
+              },
+            ],
+          },
         ],
       },
     }),
-    // You can add additional types here. Note that you can't use
-    // primitive types such as 'string' and 'number' in the same array
-    // as a block type.
     defineArrayMember({
       type: 'image',
       title: '图片',
@@ -134,71 +180,190 @@ export default defineType({
           validation: (Rule) => Rule.required(),
         },
         {
+          name: 'note',
+          type: 'text',
+          rows: 2,
+          title: '备注',
+          description: '提取码、密码、注意事项等（整组共用）',
+        },
+        {
+          name: 'files',
+          type: 'array',
+          title: '下载版本',
+          description: '可添加多个平台/版本链接',
+          of: [
+            {
+              type: 'object',
+              name: 'file',
+              fields: [
+                {
+                  name: 'label',
+                  type: 'string',
+                  title: '显示名称',
+                  description: '例如 macOS / Windows / 通用',
+                },
+                {
+                  name: 'url',
+                  type: 'url',
+                  title: '下载链接',
+                  validation: (Rule) =>
+                    Rule.required().uri({ scheme: ['http', 'https'] }),
+                },
+                {
+                  name: 'version',
+                  type: 'string',
+                  title: '版本',
+                },
+                {
+                  name: 'platform',
+                  type: 'string',
+                  title: '平台',
+                  options: { list: platformList, layout: 'radio' },
+                  initialValue: 'any',
+                },
+                {
+                  name: 'size',
+                  type: 'string',
+                  title: '大小',
+                },
+                {
+                  name: 'checksum',
+                  type: 'string',
+                  title: '校验和',
+                },
+              ],
+              preview: {
+                select: {
+                  title: 'label',
+                  version: 'version',
+                  platform: 'platform',
+                  url: 'url',
+                },
+                prepare({ title, version, platform, url }) {
+                  return {
+                    title: title || platform || '下载项',
+                    subtitle: [version, url].filter(Boolean).join(' · '),
+                  }
+                },
+              },
+            },
+          ],
+          validation: (Rule) =>
+            Rule.custom((files, context) => {
+              const parent = context.parent as {
+                url?: string
+              }
+              if ((Array.isArray(files) && files.length > 0) || parent?.url) {
+                return true
+              }
+              return '请至少添加一个下载版本'
+            }),
+        },
+        // 兼容旧单链接字段（已有文章）
+        {
           name: 'url',
           type: 'url',
-          title: '下载链接',
-          description: '网盘或外链，勿托管到本站服务器',
-          validation: (Rule) =>
-            Rule.required().uri({
-              scheme: ['http', 'https'],
-            }),
+          title: '下载链接（旧）',
+          hidden: true,
         },
         {
           name: 'version',
           type: 'string',
-          title: '版本',
-          description: '例如 1.2.0',
+          title: '版本（旧）',
+          hidden: true,
         },
         {
           name: 'platform',
           type: 'string',
-          title: '平台',
-          options: {
-            list: [
-              { title: '通用', value: 'any' },
-              { title: 'macOS', value: 'macos' },
-              { title: 'Windows', value: 'windows' },
-              { title: 'Linux', value: 'linux' },
-              { title: 'Android', value: 'android' },
-              { title: 'iOS', value: 'ios' },
-            ],
-            layout: 'radio',
-          },
-          initialValue: 'any',
+          title: '平台（旧）',
+          hidden: true,
         },
         {
           name: 'size',
           type: 'string',
-          title: '大小',
-          description: '例如 128 MB',
+          title: '大小（旧）',
+          hidden: true,
         },
         {
           name: 'checksum',
           type: 'string',
-          title: '校验和',
-          description: '可选，如 SHA256',
-        },
-        {
-          name: 'note',
-          type: 'text',
-          rows: 3,
-          title: '备注',
-          description: '提取码、密码、注意事项等',
+          title: '校验和（旧）',
+          hidden: true,
         },
       ],
       preview: {
         select: {
           title: 'title',
+          files: 'files',
           version: 'version',
-          platform: 'platform',
         },
-        prepare({ title, version, platform }) {
-          const bits = [version, platform !== 'any' ? platform : null].filter(
-            Boolean
-          )
+        prepare({ title, files, version }) {
+          const count = Array.isArray(files) ? files.length : version ? 1 : 0
           return {
             title: title || '下载块',
-            subtitle: bits.length ? bits.join(' · ') : '未填写版本',
+            subtitle: count ? `${count} 个下载项` : '未添加版本',
+          }
+        },
+      },
+    }),
+    defineArrayMember({
+      type: 'object',
+      name: 'videoEmbed',
+      title: '视频嵌入',
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      fields: [
+        {
+          name: 'url',
+          type: 'url',
+          title: '视频链接',
+          description: '支持 YouTube / Bilibili / 直链 mp4 等',
+          validation: (Rule) =>
+            Rule.required().uri({ scheme: ['http', 'https'] }),
+        },
+        {
+          name: 'title',
+          type: 'string',
+          title: '标题（可选）',
+        },
+      ],
+      preview: {
+        select: { title: 'title', url: 'url' },
+        prepare({ title, url }) {
+          return {
+            title: title || '视频嵌入',
+            subtitle: url,
+          }
+        },
+      },
+    }),
+    defineArrayMember({
+      type: 'object',
+      name: 'audioEmbed',
+      title: '音频嵌入',
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      fields: [
+        {
+          name: 'url',
+          type: 'url',
+          title: '音频链接',
+          description: '直链 mp3/m4a，或网易云/其他可嵌页面 URL',
+          validation: (Rule) =>
+            Rule.required().uri({ scheme: ['http', 'https'] }),
+        },
+        {
+          name: 'title',
+          type: 'string',
+          title: '标题（可选）',
+        },
+      ],
+      preview: {
+        select: { title: 'title', url: 'url' },
+        prepare({ title, url }) {
+          return {
+            title: title || '音频嵌入',
+            subtitle: url,
           }
         },
       },

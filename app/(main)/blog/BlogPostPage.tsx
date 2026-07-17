@@ -56,7 +56,7 @@ export function BlogPostPage({
             <BlogPostTableOfContents headings={post.headings} />
           </div>
         </aside>
-        <div className="max-w-2xl md:flex-1 md:shrink-0">
+        <div className="min-w-0 max-w-2xl md:flex-1 md:shrink-0">
           <Button
             href="/blog"
             variant="secondary"
