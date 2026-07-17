@@ -33,6 +33,7 @@ type DownloadFile = {
 type DownloadValue = {
   _key: string
   title: string
+  extractCode?: string
   note?: string
   updatedAt?: string
   files?: DownloadFile[]
@@ -213,6 +214,32 @@ export function PortableTextDownload({
                   .filter(Boolean)
                   .join(' · ')}
               </p>
+            ) : null}
+            {value.extractCode ? (
+              <div className="mt-2.5 inline-flex max-w-full items-center gap-2 rounded-full bg-zinc-100/90 py-1 pl-3 pr-1.5 ring-1 ring-zinc-900/5 dark:bg-zinc-950/70 dark:ring-white/10">
+                <span className="font-mono text-[10px] tracking-wider text-zinc-400 dark:text-zinc-500">
+                  提取码
+                </span>
+                <code className="font-mono text-sm font-semibold tracking-wide text-zinc-900 dark:text-zinc-100">
+                  {value.extractCode}
+                </code>
+                <ElegantTooltip
+                  content={copied === 'code' ? '已复制' : '复制提取码'}
+                >
+                  <button
+                    type="button"
+                    className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-zinc-500 transition hover:bg-white hover:text-lime-600 dark:hover:bg-zinc-800 dark:hover:text-lime-400"
+                    onClick={() => copyText(value.extractCode!, 'code')}
+                    aria-label="复制提取码"
+                  >
+                    {copied === 'code' ? (
+                      <ClipboardCheckIcon className="h-3.5 w-3.5" />
+                    ) : (
+                      <ClipboardDataIcon className="h-3.5 w-3.5" />
+                    )}
+                  </button>
+                </ElegantTooltip>
+              </div>
             ) : null}
             {value.note ? (
               <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">

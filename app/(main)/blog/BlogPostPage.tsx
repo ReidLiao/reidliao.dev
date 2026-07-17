@@ -68,7 +68,7 @@ export function BlogPostPage({
           <article data-postid={post._id}>
             <header className="relative flex flex-col items-center pb-5 after:absolute after:-bottom-1 after:block after:h-px after:w-full after:rounded after:bg-gradient-to-r after:from-zinc-400/20 after:via-zinc-200/10 after:to-transparent dark:after:from-zinc-600/20 dark:after:via-zinc-700/10">
               <motion.div
-                className="relative mb-7 aspect-[240/135] w-full md:mb-12 md:w-[120%]"
+                className="relative mb-7 aspect-[240/135] w-full md:mb-10"
                 initial={{ opacity: 0, scale: 0.96, y: 10 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{
@@ -78,11 +78,12 @@ export function BlogPostPage({
                   damping: 20,
                 }}
               >
-                <div className="absolute z-0 hidden aspect-[240/135] w-full overflow-hidden rounded-2xl blur-xl saturate-150 after:absolute after:inset-0 after:bg-white/50 dark:after:bg-black/50 md:block md:rounded-3xl">
+                {/* Soft glow behind — keep rounded so blur doesn’t square-bleed */}
+                <div className="absolute z-0 hidden aspect-[240/135] w-full overflow-hidden rounded-lg blur-xl saturate-150 after:absolute after:inset-0 after:bg-white/50 dark:after:bg-black/50 md:block">
                   <Image
                     src={coverSrc}
                     alt=""
-                    className="select-none rounded-2xl object-cover md:rounded-3xl"
+                    className="select-none object-cover"
                     unoptimized
                     fill
                     sizes="(max-width: 768px) 100vw, 800px"
@@ -90,11 +91,12 @@ export function BlogPostPage({
                     aria-hidden={true}
                   />
                 </div>
-                <div className="absolute inset-0 isolate overflow-hidden rounded-2xl shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:ring-white/10 md:rounded-3xl">
+                {/* Cover: light radius, same width as article column */}
+                <div className="absolute inset-0 isolate overflow-hidden rounded-lg ring-1 ring-zinc-900/5 dark:ring-white/10">
                   <Image
                     src={coverSrc}
                     alt={post.title}
-                    className="select-none rounded-2xl object-cover md:rounded-3xl"
+                    className="select-none object-cover"
                     placeholder="blur"
                     blurDataURL={post.mainImage.asset.lqip}
                     unoptimized

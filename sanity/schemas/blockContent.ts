@@ -236,11 +236,17 @@ export default defineType({
           validation: (Rule) => Rule.required(),
         },
         {
+          name: 'extractCode',
+          type: 'string',
+          title: '提取码',
+          description: '网盘提取码（可选，前台一键复制）',
+        },
+        {
           name: 'note',
           type: 'text',
           rows: 2,
           title: '备注',
-          description: '提取码、密码、注意事项等（整组共用）',
+          description: '安装说明、注意事项等（整组共用；提取码请用上方字段）',
         },
         {
           name: 'updatedAt',
