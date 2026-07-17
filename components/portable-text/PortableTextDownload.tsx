@@ -90,20 +90,51 @@ function pickInitialIndex(files: DownloadFile[]): number {
   return fallback >= 0 ? fallback : 0
 }
 
-function fileLabel(file: DownloadFile, idx: number, total: number) {
-  if (file.label) return file.label
-  if (file.platform && file.platform !== 'any') {
-    return platformLabel[file.platform] ?? file.platform
-  }
-  if (file.version) return `v${file.version.replace(/^v/i, '')}`
-  return total > 1 ? `版本 ${idx + 1}` : '默认'
+function formatVersion(version?: string) {
+  if (!version) return null
+  return `v${version.replace(/^v/i, '')}`
 }
 
-function fileMeta(file: DownloadFile) {
+/**
+ * Chip labels stay short:
+ * - multi-platform → macOS / Windows（同平台多项时带版本）
+ * - same platform → v2.0 / v1.1
+ */
+function fileLabel(file: DownloadFile, files: DownloadFile[], idx: number) {
+  const ver = formatVersion(file.version)
+  const platKey = file.platform || 'any'
+  const plat =
+    platKey !== 'any' ? platformLabel[platKey] ?? file.platform : null
+
+  const uniquePlatforms = new Set(files.map((f) => f.platform || 'any'))
+  const multiPlatform = uniquePlatforms.size > 1
+  const samePlatformCount = files.filter(
+    (f) => (f.platform || 'any') === platKey
+  ).length
+
+  if (multiPlatform && plat) {
+    if (samePlatformCount > 1 && ver) return `${plat} ${ver}`
+    return plat
+  }
+  if (ver) return ver
+  if (plat) return plat
+  return `版本 ${idx + 1}`
+}
+
+function fileMeta(file: DownloadFile, files: DownloadFile[]) {
   const items: string[] = []
-  if (file.version) items.push(`v${file.version.replace(/^v/i, '')}`)
-  if (file.platform && file.platform !== 'any') {
-    items.push(platformLabel[file.platform] ?? file.platform)
+  const ver = formatVersion(file.version)
+  const platKey = file.platform || 'any'
+  const plat =
+    platKey !== 'any' ? platformLabel[platKey] ?? file.platform : null
+  const uniquePlatforms = new Set(files.map((f) => f.platform || 'any'))
+  const multiPlatform = uniquePlatforms.size > 1
+
+  // Avoid repeating what the chip already shows.
+  if (multiPlatform) {
+    if (ver) items.push(ver)
+  } else if (plat) {
+    items.push(plat)
   }
   if (file.size) items.push(file.size.replace(/^大小[：:]\s*/, ''))
   return items
@@ -131,7 +162,7 @@ export function PortableTextDownload({
 
   const safeIndex = Math.min(selected, Math.max(files.length - 1, 0))
   const active = files[safeIndex]
-  const meta = active ? fileMeta(active) : []
+  const meta = active ? fileMeta(active, files) : []
   const multi = files.length > 1
   const useChips = multi && files.length <= 4
   const updatedLabel = value.updatedAt
@@ -248,7 +279,7 @@ export function PortableTextDownload({
                         : 'text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200'
                     )}
                   >
-                    {fileLabel(file, idx, files.length)}
+                    {fileLabel(file, files, idx)}
                   </button>
                 )
               })}
@@ -263,7 +294,7 @@ export function PortableTextDownload({
               >
                 {files.map((file, idx) => (
                   <option key={file._key || `${file.url}-${idx}`} value={idx}>
-                    {fileLabel(file, idx, files.length)}
+                    {fileLabel(file, files, idx)}
                   </option>
                 ))}
               </select>

@@ -18,10 +18,18 @@ export const downloadItem = defineType({
   type: 'object',
   fields: [
     defineField({
-      name: 'label',
+      name: 'platform',
       type: 'string',
-      title: '显示名称',
-      description: '例如 macOS Arm / Windows x64',
+      title: '平台',
+      description: '用于前台自动匹配与版本切换标签',
+      options: { list: platformList, layout: 'radio' },
+      initialValue: 'any',
+    }),
+    defineField({
+      name: 'version',
+      type: 'string',
+      title: '版本',
+      description: '例如 2.0；多版本时作为切换标签',
     }),
     defineField({
       name: 'url',
@@ -31,39 +39,40 @@ export const downloadItem = defineType({
         Rule.required().uri({ scheme: ['http', 'https'] }),
     }),
     defineField({
-      name: 'version',
-      type: 'string',
-      title: '版本',
-    }),
-    defineField({
-      name: 'platform',
-      type: 'string',
-      title: '平台',
-      options: { list: platformList, layout: 'radio' },
-      initialValue: 'any',
-    }),
-    defineField({
       name: 'size',
       type: 'string',
       title: '大小',
+      description: '例如 128 MB（可选）',
     }),
     defineField({
       name: 'checksum',
       type: 'string',
       title: '校验和',
+      description: '可选',
+    }),
+    // 旧字段：曾与标题重复，已废弃
+    defineField({
+      name: 'label',
+      type: 'string',
+      title: '显示名称（旧）',
+      hidden: true,
     }),
   ],
   preview: {
     select: {
-      title: 'label',
       version: 'version',
       platform: 'platform',
       url: 'url',
     },
-    prepare({ title, version, platform, url }) {
+    prepare({ version, platform, url }) {
+      const plat =
+        platform && platform !== 'any'
+          ? platformList.find((p) => p.value === platform)?.title || platform
+          : null
+      const ver = version ? `v${String(version).replace(/^v/i, '')}` : null
       return {
-        title: title || platform || '下载项',
-        subtitle: [version, url].filter(Boolean).join(' · '),
+        title: [plat, ver].filter(Boolean).join(' · ') || '下载项',
+        subtitle: url,
       }
     },
   },
