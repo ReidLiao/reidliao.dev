@@ -1,17 +1,6 @@
-import { defineArrayMember, defineType } from 'sanity'
+import { defineArrayMember, defineField, defineType } from 'sanity'
 
 import { Tweet } from '~/sanity/components/Tweet'
-
-/**
- * This is the schema type for block content used in the post document type
- * Importing this type into the studio configuration's `schema` property
- * lets you reuse it in other document types with:
- *  {
- *    name: 'someName',
- *    title: 'Some title',
- *    type: 'blockContent'
- *  }
- */
 
 const platformList = [
   { title: '通用', value: 'any' },
@@ -21,6 +10,64 @@ const platformList = [
   { title: 'Android', value: 'android' },
   { title: 'iOS', value: 'ios' },
 ]
+
+/** Separate type — avoid nested anonymous objects / reserved `file` name crashing Studio. */
+export const downloadItem = defineType({
+  name: 'downloadItem',
+  title: '下载版本',
+  type: 'object',
+  fields: [
+    defineField({
+      name: 'label',
+      type: 'string',
+      title: '显示名称',
+      description: '例如 macOS Arm / Windows x64',
+    }),
+    defineField({
+      name: 'url',
+      type: 'url',
+      title: '下载链接',
+      validation: (Rule) =>
+        Rule.required().uri({ scheme: ['http', 'https'] }),
+    }),
+    defineField({
+      name: 'version',
+      type: 'string',
+      title: '版本',
+    }),
+    defineField({
+      name: 'platform',
+      type: 'string',
+      title: '平台',
+      options: { list: platformList, layout: 'radio' },
+      initialValue: 'any',
+    }),
+    defineField({
+      name: 'size',
+      type: 'string',
+      title: '大小',
+    }),
+    defineField({
+      name: 'checksum',
+      type: 'string',
+      title: '校验和',
+    }),
+  ],
+  preview: {
+    select: {
+      title: 'label',
+      version: 'version',
+      platform: 'platform',
+      url: 'url',
+    },
+    prepare({ title, version, platform, url }) {
+      return {
+        title: title || platform || '下载项',
+        subtitle: [version, url].filter(Boolean).join(' · '),
+      }
+    },
+  },
+})
 
 export default defineType({
   title: '块级富文本',
@@ -84,7 +131,7 @@ export default defineType({
                     { title: 'Violet', value: 'violet' },
                     { title: 'Zinc', value: 'zinc' },
                   ],
-                  layout: 'radio',
+                  layout: 'dropdown',
                 },
                 initialValue: 'lime',
               },
@@ -107,7 +154,7 @@ export default defineType({
                     { title: 'Rose', value: 'rose' },
                     { title: 'Violet', value: 'violet' },
                   ],
-                  layout: 'radio',
+                  layout: 'dropdown',
                 },
                 initialValue: 'lime',
               },
@@ -190,76 +237,10 @@ export default defineType({
           name: 'files',
           type: 'array',
           title: '下载版本',
-          description: '可添加多个平台/版本链接',
-          of: [
-            {
-              type: 'object',
-              name: 'file',
-              fields: [
-                {
-                  name: 'label',
-                  type: 'string',
-                  title: '显示名称',
-                  description: '例如 macOS / Windows / 通用',
-                },
-                {
-                  name: 'url',
-                  type: 'url',
-                  title: '下载链接',
-                  validation: (Rule) =>
-                    Rule.required().uri({ scheme: ['http', 'https'] }),
-                },
-                {
-                  name: 'version',
-                  type: 'string',
-                  title: '版本',
-                },
-                {
-                  name: 'platform',
-                  type: 'string',
-                  title: '平台',
-                  options: { list: platformList, layout: 'radio' },
-                  initialValue: 'any',
-                },
-                {
-                  name: 'size',
-                  type: 'string',
-                  title: '大小',
-                },
-                {
-                  name: 'checksum',
-                  type: 'string',
-                  title: '校验和',
-                },
-              ],
-              preview: {
-                select: {
-                  title: 'label',
-                  version: 'version',
-                  platform: 'platform',
-                  url: 'url',
-                },
-                prepare({ title, version, platform, url }) {
-                  return {
-                    title: title || platform || '下载项',
-                    subtitle: [version, url].filter(Boolean).join(' · '),
-                  }
-                },
-              },
-            },
-          ],
-          validation: (Rule) =>
-            Rule.custom((files, context) => {
-              const parent = context.parent as {
-                url?: string
-              }
-              if ((Array.isArray(files) && files.length > 0) || parent?.url) {
-                return true
-              }
-              return '请至少添加一个下载版本'
-            }),
+          description: '可添加多个平台/版本；前台可下拉选择',
+          of: [{ type: 'downloadItem' }],
         },
-        // 兼容旧单链接字段（已有文章）
+        // 兼容旧单链接字段
         {
           name: 'url',
           type: 'url',
@@ -348,7 +329,7 @@ export default defineType({
           name: 'url',
           type: 'url',
           title: '音频链接',
-          description: '直链 mp3/m4a，或网易云/其他可嵌页面 URL',
+          description: '直链 mp3/m4a，或网易云歌曲页 URL',
           validation: (Rule) =>
             Rule.required().uri({ scheme: ['http', 'https'] }),
         },

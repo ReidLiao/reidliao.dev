@@ -61,6 +61,15 @@ function normalizeFiles(value: DownloadValue): DownloadFile[] {
   return []
 }
 
+function fileLabel(file: DownloadFile, idx: number, total: number) {
+  if (file.label) return file.label
+  if (file.platform && file.platform !== 'any') {
+    return platformLabel[file.platform] ?? file.platform
+  }
+  if (file.version) return `v${file.version.replace(/^v/i, '')}`
+  return total > 1 ? `版本 ${idx + 1}` : '默认'
+}
+
 function fileMeta(file: DownloadFile) {
   const items: string[] = []
   if (file.version) items.push(`v${file.version.replace(/^v/i, '')}`)
@@ -76,6 +85,15 @@ export function PortableTextDownload({
 }: PortableTextComponentProps<DownloadValue>) {
   const [copied, setCopied] = React.useState<string | null>(null)
   const files = React.useMemo(() => normalizeFiles(value), [value])
+  const [selected, setSelected] = React.useState(0)
+
+  React.useEffect(() => {
+    setSelected(0)
+  }, [value._key, files.length])
+
+  const active = files[Math.min(selected, Math.max(files.length - 1, 0))]
+  const meta = active ? fileMeta(active) : []
+  const multi = files.length > 1
 
   const copyText = React.useCallback(async (text: string, key: string) => {
     try {
@@ -87,7 +105,7 @@ export function PortableTextDownload({
     }
   }, [])
 
-  if (!value?.title || files.length === 0) return null
+  if (!value?.title || !active) return null
 
   return (
     <aside
@@ -127,70 +145,73 @@ export function PortableTextDownload({
         </div>
       </div>
 
-      <ul className="divide-y divide-zinc-100 border-t border-zinc-100 dark:divide-zinc-800 dark:border-zinc-800">
-        {files.map((file, idx) => {
-          const meta = fileMeta(file)
-          const label =
-            file.label ||
-            (file.platform && file.platform !== 'any'
-              ? platformLabel[file.platform]
-              : null) ||
-            (files.length > 1 ? `版本 ${idx + 1}` : '前往下载')
-          const copyKey = `sha-${idx}`
-
-          return (
-            <li
-              key={file._key || `${file.url}-${idx}`}
-              className="flex flex-col gap-3 px-4 py-3.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-5"
-            >
-              <div className="min-w-0">
-                <p className="text-sm font-medium text-zinc-800 dark:text-zinc-100">
-                  {label}
-                </p>
-                {meta.length > 0 ? (
-                  <p className="mt-1 font-mono text-[11px] tabular-nums text-zinc-500 dark:text-zinc-400">
-                    {meta.join(' · ')}
-                  </p>
-                ) : null}
-                {file.checksum ? (
-                  <div className="mt-2 flex max-w-full items-start gap-2 overflow-hidden rounded-lg bg-zinc-950 px-2.5 py-1.5 font-mono text-[10px] leading-relaxed text-lime-400/90">
-                    <span className="shrink-0 text-zinc-500">sha</span>
-                    <code className="min-w-0 flex-1 break-all">
-                      {file.checksum}
-                    </code>
-                    <ElegantTooltip
-                      content={copied === copyKey ? '已复制' : '复制校验和'}
-                    >
-                      <button
-                        type="button"
-                        className="shrink-0 text-zinc-500 transition hover:text-lime-300"
-                        onClick={() => copyText(file.checksum!, copyKey)}
-                        aria-label="复制校验和"
-                      >
-                        {copied === copyKey ? (
-                          <ClipboardCheckIcon className="h-3.5 w-3.5" />
-                        ) : (
-                          <ClipboardDataIcon className="h-3.5 w-3.5" />
-                        )}
-                      </button>
-                    </ElegantTooltip>
-                  </div>
-                ) : null}
-              </div>
-
-              <a
-                href={file.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex shrink-0 items-center justify-center gap-2 self-start rounded-full bg-zinc-900 px-4 py-2 text-xs font-medium text-white shadow-lg shadow-zinc-900/10 transition hover:-translate-y-0.5 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:shadow-none dark:hover:bg-white sm:self-center"
+      <div className="flex flex-col gap-4 border-t border-zinc-100 px-4 py-4 dark:border-zinc-800 sm:flex-row sm:items-end sm:justify-between sm:gap-5 sm:px-5 sm:py-5">
+        <div className="min-w-0 flex-1 space-y-3">
+          {multi ? (
+            <label className="block">
+              <span className="mb-1.5 block font-mono text-[10px] font-medium tracking-[0.14em] text-zinc-400 dark:text-zinc-500">
+                选择版本
+              </span>
+              <select
+                value={selected}
+                onChange={(e) => setSelected(Number(e.target.value))}
+                className="w-full cursor-pointer appearance-none rounded-xl border border-zinc-200 bg-white px-3.5 py-2.5 text-sm font-medium text-zinc-900 shadow-sm outline-none transition focus:border-lime-500/50 focus:ring-2 focus:ring-lime-500/20 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100 dark:focus:border-lime-400/40 dark:focus:ring-lime-400/15"
               >
-                前往下载
-                <ExternalLinkIcon className="h-3.5 w-3.5 opacity-80" />
-              </a>
-            </li>
-          )
-        })}
-      </ul>
+                {files.map((file, idx) => (
+                  <option key={file._key || `${file.url}-${idx}`} value={idx}>
+                    {fileLabel(file, idx, files.length)}
+                    {file.version
+                      ? ` · v${file.version.replace(/^v/i, '')}`
+                      : ''}
+                    {file.size
+                      ? ` · ${file.size.replace(/^大小[：:]\s*/, '')}`
+                      : ''}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ) : null}
+
+          {meta.length > 0 ? (
+            <p className="font-mono text-[11px] tabular-nums text-zinc-500 dark:text-zinc-400">
+              {meta.join(' · ')}
+            </p>
+          ) : null}
+
+          {active.checksum ? (
+            <div className="flex max-w-full items-start gap-2 overflow-hidden rounded-lg bg-zinc-950 px-2.5 py-1.5 font-mono text-[10px] leading-relaxed text-lime-400/90">
+              <span className="shrink-0 text-zinc-500">sha</span>
+              <code className="min-w-0 flex-1 break-all">{active.checksum}</code>
+              <ElegantTooltip
+                content={copied === 'sha' ? '已复制' : '复制校验和'}
+              >
+                <button
+                  type="button"
+                  className="shrink-0 text-zinc-500 transition hover:text-lime-300"
+                  onClick={() => copyText(active.checksum!, 'sha')}
+                  aria-label="复制校验和"
+                >
+                  {copied === 'sha' ? (
+                    <ClipboardCheckIcon className="h-3.5 w-3.5" />
+                  ) : (
+                    <ClipboardDataIcon className="h-3.5 w-3.5" />
+                  )}
+                </button>
+              </ElegantTooltip>
+            </div>
+          ) : null}
+        </div>
+
+        <a
+          href={active.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex shrink-0 items-center justify-center gap-2 self-start rounded-full bg-zinc-900 px-5 py-2.5 text-xs font-medium text-white shadow-lg shadow-zinc-900/10 transition hover:-translate-y-0.5 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:shadow-none dark:hover:bg-white sm:self-end"
+        >
+          前往下载
+          <ExternalLinkIcon className="h-3.5 w-3.5 opacity-80" />
+        </a>
+      </div>
 
       <p className="border-t border-zinc-100 px-4 py-2.5 text-[11px] leading-relaxed text-zinc-400 dark:border-zinc-800 dark:text-zinc-500 sm:px-5">
         资源由第三方网盘提供，本站不托管安装包。请自行核验来源与完整性。
