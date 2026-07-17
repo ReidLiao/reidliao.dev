@@ -1,6 +1,5 @@
 'use client'
 
-import { clsxm } from '@zolplay/utils'
 import { type PortableTextComponentProps } from '@portabletext/react'
 import React from 'react'
 
@@ -163,8 +162,6 @@ export function PortableTextDownload({
   const safeIndex = Math.min(selected, Math.max(files.length - 1, 0))
   const active = files[safeIndex]
   const meta = active ? fileMeta(active, files) : []
-  const multi = files.length > 1
-  const useChips = multi && files.length <= 4
   const updatedLabel = value.updatedAt
     ? formatUpdatedAt(value.updatedAt)
     : null
@@ -257,63 +254,35 @@ export function PortableTextDownload({
         </div>
 
         <div className="flex shrink-0 flex-col items-stretch gap-2.5 sm:items-end">
-          {useChips ? (
-            <div
-              role="listbox"
-              aria-label="选择版本"
-              className="inline-flex max-w-full flex-wrap justify-start gap-1 rounded-full bg-zinc-100/80 p-1 ring-1 ring-zinc-900/5 dark:bg-zinc-950/60 dark:ring-white/10 sm:justify-end"
+          <label className="relative inline-flex w-full max-w-[11rem] sm:w-auto">
+            <span className="sr-only">选择平台</span>
+            <select
+              value={safeIndex}
+              onChange={(e) => setSelected(Number(e.target.value))}
+              disabled={files.length <= 1}
+              className="w-full min-w-[7.5rem] cursor-pointer appearance-none rounded-full border-0 bg-zinc-100/80 py-2 pl-3.5 pr-8 text-xs font-medium text-zinc-800 outline-none ring-1 ring-zinc-900/5 transition focus:ring-2 focus:ring-lime-500/25 disabled:cursor-default disabled:opacity-90 dark:bg-zinc-950/60 dark:text-zinc-100 dark:ring-white/10 dark:focus:ring-lime-400/20"
             >
-              {files.map((file, idx) => {
-                const activeChip = idx === safeIndex
-                return (
-                  <button
-                    key={file._key || `${file.url}-${idx}`}
-                    type="button"
-                    role="option"
-                    aria-selected={activeChip}
-                    onClick={() => setSelected(idx)}
-                    className={clsxm(
-                      'rounded-full px-3 py-1 text-xs font-medium transition',
-                      activeChip
-                        ? 'bg-white text-zinc-900 shadow-sm ring-1 ring-zinc-900/5 dark:bg-zinc-200 dark:text-zinc-900 dark:ring-0'
-                        : 'text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200'
-                    )}
-                  >
-                    {fileLabel(file, files, idx)}
-                  </button>
-                )
-              })}
-            </div>
-          ) : multi ? (
-            <label className="relative inline-flex w-full max-w-[13.5rem] sm:w-auto">
-              <span className="sr-only">选择版本</span>
-              <select
-                value={safeIndex}
-                onChange={(e) => setSelected(Number(e.target.value))}
-                className="w-full cursor-pointer appearance-none rounded-full border-0 bg-zinc-100/80 py-2 pl-3.5 pr-8 text-xs font-medium text-zinc-800 outline-none ring-1 ring-zinc-900/5 transition focus:ring-2 focus:ring-lime-500/25 dark:bg-zinc-950/60 dark:text-zinc-100 dark:ring-white/10 dark:focus:ring-lime-400/20"
+              {files.map((file, idx) => (
+                <option key={file._key || `${file.url}-${idx}`} value={idx}>
+                  {fileLabel(file, files, idx)}
+                </option>
+              ))}
+            </select>
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-y-0 right-2.5 flex items-center text-zinc-400"
+            >
+              <svg
+                viewBox="0 0 12 12"
+                className="h-3 w-3"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
               >
-                {files.map((file, idx) => (
-                  <option key={file._key || `${file.url}-${idx}`} value={idx}>
-                    {fileLabel(file, files, idx)}
-                  </option>
-                ))}
-              </select>
-              <span
-                aria-hidden
-                className="pointer-events-none absolute inset-y-0 right-2.5 flex items-center text-zinc-400"
-              >
-                <svg
-                  viewBox="0 0 12 12"
-                  className="h-3 w-3"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                >
-                  <path d="M2.5 4.5 6 8l3.5-3.5" strokeLinecap="round" />
-                </svg>
-              </span>
-            </label>
-          ) : null}
+                <path d="M2.5 4.5 6 8l3.5-3.5" strokeLinecap="round" />
+              </svg>
+            </span>
+          </label>
 
           <a
             href={active.url}
