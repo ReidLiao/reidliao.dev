@@ -9,7 +9,7 @@ import { Container } from '~/components/ui/Container'
 
 const title = '关于 reidliao.dev'
 const description =
-  '了解 Reidliao.dev 的部署架构、技术理念与内容定位——一台 DMIT VPS 上的纯 Docker 自建博客。'
+  'reidliao.dev：DMIT VPS 上 Docker 自建的技术博客——全栈建站、运维实战、软件下载与长期自用机房推荐。'
 
 const rolePills = ['Self-hosted', 'Docker', 'Ops'] as const
 
@@ -38,8 +38,9 @@ const contentTopics = [
     detail: 'Linux 服务管理、反向代理、监控告警与线上故障排查。',
   },
   {
-    title: '软件 & 云服务',
-    detail: 'macOS / Windows 工具安利，以及高性价比 VPS 真实评测。',
+    title: '软件 & 机房',
+    detail:
+      '文章内多平台下载块分享工具；机房页收录长期自用的 VPS 与线路推荐。',
   },
 ]
 
@@ -61,9 +62,15 @@ const deployReasons = [
 const changelog = [
   {
     date: '2026-07',
+    title: '正式上线',
+    detail:
+      'Clerk 生产环境、robots/sitemap、B 站空间入口；机房页（/vps）收录长期自用线路；下载块、发布即时刷新与自建栈收口，准备对外开放。',
+  },
+  {
+    date: '2026-07',
     title: '内容与体验深化',
     detail:
-      '正文下载块（多平台/自动预选）、视频嵌入、文字颜色与高亮；图片同源代理与磁盘缓存；Sanity 发布即时刷新；封面圆角与 Studio 稳定性修复。',
+      '正文下载块（多平台/自动预选/提取码）、视频嵌入、文字颜色与高亮；图片同源代理与磁盘缓存；Sanity Webhook 即时刷新；封面与 Studio 稳定性修复。',
   },
   {
     date: '2026-07',
@@ -121,7 +128,8 @@ export default function AboutPage() {
         </h1>
         <p className="mt-5 max-w-2xl text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
           <Balancer>
-            这不是一份简历，而是一台独立服务器上的技术实验室——记录我在全栈建站、容器化与系统运维领域的真实折腾。
+            这不是一份简历，而是一台独立服务器上的技术实验室——记录全栈建站、Docker
+            自建与系统运维的真实折腾。本站已在自有 VPS 上跑通并正式开放。
           </Balancer>
         </p>
       </header>
@@ -152,7 +160,7 @@ export default function AboutPage() {
             </div>
             <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
               我维护着这台服务器的每一个细节：从 Docker 镜像构建、Nginx 反代，到 Redis
-              缓存与邮件通知。写博客、搭服务、测工具——保持好奇，折腾不止。
+              缓存、认证与邮件通知。写博客、搭服务、测工具——保持好奇，折腾不止。
             </p>
             <div className="mt-5 flex flex-wrap justify-center gap-3 sm:justify-start">
               <Link
@@ -163,6 +171,12 @@ export default function AboutPage() {
               >
                 <GitHubIcon className="h-3.5 w-3.5" />
                 查看源码
+              </Link>
+              <Link
+                href="/vps"
+                className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-transparent px-4 py-2 text-xs font-medium text-zinc-700 transition hover:border-lime-500/40 hover:text-lime-600 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-lime-400/40 dark:hover:text-lime-400"
+              >
+                自用机房
               </Link>
               <Link
                 href="/guestbook"
@@ -194,7 +208,8 @@ export default function AboutPage() {
             <PeekabooLink href="https://www.dmit.io" target="_blank">
               DMIT
             </PeekabooLink>{' '}
-            是一家主打优质国际线路的 VPS 服务商，在香港、洛杉矶、东京等地均有机房节点，以稳定低延迟的网络表现著称，非常适合搭建个人博客、代理节点或开发测试环境。如果你也在寻找高性价比的 VPS，不妨通过上方链接了解一下。
+            主打优质国际线路，香港、洛杉矶、东京等节点延迟表现稳定，适合博客、开发测试与长期跑站。更多我实际用过的服务商与优惠入口，见{' '}
+            <PeekabooLink href="/vps">机房</PeekabooLink> 页。
           </p>
           <ul className="mt-4 space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
             <li className="flex gap-2">
@@ -297,14 +312,18 @@ export default function AboutPage() {
           下载策略
         </h2>
         <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-          本站运行在一台轻量级 VPS 上，带宽和存储都是宝贵资源。因此博客内分享的软件、工具包等资源，
+          本站跑在轻量 VPS 上，带宽与磁盘都很宝贵。文章里的软件与工具通过正文
           <strong className="text-zinc-800 dark:text-zinc-200">
-            不会直接托管在本服务器上
+            下载块
           </strong>
-          ，而是统一通过第三方优质网盘（阿里云盘、123 盘等）提供下载链接。
+          提供：支持多平台 / 多版本、按系统自动预选，以及提取码一键复制；文件本身
+          <strong className="text-zinc-800 dark:text-zinc-200">
+            不托管在本机
+          </strong>
+          ，统一走第三方网盘（阿里云盘、123 盘等）。
         </p>
         <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-          这样做既能保证下载速度，也能让服务器专心做好「展示与写作」。链接失效欢迎在{' '}
+          这样下载更快，服务器也能专心做展示与写作。链接失效欢迎在{' '}
           <PeekabooLink href="/guestbook">留言墙</PeekabooLink> 反馈。
         </p>
       </section>
