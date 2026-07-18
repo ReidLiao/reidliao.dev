@@ -11,8 +11,6 @@ const server = z.object({
   UPSTASH_REDIS_REST_TOKEN: z.string().min(1),
   LINK_PREVIEW_API_BASE_URL: z.string().optional(),
   SITE_NOTIFICATION_EMAIL_TO: z.string().optional(),
-  GIT_SHA: z.string().optional(),
-  BUILD_TIME: z.string().optional(),
   /** Sanity webhook / manual cache bust */
   REVALIDATE_SECRET: z.string().optional(),
 })
@@ -46,8 +44,6 @@ const processEnv = {
   NEXT_PUBLIC_SITE_LINK_PREVIEW_ENABLED: process.env.NEXT_PUBLIC_SITE_LINK_PREVIEW_ENABLED == 'true',
   LINK_PREVIEW_API_BASE_URL: process.env.LINK_PREVIEW_API_BASE_URL,
   SITE_NOTIFICATION_EMAIL_TO: process.env.SITE_NOTIFICATION_EMAIL_TO,
-  GIT_SHA: process.env.GIT_SHA,
-  BUILD_TIME: process.env.BUILD_TIME,
   REVALIDATE_SECRET: process.env.REVALIDATE_SECRET,
 }
 
