@@ -54,7 +54,7 @@ const nextConfig = {
       },
       {
         source: '/bilibili',
-        destination: 'https://www.bilibili.com',
+        destination: 'https://space.bilibili.com/692964587',
         permanent: true,
       },
       {
