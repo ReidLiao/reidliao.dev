@@ -44,7 +44,7 @@ export function PortableTextCodeBlock({
 
       <div className="flex items-center gap-2 border-b border-zinc-200/70 px-3 py-2 dark:border-zinc-700/50 sm:px-4">
         {value.filename ? (
-          <span className="min-w-0 truncate font-mono text-xs font-medium text-emerald-700 dark:text-emerald-300">
+          <span className="min-w-0 truncate font-mono text-xs font-medium text-lime-700 dark:text-lime-300">
             {value.filename}
           </span>
         ) : (

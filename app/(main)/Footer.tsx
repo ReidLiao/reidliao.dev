@@ -14,6 +14,7 @@ import { prettifyNumber } from '~/lib/math'
 import { redis } from '~/lib/redis'
 
 import { Newsletter } from './Newsletter'
+import { FooterNewsletterGate } from './FooterNewsletterGate'
 
 const VIEWS_CACHE_TTL_SECONDS = 60
 
@@ -135,27 +136,32 @@ export function Footer() {
         <div className="border-t border-zinc-100 pb-16 pt-10 dark:border-zinc-700/40">
           <Container.Inner>
             <div className="mx-auto mb-8 max-w-md">
-              <Suspense fallback={<Newsletter subCount="0" />}>
-                <FooterNewsletter />
-              </Suspense>
+              <FooterNewsletterGate>
+                <Suspense fallback={<Newsletter subCount="0" />}>
+                  <FooterNewsletter />
+                </Suspense>
+              </FooterNewsletterGate>
             </div>
             <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
               <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-sm text-zinc-500/80 dark:text-zinc-400/80">
-                <span>&copy; {new Date().getFullYear()} Reidliao.dev</span>
+                <span className="font-mono">
+                  &copy; {new Date().getFullYear()} reidliao.dev
+                </span>
                 <span className="inline-flex items-center gap-1.5">
                   <span className="relative flex h-1.5 w-1.5">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
-                    <span className="relative inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-lime-400 opacity-60" />
+                    <span className="relative inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-lime-500" />
                   </span>
                   <span>
-                    Crafted with{' '}
+                    用{' '}
                     <span className="font-semibold text-zinc-700 dark:text-zinc-200">
                       Next.js
                     </span>{' '}
-                    &{' '}
+                    与{' '}
                     <span className="font-semibold text-zinc-700 dark:text-zinc-200">
                       Tailwind
-                    </span>
+                    </span>{' '}
+                    自建
                   </span>
                 </span>
               </p>

@@ -30,10 +30,10 @@ export function Newsletter({ subCount }: { subCount?: string }) {
     resolver: zodResolver(newsletterFormSchema),
   })
   const [isSubscribed, setIsSubscribed] = React.useState(false)
-  const { reward } = useReward('newsletter-rewards', 'emoji', {
+  const { reward } = useReward('newsletter-rewards', 'confetti', {
     position: 'absolute',
-    emoji: ['🤓', '😊', '🥳', '🤩', '🤪', '🤯', '🥰', '😎', '🤑', '🤗', '😇'],
-    elementCount: 32,
+    elementCount: 28,
+    spread: 60,
   })
   const onSubmit = React.useCallback(
     async (data: NewsletterForm) => {
@@ -79,7 +79,7 @@ export function Newsletter({ subCount }: { subCount?: string }) {
         <span className="ml-2">动态更新</span>
       </h2>
       <p className="mt-2 text-xs text-zinc-600 dark:text-zinc-400 md:text-sm">
-        <span>喜欢我的内容的话不妨订阅支持一下 🫶</span>
+        <span>喜欢这些内容的话，欢迎订阅。</span>
         <br />
         {subCount && (
           <span>
