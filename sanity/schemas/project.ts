@@ -17,7 +17,7 @@ export type Project = z.infer<typeof Project>
 
 export default defineType({
   name: 'project',
-  title: '项目',
+  title: '机房',
   type: 'document',
   icon: Layers3Icon,
   fields: [

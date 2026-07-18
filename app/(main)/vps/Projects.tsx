@@ -1,4 +1,4 @@
-import { ProjectCard } from '~/app/(main)/projects/ProjectCard'
+import { ProjectCard } from '~/app/(main)/vps/ProjectCard'
 import { getSettings } from '~/sanity/queries'
 
 export async function Projects() {

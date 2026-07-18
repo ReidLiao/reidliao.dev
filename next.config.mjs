@@ -33,6 +33,11 @@ const nextConfig = {
   redirects() {
     return [
       {
+        source: '/projects',
+        destination: '/vps',
+        permanent: true,
+      },
+      {
         source: '/twitter',
         destination: 'https://x.com/reidliao',
         permanent: true,

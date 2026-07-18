@@ -111,7 +111,7 @@ export default authMiddleware({
     '/api(.*)',
     '/blog(.*)',
     '/confirm(.*)',
-    '/projects',
+    '/vps',
     '/guestbook',
     '/newsletters(.*)',
     '/about',

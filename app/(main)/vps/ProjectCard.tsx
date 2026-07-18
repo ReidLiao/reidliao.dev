@@ -57,13 +57,15 @@ export function ProjectCard({ project }: { project: Project }) {
         />
       </div>
       <h2 className="mt-6 text-base font-bold text-zinc-800 dark:text-zinc-100">
-        <Card.Link href={url} target="_blank">
+        <Card.Link href={url} target="_blank" rel="noopener noreferrer sponsored">
           {name}
         </Card.Link>
       </h2>
-      <Card.Description>{description}</Card.Description>
+      <Card.Description className="line-clamp-2">
+        {description}
+      </Card.Description>
       <p className="pointer-events-none relative z-40 mt-6 flex items-center text-sm font-medium text-zinc-400 transition group-hover:-translate-y-0.5 group-hover:text-lime-600 dark:text-zinc-200 dark:group-hover:text-lime-400">
-        <span className="mr-2">{new URL(url).host}</span>
+        <span className="mr-2">前往查看</span>
         <ExternalLinkIcon className="h-4 w-4 flex-none" />
       </p>
 
@@ -85,7 +87,7 @@ export function ProjectCard({ project }: { project: Project }) {
             <h2 className="mt-6 text-base font-bold text-zinc-50 [text-shadow:rgb(0,0,0)_-0.5px_0.5px_0px,rgb(0,0,0)_0.5px_0.5px_0px,rgb(0,0,0)_0.5px_-0.5px_0px,rgb(0,0,0)_-0.5px_-0.5px_0px] dark:text-zinc-900 dark:[text-shadow:rgb(255,255,255)_-0.5px_0.5px_0px,rgb(255,255,255)_0.5px_0.5px_0px,rgb(255,255,255)_0.5px_-0.5px_0px,rgb(255,255,255)_-0.5px_-0.5px_0px]">
               {name}
             </h2>
-            <p className="mt-2 text-sm text-zinc-600 opacity-50 dark:text-zinc-400">
+            <p className="mt-2 line-clamp-2 text-sm text-zinc-600 opacity-50 dark:text-zinc-400">
               {description}
             </p>
           </motion.footer>

@@ -10,8 +10,8 @@ export default defineType({
   fields: [
     defineField({
       name: 'projects',
-      title: '项目展示列表',
-      description: '在 `/projects` 页面展示的项目列表',
+      title: '机房推荐列表',
+      description: '在 `/vps`（机房）页面展示的服务商 / 联盟链接列表',
       type: 'array',
       of: [{ type: 'reference', to: { type: 'project' } }],
     }),
