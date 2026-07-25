@@ -38,12 +38,12 @@ function AvatarImage({
         alt="Reidliao.dev"
         width={large ? 64 : 36}
         height={large ? 64 : 36}
-        sizes={large ? '64px' : '36px'}
         className={clsxm(
           'rounded-full bg-zinc-100 object-cover dark:bg-zinc-800',
           large ? 'h-16 w-16' : 'h-9 w-9'
         )}
         priority
+        unoptimized
       />
     </Link>
   )

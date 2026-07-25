@@ -32,7 +32,6 @@ export function PostAuthorBadge({
         alt=""
         width={px}
         height={px}
-        sizes={`${px}px`}
         className={clsxm(
           'rounded-full object-cover',
           size === 'sm' && 'h-5 w-5',
@@ -40,6 +39,7 @@ export function PostAuthorBadge({
           size === 'lg' && 'h-7 w-7 md:h-8 md:w-8'
         )}
         priority={priority}
+        unoptimized
       />
     </span>
   )

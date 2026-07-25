@@ -143,9 +143,9 @@ export default function AboutPage() {
               alt="Reidliao.dev"
               width={96}
               height={96}
-              sizes="96px"
               className="h-full w-full object-cover"
               priority
+              unoptimized
             />
           </div>
           <div className="flex-1 text-center sm:text-left">

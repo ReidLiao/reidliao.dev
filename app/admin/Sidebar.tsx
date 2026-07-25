@@ -31,7 +31,7 @@ export function Sidebar() {
       {/* Sidebar component, swap this element with another sidebar if you like */}
       <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 dark:border-slate-800 dark:bg-slate-900">
         <div className="flex h-16 shrink-0 items-center">
-          <Image className="h-8 w-8 rounded-full" src="/avatar.jpg" alt="Reidliao.dev" width={32} height={32} />
+          <Image className="h-8 w-8 rounded-full" src="/avatar.jpg" alt="Reidliao.dev" width={32} height={32} unoptimized />
         </div>
         <nav className="flex flex-1 flex-col">
           <ul role="list" className="flex flex-1 flex-col gap-y-7">
