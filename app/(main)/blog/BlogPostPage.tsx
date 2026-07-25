@@ -10,7 +10,6 @@ import { BlogPostMobileTOC } from '~/app/(main)/blog/BlogPostMobileTOC'
 import { BlogPostStateLoader } from '~/app/(main)/blog/BlogPostStateLoader'
 import { BlogReadingProgress } from '~/app/(main)/blog/BlogReadingProgress'
 import { BlogReactions } from '~/app/(main)/blog/BlogReactions'
-import { BlogReactionsMobile } from '~/app/(main)/blog/BlogReactionsMobile'
 import {
   CalendarIcon,
   CursorClickIcon,
@@ -202,13 +201,7 @@ export function BlogPostPage({
               <PostPortableText value={post.body} />
             </Prose>
 
-            <BlogReactionsMobile
-              _id={post._id}
-              mood={post.mood}
-              reactions={reactions}
-            />
-
-            <WechatSubscribe variant="compact" className="mt-8 max-w-xl" />
+            <WechatSubscribe variant="compact" className="mt-12 max-w-xl" />
           </article>
         </div>
         <aside className="hidden w-[90px] shrink-0 lg:block">

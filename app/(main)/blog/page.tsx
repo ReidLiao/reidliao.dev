@@ -1,10 +1,8 @@
-import { Suspense } from 'react'
 import Balancer from 'react-wrap-balancer'
 
 import { SocialLink } from '~/components/links/SocialLink'
 import { Container } from '~/components/ui/Container'
 
-import { BlogCategoryTabs } from './BlogCategoryTabs'
 import { BlogPosts } from './BlogPosts'
 
 const description =
@@ -32,13 +30,7 @@ function Highlight({ children }: { children: React.ReactNode }) {
   )
 }
 
-export default function BlogPage({
-  searchParams,
-}: {
-  searchParams?: { category?: string }
-}) {
-  const activeCategory = searchParams?.category?.trim() || undefined
-
+export default function BlogPage() {
   return (
     <Container className="mt-16 sm:mt-24">
       <header className="max-w-2xl">
@@ -60,15 +52,8 @@ export default function BlogPage({
           <SocialLink href="/feed.xml" platform="rss" />
         </p>
       </header>
-
-      <div className="mt-10 sm:mt-16">
-        <Suspense fallback={null}>
-          <BlogCategoryTabs activeCategory={activeCategory} />
-        </Suspense>
-      </div>
-
-      <div className="mt-8 grid grid-cols-1 gap-6 sm:mt-10 lg:grid-cols-2 lg:gap-8">
-        <BlogPosts limit={20} category={activeCategory} />
+      <div className="mt-12 grid grid-cols-1 gap-6 sm:mt-20 lg:grid-cols-2 lg:gap-8">
+        <BlogPosts limit={20} />
       </div>
     </Container>
   )
