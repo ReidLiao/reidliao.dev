@@ -28,8 +28,6 @@ type DownloadFile = {
   platform?: string
   size?: string
   checksum?: string
-  releasedAt?: string
-  deprecated?: boolean
 }
 
 type DownloadValue = {
@@ -79,24 +77,17 @@ function detectClientPlatform(): keyof typeof platformLabel | null {
   return null
 }
 
-/** Prefer exact platform (non-deprecated) match, then「通用」, else first non-deprecated, else first. */
+/** Prefer exact platform match, then「通用」, else first item. */
 function pickInitialIndex(files: DownloadFile[]): number {
   if (files.length <= 1) return 0
   const platform = detectClientPlatform()
-  const exactFresh = platform
-    ? files.findIndex((f) => f.platform === platform && !f.deprecated)
-    : -1
-  if (exactFresh >= 0) return exactFresh
-  const exactAny = platform
-    ? files.findIndex((f) => f.platform === platform)
-    : -1
-  if (exactAny >= 0) return exactAny
-  const anyFresh = files.findIndex(
-    (f) => (!f.platform || f.platform === 'any') && !f.deprecated
+  if (!platform) return 0
+  const exact = files.findIndex((f) => f.platform === platform)
+  if (exact >= 0) return exact
+  const fallback = files.findIndex(
+    (f) => !f.platform || f.platform === 'any'
   )
-  if (anyFresh >= 0) return anyFresh
-  const firstFresh = files.findIndex((f) => !f.deprecated)
-  return firstFresh >= 0 ? firstFresh : 0
+  return fallback >= 0 ? fallback : 0
 }
 
 function formatVersion(version?: string) {
@@ -121,18 +112,13 @@ function fileLabel(file: DownloadFile, files: DownloadFile[], idx: number) {
     (f) => (f.platform || 'any') === platKey
   ).length
 
-  let base: string
   if (multiPlatform && plat) {
-    base = samePlatformCount > 1 && ver ? `${plat} ${ver}` : plat
-  } else if (ver) {
-    base = ver
-  } else if (plat) {
-    base = plat
-  } else {
-    base = `版本 ${idx + 1}`
+    if (samePlatformCount > 1 && ver) return `${plat} ${ver}`
+    return plat
   }
-
-  return file.deprecated ? `${base} · 旧版` : base
+  if (ver) return ver
+  if (plat) return plat
+  return `版本 ${idx + 1}`
 }
 
 function fileMeta(
@@ -165,37 +151,6 @@ function formatUpdatedAt(iso: string) {
   return `${m[1]}-${m[2]}-${m[3]}`
 }
 
-/** Short label used inside an <optgroup>; platform is implicit from the group heading. */
-function fileShortLabel(file: DownloadFile) {
-  const ver = formatVersion(file.version)
-  const base = ver ?? '下载'
-  return file.deprecated ? `${base} · 旧版` : base
-}
-
-type FileGroup = {
-  key: string
-  label: string
-  items: { idx: number; file: DownloadFile }[]
-}
-
-function groupFilesByPlatform(files: DownloadFile[]): FileGroup[] {
-  const order: string[] = []
-  const map = new Map<string, { idx: number; file: DownloadFile }[]>()
-  files.forEach((file, idx) => {
-    const key = file.platform || 'any'
-    if (!map.has(key)) {
-      map.set(key, [])
-      order.push(key)
-    }
-    map.get(key)!.push({ idx, file })
-  })
-  return order.map((key) => ({
-    key,
-    label: platformLabel[key] ?? key,
-    items: map.get(key)!,
-  }))
-}
-
 export function PortableTextDownload({
   value,
 }: PortableTextComponentProps<DownloadValue>) {
@@ -216,14 +171,10 @@ export function PortableTextDownload({
   const meta = active
     ? fileMeta(active, files, { hidePlatform: !multi })
     : []
-  const dateInfo: { label: string; prefix: string } | null = active?.releasedAt
-    ? { label: formatUpdatedAt(active.releasedAt), prefix: '发布' }
-    : value.updatedAt
-      ? { label: formatUpdatedAt(value.updatedAt), prefix: '更新' }
-      : null
+  const updatedLabel = value.updatedAt
+    ? formatUpdatedAt(value.updatedAt)
+    : null
   const singleBadge = active ? fileLabel(active, files, 0) : null
-  const groups = React.useMemo(() => groupFilesByPlatform(files), [files])
-  const useOptgroups = groups.length > 1
 
   const copyText = React.useCallback(async (text: string, key: string) => {
     try {
@@ -251,21 +202,14 @@ export function PortableTextDownload({
             <p className="font-mono text-[10px] font-medium tracking-[0.18em] text-zinc-400 dark:text-zinc-500">
               DOWNLOAD
             </p>
-            <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-1">
-              <h4 className="text-base font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-lg">
-                {value.title}
-              </h4>
-              {active.deprecated ? (
-                <span className="inline-flex items-center rounded-full bg-amber-500/10 px-1.5 py-0.5 font-mono text-[10px] font-medium uppercase tracking-wider text-amber-700 ring-1 ring-amber-500/20 dark:bg-amber-400/10 dark:text-amber-300 dark:ring-amber-400/20">
-                  旧版
-                </span>
-              ) : null}
-            </div>
-            {meta.length > 0 || dateInfo ? (
+            <h4 className="mt-0.5 text-base font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-lg">
+              {value.title}
+            </h4>
+            {meta.length > 0 || updatedLabel ? (
               <p className="mt-1 font-mono text-[11px] tabular-nums text-zinc-500 dark:text-zinc-400">
                 {[
                   ...meta,
-                  dateInfo ? `${dateInfo.prefix} ${dateInfo.label}` : null,
+                  updatedLabel ? `更新 ${updatedLabel}` : null,
                 ]
                   .filter(Boolean)
                   .join(' · ')}
@@ -354,27 +298,11 @@ export function PortableTextDownload({
                 onChange={(e) => setSelected(Number(e.target.value))}
                 className="h-10 w-full min-w-0 cursor-pointer appearance-none rounded-full border-0 bg-zinc-100/90 py-0 pl-3.5 pr-8 text-xs font-medium text-zinc-800 outline-none ring-1 ring-zinc-900/5 transition focus:ring-2 focus:ring-lime-500/25 dark:bg-zinc-950/70 dark:text-zinc-100 dark:ring-white/10 dark:focus:ring-lime-400/20 sm:min-w-[7.5rem]"
               >
-                {useOptgroups
-                  ? groups.map((group) => (
-                      <optgroup key={group.key} label={group.label}>
-                        {group.items.map(({ idx, file }) => (
-                          <option
-                            key={file._key || `${file.url}-${idx}`}
-                            value={idx}
-                          >
-                            {fileShortLabel(file)}
-                          </option>
-                        ))}
-                      </optgroup>
-                    ))
-                  : files.map((file, idx) => (
-                      <option
-                        key={file._key || `${file.url}-${idx}`}
-                        value={idx}
-                      >
-                        {fileLabel(file, files, idx)}
-                      </option>
-                    ))}
+                {files.map((file, idx) => (
+                  <option key={file._key || `${file.url}-${idx}`} value={idx}>
+                    {fileLabel(file, files, idx)}
+                  </option>
+                ))}
               </select>
               <span
                 aria-hidden
