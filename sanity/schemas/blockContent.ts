@@ -50,6 +50,20 @@ export const downloadItem = defineType({
       title: '校验和',
       description: '可选',
     }),
+    defineField({
+      name: 'releasedAt',
+      type: 'date',
+      title: '发布日期',
+      description: '本版本的发布日期（可选，前台优先于块共用的更新日期显示）',
+      options: { dateFormat: 'YYYY-MM-DD' },
+    }),
+    defineField({
+      name: 'deprecated',
+      type: 'boolean',
+      title: '标记为旧版',
+      description: '开启后在前台标签与主区显示「旧版」提示',
+      initialValue: false,
+    }),
     // 旧字段：曾与标题重复，已废弃
     defineField({
       name: 'label',
@@ -63,16 +77,23 @@ export const downloadItem = defineType({
       version: 'version',
       platform: 'platform',
       url: 'url',
+      deprecated: 'deprecated',
+      releasedAt: 'releasedAt',
     },
-    prepare({ version, platform, url }) {
+    prepare({ version, platform, url, deprecated, releasedAt }) {
       const plat =
         platform && platform !== 'any'
           ? platformList.find((p) => p.value === platform)?.title || platform
           : null
       const ver = version ? `v${String(version).replace(/^v/i, '')}` : null
+      const base = [plat, ver].filter(Boolean).join(' · ') || '下载项'
+      const subtitleParts = [
+        releasedAt ? `发布 ${releasedAt}` : null,
+        url,
+      ].filter(Boolean) as string[]
       return {
-        title: [plat, ver].filter(Boolean).join(' · ') || '下载项',
-        subtitle: url,
+        title: deprecated ? `${base} · 旧版` : base,
+        subtitle: subtitleParts.join(' — ') || undefined,
       }
     },
   },
