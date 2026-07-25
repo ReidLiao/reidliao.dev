@@ -16,7 +16,12 @@ export async function warmCriticalImages() {
     const urls = new Set<string>()
 
     for (const photo of settings?.heroPhotos ?? []) {
-      const src = cdnImageSrc(photo, { width: 720, quality: 75, absolute: true })
+      if (!photo?.url) continue
+      const src = cdnImageSrc(photo.url, {
+        width: 720,
+        quality: 75,
+        absolute: true,
+      })
       if (src) urls.add(src)
     }
 

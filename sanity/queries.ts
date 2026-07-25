@@ -61,7 +61,7 @@ export const getLatestBlogPosts = (options: GetBlogPostsOptions) =>
   client.fetch<Post[] | null>(
     getLatestBlogPostsQuery(options),
     options.category ? { category: options.category } : {},
-    { next: { tags: ['posts'], revalidate: 60 } }
+    { next: { tags: ['posts'], revalidate: 600 } }
   )
 
 export const getBlogPostsCountQuery = ({ category }: { category?: string } = {}) => {
@@ -138,7 +138,7 @@ export const getBlogPost = (slug: string) =>
   client.fetch<PostDetail | undefined, { slug: string }>(
     getBlogPostQuery,
     { slug },
-    { next: { tags: [`post:${slug}`, 'posts'], revalidate: 60 } }
+    { next: { tags: [`post:${slug}`, 'posts'], revalidate: 600 } }
   )
 
 export const getSettingsQuery = () =>
@@ -151,7 +151,10 @@ export const getSettingsQuery = () =>
       description,
       icon
     },
-    "heroPhotos": heroPhotos[].asset->url,
+    "heroPhotos": heroPhotos[]{
+      "url": asset->url,
+      "lqip": asset->metadata.lqip
+    },
     "resume": resume[]{
       company,
       title,
@@ -160,11 +163,17 @@ export const getSettingsQuery = () =>
       "logo": logo.asset->url
     }
 }`
+
+export type HeroPhoto = {
+  url: string
+  lqip?: string
+}
+
 export const getSettings = () =>
   client.fetch<
     {
       projects: Project[] | null
-      heroPhotos?: string[] | null
+      heroPhotos?: HeroPhoto[] | null
       resume?:
         | {
             company: string
@@ -176,4 +185,4 @@ export const getSettings = () =>
         | null
     },
     Record<string, never>
-  >(getSettingsQuery(), {}, { next: { tags: ['settings'], revalidate: 60 } })
+  >(getSettingsQuery(), {}, { next: { tags: ['settings'], revalidate: 300 } })

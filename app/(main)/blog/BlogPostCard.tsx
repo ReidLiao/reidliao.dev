@@ -40,7 +40,6 @@ export function BlogPostCard({ post, views }: { post: Post; views: number }) {
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px"
           loading="lazy"
-          unoptimized
         />
         <PostAuthorBadge size="md" />
       </div>

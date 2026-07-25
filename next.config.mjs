@@ -13,17 +13,10 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    // Docker 自建环境下 /_next/image 常因 remotePatterns/出网失败返回 403，
-    // 与文章页一致：Sanity CDN 直链，避免优化代理。
-    unoptimized: true,
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'cdn.sanity.io',
-        port: '',
-        pathname: '/images/**',
-      },
-    ],
+    // Docker 自建：走自定义 loader，把请求转到同源 /api/img 磁盘缓存，
+    // 让 Sanity 图片按 srcSet 尺寸取，移动端不再拉桌面尺寸。
+    loader: 'custom',
+    loaderFile: './lib/image-loader.ts',
   },
 
   experimental: {

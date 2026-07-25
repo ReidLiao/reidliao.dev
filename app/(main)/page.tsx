@@ -14,7 +14,7 @@ export default async function BlogHomePage() {
   const settings = await getSettings()
   const firstHero = settings?.heroPhotos?.[0]
   const preloadHref = firstHero
-    ? cdnImageSrc(firstHero, { width: 720, quality: 75 })
+    ? cdnImageSrc(firstHero.url, { width: 720, quality: 75 })
     : null
 
   return (
@@ -48,4 +48,4 @@ export default async function BlogHomePage() {
   )
 }
 
-export const revalidate = 60
+export const revalidate = 600

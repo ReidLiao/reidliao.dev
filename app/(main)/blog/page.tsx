@@ -59,4 +59,5 @@ export default function BlogPage() {
   )
 }
 
-export const revalidate = 60
+// 静态缓存 10 分钟；发布/更新走 Sanity Webhook → /api/revalidate 即时刷新。
+export const revalidate = 600

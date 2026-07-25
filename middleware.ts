@@ -11,6 +11,7 @@ export const config = {
 }
 
 const GEO_CACHE_TTL_SECONDS = 60 * 60 * 24
+const IP_LOOKUP_TIMEOUT_MS = 2500
 
 function getClientIP(req: NextRequest): string {
   let ip =
@@ -29,75 +30,85 @@ function getClientIP(req: NextRequest): string {
   return ip
 }
 
-async function beforeAuthMiddleware(req: NextRequest) {
-  const { nextUrl } = req
-  const isApi = nextUrl.pathname.startsWith('/api/')
+/**
+ * Analytics + geo lookup. Never awaited on the request path so the response
+ * ships immediately; failures are swallowed on purpose.
+ */
+async function collectVisitor(req: NextRequest) {
+  try {
+    await redis.incr(kvKeys.totalPageViews)
+  } catch {
+    // ignore counter failures
+  }
 
-  if (isProduction && !isApi) {
-    try {
-      await redis.incr(kvKeys.totalPageViews)
-    } catch {
-      // ignore view counter failures
+  const ip = getClientIP(req)
+  if (ip === '127.0.0.1') return
+
+  const cacheKey = `geo:${ip}`
+  let country: string | undefined
+  let city: string | undefined
+
+  try {
+    const cached = await redis.get<{ country: string; city: string }>(cacheKey)
+    if (cached?.country) {
+      country = cached.country
+      city = cached.city ?? 'Unknown'
     }
+  } catch {
+    // ignore
+  }
 
-    const ip = getClientIP(req)
-    let country = 'US'
-    let city = 'Unknown'
-    let geoResolved = false
-
-    if (ip !== '127.0.0.1') {
-      const cacheKey = `geo:${ip}`
-      try {
-        const cached = await redis.get<{ country: string; city: string }>(
-          cacheKey
-        )
-
-        if (cached?.country) {
-          country = cached.country
-          city = cached.city ?? 'Unknown'
-          geoResolved = true
-        } else {
+  if (!country) {
+    try {
+      const res = await fetch(`http://ip-api.com/json/${ip}`, {
+        cache: 'no-store',
+        signal: AbortSignal.timeout(IP_LOOKUP_TIMEOUT_MS),
+      })
+      if (res.ok) {
+        const data = (await res.json()) as {
+          countryCode?: string
+          city?: string
+        }
+        if (data.countryCode) {
+          country = data.countryCode
+          city = data.city ?? 'Unknown'
           try {
-            const res = await fetch(`http://ip-api.com/json/${ip}`, {
-              cache: 'no-store',
-            })
-            if (res.ok) {
-              const data = await res.json()
-              if (data.countryCode) {
-                country = data.countryCode
-                geoResolved = true
-              }
-              if (data.city) city = data.city
-            }
-          } catch {
-            // keep defaults; do not cache failed lookups
-          }
-
-          if (geoResolved) {
             await redis.set(
               cacheKey,
               { country, city },
               { ex: GEO_CACHE_TTL_SECONDS }
             )
+          } catch {
+            // ignore cache write failure
           }
         }
-      } catch {
-        // geo lookup optional
       }
+    } catch {
+      // network / timeout — leave country undefined
     }
+  }
 
-    const countryInfo = countries.find((x) => x.cca2 === country)
-    if (countryInfo && geoResolved) {
-      try {
-        await redis.set(kvKeys.currentVisitor, {
-          country,
-          city,
-          flag: countryInfo.flag,
-        })
-      } catch {
-        // ignore
-      }
-    }
+  if (!country) return
+  const info = countries.find((x) => x.cca2 === country)
+  if (!info) return
+
+  try {
+    await redis.set(kvKeys.currentVisitor, {
+      country,
+      city: city ?? 'Unknown',
+      flag: info.flag,
+    })
+  } catch {
+    // ignore
+  }
+}
+
+function beforeAuthMiddleware(req: NextRequest) {
+  const isApi = req.nextUrl.pathname.startsWith('/api/')
+
+  if (isProduction && !isApi) {
+    // Fire-and-forget: keeps middleware off the critical path.
+    void collectVisitor(req)
   }
 
   return NextResponse.next()

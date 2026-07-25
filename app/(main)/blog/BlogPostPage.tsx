@@ -6,6 +6,7 @@ import Image from 'next/image'
 import React from 'react'
 import Balancer from 'react-wrap-balancer'
 
+import { BlogPostMobileTOC } from '~/app/(main)/blog/BlogPostMobileTOC'
 import { BlogPostStateLoader } from '~/app/(main)/blog/BlogPostStateLoader'
 import { BlogReadingProgress } from '~/app/(main)/blog/BlogReadingProgress'
 import { BlogReactions } from '~/app/(main)/blog/BlogReactions'
@@ -85,7 +86,6 @@ export function BlogPostPage({
                     src={coverSrc}
                     alt=""
                     className="select-none"
-                    unoptimized
                     fill
                     sizes="(max-width: 768px) 100vw, 800px"
                     loading="lazy"
@@ -98,7 +98,6 @@ export function BlogPostPage({
                   className="select-none rounded-2xl object-cover ring-1 ring-zinc-900/5 transition dark:ring-0 dark:ring-white/10 dark:hover:ring-white/20 md:rounded-3xl"
                   placeholder="blur"
                   blurDataURL={post.mainImage.asset.lqip}
-                  unoptimized
                   fill
                   sizes="(max-width: 768px) 100vw, 800px"
                   priority
@@ -197,6 +196,7 @@ export function BlogPostPage({
                 </span>
               </p>
             </header>
+            <BlogPostMobileTOC headings={post.headings} />
             <Prose className="mt-8">
               <PostPortableText value={post.body} />
             </Prose>

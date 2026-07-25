@@ -85,7 +85,6 @@ export function PortableTextImage({
                     alt={value.alt || ''}
                     sizes="(min-width: 768px) 42rem, 100vw"
                     loading="lazy"
-                    unoptimized
                   />
                 </Dialog.Trigger>
               </motion.div>
@@ -133,7 +132,7 @@ export function PortableTextImage({
                           blurDataURL={value.lqip}
                           className="mx-auto h-full overflow-hidden object-contain"
                           alt={value.alt || ''}
-                          unoptimized
+                          sizes="100vw"
                         />
                       </motion.div>
                     </div>

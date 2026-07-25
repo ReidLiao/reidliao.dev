@@ -104,4 +104,5 @@ export default async function BlogPage({
   )
 }
 
-export const revalidate = 60
+// 内容缓存靠 Sanity Webhook 即时刷新；此处仅作兜底。
+export const revalidate = 600
