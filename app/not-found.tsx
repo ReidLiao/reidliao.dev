@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import { HomeIcon, ScriptIcon, UsersIcon } from '~/assets'
+import { CloudIcon, HomeIcon, ScriptIcon, UsersIcon } from '~/assets'
 import { Container } from '~/components/ui/Container'
 
 export default function NotFoundPage() {
@@ -24,8 +24,9 @@ export default function NotFoundPage() {
             这个页面走丢了
           </p>
           <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-            路径不存在，可能已被移除、更名，或地址输入有误。先回首页，或去博客 /
-            留言墙看看。
+            路径不存在，可能已被移除或地址输入有误。
+            <br className="hidden sm:inline" />
+            从下方入口继续逛逛：
           </p>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
@@ -42,6 +43,13 @@ export default function NotFoundPage() {
             >
               <ScriptIcon className="h-4 w-4" />
               博客
+            </Link>
+            <Link
+              href="/vps"
+              className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-transparent px-5 py-2.5 text-sm font-medium text-zinc-700 transition hover:border-lime-500/40 hover:text-lime-600 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-lime-400/40 dark:hover:text-lime-400"
+            >
+              <CloudIcon className="h-4 w-4" />
+              机房
             </Link>
             <Link
               href="/guestbook"

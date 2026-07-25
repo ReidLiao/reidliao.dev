@@ -13,6 +13,7 @@ import {
   CalendarIcon,
   CursorClickIcon,
   HourglassIcon,
+  NewCommentIcon,
   PencilSwooshIcon,
   ScriptIcon,
   UTurnLeftIcon,
@@ -186,7 +187,14 @@ export function BlogPostPage({
                 </span>
               </motion.div>
               <p className="mt-4 w-full text-xs text-zinc-400 dark:text-zinc-500">
-                提示：将鼠标移到段落旁，可针对该段留言讨论。
+                <span className="hidden md:inline">
+                  提示：将鼠标移到段落旁，可针对该段留言讨论。
+                </span>
+                <span className="md:hidden">
+                  提示：点击段落旁的{' '}
+                  <NewCommentIcon className="inline h-3.5 w-3.5 -translate-y-px align-middle" />{' '}
+                  图标，可针对该段留言讨论。
+                </span>
               </p>
             </header>
             <Prose className="mt-8">
