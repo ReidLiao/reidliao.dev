@@ -6,6 +6,7 @@ import Balancer from 'react-wrap-balancer'
 import { GitHubIcon } from '~/assets'
 import { PeekabooLink } from '~/components/links/PeekabooLink'
 import { Container } from '~/components/ui/Container'
+import { WechatSubscribe } from '~/components/WechatSubscribe'
 
 const title = '关于 reidliao.dev'
 const description =
@@ -304,6 +305,12 @@ export default function AboutPage() {
               </p>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="mt-14 border-t border-zinc-100 pt-10 dark:border-zinc-700/40">
+        <div className="max-w-xl">
+          <WechatSubscribe />
         </div>
       </section>
 

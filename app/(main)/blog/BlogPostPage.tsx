@@ -23,6 +23,7 @@ import { PostPortableText } from '~/components/PostPortableText'
 import { Prose } from '~/components/Prose'
 import { Button } from '~/components/ui/Button'
 import { Container } from '~/components/ui/Container'
+import { WechatSubscribe } from '~/components/WechatSubscribe'
 import { cdnImageSrc } from '~/lib/cdn-image'
 import { prettifyNumber } from '~/lib/math'
 import { type PostDetail } from '~/sanity/schemas/post'
@@ -191,6 +192,8 @@ export function BlogPostPage({
             <Prose className="mt-8">
               <PostPortableText value={post.body} />
             </Prose>
+
+            <WechatSubscribe variant="compact" className="mt-12 max-w-xl" />
           </article>
         </div>
         <aside className="hidden w-[90px] shrink-0 lg:block">
