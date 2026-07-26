@@ -1,11 +1,11 @@
 # reidliao.dev
 
 [reidliao.dev](https://reidliao.dev) 个人技术博客源码仓库。  
-记录全栈建站、Docker 自建与系统运维的真实折腾；站点跑在自有 VPS 上，由本仓库独立维护与持续更新。
+基于开源博客方案深度定制，记录全栈建站、Docker 自建与系统运维的真实折腾；站点跑在自有 VPS 上，按自建场景持续维护与更新。
 
 ## 站点定位
 
-- 独立自建：镜像、反代、环境变量与日志策略自行掌控
+- 自建部署：镜像、反代、环境变量与日志策略自行掌控
 - 内容方向：全栈架构、容器化部署、运维实战、软件下载与自用机房推荐
 - 在线地址：[https://reidliao.dev](https://reidliao.dev)
 - 仓库地址：[https://github.com/ReidLiao/reidliao.dev](https://github.com/ReidLiao/reidliao.dev)
@@ -52,5 +52,5 @@ pnpm dev
 
 ## 许可与维护
 
-本仓库为 reidliao.dev 独立项目，源码公开，供学习与参考。  
-后续功能与体验改进将在此仓库持续更新。
+本仓库源码公开，供学习与参考。  
+在开源博客方案基础上持续定制，后续功能与体验改进将继续在此更新。

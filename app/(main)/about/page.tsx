@@ -94,7 +94,8 @@ const changelog = [
   {
     date: '2026-04',
     title: '项目起步',
-    detail: 'reidliao.dev 立项：替换域名与品牌，按自建场景裁剪功能，开始独立演进。',
+    detail:
+      '基于开源博客方案起步：替换域名与品牌，按自建场景裁剪功能，开始定制演进。',
   },
 ]
 
@@ -233,13 +234,13 @@ export default function AboutPage() {
             部署理念
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-            reidliao.dev 是我独立维护的个人技术博客，面向自有 VPS
+            reidliao.dev 基于开源博客方案深度定制，面向自有 VPS
             长期运行，而不是 Serverless 平台一键托管。部署方式选择{' '}
             <strong className="text-zinc-800 dark:text-zinc-200">
               纯 Docker 容器化自建
             </strong>
             ：本地交叉编译镜像 → 推送 VPS → Nginx Proxy Manager 反代对外。源码在
-            GitHub 公开，后续将持续按自建场景迭代。
+            GitHub 公开，我会按自建场景持续迭代。
           </p>
           <div className="mt-5 space-y-4">
             {deployReasons.map((item) => (
