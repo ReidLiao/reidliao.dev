@@ -1,31 +1,56 @@
-# Reid Liao's Personal Blog (reidliao.dev)
+# reidliao.dev
 
-Welcome to the source code repository for my personal blog, running live at [reidliao.dev](https://reidliao.dev).
+[reidliao.dev](https://reidliao.dev) 个人技术博客源码仓库。  
+记录全栈建站、Docker 自建与系统运维的真实折腾；站点跑在自有 VPS 上，由本仓库独立维护与持续更新。
 
-## 💡 Acknowledgements
+## 站点定位
 
-This project is a customized fork of the excellent open-source blog project **[cali.so](https://github.com/CaliCastle/cali.so)**. A huge thanks to the original author for providing such an amazing foundation, modern design, and robust Next.js architecture.
+- 独立自建：镜像、反代、环境变量与日志策略自行掌控
+- 内容方向：全栈架构、容器化部署、运维实战、软件下载与自用机房推荐
+- 在线地址：[https://reidliao.dev](https://reidliao.dev)
+- 仓库地址：[https://github.com/ReidLiao/reidliao.dev](https://github.com/ReidLiao/reidliao.dev)
 
-## 🛠️ Deployment Adjustments
+## 技术栈
 
-While the original `cali.so` repository is highly optimized for PaaS platforms like Vercel, this fork has been specifically adapted and refactored for **Self-hosted VPS environments** (specifically low-RAM instances like a 2GB DMIT server). 
+| 类别 | 选用 |
+|------|------|
+| 框架 | Next.js 14（App Router）+ Tailwind CSS |
+| CMS | Sanity |
+| 数据库 | Drizzle ORM + Neon PostgreSQL |
+| 缓存 | Upstash Redis |
+| 认证 | Clerk |
+| 邮件 | Resend |
+| 基础设施 | Docker、Dockge、Nginx Proxy Manager |
 
-To completely resolve Out-Of-Memory (OOM) crashes during server-side building and to bypass `pnpm v9` strict lifecycle script restrictions, the deployment workflow has been shifted to a **Build-Run Separation (构建与运行隔离)** model:
+## 部署方式
 
-*   **Local High-Performance Build:** Compiling the Next.js application is executed locally on a Mac using Docker Buildx (`linux/amd64` cross-compilation).
-*   **Offline Image Transfer:** The built image is exported as a `.tar` package and transferred to the VPS via SFTP.
-*   **Zero-Overhead Run:** The server solely focuses on running the pre-built image managed by **Dockge** and reverse-proxied by **Nginx Proxy Manager**, reducing server CPU/RAM build overhead to 0.
-*   **Image cache volume:** Mount `reidliao-img-cache:/data/img-cache` (see `docker-compose.yml`) so Sanity image proxy cache survives container recreates.
-*   **Cleaned Dependencies:** Removed all Vercel and GitHub Actions-specific configurations (`vercel.json`, `.github/workflows`) for a 100% pure self-hosted environment.
+面向小内存 VPS（如 2GB 档 DMIT）采用 **构建与运行分离**：
 
-## 💻 Tech Stack
+1. **本地构建**：在开发机用 Docker Buildx 交叉编译 `linux/amd64` 镜像，避免 VPS 上 `next build` 触发 OOM
+2. **离线传输**：镜像导出为 `.tar`，经 SFTP 推到服务器
+3. **轻量运行**：Dockge / Compose 只负责跑预构建镜像；Nginx Proxy Manager 反代对外
+4. **图片缓存卷**：挂载 `reidliao-img-cache:/data/img-cache`（见 `docker-compose.yml`），重建容器不丢 Sanity 图片代理缓存
 
-*   **Framework:** Next.js (App Router) + Tailwind CSS
-*   **Database:** Drizzle ORM + Neon (Serverless PostgreSQL)
-*   **CMS:** Sanity
-*   **Services:** Clerk (Auth), Resend (Email), Upstash (Redis)
-*   **Infrastructure:** Docker, Dockge, Nginx Proxy Manager
+快速启动示例：
 
-## 📄 License
+```bash
+cp .env.example .env   # 按说明填入密钥
+docker build -t reidliao-dev:latest .
+docker compose up -d
+```
 
-This project follows the original license of the upstream `cali.so` repository.
+环境变量说明见 [`.env.example`](./.env.example)。发布内容后可通过 Sanity Webhook 调用 `/api/revalidate` 即时刷新缓存。
+
+## 本地开发
+
+```bash
+pnpm install
+pnpm dev
+```
+
+需要数据库、Sanity、Clerk、Upstash、Resend 等相关环境变量时，同样参考 `.env.example`。
+
+## 许可与维护
+
+本仓库为 reidliao.dev 独立项目，源码公开，供学习与参考。  
+后续功能与体验改进将在此仓库持续更新。
