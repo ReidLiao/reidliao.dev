@@ -6,7 +6,7 @@ import { WeChatIcon } from '~/assets'
 
 const ACCOUNT_NAME = 'Reidliao.dev'
 const ACCOUNT_BIO =
-  '<开发者/>、架构师、软件迷。专注全栈开发、云端架构与系统运维。'
+  '<开发者/>、架构师、软件迷、自建者。专注全栈开发、云端架构与系统运维。'
 
 export function WechatSubscribe({
   variant = 'default',
