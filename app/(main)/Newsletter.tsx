@@ -32,7 +32,7 @@ export function Newsletter({ subCount }: { subCount?: string }) {
   const [isSubscribed, setIsSubscribed] = React.useState(false)
   const { reward } = useReward('newsletter-rewards', 'emoji', {
     position: 'absolute',
-    emoji: ['🤓', '😊', '🥳', '🤩', '🤪', '🤯', '🥰', '😎', '🤑', '🤗', '😇'],
+    emoji: ['📬', '✉️', '🎉', '🥳', '😊', '🤓'],
     elementCount: 32,
   })
   const onSubmit = React.useCallback(
