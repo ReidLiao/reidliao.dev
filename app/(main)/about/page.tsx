@@ -47,12 +47,12 @@ const contentTopics = [
 
 const deployReasons = [
   {
-    title: '极致控制权',
-    detail: '镜像、反代、环境变量、日志策略——全部由自己掌控，不依赖平台黑盒。',
+    title: '全程可控',
+    detail: '镜像、反代、环境变量、日志策略——按自己的节奏配置与排查。',
   },
   {
-    title: '摆脱平台绑定',
-    detail: '随时迁移 VPS、换机房，数据与进程始终在自己手里。',
+    title: '便于迁移',
+    detail: '换 VPS、换机房时带走配置与进程即可，链路清晰可复现。',
   },
   {
     title: '运维即乐趣',
@@ -83,13 +83,13 @@ const changelog = [
     date: '2026-06',
     title: 'Docker 自建落地',
     detail:
-      '脱离 Vercel 路径：Buildx 交叉编译 → 镜像推送 VPS → Dockge + NPM 反代。',
+      'Buildx 交叉编译 → 镜像推送 VPS → Dockge 运行 → NPM 反代对外。',
   },
   {
     date: '2026-05',
     title: '运行时收敛',
     detail:
-      'Edge API 改回 Node、Geo 查询加 Redis 缓存，Footer 浏览量短缓存减负。',
+      'API 跑在 Node；Geo 查询加 Redis 缓存，Footer 浏览量短缓存减负。',
   },
   {
     date: '2026-04',
@@ -234,13 +234,12 @@ export default function AboutPage() {
             部署理念
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-            reidliao.dev 基于开源博客方案深度定制，面向自有 VPS
-            长期运行，而不是 Serverless 平台一键托管。部署方式选择{' '}
+            reidliao.dev 基于开源博客方案深度定制，跑在自有 VPS 上。部署采用{' '}
             <strong className="text-zinc-800 dark:text-zinc-200">
-              纯 Docker 容器化自建
+              Docker 容器化自建
             </strong>
-            ：本地交叉编译镜像 → 推送 VPS → Nginx Proxy Manager 反代对外。源码在
-            GitHub 公开，我会按自建场景持续迭代。
+            ：本地交叉编译镜像 → 推送 VPS → Dockge 运行容器 → Nginx Proxy
+            Manager 反代对外。源码在 GitHub 公开，我会按自建场景持续迭代。
           </p>
           <div className="mt-5 space-y-4">
             {deployReasons.map((item) => (
