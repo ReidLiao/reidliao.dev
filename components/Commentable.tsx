@@ -235,7 +235,7 @@ function Root({ className, blockId }: CommentableProps) {
           )}
           onClick={handleToggleCommenting}
         >
-          <NewCommentIcon className="pointer-events-none h-4 w-4 select-none rounded-xl bg-zinc-100/80 text-zinc-500 opacity-70 dark:bg-zinc-900/80 dark:text-zinc-400 md:rounded-none md:bg-transparent md:opacity-50 md:group-hover:opacity-80" />
+          <NewCommentIcon className="pointer-events-none h-4 w-4 select-none rounded-xl bg-zinc-100/80 text-zinc-500 opacity-40 transition-opacity active:opacity-90 dark:bg-zinc-900/80 dark:text-zinc-400 md:rounded-none md:bg-transparent md:opacity-40 md:group-hover:opacity-90" />
         </button>
       </HoverCard.Trigger>
       <AnimatePresence>
