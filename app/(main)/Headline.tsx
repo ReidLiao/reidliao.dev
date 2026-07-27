@@ -44,7 +44,7 @@ function Founder() {
   return (
     <span className="group inline-flex items-center">
       <UserSecurityIcon className="mr-1 inline-flex group-hover:fill-zinc-600/20 dark:group-hover:fill-zinc-200/20" />
-      <span>分享者</span>
+      <span>自建者</span>
     </span>
   )
 }
@@ -88,18 +88,19 @@ export function Headline() {
         }}
       >
         <Balancer>
+          我是{' '}
           <PeekabooLink
             href="https://github.com/ReidLiao/reidliao.dev"
             faviconUrl="/favicons/github.png"
           >
             reidliao.dev
           </PeekabooLink>{' '}
-          自建者。热衷于
+          的搭建与维护者。热衷于
           <Highlight>全栈开发</Highlight>、
           <Highlight>云端架构</Highlight>
           与
           <Highlight>系统运维</Highlight>
-          。建立本站是为了记录技术
+          。建站是为了记录技术
           <Highlight>折腾</Highlight>
           ，并和你一起创造、
           <Highlight>掌控</Highlight>

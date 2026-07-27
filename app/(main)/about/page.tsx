@@ -10,7 +10,7 @@ import { WechatSubscribe } from '~/components/WechatSubscribe'
 
 const title = '关于 reidliao.dev'
 const description =
-  'reidliao.dev：DMIT VPS 上 Docker 自建的技术博客——全栈建站、运维实战、软件下载与长期自用机房推荐。'
+  'reidliao.dev：DMIT VPS 上 Docker 自建的技术博客——全栈建站、运维实战、软件下载与自用机房线路。'
 
 const rolePills = ['Self-hosted', 'Docker', 'Ops'] as const
 
@@ -41,7 +41,7 @@ const contentTopics = [
   {
     title: '软件 & 机房',
     detail:
-      '文章内多平台下载块分享工具；机房页收录长期自用的 VPS 与线路推荐。',
+      '文章内多平台下载块分享工具；机房页收录长期自用的 VPS 与线路。',
   },
 ]
 

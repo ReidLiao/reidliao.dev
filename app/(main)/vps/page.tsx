@@ -6,7 +6,7 @@ import { Container } from '~/components/ui/Container'
 
 const title = '机房'
 const description =
-  '精选自用过的 VPS 与机房线路。这里只放我真正上手部署、长期跑站的服务商，附上优惠链接——帮你少踩坑，也给我一点续杯咖啡的动力。'
+  '这里只收录我真正上手部署、长期跑站的 VPS 与线路。不谈纸面参数，只看实际表现。附上优惠链接——帮你少踩坑，也给我一点续杯咖啡的动力。'
 export const metadata = {
   title,
   description,
@@ -38,11 +38,11 @@ export default function ProjectsPage() {
         </h1>
         <p className="mt-6 text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
           <Balancer>
-            精选
-            <Highlight>自用过的 VPS</Highlight>
-            与
-            <Highlight>机房线路</Highlight>
-            。这里只放我真正上手部署、长期跑站的服务商，附上
+            这里只收录我真正上手部署、
+            <Highlight>长期跑站</Highlight>
+            的 VPS 与线路。不谈纸面参数，只看
+            <Highlight>实际表现</Highlight>
+            。附上
             <Highlight>优惠链接</Highlight>
             ——帮你少踩坑，也给我一点续杯咖啡的动力。
           </Balancer>

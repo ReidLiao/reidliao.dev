@@ -6,17 +6,17 @@ import { Container } from '~/components/ui/Container'
 import { BlogPosts } from './BlogPosts'
 
 const description =
-  '记录折腾日常，传递技术干货。这里聚焦现代全栈架构与系统运维实战，同时收录高效的软件工具推荐、优质云服务评测，以及那些填坑与创造路上的真实心得。'
+  '记录折腾日常：全栈架构、系统运维、软件工具与自用云服务——只写踩过坑、验证过的内容。'
 
 export const metadata = {
-  title: '我的博客',
+  title: '近期写作',
   description,
   openGraph: {
-    title: '我的博客',
+    title: '近期写作',
     description,
   },
   twitter: {
-    title: '我的博客',
+    title: '近期写作',
     description,
     card: 'summary_large_image',
   },
@@ -35,17 +35,16 @@ export default function BlogPage() {
     <Container className="mt-16 sm:mt-24">
       <header className="max-w-2xl">
         <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-          欢迎光临我的博客
+          近期写作
         </h1>
         <p className="my-6 text-base text-zinc-600 dark:text-zinc-400">
           <Balancer>
-            记录折腾日常，传递
-            <Highlight>技术干货</Highlight>
-            。这里聚焦
-            <Highlight>现代全栈架构</Highlight>
-            与
-            <Highlight>系统运维实战</Highlight>
-            ，同时收录高效的软件工具推荐、优质云服务评测，以及那些填坑与创造路上的真实心得。
+            记录
+            <Highlight>折腾日常</Highlight>
+            ：
+            <Highlight>全栈架构</Highlight>、
+            <Highlight>系统运维</Highlight>
+            、软件工具与自用云服务——只写踩过坑、验证过的内容。
           </Balancer>
         </p>
         <p className="flex items-center">

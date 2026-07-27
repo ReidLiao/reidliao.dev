@@ -58,7 +58,7 @@ export default function Layout({
                   <strong>Reidliao.dev</strong>
                 </Link>
                 <br />
-                开发者、运维工程师、内容创作者
+                开发者、架构师、软件迷、自建者
               </Text>
               <Text className="text-center">
                 <Link
