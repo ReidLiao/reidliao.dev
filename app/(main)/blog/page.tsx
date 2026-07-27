@@ -6,7 +6,7 @@ import { Container } from '~/components/ui/Container'
 import { BlogPosts } from './BlogPosts'
 
 const description =
-  '记录折腾日常：全栈架构、系统运维、软件工具与自用云服务——只写踩过坑、验证过的内容。'
+  '记录折腾日常：全栈架构、系统运维、软件工具与自用云服务。只写踩过坑、验证过的内容，不追流量密码。'
 
 export const metadata = {
   title: '近期写作',
@@ -37,14 +37,16 @@ export default function BlogPage() {
         <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
           近期写作
         </h1>
-        <p className="my-6 text-base text-zinc-600 dark:text-zinc-400">
+        <p className="my-6 text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
           <Balancer>
             记录
             <Highlight>折腾日常</Highlight>
             ：
             <Highlight>全栈架构</Highlight>、
             <Highlight>系统运维</Highlight>
-            、软件工具与自用云服务——只写踩过坑、验证过的内容。
+            、软件工具与自用云服务。只写踩过坑、
+            <Highlight>验证过</Highlight>
+            的内容，不追流量密码。
           </Balancer>
         </p>
         <p className="flex items-center">

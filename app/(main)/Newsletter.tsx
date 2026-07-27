@@ -78,16 +78,17 @@ export function Newsletter({ subCount }: { subCount?: string }) {
         <TiltedSendIcon className="h-5 w-5 flex-none" />
         <span className="ml-2">邮件订阅</span>
       </h2>
-      <p className="mt-2 text-xs text-zinc-600 dark:text-zinc-400 md:text-sm">
-        <span>有新文章或运维笔记时发一封 📬 每月至多一封，随时可取消。</span>
-        {subCount ? (
-          <>
-            <br />
-            <span>
+      <p className="mt-2 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400 md:text-sm">
+        <span className="block">有新文章或运维笔记时发一封 📬</span>
+        <span className="block">
+          每月至多一封，随时可取消。
+          {subCount ? (
+            <>
+              {' '}
               已有 <span className="font-medium">{subCount}</span> 位订阅者。
-            </span>
-          </>
-        ) : null}
+            </>
+          ) : null}
+        </span>
       </p>
       <AnimatePresence mode="wait">
         {!isSubscribed ? (
