@@ -37,7 +37,7 @@ export default async function ConfirmPage({
           className="w-full text-center text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl"
           id="subbed-celebration"
         >
-          订阅已确认
+          订阅已确认 🎉
         </h1>
       </header>
       <SubbedCelebration />

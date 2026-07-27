@@ -79,7 +79,7 @@ export function Newsletter({ subCount }: { subCount?: string }) {
         <span className="ml-2">邮件订阅</span>
       </h2>
       <p className="mt-2 text-xs text-zinc-600 dark:text-zinc-400 md:text-sm">
-        <span>有新文章或运维笔记时发一封。每月至多一封，随时可取消。</span>
+        <span>有新文章或运维笔记时发一封 📬 每月至多一封，随时可取消。</span>
         {subCount ? (
           <>
             <br />
@@ -120,7 +120,8 @@ export function Newsletter({ subCount }: { subCount?: string }) {
             animate={{ opacity: 1, y: 0 }}
             exit="initial"
           >
-            请查收订阅确认邮件          </motion.p>
+            请查收订阅确认邮件 ✉️
+          </motion.p>
         )}
       </AnimatePresence>
       <span id="newsletter-rewards" className="relative h-0 w-0" />
