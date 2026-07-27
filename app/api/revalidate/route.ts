@@ -49,8 +49,17 @@ export async function POST(req: NextRequest) {
   revalidateTag('settings')
   revalidatePath('/')
   revalidatePath('/blog')
+  revalidatePath('/feed.xml')
+  revalidatePath('/feed')
+  revalidatePath('/rss')
 
-  const revalidated: string[] = ['/', '/blog', 'tag:posts', 'tag:settings']
+  const revalidated: string[] = [
+    '/',
+    '/blog',
+    '/feed.xml',
+    'tag:posts',
+    'tag:settings',
+  ]
 
   if (slug) {
     if (slug.startsWith('/')) {

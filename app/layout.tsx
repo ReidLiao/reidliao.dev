@@ -73,7 +73,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: url('/'),
     types: {
-      'application/rss+xml': [{ url: 'rss', title: 'RSS 订阅' }],
+      'application/rss+xml': [{ url: '/feed.xml', title: 'RSS 订阅' }],
     },
   },
 }
