@@ -1,5 +1,6 @@
 import { defineArrayMember, defineField, defineType } from 'sanity'
 
+import { BlockContentInput } from '~/sanity/components/BlockContentInput'
 import { Tweet } from '~/sanity/components/Tweet'
 
 const platformList = [
@@ -82,6 +83,9 @@ export default defineType({
   title: '块级富文本',
   name: 'blockContent',
   type: 'array',
+  components: {
+    input: BlockContentInput,
+  },
   of: [
     defineArrayMember({
       title: 'Block',
