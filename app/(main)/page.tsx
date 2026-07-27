@@ -34,7 +34,7 @@ export default async function BlogHomePage() {
           <div className="flex flex-col gap-6 pt-6">
             <h2 className="flex items-center text-sm font-semibold text-zinc-900 dark:text-zinc-100">
               <PencilSwooshIcon className="h-5 w-5 flex-none" />
-              <span className="ml-2">近期文章</span>
+              <span className="ml-2">近期写作</span>
             </h2>
             <BlogPosts />
           </div>

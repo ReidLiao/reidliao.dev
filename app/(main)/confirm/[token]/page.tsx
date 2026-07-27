@@ -8,7 +8,7 @@ import { subscribers } from '~/db/schema'
 import { SubbedCelebration } from './SubbedCelebration'
 
 export const metadata = {
-  title: '感谢你的订阅',
+  title: '订阅已确认',
 }
 
 export default async function ConfirmPage({
@@ -37,9 +37,8 @@ export default async function ConfirmPage({
           className="w-full text-center text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl"
           id="subbed-celebration"
         >
-          🥳 感谢你的订阅 🎉
+          订阅已确认
         </h1>
-        <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400"></p>
       </header>
       <SubbedCelebration />
     </Container>

@@ -76,17 +76,18 @@ export function Newsletter({ subCount }: { subCount?: string }) {
       <input type="hidden" className="hidden" {...register('formId')} />
       <h2 className="flex items-center text-sm font-semibold text-zinc-900 dark:text-zinc-100">
         <TiltedSendIcon className="h-5 w-5 flex-none" />
-        <span className="ml-2">动态更新</span>
+        <span className="ml-2">邮件订阅</span>
       </h2>
       <p className="mt-2 text-xs text-zinc-600 dark:text-zinc-400 md:text-sm">
-        <span>喜欢我的内容的话不妨订阅支持一下 🫶</span>
-        <br />
-        {subCount && (
-          <span>
-            加入其他 <span className="font-medium">{subCount}</span> 位订阅者，
-          </span>
-        )}
-        <span>每月一封，随时可以取消订阅。</span>
+        <span>有新文章或运维笔记时发一封。每月至多一封，随时可取消。</span>
+        {subCount ? (
+          <>
+            <br />
+            <span>
+              已有 <span className="font-medium">{subCount}</span> 位订阅者。
+            </span>
+          </>
+        ) : null}
       </p>
       <AnimatePresence mode="wait">
         {!isSubscribed ? (
@@ -119,8 +120,7 @@ export function Newsletter({ subCount }: { subCount?: string }) {
             animate={{ opacity: 1, y: 0 }}
             exit="initial"
           >
-            请查收订阅确认邮件 🥳
-          </motion.p>
+            请查收订阅确认邮件          </motion.p>
         )}
       </AnimatePresence>
       <span id="newsletter-rewards" className="relative h-0 w-0" />
