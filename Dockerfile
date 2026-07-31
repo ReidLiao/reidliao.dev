@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM node:20-alpine AS base
 WORKDIR /app
 RUN corepack enable && corepack prepare pnpm@8.15.8 --activate
@@ -10,7 +11,18 @@ FROM base AS builder
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN pnpm build
+# .env 不进镜像层：构建时用 BuildKit secret 注入（见下方 docker build 命令）
+# 若未提供 secret，则跳过校验以便至少能完成构建（NEXT_PUBLIC_* 仍建议通过 secret 提供）
+ENV SKIP_ENV_VALIDATION=1
+RUN --mount=type=secret,id=env,required=false,target=/run/secrets/.env \
+  if [ -f /run/secrets/.env ]; then \
+    set -a && . /run/secrets/.env && set +a && \
+    unset SKIP_ENV_VALIDATION && \
+    pnpm build; \
+  else \
+    echo "WARN: no env secret mounted; building with SKIP_ENV_VALIDATION=1"; \
+    pnpm build; \
+  fi
 
 FROM base AS runner
 WORKDIR /app
@@ -20,7 +32,6 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ENV IMAGE_CACHE_DIR=/data/img-cache
 RUN mkdir -p /data/img-cache
 VOLUME ["/data/img-cache"]
-# 👇 采用通用模式，直接拷贝所有编译好的原文件和依赖
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
