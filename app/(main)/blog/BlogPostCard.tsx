@@ -2,12 +2,7 @@ import { parseDateTime } from '@zolplay/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import {
-  CalendarIcon,
-  CursorClickIcon,
-  HourglassIcon,
-  ScriptIcon,
-} from '~/assets'
+import { CalendarIcon, CursorClickIcon, HourglassIcon } from '~/assets'
 import { CoverCategoryTag, GeneratedCover } from '~/components/GeneratedCover'
 import { PostAuthorBadge } from '~/components/PostAuthorBadge'
 import { cdnImageSrc } from '~/lib/cdn-image'
@@ -75,13 +70,6 @@ export function BlogPostCard({ post, views }: { post: Post; views: number }) {
                 )}
               </span>
             </span>
-
-            {Array.isArray(categories) && (
-              <span className="inline-flex items-center space-x-1 text-[12px] font-medium text-[--post-image-fg] md:text-sm">
-                <ScriptIcon />
-                <span>{categories.join(', ')}</span>
-              </span>
-            )}
           </span>
           <span className="inline-flex items-center space-x-3 text-[12px] font-medium text-[--post-image-fg] md:text-xs">
             <span className="inline-flex items-center space-x-1">
