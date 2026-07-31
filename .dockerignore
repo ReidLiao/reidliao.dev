@@ -1,0 +1,45 @@
+# Dependencies & build outputs
+node_modules
+.next
+out
+build
+coverage
+.turbo
+.cache
+.react-email
+static
+
+# Secrets — never bake into image layers
+.env
+.env.*
+!.env.example
+
+# VCS / editor / OS junk
+.git
+.gitignore
+.gitattributes
+.vscode
+.idea
+.DS_Store
+**/.DS_Store
+*.pem
+
+# Docs & local tooling (not needed at runtime)
+README.md
+*.md
+Dockerfile
+docker-compose*.yml
+.dockerignore
+eslint.config.*
+.eslintrc*
+.prettierrc*
+prettier.config.*
+tsconfig.tsbuildinfo
+next-env.d.ts
+
+# Misc
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.vercel
