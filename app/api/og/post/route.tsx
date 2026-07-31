@@ -1,6 +1,7 @@
 import { ImageResponse } from 'next/og'
 import { type NextRequest } from 'next/server'
 
+import { getCategoryAccent } from '~/lib/category-accent'
 import { client } from '~/sanity/lib/client'
 
 export const runtime = 'nodejs'
@@ -59,6 +60,7 @@ export async function GET(req: NextRequest) {
   const kicker = (category || brand).toUpperCase()
   const subsetText = `${title}${kicker}${brand}`
   const avatarUrl = `${req.nextUrl.origin}/avatar.jpg`
+  const accent = getCategoryAccent(category || undefined)
 
   let fonts: { name: string; data: ArrayBuffer; weight: 400 | 700 }[] = []
   try {
@@ -85,8 +87,7 @@ export async function GET(req: NextRequest) {
           justifyContent: 'space-between',
           padding: '72px',
           backgroundColor: '#0a0a0f',
-          backgroundImage:
-            'radial-gradient(900px circle at 8% -12%, rgba(163,230,53,0.20), transparent 55%), radial-gradient(700px circle at 108% 118%, rgba(163,230,53,0.10), transparent 60%), linear-gradient(to bottom, transparent 45%, rgba(10,10,15,0.9) 100%), linear-gradient(to right, rgba(255,255,255,0.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.045) 1px, transparent 1px)',
+          backgroundImage: `radial-gradient(900px circle at 8% -12%, rgba(${accent.rgb},0.20), transparent 55%), radial-gradient(700px circle at 108% 118%, rgba(${accent.rgb},0.10), transparent 60%), linear-gradient(to bottom, transparent 45%, rgba(10,10,15,0.9) 100%), linear-gradient(to right, rgba(255,255,255,0.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.045) 1px, transparent 1px)`,
           backgroundSize: '100% 100%, 100% 100%, 100% 100%, 44px 44px, 44px 44px',
           color: '#ffffff',
           fontFamily: 'Noto Sans SC',
@@ -128,14 +129,14 @@ export async function GET(req: NextRequest) {
                 width: '12px',
                 height: '12px',
                 borderRadius: '9999px',
-                backgroundColor: '#a3e635',
+                backgroundColor: accent.dot,
               }}
             />
             <div
               style={{
                 fontSize: '26px',
                 letterSpacing: '0.14em',
-                color: '#bef264',
+                color: accent.text,
                 fontWeight: 400,
               }}
             >
@@ -169,7 +170,7 @@ export async function GET(req: NextRequest) {
                 width: '64px',
                 height: '10px',
                 borderRadius: '9999px',
-                backgroundColor: '#a3e635',
+                backgroundColor: accent.dot,
               }}
             />
             <div style={{ fontSize: '30px', color: 'rgba(255,255,255,0.5)' }}>

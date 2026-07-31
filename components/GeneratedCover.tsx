@@ -1,7 +1,57 @@
 import { clsxm } from '@zolplay/utils'
 
+import { getCategoryAccent } from '~/lib/category-accent'
+
 /**
- * 无主图时自动生成的极简文字封面：站点深色底 + 细网格纹 + lime 点缀。
+ * 叠加在封面右上角的分类胶囊，用于「上传图片」的封面，
+ * 与自动生成封面保持一致的视觉语言（分类色圆点 + 等宽大写分类）。
+ * 采用深色玻璃底，保证在任意照片上都清晰可读。
+ */
+export function CoverCategoryTag({
+  category,
+  variant = 'card',
+  className,
+}: {
+  category?: string
+  variant?: 'card' | 'hero'
+  className?: string
+}) {
+  if (!category) return null
+  const isHero = variant === 'hero'
+  const accent = getCategoryAccent(category)
+
+  return (
+    <span
+      className={clsxm(
+        'pointer-events-none absolute z-10 inline-flex max-w-[60%] items-center gap-1.5 rounded-full bg-black/40 ring-1 ring-inset ring-white/15 backdrop-blur-md',
+        isHero
+          ? 'right-3 top-3 px-3 py-1.5 md:right-4 md:top-4'
+          : 'right-2.5 top-2.5 px-2 py-1',
+        className
+      )}
+    >
+      <span
+        className={clsxm(
+          'shrink-0 rounded-full',
+          isHero ? 'h-2 w-2' : 'h-1.5 w-1.5'
+        )}
+        style={{ backgroundColor: accent.dot }}
+      />
+      <span
+        className={clsxm(
+          'truncate font-mono uppercase tracking-[0.14em]',
+          isHero ? 'text-xs md:text-sm' : 'text-[10px]'
+        )}
+        style={{ color: accent.text }}
+      >
+        {category}
+      </span>
+    </span>
+  )
+}
+
+/**
+ * 无主图时自动生成的极简文字封面：站点深色底 + 细网格纹 + 分类色点缀。
  * 左上角由 <PostAuthorBadge> 叠加头像，故分类标签靠右排布避免遮挡。
  *
  * - hero（文章头）：展示大标题，杂志封面式排布。
@@ -22,6 +72,7 @@ export function GeneratedCover({
 }) {
   const isHero = variant === 'hero'
   const kicker = category || 'reidliao.dev'
+  const accent = getCategoryAccent(category)
 
   return (
     <div
@@ -32,8 +83,8 @@ export function GeneratedCover({
       style={{
         backgroundColor: '#0a0a0f',
         backgroundImage: [
-          'radial-gradient(760px circle at 8% -12%, rgba(163,230,53,0.18), transparent 55%)',
-          'radial-gradient(560px circle at 108% 118%, rgba(163,230,53,0.10), transparent 58%)',
+          `radial-gradient(760px circle at 8% -12%, rgba(${accent.rgb},0.18), transparent 55%)`,
+          `radial-gradient(560px circle at 108% 118%, rgba(${accent.rgb},0.10), transparent 58%)`,
           'linear-gradient(to bottom, transparent 45%, rgba(10,10,15,0.85) 100%)',
           'linear-gradient(to right, rgba(255,255,255,0.045) 1px, transparent 1px)',
           'linear-gradient(to bottom, rgba(255,255,255,0.045) 1px, transparent 1px)',
@@ -50,15 +101,17 @@ export function GeneratedCover({
         >
           <span
             className={clsxm(
-              'shrink-0 rounded-full bg-lime-400',
+              'shrink-0 rounded-full',
               isHero ? 'h-2 w-2' : 'h-1.5 w-1.5'
             )}
+            style={{ backgroundColor: accent.dot }}
           />
           <span
             className={clsxm(
-              'truncate font-mono uppercase tracking-[0.14em] text-lime-300/90',
+              'truncate font-mono uppercase tracking-[0.14em]',
               isHero ? 'text-xs md:text-sm' : 'text-[10px]'
             )}
+            style={{ color: accent.text }}
           >
             {kicker}
           </span>
@@ -71,7 +124,11 @@ export function GeneratedCover({
             {title}
           </h3>
           <div className="mt-5 flex items-center gap-2.5">
-            <span aria-hidden className="h-1.5 w-9 rounded-full bg-lime-400" />
+            <span
+              aria-hidden
+              className="h-1.5 w-9 rounded-full"
+              style={{ backgroundColor: accent.dot }}
+            />
             <span className="font-mono text-xs text-white/45 md:text-sm">
               reidliao.dev
             </span>
@@ -79,7 +136,11 @@ export function GeneratedCover({
         </div>
       ) : (
         <div className="flex items-center gap-2 p-4">
-          <span aria-hidden className="h-1 w-6 rounded-full bg-lime-400" />
+          <span
+            aria-hidden
+            className="h-1 w-6 rounded-full"
+            style={{ backgroundColor: accent.dot }}
+          />
           <span className="font-mono text-[10px] text-white/45">
             reidliao.dev
           </span>

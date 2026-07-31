@@ -8,7 +8,7 @@ import {
   HourglassIcon,
   ScriptIcon,
 } from '~/assets'
-import { GeneratedCover } from '~/components/GeneratedCover'
+import { CoverCategoryTag, GeneratedCover } from '~/components/GeneratedCover'
 import { PostAuthorBadge } from '~/components/PostAuthorBadge'
 import { cdnImageSrc } from '~/lib/cdn-image'
 import { prettifyNumber } from '~/lib/math'
@@ -38,16 +38,19 @@ export function BlogPostCard({ post, views }: { post: Post; views: number }) {
     >
       <div className="relative aspect-[240/135] w-full isolate overflow-hidden">
         {hasImage ? (
-          <Image
-            src={coverSrc!}
-            alt=""
-            className="rounded-t-3xl object-cover"
-            placeholder="blur"
-            blurDataURL={mainImage!.asset.lqip}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px"
-            loading="lazy"
-          />
+          <>
+            <Image
+              src={coverSrc!}
+              alt=""
+              className="rounded-t-3xl object-cover"
+              placeholder="blur"
+              blurDataURL={mainImage!.asset.lqip}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px"
+              loading="lazy"
+            />
+            <CoverCategoryTag category={categories?.[0]} />
+          </>
         ) : (
           <GeneratedCover
             title={title}

@@ -20,7 +20,7 @@ import {
   UTurnLeftIcon,
 } from '~/assets'
 import { ClientOnly } from '~/components/ClientOnly'
-import { GeneratedCover } from '~/components/GeneratedCover'
+import { CoverCategoryTag, GeneratedCover } from '~/components/GeneratedCover'
 import { PostAuthorBadge } from '~/components/PostAuthorBadge'
 import { PostPortableText } from '~/components/PostPortableText'
 import { Prose } from '~/components/Prose'
@@ -107,6 +107,10 @@ export function BlogPostPage({
                       fill
                       sizes="(max-width: 768px) 100vw, 800px"
                       priority
+                    />
+                    <CoverCategoryTag
+                      category={post.categories?.[0]}
+                      variant="hero"
                     />
                   </>
                 ) : (
