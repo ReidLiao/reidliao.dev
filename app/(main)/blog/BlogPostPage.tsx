@@ -20,6 +20,7 @@ import {
   UTurnLeftIcon,
 } from '~/assets'
 import { ClientOnly } from '~/components/ClientOnly'
+import { GeneratedCover } from '~/components/GeneratedCover'
 import { PostAuthorBadge } from '~/components/PostAuthorBadge'
 import { PostPortableText } from '~/components/PostPortableText'
 import { Prose } from '~/components/Prose'
@@ -44,10 +45,13 @@ export function BlogPostPage({
   reactions?: number[]
   relatedViews: number[]
 }) {
-  const coverSrc = cdnImageSrc(post.mainImage.asset.url, {
-    width: 1600,
-    quality: 80,
-  })
+  const hasImage = Boolean(post.mainImage?.asset?.url)
+  const coverSrc = hasImage
+    ? cdnImageSrc(post.mainImage!.asset.url, {
+        width: 1600,
+        quality: 80,
+      })
+    : undefined
 
   return (
     <>
@@ -81,27 +85,38 @@ export function BlogPostPage({
                   damping: 20,
                 }}
               >
-                <div className="absolute z-0 hidden aspect-[240/135] w-full blur-xl saturate-150 after:absolute after:inset-0 after:hidden after:bg-white/50 dark:after:bg-black/70 md:block md:after:block">
-                  <Image
-                    src={coverSrc}
-                    alt=""
-                    className="select-none"
-                    fill
-                    sizes="(max-width: 768px) 100vw, 800px"
-                    loading="lazy"
-                    aria-hidden={true}
+                {hasImage ? (
+                  <>
+                    <div className="absolute z-0 hidden aspect-[240/135] w-full blur-xl saturate-150 after:absolute after:inset-0 after:hidden after:bg-white/50 dark:after:bg-black/70 md:block md:after:block">
+                      <Image
+                        src={coverSrc!}
+                        alt=""
+                        className="select-none"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 800px"
+                        loading="lazy"
+                        aria-hidden={true}
+                      />
+                    </div>
+                    <Image
+                      src={coverSrc!}
+                      alt={post.title}
+                      className="select-none rounded-2xl object-cover ring-1 ring-zinc-900/5 transition dark:ring-0 dark:ring-white/10 dark:hover:ring-white/20 md:rounded-3xl"
+                      placeholder="blur"
+                      blurDataURL={post.mainImage!.asset.lqip}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 800px"
+                      priority
+                    />
+                  </>
+                ) : (
+                  <GeneratedCover
+                    title={post.title}
+                    category={post.categories?.[0]}
+                    variant="hero"
+                    className="rounded-2xl ring-1 ring-white/10 md:rounded-3xl"
                   />
-                </div>
-                <Image
-                  src={coverSrc}
-                  alt={post.title}
-                  className="select-none rounded-2xl object-cover ring-1 ring-zinc-900/5 transition dark:ring-0 dark:ring-white/10 dark:hover:ring-white/20 md:rounded-3xl"
-                  placeholder="blur"
-                  blurDataURL={post.mainImage.asset.lqip}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 800px"
-                  priority
-                />
+                )}
                 <PostAuthorBadge size="lg" priority />
               </motion.div>
               <motion.div

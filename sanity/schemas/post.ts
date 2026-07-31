@@ -8,19 +8,22 @@ export const Post = z.object({
   _id: z.string(),
   title: z.string(),
   slug: z.string(),
-  mainImage: z.object({
-    _ref: z.string(),
-    asset: z.object({
-      url: z.string(),
-      lqip: z.string().optional(),
-      dominant: z
-        .object({
-          background: z.string(),
-          foreground: z.string(),
-        })
-        .optional(),
-    }),
-  }),
+  mainImage: z
+    .object({
+      _ref: z.string(),
+      asset: z.object({
+        url: z.string(),
+        lqip: z.string().optional(),
+        dominant: z
+          .object({
+            background: z.string(),
+            foreground: z.string(),
+          })
+          .optional(),
+      }),
+    })
+    .nullable()
+    .optional(),
   publishedAt: z.string(),
   description: z.string(),
   categories: z.array(z.string()).optional(),
@@ -71,13 +74,13 @@ export default defineType({
     }),
     defineField({
       name: 'mainImage',
-      title: '主图',
+      title: '主图（可选）',
       type: 'image',
-      description: 'This image will be used for the preview (1200 x 675px)',
+      description:
+        '留空则自动生成极简封面（标题 + 分类 + 站点风格）；需要自定义封面时再上传（1200 x 675px）。',
       options: {
         hotspot: true,
       },
-      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'description',

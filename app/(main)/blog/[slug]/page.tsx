@@ -20,6 +20,10 @@ export const generateMetadata = async ({
 
   const { title, description, mainImage } = post
 
+  const ogImage = mainImage?.asset?.url
+    ? mainImage.asset.url
+    : `/api/og/post?slug=${encodeURIComponent(params.slug)}`
+
   return {
     title,
     description,
@@ -28,7 +32,9 @@ export const generateMetadata = async ({
       description,
       images: [
         {
-          url: mainImage.asset.url,
+          url: ogImage,
+          width: 1200,
+          height: 630,
         },
       ],
       type: 'article',
@@ -36,7 +42,9 @@ export const generateMetadata = async ({
     twitter: {
       images: [
         {
-          url: mainImage.asset.url,
+          url: ogImage,
+          width: 1200,
+          height: 630,
         },
       ],
       title,
