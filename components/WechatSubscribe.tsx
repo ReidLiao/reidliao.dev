@@ -26,7 +26,7 @@ export function WechatSubscribe({
       )}
     >
       <div className="flex flex-col items-center gap-5 text-center sm:flex-row sm:items-start sm:text-left">
-        <div className="shrink-0 rounded-xl bg-white p-2 shadow-sm ring-1 ring-zinc-900/5 dark:bg-zinc-100 dark:ring-white/10">
+        <div className="shrink-0 rounded-xl bg-white p-1.5 shadow-sm ring-1 ring-zinc-900/5 dark:bg-white/95 dark:shadow-none dark:ring-1 dark:ring-white/15">
           <Image
             src="/wechat-qrcode.jpg"
             alt={`${ACCOUNT_NAME} 微信公众号二维码`}

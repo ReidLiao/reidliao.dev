@@ -81,7 +81,7 @@ export function BlogPostPage({
                   damping: 20,
                 }}
               >
-                <div className="absolute z-0 hidden aspect-[240/135] w-full blur-xl saturate-150 after:absolute after:inset-0 after:hidden after:bg-white/50 dark:after:bg-black/50 md:block md:after:block">
+                <div className="absolute z-0 hidden aspect-[240/135] w-full blur-xl saturate-150 after:absolute after:inset-0 after:hidden after:bg-white/50 dark:after:bg-black/70 md:block md:after:block">
                   <Image
                     src={coverSrc}
                     alt=""
