@@ -224,6 +224,28 @@ export default defineType({
       title: '代码块',
       options: {
         withFilename: true,
+        // 仅提供前台已注册高亮的语言，避免出现「选了但不高亮」的情况。
+        languageAlternatives: [
+          { title: 'Bash / Shell', value: 'bash' },
+          { title: 'JavaScript', value: 'javascript' },
+          { title: 'TypeScript', value: 'typescript' },
+          { title: 'JSX', value: 'jsx' },
+          { title: 'TSX', value: 'tsx' },
+          { title: 'JSON', value: 'json' },
+          { title: 'YAML', value: 'yaml' },
+          { title: 'Dockerfile', value: 'docker' },
+          { title: 'Nginx', value: 'nginx' },
+          { title: 'Python', value: 'python' },
+          { title: 'SQL', value: 'sql' },
+          { title: 'Markdown', value: 'markdown' },
+          { title: 'HTML / XML', value: 'markup' },
+          { title: 'CSS', value: 'css' },
+          { title: 'SCSS', value: 'scss' },
+          { title: 'Go', value: 'go' },
+          { title: 'Diff', value: 'diff' },
+          { title: 'TOML', value: 'toml' },
+          { title: 'INI', value: 'ini' },
+        ],
       },
     }),
     defineArrayMember({
