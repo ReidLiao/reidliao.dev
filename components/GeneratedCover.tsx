@@ -51,11 +51,11 @@ export function CoverCategoryTag({
 }
 
 /**
- * 无主图时自动生成的极简文字封面：站点深色底 + 细网格纹 + 分类色点缀。
- * 左上角由 <PostAuthorBadge> 叠加头像，故分类标签靠右排布避免遮挡。
+ * 无主图时自动生成的极简文字封面：站点深色底 + 点阵纹 + 分类色光晕 + 超大淡色首字。
+ * 左侧色条与左对齐排版营造编辑设计感；左上角由 <PostAuthorBadge> 叠加头像。
  *
  * - hero（文章头）：展示大标题，杂志封面式排布。
- * - card（列表卡）：卡片下方已有标题，封面走装饰化（分类 + 站名），避免标题重复。
+ * - card（列表卡）：卡片下方已有标题，封面走装饰化，避免标题重复。
  *
  * 纯 DOM/CSS，无需外部图片。
  */
@@ -73,57 +73,67 @@ export function GeneratedCover({
   const isHero = variant === 'hero'
   const kicker = category || 'reidliao.dev'
   const accent = getCategoryAccent(category)
+  const firstGlyph = Array.from(title.trim())[0] ?? '·'
 
   return (
     <div
       className={clsxm(
-        'relative flex h-full w-full select-none flex-col justify-between overflow-hidden',
+        'relative flex h-full w-full select-none overflow-hidden',
         className
       )}
       style={{
         backgroundColor: '#0a0a0f',
         backgroundImage: [
-          `radial-gradient(760px circle at 8% -12%, rgba(${accent.rgb},0.18), transparent 55%)`,
-          `radial-gradient(560px circle at 108% 118%, rgba(${accent.rgb},0.10), transparent 58%)`,
-          'linear-gradient(to bottom, transparent 45%, rgba(10,10,15,0.85) 100%)',
-          'linear-gradient(to right, rgba(255,255,255,0.045) 1px, transparent 1px)',
-          'linear-gradient(to bottom, rgba(255,255,255,0.045) 1px, transparent 1px)',
+          `radial-gradient(circle at 82% 18%, rgba(${accent.rgb},0.22), transparent 46%)`,
+          'linear-gradient(115deg, rgba(255,255,255,0.03), transparent 40%)',
+          'linear-gradient(to bottom, transparent 38%, rgba(10,10,15,0.92) 100%)',
+          'radial-gradient(rgba(255,255,255,0.065) 1px, transparent 1.4px)',
         ].join(', '),
-        backgroundSize: '100% 100%, 100% 100%, 100% 100%, 34px 34px, 34px 34px',
+        backgroundSize: '100% 100%, 100% 100%, 100% 100%, 22px 22px',
       }}
     >
-      <div className={clsxm('flex justify-end', isHero ? 'p-5 md:p-7' : 'p-3.5')}>
-        <span
-          className={clsxm(
-            'inline-flex max-w-[70%] items-center gap-1.5 rounded-full bg-white/[0.06] ring-1 ring-inset ring-white/10 backdrop-blur-sm',
-            isHero ? 'px-3 py-1.5' : 'px-2 py-1'
-          )}
-        >
-          <span
-            className={clsxm(
-              'shrink-0 rounded-full',
-              isHero ? 'h-2 w-2' : 'h-1.5 w-1.5'
-            )}
-            style={{ backgroundColor: accent.dot }}
-          />
-          <span
-            className={clsxm(
-              'truncate font-mono uppercase tracking-[0.14em]',
-              isHero ? 'text-xs md:text-sm' : 'text-[10px]'
-            )}
-            style={{ color: accent.text }}
-          >
-            {kicker}
-          </span>
-        </span>
-      </div>
+      {/* 左侧分类色条 */}
+      <span
+        aria-hidden
+        className="absolute left-0 top-0 h-full"
+        style={{
+          width: isHero ? 6 : 4,
+          background: `linear-gradient(to bottom, ${accent.dot}, rgba(${accent.rgb},0.25))`,
+        }}
+      />
+
+      {/* 超大淡色首字（drop-cap 式装饰） */}
+      <span
+        aria-hidden
+        className={clsxm(
+          'pointer-events-none absolute select-none font-bold leading-none',
+          isHero
+            ? '-bottom-6 right-3 text-[150px] md:right-8 md:text-[240px]'
+            : '-bottom-4 right-1 text-[104px]'
+        )}
+        style={{ color: accent.dot, opacity: 0.12 }}
+      >
+        {firstGlyph}
+      </span>
 
       {isHero ? (
-        <div className="p-6 md:p-8">
-          <h3 className="text-2xl font-bold leading-tight text-white md:text-4xl">
+        <div className="relative z-10 flex h-full w-full flex-col justify-center gap-3.5 pl-8 pr-8 md:gap-4 md:pl-11 md:pr-12">
+          <div className="flex items-center gap-2">
+            <span
+              className="h-2 w-2 shrink-0 rounded-full"
+              style={{ backgroundColor: accent.dot }}
+            />
+            <span
+              className="truncate font-mono text-xs uppercase tracking-[0.16em] md:text-sm"
+              style={{ color: accent.text }}
+            >
+              {kicker}
+            </span>
+          </div>
+          <h3 className="max-w-[80%] text-3xl font-bold leading-tight text-white md:text-[2.75rem]">
             {title}
           </h3>
-          <div className="mt-5 flex items-center gap-2.5">
+          <div className="flex items-center gap-2.5">
             <span
               aria-hidden
               className="h-1.5 w-9 rounded-full"
@@ -135,13 +145,18 @@ export function GeneratedCover({
           </div>
         </div>
       ) : (
-        <div className="flex items-center gap-2 p-4">
+        <div className="relative z-10 flex h-full w-full flex-col justify-end gap-2 pb-4 pl-5 pr-4">
           <span
-            aria-hidden
-            className="h-1 w-6 rounded-full"
-            style={{ backgroundColor: accent.dot }}
-          />
-          <span className="font-mono text-[10px] text-white/45">
+            className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.14em]"
+            style={{ color: accent.text }}
+          >
+            <span
+              className="h-1.5 w-1.5 shrink-0 rounded-full"
+              style={{ backgroundColor: accent.dot }}
+            />
+            {kicker}
+          </span>
+          <span className="font-mono text-[10px] text-white/40">
             reidliao.dev
           </span>
         </div>

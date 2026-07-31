@@ -61,6 +61,8 @@ export async function GET(req: NextRequest) {
   const subsetText = `${title}${kicker}${brand}`
   const avatarUrl = `${req.nextUrl.origin}/avatar.jpg`
   const accent = getCategoryAccent(category || undefined)
+  const firstGlyph = Array.from(title.trim())[0] ?? '·'
+  const titleSize = title.length > 26 ? 60 : title.length > 18 ? 72 : 82
 
   let fonts: { name: string; data: ArrayBuffer; weight: 400 | 700 }[] = []
   try {
@@ -80,62 +82,86 @@ export async function GET(req: NextRequest) {
     (
       <div
         style={{
+          position: 'relative',
           width: '100%',
           height: '100%',
           display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          padding: '72px',
           backgroundColor: '#0a0a0f',
-          backgroundImage: `radial-gradient(900px circle at 8% -12%, rgba(${accent.rgb},0.20), transparent 55%), radial-gradient(700px circle at 108% 118%, rgba(${accent.rgb},0.10), transparent 60%), linear-gradient(to bottom, transparent 45%, rgba(10,10,15,0.9) 100%), linear-gradient(to right, rgba(255,255,255,0.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.045) 1px, transparent 1px)`,
-          backgroundSize: '100% 100%, 100% 100%, 100% 100%, 44px 44px, 44px 44px',
+          backgroundImage: `radial-gradient(circle at 82% 18%, rgba(${accent.rgb},0.24), transparent 46%), linear-gradient(115deg, rgba(255,255,255,0.03), transparent 40%), linear-gradient(to bottom, transparent 40%, rgba(10,10,15,0.92) 100%), radial-gradient(rgba(255,255,255,0.06) 1.4px, transparent 1.6px)`,
+          backgroundSize: '100% 100%, 100% 100%, 100% 100%, 30px 30px',
           color: '#ffffff',
           fontFamily: 'Noto Sans SC',
         }}
       >
+        {/* 左侧分类色条 */}
+        <div
+          style={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            height: '100%',
+            width: 14,
+            backgroundColor: accent.dot,
+          }}
+        />
+
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={avatarUrl}
+          width={72}
+          height={72}
+          alt=""
+          style={{
+            position: 'absolute',
+            left: 64,
+            top: 56,
+            width: '72px',
+            height: '72px',
+            borderRadius: '9999px',
+            border: '2px solid rgba(255,255,255,0.25)',
+          }}
+        />
+
+        {/* 超大淡色首字 */}
+        <div
+          style={{
+            position: 'absolute',
+            right: 48,
+            bottom: -70,
+            fontSize: 440,
+            fontWeight: 700,
+            lineHeight: 1,
+            color: accent.dot,
+            opacity: 0.12,
+          }}
+        >
+          {firstGlyph}
+        </div>
+
+        {/* 内容 */}
         <div
           style={{
             display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            height: '100%',
+            paddingLeft: 84,
+            paddingRight: 72,
           }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={avatarUrl}
-            width={64}
-            height={64}
-            alt=""
-            style={{
-              width: '64px',
-              height: '64px',
-              borderRadius: '9999px',
-              border: '2px solid rgba(255,255,255,0.25)',
-            }}
-          />
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              padding: '10px 20px',
-              borderRadius: '9999px',
-              backgroundColor: 'rgba(255,255,255,0.06)',
-              border: '1px solid rgba(255,255,255,0.10)',
-            }}
-          >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
             <div
               style={{
-                width: '12px',
-                height: '12px',
+                width: '14px',
+                height: '14px',
                 borderRadius: '9999px',
                 backgroundColor: accent.dot,
               }}
             />
             <div
               style={{
-                fontSize: '26px',
-                letterSpacing: '0.14em',
+                fontSize: '28px',
+                letterSpacing: '0.16em',
                 color: accent.text,
                 fontWeight: 400,
               }}
@@ -143,26 +169,26 @@ export async function GET(req: NextRequest) {
               {kicker}
             </div>
           </div>
-        </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div
             style={{
               display: 'flex',
-              fontSize: title.length > 22 ? '64px' : '76px',
+              marginTop: '28px',
+              fontSize: titleSize,
               fontWeight: 700,
               lineHeight: 1.15,
-              maxWidth: '1000px',
+              maxWidth: '860px',
             }}
           >
             {title}
           </div>
+
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
               gap: '18px',
-              marginTop: '36px',
+              marginTop: '34px',
             }}
           >
             <div
