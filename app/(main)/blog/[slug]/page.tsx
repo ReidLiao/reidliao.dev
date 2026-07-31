@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { BlogPostPage } from '~/app/(main)/blog/BlogPostPage'
 import { kvKeys } from '~/config/kv'
 import { url } from '~/lib'
+import { cdnImageSrc } from '~/lib/cdn-image'
 import { isProduction } from '~/lib/is-production'
 import { redis } from '~/lib/redis'
 import { getBlogPost } from '~/sanity/queries'
@@ -21,7 +22,11 @@ export const generateMetadata = async ({
   const { title, description, mainImage } = post
 
   const ogImage = mainImage?.asset?.url
-    ? mainImage.asset.url
+    ? cdnImageSrc(mainImage.asset.url, {
+        width: 1200,
+        quality: 80,
+        absolute: true,
+      })
     : `/api/og/post?slug=${encodeURIComponent(params.slug)}`
 
   return {
@@ -104,13 +109,57 @@ export default async function BlogPage({
     }
   }
 
+  const ogImageAbs = post.mainImage?.asset?.url
+    ? cdnImageSrc(post.mainImage.asset.url, {
+        width: 1200,
+        quality: 80,
+        absolute: true,
+      })
+    : url(`/api/og/post?slug=${encodeURIComponent(post.slug)}`).href
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': url(`/blog/${post.slug}`).href,
+    },
+    headline: post.title,
+    description: post.description,
+    image: [ogImageAbs],
+    datePublished: post.publishedAt,
+    dateModified: post.publishedAt,
+    author: {
+      '@type': 'Person',
+      name: 'Reid Liao',
+      url: url('/').href,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Reidliao.dev',
+      logo: {
+        '@type': 'ImageObject',
+        url: url('/avatar.jpg').href,
+      },
+    },
+    ...(post.categories?.length
+      ? { articleSection: post.categories.join(', ') }
+      : {}),
+  }
+
   return (
-    <BlogPostPage
-      post={post}
-      views={views}
-      relatedViews={relatedViews}
-      reactions={reactions.length > 0 ? reactions : undefined}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <BlogPostPage
+        post={post}
+        views={views}
+        relatedViews={relatedViews}
+        reactions={reactions.length > 0 ? reactions : undefined}
+      />
+    </>
   )
 }
 

@@ -1,3 +1,6 @@
+import { readFile } from 'node:fs/promises'
+import { fileURLToPath } from 'node:url'
+
 import { ImageResponse } from 'next/og'
 import { type NextRequest } from 'next/server'
 
@@ -5,13 +8,13 @@ import { getCategoryAccent } from '~/lib/category-accent'
 import { client } from '~/sanity/lib/client'
 
 export const runtime = 'nodejs'
-export const revalidate = 86400
 
 const WIDTH = 1200
 const HEIGHT = 630
 
 // 进程内缓存字体子集：同一进程重复渲染同一批字符时免去再次拉取。
 const fontSubsetCache = new Map<string, ArrayBuffer>()
+let localFontCache: ArrayBuffer | null = null
 
 // 按需向 Google Fonts 请求「只含本图用到的字符」的字体子集，避免打包多 MB 中文字体。
 async function loadFontSubset(family: string, text: string, weight: number) {
@@ -27,6 +30,8 @@ async function loadFontSubset(family: string, text: string, weight: number) {
     await fetch(url, {
       // 不带浏览器 UA 时 Google 返回 ttf，satori 可直接使用。
       headers: { 'User-Agent': 'Mozilla/5.0' },
+      // 被墙/超时快速失败，尽早回落到本地字体。
+      signal: AbortSignal.timeout(2500),
     })
   ).text()
 
@@ -35,10 +40,22 @@ async function loadFontSubset(family: string, text: string, weight: number) {
   )
   if (!resource) throw new Error('font subset not found')
 
-  const res = await fetch(resource[1])
+  const res = await fetch(resource[1], { signal: AbortSignal.timeout(2500) })
   if (!res.ok) throw new Error('font download failed')
   const data = await res.arrayBuffer()
   fontSubsetCache.set(cacheKey, data)
+  return data
+}
+
+// 打包的中文子集（GB2312 常用字，约 1.6MB），Google Fonts 不可达时的离线兜底。
+// nodejs 运行时下用 fs 读取（undici fetch 不支持 file:// 协议）；
+// `new URL(..., import.meta.url)` 让打包器把该字体资源一并 trace 进产物。
+async function loadLocalFont() {
+  if (localFontCache) return localFontCache
+  const path = fileURLToPath(new URL('./NotoSansSC-subset.otf', import.meta.url))
+  const buf = await readFile(path)
+  const data = buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength)
+  localFontCache = data
   return data
 }
 
@@ -86,7 +103,16 @@ export async function GET(req: NextRequest) {
       { name: 'Noto Sans SC', data: regular, weight: 400 },
     ]
   } catch {
-    fonts = []
+    // Google Fonts 不可达时回落到打包的中文子集（同一份用于两个字重）。
+    try {
+      const local = await loadLocalFont()
+      fonts = [
+        { name: 'Noto Sans SC', data: local, weight: 700 },
+        { name: 'Noto Sans SC', data: local, weight: 400 },
+      ]
+    } catch {
+      fonts = []
+    }
   }
 
   return new ImageResponse(

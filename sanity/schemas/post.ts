@@ -127,8 +127,17 @@ export default defineType({
   preview: {
     select: {
       title: 'title',
-      author: 'slug',
+      slug: 'slug.current',
       media: 'mainImage',
+    },
+    prepare({ title, slug, media }) {
+      return {
+        title,
+        subtitle: media
+          ? slug
+          : `自动封面（未设主图）${slug ? ` · ${slug}` : ''}`,
+        media: media || PencilSwooshIcon,
+      }
     },
   },
 })
