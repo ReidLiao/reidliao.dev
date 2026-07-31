@@ -130,9 +130,12 @@ export function GeneratedCover({
               {kicker}
             </span>
           </div>
-          <h3 className="max-w-[80%] text-3xl font-bold leading-tight text-white md:text-[2.75rem]">
+          <div
+            aria-hidden
+            className="line-clamp-3 max-w-[80%] text-3xl font-bold leading-tight text-white md:text-[2.75rem]"
+          >
             {title}
-          </h3>
+          </div>
           <div className="flex items-center gap-2.5">
             <span
               aria-hidden

@@ -10,8 +10,15 @@ export const revalidate = 86400
 const WIDTH = 1200
 const HEIGHT = 630
 
+// 进程内缓存字体子集：同一进程重复渲染同一批字符时免去再次拉取。
+const fontSubsetCache = new Map<string, ArrayBuffer>()
+
 // 按需向 Google Fonts 请求「只含本图用到的字符」的字体子集，避免打包多 MB 中文字体。
 async function loadFontSubset(family: string, text: string, weight: number) {
+  const cacheKey = `${family}:${weight}:${text}`
+  const cached = fontSubsetCache.get(cacheKey)
+  if (cached) return cached
+
   const url = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(
     family
   )}:wght@${weight}&text=${encodeURIComponent(text)}`
@@ -30,7 +37,9 @@ async function loadFontSubset(family: string, text: string, weight: number) {
 
   const res = await fetch(resource[1])
   if (!res.ok) throw new Error('font download failed')
-  return res.arrayBuffer()
+  const data = await res.arrayBuffer()
+  fontSubsetCache.set(cacheKey, data)
+  return data
 }
 
 export async function GET(req: NextRequest) {
@@ -62,7 +71,9 @@ export async function GET(req: NextRequest) {
   const avatarUrl = `${req.nextUrl.origin}/avatar.jpg`
   const accent = getCategoryAccent(category || undefined)
   const firstGlyph = Array.from(title.trim())[0] ?? '·'
-  const titleSize = title.length > 26 ? 60 : title.length > 18 ? 72 : 82
+  const titleLen = Array.from(title.trim()).length
+  const titleSize =
+    titleLen > 40 ? 48 : titleLen > 26 ? 60 : titleLen > 18 ? 72 : 82
 
   let fonts: { name: string; data: ArrayBuffer; weight: 400 | 700 }[] = []
   try {
@@ -147,6 +158,7 @@ export async function GET(req: NextRequest) {
             height: '100%',
             paddingLeft: 84,
             paddingRight: 72,
+            overflow: 'hidden',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
@@ -217,6 +229,10 @@ export async function GET(req: NextRequest) {
             style: 'normal' as const,
           }))
         : undefined,
+      headers: {
+        'Cache-Control':
+          'public, immutable, no-transform, max-age=86400, s-maxage=86400, stale-while-revalidate=604800',
+      },
     }
   )
 }
