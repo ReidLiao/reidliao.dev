@@ -22,6 +22,7 @@ export const Post = z.object({
     }),
   }),
   publishedAt: z.string(),
+  updatedAt: z.string().nullable().optional(),
   description: z.string(),
   categories: z.array(z.string()).optional(),
   body: z.any(),
@@ -68,6 +69,24 @@ export default defineType({
       title: '发布时间',
       type: 'datetime',
       validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'updatedAt',
+      title: '更新时间',
+      type: 'datetime',
+      description:
+        '文章有实质更新时再填写。前台会显示「更新于」；sitemap / JSON-LD 也会用此时间。留空则等同发布时间。',
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          if (!value) return true
+          const publishedAt = (context.document as { publishedAt?: string } | undefined)
+            ?.publishedAt
+          if (!publishedAt) return true
+          if (new Date(value).getTime() < new Date(publishedAt).getTime()) {
+            return '更新时间不能早于发布时间'
+          }
+          return true
+        }),
     }),
     defineField({
       name: 'mainImage',

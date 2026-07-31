@@ -5,6 +5,12 @@ import { client } from '~/sanity/lib/client'
 import { type Post, type PostDetail } from '~/sanity/schemas/post'
 import { type Project } from '~/sanity/schemas/project'
 
+export type BlogPostSitemapEntry = {
+  slug: string
+  publishedAt: string
+  updatedAt?: string | null
+}
+
 export const getAllLatestBlogPostSlugsQuery = () =>
   groq`
   *[_type == "post" && !(_id in path("drafts.**"))
@@ -15,6 +21,22 @@ export const getAllLatestBlogPostSlugsQuery = () =>
 export const getAllLatestBlogPostSlugs = () => {
   return client.fetch<string[]>(getAllLatestBlogPostSlugsQuery())
 }
+
+export const getBlogPostsForSitemapQuery = () =>
+  groq`
+  *[_type == "post" && !(_id in path("drafts.**"))
+  && publishedAt <="${getDate().toISOString()}"
+  && defined(slug.current)] | order(publishedAt desc) {
+    "slug": slug.current,
+    publishedAt,
+    updatedAt
+  }
+  `
+
+export const getBlogPostsForSitemap = () =>
+  client.fetch<BlogPostSitemapEntry[]>(getBlogPostsForSitemapQuery(), {}, {
+    next: { tags: ['posts'], revalidate: 60 },
+  })
 
 type GetBlogPostsOptions = {
   limit?: number
@@ -66,6 +88,7 @@ export const getBlogPostQuery = groq`
     "categories": categories[]->title,
     description,
     publishedAt,
+    updatedAt,
     readingTime,
     mood,
     body[] {

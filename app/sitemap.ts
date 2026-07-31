@@ -1,7 +1,8 @@
 import { type MetadataRoute } from 'next'
 
 import { url } from '~/lib'
-import { getAllLatestBlogPostSlugs } from '~/sanity/queries'
+import { postModifiedAt } from '~/lib/post-dates'
+import { getBlogPostsForSitemap } from '~/sanity/queries'
 
 export default async function sitemap() {
   const staticMap = [
@@ -27,11 +28,13 @@ export default async function sitemap() {
     },
   ] satisfies MetadataRoute.Sitemap
 
-  const slugs = await getAllLatestBlogPostSlugs()
+  const posts = (await getBlogPostsForSitemap()) || []
 
-  const dynamicMap = slugs.map((slug) => ({
-    url: url(`/blog/${slug}`).href,
-    lastModified: new Date(),
+  const dynamicMap = posts.map((post) => ({
+    url: url(`/blog/${post.slug}`).href,
+    lastModified: new Date(
+      postModifiedAt(post.publishedAt, post.updatedAt)
+    ),
   })) satisfies MetadataRoute.Sitemap
 
   return [...staticMap, ...dynamicMap]

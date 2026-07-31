@@ -28,6 +28,7 @@ import { Container } from '~/components/ui/Container'
 import { WechatSubscribe } from '~/components/WechatSubscribe'
 import { cdnImageSrc } from '~/lib/cdn-image'
 import { prettifyNumber } from '~/lib/math'
+import { hasMeaningfulUpdate } from '~/lib/post-dates'
 import { type PostDetail } from '~/sanity/schemas/post'
 
 import { BlogPostCard } from './BlogPostCard'
@@ -48,6 +49,7 @@ export function BlogPostPage({
     width: 1600,
     quality: 80,
   })
+  const showUpdated = hasMeaningfulUpdate(post.publishedAt, post.updatedAt)
 
   return (
     <>
@@ -127,6 +129,21 @@ export function BlogPostPage({
                     })?.format('YYYY/MM/DD')}
                   </span>
                 </time>
+                {showUpdated && post.updatedAt ? (
+                  <time
+                    dateTime={post.updatedAt}
+                    className="flex items-center space-x-1.5"
+                    title="最近更新"
+                  >
+                    <PencilSwooshIcon className="h-4 w-4" />
+                    <span>
+                      更新于{' '}
+                      {parseDateTime({
+                        date: new Date(post.updatedAt),
+                      })?.format('YYYY/MM/DD')}
+                    </span>
+                  </time>
+                ) : null}
                 <span className="inline-flex items-center space-x-1.5">
                   <ScriptIcon />
                   <span>{post.categories?.join(', ')}</span>

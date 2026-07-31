@@ -6,6 +6,7 @@ import { kvKeys } from '~/config/kv'
 import { url } from '~/lib'
 import { cdnImageSrc } from '~/lib/cdn-image'
 import { isProduction } from '~/lib/is-production'
+import { postModifiedAt } from '~/lib/post-dates'
 import { redis } from '~/lib/redis'
 import { getBlogPost } from '~/sanity/queries'
 
@@ -27,6 +28,8 @@ export const generateMetadata = async ({
     absolute: true,
   })
 
+  const modifiedAt = postModifiedAt(post.publishedAt, post.updatedAt)
+
   return {
     title,
     description,
@@ -42,6 +45,8 @@ export const generateMetadata = async ({
         },
       ],
       type: 'article',
+      publishedTime: post.publishedAt,
+      modifiedTime: modifiedAt,
     },
     twitter: {
       images: [
@@ -124,7 +129,7 @@ export default async function BlogPage({
     description: post.description,
     image: [ogImageAbs],
     datePublished: post.publishedAt,
-    dateModified: post.publishedAt,
+    dateModified: postModifiedAt(post.publishedAt, post.updatedAt),
     author: {
       '@type': 'Person',
       name: 'Reid Liao',
