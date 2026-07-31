@@ -77,7 +77,7 @@ export function PortableTextBlocksH3({
     <h3
       id={value._key}
       data-blockid={value._key}
-      className="group relative pr-3 after:pointer-events-none after:inline after:select-none after:opacity-0 after:transition-opacity after:will-change-[opacity] after:content-['_#'] hover:after:opacity-10 md:pr-0"
+      className="group relative pr-3 after:pointer-events-none after:inline after:select-none after:opacity-0 after:transition-opacity after:will-change-[opacity] after:content-['_#'] hover:after:opacity-100 md:pr-0"
     >
       <a href={`#${value._key as string}`} className="absolute inset-0" />
       <ClientOnly>
@@ -96,7 +96,7 @@ export function PortableTextBlocksH4({
     <h4
       id={value._key}
       data-blockid={value._key}
-      className="group relative pr-3 after:pointer-events-none after:inline after:select-none after:opacity-0 after:transition-opacity after:will-change-[opacity] after:content-['_#'] hover:after:opacity-10 md:pr-0"
+      className="group relative pr-3 after:pointer-events-none after:inline after:select-none after:opacity-0 after:transition-opacity after:will-change-[opacity] after:content-['_#'] hover:after:opacity-100 md:pr-0"
     >
       <a href={`#${value._key as string}`} className="absolute inset-0" />
       <ClientOnly>
