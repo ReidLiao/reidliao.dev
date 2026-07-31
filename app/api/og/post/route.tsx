@@ -58,6 +58,7 @@ export async function GET(req: NextRequest) {
   const brand = 'reidliao.dev'
   const kicker = (category || brand).toUpperCase()
   const subsetText = `${title}${kicker}${brand}`
+  const avatarUrl = `${req.nextUrl.origin}/avatar.jpg`
 
   let fonts: { name: string; data: ArrayBuffer; weight: 400 | 700 }[] = []
   try {
@@ -83,47 +84,14 @@ export async function GET(req: NextRequest) {
           flexDirection: 'column',
           justifyContent: 'space-between',
           padding: '72px',
-          backgroundColor: '#09090b',
+          backgroundColor: '#0a0a0f',
           backgroundImage:
-            'radial-gradient(900px circle at 12% -10%, rgba(163,230,53,0.20), transparent 55%), radial-gradient(700px circle at 100% 120%, rgba(163,230,53,0.10), transparent 60%), linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)',
-          backgroundSize: '100% 100%, 100% 100%, 40px 40px, 40px 40px',
+            'radial-gradient(900px circle at 8% -12%, rgba(163,230,53,0.20), transparent 55%), radial-gradient(700px circle at 108% 118%, rgba(163,230,53,0.10), transparent 60%), linear-gradient(to bottom, transparent 45%, rgba(10,10,15,0.9) 100%), linear-gradient(to right, rgba(255,255,255,0.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.045) 1px, transparent 1px)',
+          backgroundSize: '100% 100%, 100% 100%, 100% 100%, 44px 44px, 44px 44px',
           color: '#ffffff',
           fontFamily: 'Noto Sans SC',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <div
-            style={{
-              width: '14px',
-              height: '14px',
-              borderRadius: '9999px',
-              backgroundColor: '#a3e635',
-            }}
-          />
-          <div
-            style={{
-              fontSize: '28px',
-              letterSpacing: '0.15em',
-              color: '#bef264',
-              fontWeight: 400,
-            }}
-          >
-            {kicker}
-          </div>
-        </div>
-
-        <div
-          style={{
-            display: 'flex',
-            fontSize: title.length > 22 ? '64px' : '76px',
-            fontWeight: 700,
-            lineHeight: 1.15,
-            maxWidth: '960px',
-          }}
-        >
-          {title}
-        </div>
-
         <div
           style={{
             display: 'flex',
@@ -131,17 +99,83 @@ export async function GET(req: NextRequest) {
             justifyContent: 'space-between',
           }}
         >
-          <div style={{ fontSize: '30px', color: 'rgba(255,255,255,0.45)' }}>
-            {brand}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={avatarUrl}
+            width={64}
+            height={64}
+            alt=""
+            style={{
+              width: '64px',
+              height: '64px',
+              borderRadius: '9999px',
+              border: '2px solid rgba(255,255,255,0.25)',
+            }}
+          />
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              padding: '10px 20px',
+              borderRadius: '9999px',
+              backgroundColor: 'rgba(255,255,255,0.06)',
+              border: '1px solid rgba(255,255,255,0.10)',
+            }}
+          >
+            <div
+              style={{
+                width: '12px',
+                height: '12px',
+                borderRadius: '9999px',
+                backgroundColor: '#a3e635',
+              }}
+            />
+            <div
+              style={{
+                fontSize: '26px',
+                letterSpacing: '0.14em',
+                color: '#bef264',
+                fontWeight: 400,
+              }}
+            >
+              {kicker}
+            </div>
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div
+            style={{
+              display: 'flex',
+              fontSize: title.length > 22 ? '64px' : '76px',
+              fontWeight: 700,
+              lineHeight: 1.15,
+              maxWidth: '1000px',
+            }}
+          >
+            {title}
           </div>
           <div
             style={{
-              width: '80px',
-              height: '8px',
-              borderRadius: '9999px',
-              backgroundColor: '#a3e635',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '18px',
+              marginTop: '36px',
             }}
-          />
+          >
+            <div
+              style={{
+                width: '64px',
+                height: '10px',
+                borderRadius: '9999px',
+                backgroundColor: '#a3e635',
+              }}
+            />
+            <div style={{ fontSize: '30px', color: 'rgba(255,255,255,0.5)' }}>
+              {brand}
+            </div>
+          </div>
         </div>
       </div>
     ),
