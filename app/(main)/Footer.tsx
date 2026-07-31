@@ -4,6 +4,7 @@ import Link from 'next/link'
 import React, { Suspense } from 'react'
 
 import { CursorClickIcon, UsersIcon } from '~/assets'
+import { SocialLink } from '~/components/links/SocialLink'
 import { Container } from '~/components/ui/Container'
 import { kvKeys } from '~/config/kv'
 import { navigationItems } from '~/config/nav'
@@ -138,6 +139,24 @@ export function Footer() {
               <Suspense fallback={<Newsletter subCount="0" />}>
                 <FooterNewsletter />
               </Suspense>
+            </div>
+            <div className="mb-8 flex items-center justify-center gap-5">
+              <SocialLink href="https://reidliao.dev/github" platform="github" />
+              <SocialLink
+                href="https://reidliao.dev/twitter"
+                platform="twitter"
+              />
+              <SocialLink
+                href="https://reidliao.dev/youtube"
+                platform="youtube"
+              />
+              <SocialLink
+                href="https://reidliao.dev/bilibili"
+                platform="bilibili"
+              />
+              <SocialLink href="https://reidliao.dev/tg" platform="telegram" />
+              <SocialLink href="/feed.xml" platform="rss" />
+              <SocialLink href="mailto:hi@reidliao.dev" platform="mail" />
             </div>
             <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
               <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-sm text-zinc-500/80 dark:text-zinc-400/80">

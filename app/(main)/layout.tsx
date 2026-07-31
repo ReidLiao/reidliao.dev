@@ -6,6 +6,7 @@ import { Footer } from '~/app/(main)/Footer'
 import { Header } from '~/app/(main)/Header'
 import { QueryProvider } from '~/app/QueryProvider'
 import { BackToTop } from '~/components/BackToTop'
+import { MotionProvider } from '~/components/MotionProvider'
 
 export default function BlogLayout({
   children,
@@ -24,14 +25,16 @@ export default function BlogLayout({
       </div>
 
       <QueryProvider>
-        <div className="relative text-zinc-800 transition-colors duration-300 dark:text-zinc-200">
-          <Header />
-          <main>{children}</main>
-          <Suspense>
-            <Footer />
-          </Suspense>
-        </div>
-        <BackToTop />
+        <MotionProvider>
+          <div className="relative text-zinc-800 transition-colors duration-300 dark:text-zinc-200">
+            <Header />
+            <main>{children}</main>
+            <Suspense>
+              <Footer />
+            </Suspense>
+          </div>
+          <BackToTop />
+        </MotionProvider>
       </QueryProvider>
     </>
   )
