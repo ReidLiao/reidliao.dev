@@ -16,10 +16,10 @@ import {
   HourglassIcon,
   NewCommentIcon,
   PencilSwooshIcon,
+  ScriptIcon,
   UTurnLeftIcon,
 } from '~/assets'
 import { ClientOnly } from '~/components/ClientOnly'
-import { CoverCategoryTag, GeneratedCover } from '~/components/GeneratedCover'
 import { PostAuthorBadge } from '~/components/PostAuthorBadge'
 import { PostPortableText } from '~/components/PostPortableText'
 import { Prose } from '~/components/Prose'
@@ -44,13 +44,10 @@ export function BlogPostPage({
   reactions?: number[]
   relatedViews: number[]
 }) {
-  const hasImage = Boolean(post.mainImage?.asset?.url)
-  const coverSrc = hasImage
-    ? cdnImageSrc(post.mainImage!.asset.url, {
-        width: 1600,
-        quality: 80,
-      })
-    : undefined
+  const coverSrc = cdnImageSrc(post.mainImage.asset.url, {
+    width: 1600,
+    quality: 80,
+  })
 
   return (
     <>
@@ -84,42 +81,27 @@ export function BlogPostPage({
                   damping: 20,
                 }}
               >
-                {hasImage ? (
-                  <>
-                    <div className="absolute z-0 hidden aspect-[240/135] w-full blur-xl saturate-150 after:absolute after:inset-0 after:hidden after:bg-white/50 dark:after:bg-black/70 md:block md:after:block">
-                      <Image
-                        src={coverSrc!}
-                        alt=""
-                        className="select-none"
-                        fill
-                        sizes="(max-width: 768px) 100vw, 800px"
-                        loading="lazy"
-                        aria-hidden={true}
-                      />
-                    </div>
-                    <Image
-                      src={coverSrc!}
-                      alt={post.title}
-                      className="select-none rounded-2xl object-cover ring-1 ring-zinc-900/5 transition dark:ring-0 dark:ring-white/10 dark:hover:ring-white/20 md:rounded-3xl"
-                      placeholder="blur"
-                      blurDataURL={post.mainImage!.asset.lqip}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 800px"
-                      priority
-                    />
-                    <CoverCategoryTag
-                      category={post.categories?.[0]}
-                      variant="hero"
-                    />
-                  </>
-                ) : (
-                  <GeneratedCover
-                    title={post.title}
-                    category={post.categories?.[0]}
-                    variant="hero"
-                    className="rounded-2xl ring-1 ring-white/10 md:rounded-3xl"
+                <div className="absolute z-0 hidden aspect-[240/135] w-full blur-xl saturate-150 after:absolute after:inset-0 after:hidden after:bg-white/50 dark:after:bg-black/70 md:block md:after:block">
+                  <Image
+                    src={coverSrc}
+                    alt=""
+                    className="select-none"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 800px"
+                    loading="lazy"
+                    aria-hidden={true}
                   />
-                )}
+                </div>
+                <Image
+                  src={coverSrc}
+                  alt={post.title}
+                  className="select-none rounded-2xl object-cover ring-1 ring-zinc-900/5 transition dark:ring-0 dark:ring-white/10 dark:hover:ring-white/20 md:rounded-3xl"
+                  placeholder="blur"
+                  blurDataURL={post.mainImage.asset.lqip}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 800px"
+                  priority
+                />
                 <PostAuthorBadge size="lg" priority />
               </motion.div>
               <motion.div
@@ -145,6 +127,10 @@ export function BlogPostPage({
                     })?.format('YYYY/MM/DD')}
                   </span>
                 </time>
+                <span className="inline-flex items-center space-x-1.5">
+                  <ScriptIcon />
+                  <span>{post.categories?.join(', ')}</span>
+                </span>
               </motion.div>
               <motion.h1
                 className="mt-6 w-full text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl"

@@ -2,8 +2,12 @@ import { parseDateTime } from '@zolplay/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { CalendarIcon, CursorClickIcon, HourglassIcon } from '~/assets'
-import { CoverCategoryTag, GeneratedCover } from '~/components/GeneratedCover'
+import {
+  CalendarIcon,
+  CursorClickIcon,
+  HourglassIcon,
+  ScriptIcon,
+} from '~/assets'
 import { PostAuthorBadge } from '~/components/PostAuthorBadge'
 import { cdnImageSrc } from '~/lib/cdn-image'
 import { prettifyNumber } from '~/lib/math'
@@ -11,12 +15,7 @@ import { type Post } from '~/sanity/schemas/post'
 
 export function BlogPostCard({ post, views }: { post: Post; views: number }) {
   const { title, slug, mainImage, publishedAt, categories, readingTime } = post
-  const hasImage = Boolean(mainImage?.asset?.url)
-  const coverSrc = hasImage
-    ? cdnImageSrc(mainImage!.asset.url, { width: 840, quality: 75 })
-    : undefined
-  const fg = mainImage?.asset?.dominant?.foreground ?? '#e4e4e7'
-  const bg = mainImage?.asset?.dominant?.background ?? '#18181b'
+  const coverSrc = cdnImageSrc(mainImage.asset.url, { width: 840, quality: 75 })
 
   return (
     <Link
@@ -25,34 +24,23 @@ export function BlogPostCard({ post, views }: { post: Post; views: number }) {
       className="group relative flex w-full transform-gpu flex-col overflow-hidden rounded-3xl bg-transparent ring-2 ring-[--post-image-bg] transition-transform hover:-translate-y-0.5"
       style={
         {
-          '--post-image-fg': fg,
-          '--post-image-bg': bg,
-          '--post-image': coverSrc ? `url(${coverSrc})` : 'none',
+          '--post-image-fg': mainImage.asset.dominant?.foreground,
+          '--post-image-bg': mainImage.asset.dominant?.background,
+          '--post-image': `url(${coverSrc})`,
         } as React.CSSProperties
       }
     >
       <div className="relative aspect-[240/135] w-full isolate overflow-hidden">
-        {hasImage ? (
-          <>
-            <Image
-              src={coverSrc!}
-              alt=""
-              className="rounded-t-3xl object-cover"
-              placeholder="blur"
-              blurDataURL={mainImage!.asset.lqip}
-              fill
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px"
-              loading="lazy"
-            />
-            <CoverCategoryTag category={categories?.[0]} />
-          </>
-        ) : (
-          <GeneratedCover
-            title={title}
-            category={categories?.[0]}
-            className="rounded-t-3xl"
-          />
-        )}
+        <Image
+          src={coverSrc}
+          alt=""
+          className="rounded-t-3xl object-cover"
+          placeholder="blur"
+          blurDataURL={mainImage.asset.lqip}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px"
+          loading="lazy"
+        />
         <PostAuthorBadge size="md" />
       </div>
       <span className="relative z-10 flex w-full flex-1 shrink-0 flex-col justify-between gap-0.5 rounded-b-3xl bg-cover bg-bottom bg-no-repeat p-4 bg-blend-overlay [background-image:var(--post-image)] before:pointer-events-none before:absolute before:inset-0 before:z-10 before:select-none before:rounded-b-3xl before:bg-[--post-image-bg] before:opacity-70 before:transition-opacity after:pointer-events-none after:absolute after:inset-0 after:z-10 after:select-none after:rounded-b-3xl after:bg-gradient-to-b after:from-transparent after:to-[--post-image-bg] after:backdrop-blur after:transition-opacity group-hover:before:opacity-30 md:p-5">
@@ -70,6 +58,13 @@ export function BlogPostCard({ post, views }: { post: Post; views: number }) {
                 )}
               </span>
             </span>
+
+            {Array.isArray(categories) && (
+              <span className="inline-flex items-center space-x-1 text-[12px] font-medium text-[--post-image-fg] md:text-sm">
+                <ScriptIcon />
+                <span>{categories.join(', ')}</span>
+              </span>
+            )}
           </span>
           <span className="inline-flex items-center space-x-3 text-[12px] font-medium text-[--post-image-fg] md:text-xs">
             <span className="inline-flex items-center space-x-1">

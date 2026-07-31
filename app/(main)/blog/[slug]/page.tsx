@@ -21,13 +21,11 @@ export const generateMetadata = async ({
 
   const { title, description, mainImage } = post
 
-  const ogImage = mainImage?.asset?.url
-    ? cdnImageSrc(mainImage.asset.url, {
-        width: 1200,
-        quality: 80,
-        absolute: true,
-      })
-    : `/api/og/post?slug=${encodeURIComponent(params.slug)}`
+  const ogImage = cdnImageSrc(mainImage.asset.url, {
+    width: 1200,
+    quality: 80,
+    absolute: true,
+  })
 
   return {
     title,
@@ -109,13 +107,11 @@ export default async function BlogPage({
     }
   }
 
-  const ogImageAbs = post.mainImage?.asset?.url
-    ? cdnImageSrc(post.mainImage.asset.url, {
-        width: 1200,
-        quality: 80,
-        absolute: true,
-      })
-    : url(`/api/og/post?slug=${encodeURIComponent(post.slug)}`).href
+  const ogImageAbs = cdnImageSrc(post.mainImage.asset.url, {
+    width: 1200,
+    quality: 80,
+    absolute: true,
+  })
 
   const jsonLd = {
     '@context': 'https://schema.org',
