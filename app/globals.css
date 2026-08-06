@@ -49,13 +49,13 @@ html.theme-transition *::after {
   color: theme('colors.lime.950');
 }
 
-/* Consistent keyboard focus ring — a11y baseline for buttons / links / inputs. */
+/* Consistent keyboard focus ring — a11y baseline for buttons / links / inputs.
+   Do NOT force border-radius here; keep each control's own shape (e.g. rounded-full). */
 :where(a, button, [role='button'], input, textarea, select, [tabindex]):focus-visible {
   outline: none;
   box-shadow:
     0 0 0 2px var(--bg-color, theme('colors.zinc.50')),
     0 0 0 4px theme('colors.lime.500' / 55%);
-  border-radius: 6px;
 }
 html.dark
   :where(a, button, [role='button'], input, textarea, select, [tabindex]):focus-visible {
