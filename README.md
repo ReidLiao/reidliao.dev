@@ -3,6 +3,8 @@
 [reidliao.dev](https://reidliao.dev) 个人技术博客源码仓库。  
 基于开源博客方案深度定制，记录全栈建站、Docker 自建与系统运维的真实折腾；站点跑在自有 VPS 上，按自建场景持续维护与更新。
 
+[![reidliao.dev homepage](./docs/images/homepage.jpg)](https://reidliao.dev)
+
 ## 站点定位
 
 - 自建部署：镜像、反代、环境变量与日志策略自行掌控
