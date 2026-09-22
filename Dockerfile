@@ -5,7 +5,8 @@ RUN corepack enable && corepack prepare pnpm@8.15.8 --activate
 
 FROM base AS deps
 COPY package.json pnpm-lock.yaml* ./
-RUN pnpm config set registry https://registry.npmmirror.com && pnpm install
+# --frozen-lockfile：严格按 pnpm-lock.yaml 安装，锁文件与 package.json 不一致时直接失败，保证构建可复现
+RUN pnpm config set registry https://registry.npmmirror.com && pnpm install --frozen-lockfile
 
 FROM base AS builder
 COPY --from=deps /app/node_modules ./node_modules

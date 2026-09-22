@@ -10,8 +10,6 @@ services:
       - .env
     environment:
       IMAGE_CACHE_DIR: /data/img-cache
-      # 确保发布刷新密钥传入容器（值来自同目录 .env）
-      REVALIDATE_SECRET: ${REVALIDATE_SECRET:-}
     volumes:
       - reidliao-img-cache:/data/img-cache
 
