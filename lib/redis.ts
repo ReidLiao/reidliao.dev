@@ -14,3 +14,13 @@ export const ratelimit = new Ratelimit({
   limiter: Ratelimit.slidingWindow(30, '10 s'),
   analytics: true,
 })
+
+export async function getReactions(id: string): Promise<number[]> {
+  const key = `reactions:${id}`
+  const value = await redis.get<number[]>(key)
+  if (value) return value
+
+  const initial = [0, 0, 0, 0]
+  await redis.set(key, initial)
+  return initial
+}

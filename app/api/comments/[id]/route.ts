@@ -1,6 +1,6 @@
 import { clerkClient, currentUser } from '@clerk/nextjs'
 import { Ratelimit } from '@upstash/ratelimit'
-import { asc, eq } from 'drizzle-orm'
+import { and, asc, eq } from 'drizzle-orm'
 import { type NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
@@ -130,14 +130,25 @@ export async function POST(req: NextRequest, { params }: Params) {
       parentId: parentId ? (parentId as number) : null,
     }
 
-    if (parentId && env.NODE_ENV === 'production') {
+    if (parentId) {
       const [parentUserFromDb] = await db
         .select({
           userId: comments.userId,
         })
         .from(comments)
-        .where(eq(comments.id, parentId as number))
-      if (parentUserFromDb && parentUserFromDb.userId !== user.id) {
+        .where(
+          and(
+            eq(comments.id, parentId as number),
+            eq(comments.postId, postId)
+          )
+        )
+      if (!parentUserFromDb) {
+        return NextResponse.json({ error: '回复目标无效' }, { status: 400 })
+      }
+      if (
+        env.NODE_ENV === 'production' &&
+        parentUserFromDb.userId !== user.id
+      ) {
         const { primaryEmailAddressId, emailAddresses } =
           await clerkClient.users.getUser(parentUserFromDb.userId)
         const primaryEmailAddress = emailAddresses.find(

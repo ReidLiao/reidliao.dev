@@ -56,12 +56,30 @@ for (const [address, prefix, type] of [
   ['192.168.0.0', 16, 'ipv4'],
   ['::', 128, 'ipv6'],
   ['::1', 128, 'ipv6'],
-  ['::ffff:0:0', 96, 'ipv6'],
   ['fc00::', 7, 'ipv6'],
   ['fe80::', 10, 'ipv6'],
   ['ff00::', 8, 'ipv6'],
 ] as const) {
   blockedNetworks.addSubnet(address, prefix, type)
+}
+
+function isBlockedAddress(address: string): boolean {
+  const version = isIP(address)
+  if (version === 0 || blockedNetworks.check(address)) return true
+
+  // Node's BlockList treats a broad IPv4-mapped IPv6 rule as matching all
+  // IPv4 addresses, so check dotted-quad mapped addresses explicitly.
+  const mappedIPv4 = address.toLowerCase().match(/^::ffff:(.+)$/)?.[1]
+  if (!mappedIPv4) return false
+  if (isIP(mappedIPv4) === 4) return blockedNetworks.check(mappedIPv4)
+
+  const mappedHex = mappedIPv4.match(/^([0-9a-f]{1,4}):([0-9a-f]{1,4})$/)
+  if (!mappedHex) return false
+  const high = Number.parseInt(mappedHex[1], 16)
+  const low = Number.parseInt(mappedHex[2], 16)
+  return blockedNetworks.check(
+    `${high >> 8}.${high & 255}.${low >> 8}.${low & 255}`
+  )
 }
 
 async function validatePublicUrl(rawUrl: string): Promise<URL> {
@@ -83,10 +101,7 @@ async function validatePublicUrl(rawUrl: string): Promise<URL> {
   const addresses = await dns.lookup(parsed.hostname, { all: true })
   if (
     addresses.length === 0 ||
-    addresses.some(({ address }) => {
-      const version = isIP(address)
-      return version === 0 || blockedNetworks.check(address, version === 6 ? 'ipv6' : 'ipv4')
-    })
+    addresses.some(({ address }) => isBlockedAddress(address))
   ) {
     throw new Error('Private URL')
   }

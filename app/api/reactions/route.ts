@@ -2,7 +2,7 @@ import { Ratelimit } from '@upstash/ratelimit'
 import { revalidateTag } from 'next/cache'
 import { type NextRequest, NextResponse } from 'next/server'
 
-import { redis } from '~/lib/redis'
+import { getReactions, redis } from '~/lib/redis'
 
 export const runtime = 'nodejs'
 
@@ -21,11 +21,6 @@ export async function GET(req: NextRequest) {
   const id = searchParams.get('id')
   if (!id) return new Response('Missing id', { status: 400 })
 
-  const value = await redis.get<number[]>(`reactions:${id}`)
-  if (!value) {
-    await redis.set(getKey(id), [0, 0, 0, 0])
-  }
-
   const { success } = await ratelimit.limit(getKey(id) + `_${req.ip ?? ''}`)
   if (!success) {
     return new Response('Too Many Requests', {
@@ -33,7 +28,7 @@ export async function GET(req: NextRequest) {
     })
   }
 
-  return NextResponse.json(value ?? [0, 0, 0, 0])
+  return NextResponse.json(await getReactions(id))
 }
 
 export async function PATCH(req: NextRequest) {

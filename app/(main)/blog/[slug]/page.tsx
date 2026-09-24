@@ -7,7 +7,7 @@ import { url } from '~/lib'
 import { cdnImageSrc } from '~/lib/cdn-image'
 import { isProduction } from '~/lib/is-production'
 import { postModifiedAt } from '~/lib/post-dates'
-import { redis } from '~/lib/redis'
+import { getReactions, redis } from '~/lib/redis'
 import { getBlogPost } from '~/sanity/queries'
 
 export const generateMetadata = async ({
@@ -89,15 +89,7 @@ export default async function BlogPage({
   let reactions: number[] = []
   try {
     if (isProduction) {
-      const res = await fetch(url(`/api/reactions?id=${post._id}`), {
-        next: {
-          tags: [`reactions:${post._id}`],
-        },
-      })
-      const data = await res.json()
-      if (Array.isArray(data)) {
-        reactions = data
-      }
+      reactions = await getReactions(post._id)
     } else {
       reactions = Array.from({ length: 4 }, () =>
         Math.floor(Math.random() * 50000)

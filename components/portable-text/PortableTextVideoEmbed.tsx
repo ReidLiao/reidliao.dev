@@ -4,20 +4,23 @@ import { type PortableTextComponentProps } from '@portabletext/react'
 import React from 'react'
 
 function parseVideoEmbed(url: string): {
-  kind: 'youtube' | 'bilibili' | 'direct' | 'iframe'
+  kind: 'youtube' | 'bilibili' | 'direct'
   src: string
 } | null {
   try {
     const u = new URL(url)
 
     // YouTube
-    if (
-      u.hostname.includes('youtube.com') ||
-      u.hostname.includes('youtu.be') ||
-      u.hostname.includes('youtube-nocookie.com')
-    ) {
+    const youtubeHosts = new Set([
+      'youtube.com',
+      'www.youtube.com',
+      'youtu.be',
+      'youtube-nocookie.com',
+      'www.youtube-nocookie.com',
+    ])
+    if (youtubeHosts.has(u.hostname)) {
       let id = u.searchParams.get('v')
-      if (!id && u.hostname.includes('youtu.be')) {
+      if (!id && u.hostname === 'youtu.be') {
         id = u.pathname.replace(/^\//, '').split('/')[0]
       }
       if (!id && u.pathname.includes('/embed/')) {
@@ -32,7 +35,14 @@ function parseVideoEmbed(url: string): {
     }
 
     // Bilibili
-    if (u.hostname.includes('bilibili.com') || u.hostname.includes('b23.tv')) {
+    const bilibiliHosts = new Set([
+      'bilibili.com',
+      'www.bilibili.com',
+      'player.bilibili.com',
+      'b23.tv',
+      'www.b23.tv',
+    ])
+    if (bilibiliHosts.has(u.hostname)) {
       const bv = u.pathname.match(/\/video\/(BV[\w]+)/i)?.[1]
       const aid = u.searchParams.get('aid') || u.pathname.match(/\/video\/av(\d+)/i)?.[1]
       if (bv) {
@@ -58,8 +68,8 @@ function parseVideoEmbed(url: string): {
       return { kind: 'direct', src: url }
     }
 
-    // Generic iframe fallback (e.g. some music/video pages that allow embed)
-    return { kind: 'iframe', src: url }
+    // Do not embed arbitrary URLs in an iframe.
+    return null
   } catch {
     return null
   }
