@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { isAllowedImageProxyUrl } from '~/lib/cdn-image'
-import { fetchAndCacheImage, readImageCache } from '~/lib/img-cache'
+import { normalizeImageProxyUrl } from '~/lib/cdn-image'
+import {
+  fetchAndCacheImage,
+  ImageProxyError,
+  readImageCache,
+} from '~/lib/img-cache'
 
 export const runtime = 'nodejs'
 
@@ -20,23 +24,27 @@ function imageResponse(body: Buffer, contentType: string, hit: boolean) {
 
 export async function GET(request: NextRequest) {
   const raw = request.nextUrl.searchParams.get('u')
-  if (!raw || !isAllowedImageProxyUrl(raw)) {
+  const url = raw ? normalizeImageProxyUrl(raw) : null
+  if (!url) {
     return new NextResponse('Forbidden', { status: 403 })
   }
 
   try {
-    const diskHit = await readImageCache(raw)
+    const diskHit = await readImageCache(url)
     if (diskHit) {
       return imageResponse(diskHit.body, diskHit.contentType, true)
     }
 
-    const fetched = await fetchAndCacheImage(raw)
+    const fetched = await fetchAndCacheImage(url)
     if (!fetched) {
       return new NextResponse('Upstream error', { status: 502 })
     }
 
     return imageResponse(fetched.body, fetched.contentType, false)
-  } catch {
+  } catch (error) {
+    if (error instanceof ImageProxyError) {
+      return new NextResponse(error.message, { status: error.status })
+    }
     return new NextResponse('Proxy failed', { status: 502 })
   }
 }
