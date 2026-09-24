@@ -74,9 +74,14 @@ export default async function BlogPage({
     notFound()
   }
 
-  let views: number
+  let views: number | undefined
   if (isProduction) {
-    views = await redis.incr(kvKeys.postViews(post._id))
+    views = undefined
+    setImmediate(() => {
+      void redis.incr(kvKeys.postViews(post._id)).catch((error) => {
+        console.error('[PostViews] Failed to record view', error)
+      })
+    })
   } else {
     views = 30578
   }
