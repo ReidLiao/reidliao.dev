@@ -25,14 +25,19 @@ export async function GET(req: NextRequest) {
   try {
     const { success } = await ratelimit.limit(getKey(req.ip ?? ''))
     if (!success) {
-      return new Response('Too Many Requests', {
-        status: 429,
-      })
+      return NextResponse.json(
+        { error: '留言加载过于频繁，请稍后再试' },
+        { status: 429 }
+      )
     }
 
     return NextResponse.json(await fetchGuestbookMessages())
   } catch (error) {
-    return NextResponse.json({ error }, { status: 400 })
+    console.error('[Guestbook GET]', error)
+    return NextResponse.json(
+      { error: '留言暂时无法加载，请稍后再试' },
+      { status: 500 }
+    )
   }
 }
 
@@ -42,9 +47,8 @@ const SignGuestbookSchema = z.object({
 })
 
 export async function POST(req: NextRequest) {
-  const user = await currentUser()
-
   try {
+    const user = await currentUser()
     const data = await req.json()
     const { message, anonymous } = SignGuestbookSchema.parse(data)
     const isAnonymous = !user || anonymous === true
@@ -130,6 +134,16 @@ export async function POST(req: NextRequest) {
       }
     )
   } catch (error) {
-    return NextResponse.json({ error }, { status: 400 })
+    console.error('[Guestbook POST]', error)
+    if (error instanceof z.ZodError || error instanceof SyntaxError) {
+      return NextResponse.json(
+        { error: '留言内容格式不正确' },
+        { status: 400 }
+      )
+    }
+    return NextResponse.json(
+      { error: '留言发送失败，请稍后再试' },
+      { status: 500 }
+    )
   }
 }

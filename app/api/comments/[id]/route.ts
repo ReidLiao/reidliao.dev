@@ -38,9 +38,10 @@ export async function GET(req: NextRequest, { params }: Params) {
       getKey(postId) + `_${req.ip ?? ''}`
     )
     if (!success) {
-      return new Response('Too Many Requests', {
-        status: 429,
-      })
+      return NextResponse.json(
+        { error: '评论加载过于频繁，请稍后再试' },
+        { status: 429 }
+      )
     }
 
     const data = await db
@@ -67,7 +68,11 @@ export async function GET(req: NextRequest, { params }: Params) {
       )
     )
   } catch (error) {
-    return NextResponse.json({ error }, { status: 400 })
+    console.error('[Comments GET]', error)
+    return NextResponse.json(
+      { error: '评论暂时无法加载，请稍后再试' },
+      { status: 500 }
+    )
   }
 }
 
@@ -80,33 +85,35 @@ const CreateCommentSchema = z.object({
 })
 
 export async function POST(req: NextRequest, { params }: Params) {
-  const user = await currentUser()
-  if (!user) {
-    return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
-  }
-
-  const postId = params.id
-
-  const { success } = await ratelimit.limit(getKey(postId) + `_${req.ip ?? ''}`)
-  if (!success) {
-    return new Response('Too Many Requests', {
-      status: 429,
-    })
-  }
-
-  const post = await client.fetch<
-    { slug: string; title: string; imageUrl: string } | undefined
-  >(
-    '*[_type == "post" && _id == $id][0]{ "slug": slug.current, title, "imageUrl": mainImage.asset->url }',
-    {
-      id: postId,
-    }
-  )
-  if (!post) {
-    return NextResponse.json({ error: 'Post not found' }, { status: 412 })
-  }
-
   try {
+    const user = await currentUser()
+    if (!user) {
+      return NextResponse.json({ error: '请先登录后再评论' }, { status: 401 })
+    }
+
+    const postId = params.id
+    const { success } = await ratelimit.limit(
+      getKey(postId) + `_${req.ip ?? ''}`
+    )
+    if (!success) {
+      return NextResponse.json(
+        { error: '评论发送过于频繁，请稍后再试' },
+        { status: 429 }
+      )
+    }
+
+    const post = await client.fetch<
+      { slug: string; title: string; imageUrl: string } | undefined
+    >(
+      '*[_type == "post" && _id == $id][0]{ "slug": slug.current, title, "imageUrl": mainImage.asset->url }',
+      {
+        id: postId,
+      }
+    )
+    if (!post) {
+      return NextResponse.json({ error: '文章不存在' }, { status: 404 })
+    }
+
     const data = await req.json()
     const { body, parentId: hashedParentId } = CreateCommentSchema.parse(data)
 
@@ -169,6 +176,16 @@ export async function POST(req: NextRequest, { params }: Params) {
       parentId: hashedParentId,
     } satisfies CommentDto)
   } catch (error) {
-    return NextResponse.json({ error }, { status: 400 })
+    console.error('[Comments POST]', error)
+    if (error instanceof z.ZodError || error instanceof SyntaxError) {
+      return NextResponse.json(
+        { error: '评论内容格式不正确' },
+        { status: 400 }
+      )
+    }
+    return NextResponse.json(
+      { error: '评论发送失败，请稍后再试' },
+      { status: 500 }
+    )
   }
 }

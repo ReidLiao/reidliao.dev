@@ -23,14 +23,17 @@ const ratelimit = new Ratelimit({
 })
 
 export async function POST(req: NextRequest) {
-  if (env.NODE_ENV === 'production') {
-    const { success } = await ratelimit.limit('subscribe_' + (req.ip ?? ''))
-    if (!success) {
-      return NextResponse.error()
-    }
-  }
-
   try {
+    if (env.NODE_ENV === 'production') {
+      const { success } = await ratelimit.limit('subscribe_' + (req.ip ?? ''))
+      if (!success) {
+        return NextResponse.json(
+          { error: '请求过于频繁，请稍后再试' },
+          { status: 429 }
+        )
+      }
+    }
+
     const { data } = await req.json()
     const parsed = newsletterFormSchema.parse(data)
 
@@ -65,7 +68,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ status: 'success' })
   } catch (error) {
     console.error('[Newsletter]', error)
-
-    return NextResponse.error()
+    if (error instanceof z.ZodError || error instanceof SyntaxError) {
+      return NextResponse.json(
+        { error: '邮箱地址格式不正确' },
+        { status: 400 }
+      )
+    }
+    return NextResponse.json(
+      { error: '订阅暂时无法完成，请稍后再试' },
+      { status: 500 }
+    )
   }
 }
