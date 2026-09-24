@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
 
     const rateLimitKey = isAnonymous
       ? getKey(`anon:${req.ip ?? 'unknown'}`)
-      : getKey(user!.id)
+      : getKey(user.id)
 
     const { success } = await ratelimit.limit(rateLimitKey)
     if (!success) {
@@ -90,12 +90,12 @@ export async function POST(req: NextRequest) {
           },
         }
       : {
-          userId: user!.id,
+          userId: user.id,
           message,
           userInfo: {
-            firstName: user!.firstName,
-            lastName: user!.lastName,
-            imageUrl: user!.imageUrl,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            imageUrl: user.imageUrl,
           },
         }
 

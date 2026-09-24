@@ -8,8 +8,8 @@ import Balancer from 'react-wrap-balancer'
 
 import { BlogPostMobileTOC } from '~/app/(main)/blog/BlogPostMobileTOC'
 import { BlogPostStateLoader } from '~/app/(main)/blog/BlogPostStateLoader'
-import { BlogReadingProgress } from '~/app/(main)/blog/BlogReadingProgress'
 import { BlogReactions } from '~/app/(main)/blog/BlogReactions'
+import { BlogReadingProgress } from '~/app/(main)/blog/BlogReadingProgress'
 import {
   CalendarIcon,
   CursorClickIcon,

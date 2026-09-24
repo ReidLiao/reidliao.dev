@@ -1,6 +1,5 @@
-import Image from 'next/image'
-
 import { clsxm } from '@zolplay/utils'
+import Image from 'next/image'
 
 /** Soft author badge overlaid on post covers — avoids a hard “sticker” look. */
 export function PostAuthorBadge({

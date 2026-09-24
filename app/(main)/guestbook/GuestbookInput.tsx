@@ -22,6 +22,10 @@ import { ElegantTooltip } from '~/components/ui/Tooltip'
 import { type GuestbookDto } from '~/db/dto/guestbook.dto'
 
 const MAX_MESSAGE_LENGTH = 600
+
+type GuestbookErrorResponse = {
+  error?: unknown
+}
 const MAX_ANONYMOUS_MESSAGE_LENGTH = 120
 const REWARDS_ID = 'guestbook-rewards'
 
@@ -76,7 +80,7 @@ export function GuestbookInput() {
         }),
       })
       if (!res.ok) {
-        const payload = await res.json().catch(() => ({}))
+        const payload = (await res.json().catch(() => ({}))) as GuestbookErrorResponse
         throw new Error(
           typeof payload.error === 'string'
             ? payload.error

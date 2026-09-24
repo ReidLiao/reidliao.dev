@@ -229,7 +229,7 @@ export function PortableTextDownload({
                   <button
                     type="button"
                     className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-zinc-500 transition hover:bg-white hover:text-lime-600 dark:hover:bg-zinc-800 dark:hover:text-lime-400"
-                    onClick={() => copyText(value.extractCode!, 'code')}
+                    onClick={() => copyText(value.extractCode, 'code')}
                     aria-label="复制提取码"
                   >
                     {copied === 'code' ? (
@@ -250,7 +250,7 @@ export function PortableTextDownload({
                   <button
                     type="button"
                     className="ml-1.5 inline-flex translate-y-0.5 text-zinc-400 transition hover:text-lime-600 dark:hover:text-lime-400"
-                    onClick={() => copyText(value.note!, 'note')}
+                    onClick={() => copyText(value.note, 'note')}
                     aria-label="复制备注"
                   >
                     {copied === 'note' ? (
@@ -274,7 +274,7 @@ export function PortableTextDownload({
                   <button
                     type="button"
                     className="shrink-0 text-zinc-500 transition hover:text-lime-300"
-                    onClick={() => copyText(active.checksum!, 'sha')}
+                    onClick={() => copyText(active.checksum, 'sha')}
                     aria-label="复制校验和"
                   >
                     {copied === 'sha' ? (

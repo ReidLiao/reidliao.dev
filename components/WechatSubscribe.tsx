@@ -1,6 +1,5 @@
-import Image from 'next/image'
-
 import { clsxm } from '@zolplay/utils'
+import Image from 'next/image'
 
 import { WeChatIcon } from '~/assets'
 
