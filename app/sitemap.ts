@@ -8,27 +8,26 @@ export default async function sitemap() {
   const staticMap = [
     {
       url: url('/').href,
-      lastModified: new Date(),
     },
     {
       url: url('/blog').href,
-      lastModified: new Date(),
     },
     {
       url: url('/vps').href,
-      lastModified: new Date(),
     },
     {
       url: url('/guestbook').href,
-      lastModified: new Date(),
     },
     {
       url: url('/about').href,
-      lastModified: new Date(),
     },
   ] satisfies MetadataRoute.Sitemap
 
-  const posts = (await getBlogPostsForSitemap()) || []
+  const posts = ((await getBlogPostsForSitemap()) || []).filter(
+    // Draft documents are already excluded by the Sanity query. Keep the
+    // known test article out of the public sitemap as well.
+    (post) => post.slug !== 'test'
+  )
 
   const dynamicMap = posts.map((post) => ({
     url: url(`/blog/${post.slug}`).href,
