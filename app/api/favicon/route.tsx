@@ -40,6 +40,7 @@ function getPredefinedIconForUrl(url: string): string | undefined {
 
 const width = 32
 const height = width
+const FALLBACK_ICON_URL = 'https://reidliao.dev/favicon_blank.png'
 
 const MAX_RESPONSE_BYTES = 1024 * 1024
 const FETCH_TIMEOUT_MS = 5000
@@ -143,6 +144,7 @@ async function fetchSafe(
 
   for (let redirects = 0; redirects <= MAX_REDIRECTS; redirects += 1) {
     const response = await fetch(url, {
+      cache: 'no-store',
       redirect: 'manual',
       signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
       headers: { Accept: accept.source },
@@ -183,20 +185,30 @@ function renderFavicon(url: string) {
   )
 }
 
+function errorResponse(message: string, status: 400 | 429 | 500) {
+  return NextResponse.json(
+    { error: message },
+    {
+      status,
+      headers: { 'Cache-Control': 'no-store' },
+    }
+  )
+}
+
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const rawUrl = searchParams.get('url')
 
   if (!rawUrl) {
-    return NextResponse.json({ error: 'Invalid URL' }, { status: 400 })
+    return errorResponse('Invalid URL', 400)
   }
 
   const { success } = await ratelimit.limit('favicon' + `_${req.ip ?? ''}`)
   if (!success) {
-    return NextResponse.error()
+    return errorResponse('Too many requests', 429)
   }
 
-  let iconUrl = 'https://reidliao.dev/favicon_blank.png'
+  let iconUrl = FALLBACK_ICON_URL
 
   try {
     const pageUrl = await validatePublicUrl(rawUrl)
@@ -207,7 +219,14 @@ export async function GET(req: NextRequest) {
 
     const cachedFavicon = await redis.get<string>(getKey(pageUrl.href))
     if (cachedFavicon) {
-      return renderFavicon(cachedFavicon)
+      if (cachedFavicon !== FALLBACK_ICON_URL) {
+        return renderFavicon(cachedFavicon)
+      }
+
+      // Remove fallback values written by the previous implementation.
+      void redis.del(getKey(pageUrl.href)).catch((error) => {
+        console.error('[Favicon] Failed to remove fallback cache', error)
+      })
     }
 
     const { body: html } = await fetchSafe(pageUrl.href, /^text\/html$/i)
@@ -223,12 +242,13 @@ export async function GET(req: NextRequest) {
       const contentType =
         response.headers.get('content-type')?.split(';')[0] ?? 'image/png'
       iconUrl = `data:${contentType};base64,${body.toString('base64')}`
-    }
 
-    await redis.set(getKey(pageUrl.href), iconUrl, { ex: revalidate })
+      // Only successful favicon fetches are cached.
+      await redis.set(getKey(pageUrl.href), iconUrl, { ex: revalidate })
+    }
 
     return renderFavicon(iconUrl)
   } catch {
-    return NextResponse.json({ error: 'Invalid favicon URL' }, { status: 400 })
+    return errorResponse('Invalid favicon URL', 400)
   }
 }
