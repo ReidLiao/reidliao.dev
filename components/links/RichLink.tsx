@@ -19,6 +19,9 @@ type RichLinkProps = LinkProps &
 export const RichLink = React.forwardRef<HTMLAnchorElement, RichLinkProps>(
   ({ children, href, favicon = true, faviconUrl, className, ...props }, ref) => {
     const hrefHost = new URL(href).host
+    const [failedFaviconUrl, setFailedFaviconUrl] = React.useState<string | null>(
+      null
+    )
     const resolvedFaviconUrl = React.useMemo(() => {
       if (faviconUrl) {
         return faviconUrl
@@ -50,7 +53,9 @@ export const RichLink = React.forwardRef<HTMLAnchorElement, RichLinkProps>(
         target="_blank"
         {...props}
       >
-        {favicon && resolvedFaviconUrl && (
+        {favicon &&
+          resolvedFaviconUrl &&
+          failedFaviconUrl !== resolvedFaviconUrl && (
           <span
             className={clsxm(
               'mr-px inline-flex translate-y-0.5',
@@ -71,6 +76,7 @@ export const RichLink = React.forwardRef<HTMLAnchorElement, RichLinkProps>(
               loading="lazy"
               unoptimized
               priority={false}
+              onError={() => setFailedFaviconUrl(resolvedFaviconUrl)}
             />
           </span>
         )}

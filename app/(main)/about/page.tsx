@@ -20,7 +20,7 @@ const aboutSections = [
   { id: 'tech-stack', label: '技术栈' },
   { id: 'content-focus', label: '内容定位' },
   { id: 'download-strategy', label: '下载策略' },
-  { id: 'changelog', label: 'Changelog' },
+  { id: 'changelog', label: '更新记录' },
 ] as const
 
 const techStack = [

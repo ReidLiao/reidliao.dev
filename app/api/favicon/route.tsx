@@ -208,7 +208,7 @@ export async function GET(req: NextRequest) {
     return errorResponse('Too many requests', 429)
   }
 
-  let iconUrl = FALLBACK_ICON_URL
+  let iconUrl: string
 
   try {
     const pageUrl = await validatePublicUrl(rawUrl)
@@ -236,16 +236,16 @@ export async function GET(req: NextRequest) {
       $('link[rel="icon"]').attr('href') ??
       $('link[rel="shortcut icon"]').attr('href')
 
-    if (finalFavicon) {
-      const faviconUrl = new URL(finalFavicon, pageUrl).href
-      const { body, response } = await fetchSafe(faviconUrl, /^image\//i)
-      const contentType =
-        response.headers.get('content-type')?.split(';')[0] ?? 'image/png'
-      iconUrl = `data:${contentType};base64,${body.toString('base64')}`
+    if (!finalFavicon) throw new Error('Favicon not found')
 
-      // Only successful favicon fetches are cached.
-      await redis.set(getKey(pageUrl.href), iconUrl, { ex: revalidate })
-    }
+    const faviconUrl = new URL(finalFavicon, pageUrl).href
+    const { body, response } = await fetchSafe(faviconUrl, /^image\//i)
+    const contentType =
+      response.headers.get('content-type')?.split(';')[0] ?? 'image/png'
+    iconUrl = `data:${contentType};base64,${body.toString('base64')}`
+
+    // Only successful favicon fetches are cached.
+    await redis.set(getKey(pageUrl.href), iconUrl, { ex: revalidate })
 
     return renderFavicon(iconUrl)
   } catch {
