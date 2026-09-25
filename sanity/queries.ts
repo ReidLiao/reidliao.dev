@@ -5,6 +5,29 @@ import { client } from '~/sanity/lib/client'
 import { type Post, type PostDetail } from '~/sanity/schemas/post'
 import { type Project } from '~/sanity/schemas/project'
 
+export type Donor = {
+  _id: string
+  name: string
+  date: string
+  message?: string | null
+}
+
+export const getDonorsQuery = () =>
+  groq`
+  *[_type == "donor" && !(_id in path("drafts.**"))]
+    | order(date desc, _createdAt desc) {
+      _id,
+      name,
+      date,
+      message
+    }
+  `
+
+export const getDonors = () =>
+  client.fetch<Donor[]>(getDonorsQuery(), {}, {
+    next: { tags: ['donors'], revalidate: 600 },
+  })
+
 export type BlogPostSitemapEntry = {
   slug: string
   publishedAt: string

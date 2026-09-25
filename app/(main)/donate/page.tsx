@@ -1,7 +1,9 @@
 import { type Metadata } from 'next'
 import Image from 'next/image'
+import Link from 'next/link'
 
 import { Container } from '~/components/ui/Container'
+import { getDonors } from '~/sanity/queries'
 
 import { DonationAddress } from './DonationAddress'
 
@@ -42,7 +44,9 @@ export const metadata = {
   },
 } satisfies Metadata
 
-export default function DonatePage() {
+export default async function DonatePage() {
+  const donors = await getDonors()
+
   return (
     <Container className="mt-16 sm:mt-32">
       <header className="max-w-2xl">
@@ -134,6 +138,62 @@ export default function DonatePage() {
           ))}
         </div>
       </section>
+
+      <p className="mt-6 max-w-2xl text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+        捐完欢迎去
+        <Link
+          href="/guestbook"
+          className="transition hover:text-lime-600 dark:hover:text-lime-400"
+        >
+          留言墙
+        </Link>
+        冒个泡，让我知道这杯咖啡是谁请的。
+      </p>
+
+      <section className="mt-16 max-w-2xl" aria-labelledby="donors-heading">
+        <h2
+          id="donors-heading"
+          className="text-lg font-semibold tracking-tight text-zinc-800 dark:text-zinc-100"
+        >
+          感谢名单
+        </h2>
+        <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
+          感谢每一位请咖啡的朋友
+        </p>
+        {donors.length === 0 ? (
+          <p className="mt-6 rounded-2xl border border-dashed border-zinc-200 px-5 py-6 text-sm text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">
+            虚位以待——第一杯咖啡等你来请。
+          </p>
+        ) : (
+          <ul className="mt-6 space-y-3">
+            {donors.map((donor) => (
+                <li
+                  key={`${donor.date}-${donor.name}`}
+                  className="rounded-2xl border border-zinc-200 p-4 dark:border-zinc-800"
+                >
+                  <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                    <span className="font-medium text-zinc-800 dark:text-zinc-100">
+                      {donor.name}
+                    </span>
+                    <time
+                      dateTime={donor.date}
+                      className="font-mono text-xs text-zinc-500 dark:text-zinc-400"
+                    >
+                      {donor.date}
+                    </time>
+                  </div>
+                  {donor.message ? (
+                    <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                      {donor.message}
+                    </p>
+                  ) : null}
+                </li>
+              ))}
+          </ul>
+        )}
+      </section>
     </Container>
   )
 }
+
+export const revalidate = 600
