@@ -170,13 +170,18 @@ export function Footer() {
               <Suspense>
                 <LastVisitorInfo />
               </Suspense>
-              <span className="inline-flex items-center gap-1 rounded-full bg-lime-500/10 px-2 py-1 text-[11px] font-medium text-lime-700 ring-1 ring-lime-500/20 dark:bg-lime-400/10 dark:text-lime-300 dark:ring-lime-400/20">
+              <a
+                href="https://ready.chair6.net/?url=https://reidliao.dev"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 rounded-full bg-lime-500/10 px-2 py-1 text-[11px] font-medium text-lime-700 ring-1 ring-lime-500/20 transition hover:bg-lime-500/20 dark:bg-lime-400/10 dark:text-lime-300 dark:ring-lime-400/20 dark:hover:bg-lime-400/20"
+              >
                 <span
                   aria-hidden="true"
                   className="h-1.5 w-1.5 rounded-full bg-lime-500 dark:bg-lime-400"
                 />
                 IPv6 Ready
-              </span>
+              </a>
             </div>
           </Container.Inner>
         </div>
