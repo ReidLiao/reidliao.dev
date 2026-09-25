@@ -199,7 +199,7 @@ export function PortableTextDownload({
             <CloudIcon className="h-5 w-5" />
           </span>
           <div className="min-w-0 flex-1">
-            <p className="font-mono text-[10px] font-medium tracking-[0.18em] text-zinc-400 dark:text-zinc-500">
+            <p className="font-mono text-[10px] font-medium tracking-[0.18em] text-zinc-600 dark:text-zinc-400">
               DOWNLOAD
             </p>
             <h4 className="mt-0.5 text-base font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-lg">
@@ -217,7 +217,7 @@ export function PortableTextDownload({
             ) : null}
             {value.extractCode ? (
               <div className="mt-2.5 inline-flex max-w-full items-center gap-2 rounded-full bg-zinc-100/90 py-1 pl-3 pr-1.5 ring-1 ring-zinc-900/5 dark:bg-zinc-950/70 dark:ring-white/10">
-                <span className="font-mono text-[10px] tracking-wider text-zinc-400 dark:text-zinc-500">
+                <span className="font-mono text-[10px] tracking-wider text-zinc-600 dark:text-zinc-400">
                   提取码
                 </span>
                 <code className="font-mono text-sm font-semibold tracking-wide text-zinc-900 dark:text-zinc-100">
@@ -249,7 +249,7 @@ export function PortableTextDownload({
                 >
                   <button
                     type="button"
-                    className="ml-1.5 inline-flex translate-y-0.5 text-zinc-400 transition hover:text-lime-600 dark:hover:text-lime-400"
+                    className="ml-1.5 inline-flex translate-y-0.5 text-zinc-600 transition hover:text-lime-600 dark:text-zinc-400 dark:hover:text-lime-400"
                     onClick={() => copyText(value.note, 'note')}
                     aria-label="复制备注"
                   >
@@ -337,7 +337,7 @@ export function PortableTextDownload({
         </div>
       </div>
 
-      <p className="border-t border-zinc-100/80 px-4 py-2 text-[11px] leading-relaxed text-zinc-400 dark:border-zinc-700/50 dark:text-zinc-500 sm:px-5">
+      <p className="border-t border-zinc-100/80 px-4 py-2 text-[11px] leading-relaxed text-zinc-600 dark:border-zinc-700/50 dark:text-zinc-400 sm:px-5">
         资源由第三方网盘提供，本站不托管安装包。请自行核验来源与完整性。
       </p>
     </aside>

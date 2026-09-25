@@ -79,7 +79,7 @@ function Message({
           </b>
           <time
             dateTime={message.createdAt.toString()}
-            className="inline-flex select-none text-[12px] font-medium opacity-40"
+            className="inline-flex select-none text-[12px] font-medium text-zinc-600 dark:text-zinc-400"
           >
             {dayjs(message.createdAt).locale('zh-cn').fromNow()}
           </time>
@@ -92,7 +92,7 @@ function Message({
                   onDelete()
                 }
               }}
-              className="ml-auto inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[11px] text-zinc-400 transition hover:bg-red-50 hover:text-red-600 disabled:opacity-50 dark:hover:bg-red-950/40 dark:hover:text-red-400"
+              className="ml-auto inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[11px] text-zinc-600 transition hover:bg-red-50 hover:text-red-600 disabled:opacity-50 dark:text-zinc-400 dark:hover:bg-red-950/40 dark:hover:text-red-400"
               aria-label="删除留言"
             >
               <XIcon className="h-3.5 w-3.5" />

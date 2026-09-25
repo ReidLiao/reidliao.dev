@@ -107,7 +107,7 @@ export function BlogPostPage({
                 <PostAuthorBadge size="lg" priority />
               </motion.div>
               <motion.div
-                className="flex w-full items-center space-x-4 text-sm font-medium text-zinc-600/80 dark:text-zinc-400/80"
+                className="flex w-full items-center space-x-4 text-sm font-medium text-zinc-600 dark:text-zinc-400"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -178,7 +178,7 @@ export function BlogPostPage({
                 {post.description}
               </motion.p>
               <motion.div
-                className="flex w-full items-center space-x-4 text-sm font-medium text-zinc-700/50 dark:text-zinc-300/50"
+                className="flex w-full items-center space-x-4 text-sm font-medium text-zinc-600 dark:text-zinc-300"
                 initial={{ opacity: 0, y: 5 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -202,7 +202,7 @@ export function BlogPostPage({
                   <span>{post.readingTime.toFixed(0)}分钟阅读</span>
                 </span>
               </motion.div>
-              <p className="mt-4 w-full text-xs text-zinc-400 dark:text-zinc-500">
+              <p className="mt-4 w-full text-xs text-zinc-600 dark:text-zinc-400">
                 <span className="hidden md:inline">
                   提示：将鼠标移到段落旁，可针对该段留言讨论。
                 </span>

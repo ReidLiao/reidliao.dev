@@ -78,7 +78,7 @@ async function TotalPageViews() {
   }
 
   return (
-    <span className="flex items-center justify-center gap-1 text-xs text-zinc-500 dark:text-zinc-400 md:justify-start">
+    <span className="flex items-center justify-center gap-1 text-xs text-zinc-600 dark:text-zinc-400 md:justify-start">
       <UsersIcon className="h-4 w-4" />
       <span title={`${Intl.NumberFormat('en-US').format(views)}次浏览`}>
         总浏览量&nbsp;
@@ -117,7 +117,7 @@ async function LastVisitorInfo() {
   }
 
   return (
-    <span className="flex items-center justify-center gap-1 text-xs text-zinc-500 dark:text-zinc-400 md:justify-start">
+    <span className="flex items-center justify-center gap-1 text-xs text-zinc-600 dark:text-zinc-400 md:justify-start">
       <CursorClickIcon className="h-4 w-4" />
       <span>
         最近访客来自&nbsp;
@@ -140,7 +140,7 @@ export function Footer() {
               </Suspense>
             </div>
             <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
-              <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-sm text-zinc-500/80 dark:text-zinc-400/80">
+              <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-sm text-zinc-600 dark:text-zinc-400">
                 <span>&copy; {new Date().getFullYear()} reidliao.dev</span>
                 <span className="inline-flex items-center gap-1.5">
                   <span className="relative flex h-1.5 w-1.5">

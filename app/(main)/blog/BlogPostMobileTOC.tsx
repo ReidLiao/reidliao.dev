@@ -53,7 +53,7 @@ export function BlogPostMobileTOC({ headings }: { headings: Node[] }) {
         <span className="inline-flex items-center gap-2">
           <Layers3Icon className="h-4 w-4" />
           文章目录
-          <span className="font-mono text-xs text-zinc-400 dark:text-zinc-500">
+          <span className="font-mono text-xs text-zinc-600 dark:text-zinc-400">
             {outline.length}
           </span>
         </span>
@@ -63,7 +63,7 @@ export function BlogPostMobileTOC({ headings }: { headings: Node[] }) {
           height="14"
           viewBox="0 0 24 24"
           fill="none"
-          className="text-zinc-400 transition-transform duration-200 group-open:rotate-180 dark:text-zinc-500"
+          className="text-zinc-500 transition-transform duration-200 group-open:rotate-180 dark:text-zinc-400"
         >
           <path
             d="M6 9l6 6 6-6"

@@ -50,7 +50,7 @@ export default function ProjectsPage() {
       </header>
       <div className="mt-16 sm:mt-20">
         <Projects />
-        <p className="mt-12 max-w-2xl text-xs leading-relaxed text-zinc-400 dark:text-zinc-500">
+        <p className="mt-12 max-w-2xl text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
           本页含联盟推广链接；经此下单可能为站点带来佣金，不会额外增加你的费用。推荐均来自自用体验，请自行核验条款与线路。
         </p>
       </div>

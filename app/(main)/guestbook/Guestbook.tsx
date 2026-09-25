@@ -18,7 +18,7 @@ export function Guestbook(props: { messages?: GuestbookDto[] }) {
       <div className="space-y-3">
         <GuestbookInput />
         <SignedOut>
-          <p className="flex flex-wrap items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="flex flex-wrap items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
             <span>
               当前为匿名短留言（最多 120 字）。登录后可写更长内容并显示头像。
             </span>
@@ -34,7 +34,7 @@ export function Guestbook(props: { messages?: GuestbookDto[] }) {
           </p>
         </SignedOut>
         <SignedIn>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="text-xs text-zinc-600 dark:text-zinc-400">
             已登录，可发布最长 600 字的 Markdown 留言。
           </p>
         </SignedIn>

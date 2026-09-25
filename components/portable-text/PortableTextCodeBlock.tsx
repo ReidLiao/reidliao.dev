@@ -114,7 +114,7 @@ export function PortableTextCodeBlock({
             {value.filename}
           </span>
         ) : (
-          <span className="font-mono text-[11px] tracking-wide text-zinc-400 dark:text-zinc-500">
+          <span className="font-mono text-[11px] tracking-wide text-zinc-600 dark:text-zinc-400">
             {value.language || 'code'}
           </span>
         )}
@@ -122,7 +122,7 @@ export function PortableTextCodeBlock({
         <ElegantTooltip content="复制">
           <button
             type="button"
-            className="shrink-0 text-zinc-400 transition hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300"
+            className="shrink-0 text-zinc-600 transition hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-300"
             onClick={onClickCopy}
             aria-label="复制代码"
           >

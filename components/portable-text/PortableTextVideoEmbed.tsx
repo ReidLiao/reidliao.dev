@@ -92,7 +92,7 @@ export function PortableTextVideoEmbed({
   return (
     <figure data-blockid={value._key} className="not-prose my-8">
       {value.title ? (
-        <figcaption className="mb-2 font-mono text-[11px] tracking-wide text-zinc-400 dark:text-zinc-500">
+        <figcaption className="mb-2 font-mono text-[11px] tracking-wide text-zinc-600 dark:text-zinc-400">
           {value.title}
         </figcaption>
       ) : null}

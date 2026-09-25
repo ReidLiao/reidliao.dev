@@ -48,9 +48,9 @@ export function BlogPostCard({ post, views }: { post: Post; views: number }) {
           {title}
         </h2>
 
-        <span className="relative z-20 flex items-center justify-between opacity-50 transition-opacity group-hover:opacity-80">
-          <span className="inline-flex items-center space-x-3">
-            <span className="inline-flex items-center space-x-1 text-[12px] font-medium text-[--post-image-fg] md:text-sm">
+        <span className="relative z-20 flex items-center justify-between gap-2 rounded-xl bg-white/75 px-2 py-1.5 text-zinc-700 shadow-sm shadow-zinc-950/10 backdrop-blur-sm transition-colors group-hover:bg-white/90 dark:bg-zinc-950/70 dark:text-zinc-200 dark:group-hover:bg-zinc-950/85">
+          <span className="inline-flex min-w-0 items-center space-x-3">
+            <span className="inline-flex items-center space-x-1 text-[12px] font-medium md:text-sm">
               <CalendarIcon />
               <span>
                 {parseDateTime({ date: new Date(publishedAt) })?.format(
@@ -60,13 +60,13 @@ export function BlogPostCard({ post, views }: { post: Post; views: number }) {
             </span>
 
             {Array.isArray(categories) && (
-              <span className="inline-flex items-center space-x-1 text-[12px] font-medium text-[--post-image-fg] md:text-sm">
+              <span className="inline-flex items-center space-x-1 text-[12px] font-medium md:text-sm">
                 <ScriptIcon />
                 <span>{categories.join(', ')}</span>
               </span>
             )}
           </span>
-          <span className="inline-flex items-center space-x-3 text-[12px] font-medium text-[--post-image-fg] md:text-xs">
+          <span className="inline-flex shrink-0 items-center space-x-3 text-[12px] font-medium md:text-xs">
             <span className="inline-flex items-center space-x-1">
               <CursorClickIcon />
               <span>{prettifyNumber(views, true)}</span>

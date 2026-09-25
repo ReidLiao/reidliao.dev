@@ -365,7 +365,7 @@ function Comment({
             )}
           >
             {!isMyself && <span>{parseDisplayName(c.userInfo)}</span>}
-            <span className="inline-flex select-none text-[10px] font-medium opacity-40">
+            <span className="inline-flex select-none text-[10px] font-medium text-zinc-600 dark:text-zinc-400">
               {dayjs(c.createdAt).locale('zh-cn').fromNow()}
             </span>
           </span>

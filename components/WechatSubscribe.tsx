@@ -49,7 +49,7 @@ export function WechatSubscribe({
               ? '扫码关注，获取技术折腾与运维笔记更新。'
               : ACCOUNT_BIO}
           </p>
-          <p className="mt-3 text-xs leading-relaxed text-zinc-500 dark:text-zinc-500">
+          <p className="mt-3 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
             {isCompact
               ? '微信扫一扫即可关注'
               : '微信扫一扫上方二维码即可关注；与博客同名，内容互补更新。'}

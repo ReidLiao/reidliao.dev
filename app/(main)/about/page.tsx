@@ -384,7 +384,7 @@ export default function AboutPage() {
             <li key={`${entry.date}-${entry.title}`} className="flex gap-4">
               <time
                 dateTime={entry.date}
-                className="w-14 shrink-0 pt-0.5 font-mono text-[11px] tabular-nums text-zinc-400 dark:text-zinc-500"
+                className="w-14 shrink-0 pt-0.5 font-mono text-[11px] tabular-nums text-zinc-600 dark:text-zinc-400"
               >
                 {entry.date}
               </time>

@@ -39,11 +39,11 @@ export function Resume({ resume }: { resume: Resume[] }) {
                 {role.company}
               </dd>
               <dt className="sr-only">职位</dt>
-              <dd className="text-xs text-zinc-500 dark:text-zinc-400">
+              <dd className="text-xs text-zinc-600 dark:text-zinc-400">
                 {role.title}
               </dd>
               <dt className="sr-only">日期</dt>
-              <dd className="ml-auto text-xs text-zinc-500/80 dark:text-zinc-400/80">
+              <dd className="ml-auto text-xs text-zinc-600 dark:text-zinc-400">
                 {role.start}
                 <span aria-hidden="true">—</span> {role.end ?? '至今'}
               </dd>

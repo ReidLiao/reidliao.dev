@@ -116,7 +116,7 @@ export function SocialLink({
             aria-label={info.label}
             {...props}
           >
-            <info.icon className="h-5 w-5 text-zinc-400 transition group-hover:text-zinc-700 dark:text-zinc-400 dark:group-hover:text-zinc-200" />
+            <info.icon className="h-5 w-5 text-zinc-500 transition group-hover:text-zinc-700 dark:text-zinc-400 dark:group-hover:text-zinc-200" />
           </Link>
         </Tooltip.Trigger>
         <AnimatePresence>
