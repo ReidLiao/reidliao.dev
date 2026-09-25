@@ -61,9 +61,12 @@ export default function ProjectsPage() {
       <div className="mt-16 sm:mt-20">
         <Projects />
       </div>
-      <p className="mt-16 max-w-2xl text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
-        部分链接为推广链接，通过它们购买价格不变，我会获得一点佣金。
-      </p>
+      <aside
+        aria-label="推广链接披露"
+        className="mt-16 max-w-2xl rounded-r-xl border-y border-r border-zinc-200 border-l-2 border-lime-500/70 px-3 py-2.5 text-xs leading-relaxed text-zinc-600 dark:border-zinc-800 dark:border-l-lime-400/70 dark:text-zinc-400"
+      >
+        部分链接为推广链接：通过它们购买价格不变，我会获得一点佣金；其中部分还附带专属优惠。
+      </aside>
     </Container>
   )
 }

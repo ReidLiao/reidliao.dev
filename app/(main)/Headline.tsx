@@ -95,16 +95,11 @@ export function Headline() {
           >
             reidliao.dev
           </PeekabooLink>{' '}
-          的搭建与维护者。热衷于
+          的站长，喜欢折腾
           <Highlight>全栈开发</Highlight>、
           <Highlight>云端架构</Highlight>
           与
-          <Highlight>系统运维</Highlight>
-          。建站是为了记录技术
-          <Highlight>折腾</Highlight>
-          ，并和你一起创造、
-          <Highlight>掌控</Highlight>
-          属于自己的服务。
+          <Highlight>系统运维</Highlight>。建站是为了记录技术折腾，并和你一起创造、掌控属于自己的服务。
         </Balancer>
       </motion.p>
       <motion.div

@@ -55,39 +55,39 @@ export function ProjectCard({
     <Card
       as="li"
       key={_id}
-      className="transition-transform duration-200 ease-out hover:-translate-y-1"
+      className="w-full rounded-2xl border border-zinc-200 bg-white p-5 transition-[transform,border-color] duration-200 ease-out hover:-translate-y-1 hover:border-lime-500/50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-lime-400/50"
       onMouseEnter={() => setIsHovering(true)}
       onMouseMove={handleMouseMove}
       onMouseLeave={() => setIsHovering(false)}
     >
-      <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0">
-        <Image
-          src={cdnImageSrc(
-            urlForImage(icon)?.size(100, 100).auto('format').url(),
-            { width: 100, quality: 80 }
-          )}
-          alt=""
-          width={36}
-          height={36}
-          sizes="36px"
-          className="h-9 w-9 rounded-full"
-          loading="lazy"
-          unoptimized
-        />
-      </div>
-      <h2 className="mt-7 text-base font-bold text-zinc-800 dark:text-zinc-100">
-        <Card.Link href={url} target="_blank" rel="noopener noreferrer sponsored">
-          {name}
-        </Card.Link>
-      </h2>
-      <div className="mt-4 flex flex-wrap items-center gap-2">
+      <div className="relative z-10 flex w-full items-center gap-3">
+        <div className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-white ring-1 ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0">
+          <Image
+            src={cdnImageSrc(
+              urlForImage(icon)?.size(100, 100).auto('format').url(),
+              { width: 100, quality: 80 }
+            )}
+            alt=""
+            width={32}
+            height={32}
+            sizes="32px"
+            className="h-8 w-8 rounded-full"
+            loading="lazy"
+            unoptimized
+          />
+        </div>
+        <h2 className="min-w-0 flex-1 text-base font-bold text-zinc-800 dark:text-zinc-100">
+          <Card.Link href={url} target="_blank" rel="noopener noreferrer sponsored">
+            {name}
+          </Card.Link>
+        </h2>
         <span
-          className={`inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-medium ring-1 ${statusClassName}`}
+          className={`inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-[11px] font-medium ring-1 ${statusClassName}`}
         >
           {meta.status}
         </span>
       </div>
-      <Card.Description className="mt-4 line-clamp-2">
+      <Card.Description className="mt-4 line-clamp-3">
         {description}
       </Card.Description>
       {hasRecommendationReason && (
@@ -98,7 +98,7 @@ export function ProjectCard({
           {meta.recommendationReason}
         </p>
       )}
-      <p className="pointer-events-none relative z-40 mt-6 flex items-center text-sm font-medium text-zinc-600 transition group-hover:-translate-y-0.5 group-hover:text-lime-600 dark:text-zinc-200 dark:group-hover:text-lime-400">
+      <p className="pointer-events-none relative z-40 mt-5 flex items-center text-sm font-medium text-zinc-600 transition group-hover:-translate-y-0.5 group-hover:text-lime-600 dark:text-zinc-200 dark:group-hover:text-lime-400">
         <span className="mr-2">前往查看</span>
         <ExternalLinkIcon className="h-4 w-4 flex-none transition-transform duration-200 group-hover:translate-x-0.5" />
       </p>
