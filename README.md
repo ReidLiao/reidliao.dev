@@ -1,7 +1,8 @@
 # reidliao.dev
 
-[reidliao.dev](https://reidliao.dev) 个人技术博客源码仓库。  
-基于开源博客方案深度定制，记录全栈建站、Docker 自建与系统运维的真实折腾；站点跑在自有 VPS 上，按自建场景持续维护与更新。
+[reidliao.dev](https://reidliao.dev) 个人技术博客源码。记录全栈建站、Docker 自建与系统运维的真实折腾，站点跑在自有 VPS 上。
+
+> 本项目早期基于某个开源博客方案起步，现已深度定制，为站长独立维护的项目；原上游已不再维护。
 
 [![reidliao.dev homepage](./docs/images/homepage.jpg)](https://reidliao.dev)
 
@@ -18,6 +19,7 @@
 | 类别 | 选用 |
 |------|------|
 | 框架 | Next.js 14（App Router）+ Tailwind CSS |
+| 包管理 | pnpm 8.15.8 |
 | CMS | Sanity |
 | 数据库 | Drizzle ORM + Neon PostgreSQL |
 | 缓存 | Upstash Redis |
@@ -27,14 +29,14 @@
 
 ## 部署方式
 
-面向小内存 VPS（如 2GB 档）采用 **构建与运行分离**：**不要**在 VPS 上执行 `pnpm build` / 服务器内构建（易 OOM）。
+面向小内存 VPS（本站为 2GB 内存档）采用**构建与运行分离**：**不要**在 VPS 上执行 `pnpm build` 或在服务器内构建镜像（易 OOM 死机）。
 
-1. **本地构建**：开发机用 Docker Buildx 交叉编译 `linux/amd64`，并用 BuildKit secret 注入 `.env`（避免密钥打进镜像层，同时满足 `next build` 校验）
-2. **离线传输**：镜像导出为 `.tar`，经 SFTP 推到服务器
-3. **轻量运行**：Dockge / Compose 只负责跑预构建镜像；Nginx Proxy Manager 反代对外
+1. **本地构建**：开发机用 Docker Buildx 交叉编译 `linux/amd64`，并用 BuildKit secret 注入 `.env`（密钥不打进镜像层，同时满足 `next build` 校验）
+2. **离线传输**：`docker save` 导出 `.tar`，经 SFTP 推到服务器后 `docker load`
+3. **轻量运行**：Dockge / Compose 只跑预构建镜像（`image: reidliao-dev:latest`）；Nginx Proxy Manager 反代对外
 4. **图片缓存卷**：挂载 `reidliao-img-cache:/data/img-cache`（见 `docker-compose.yml`），重建容器不丢 Sanity 图片代理缓存
 
-### 本地构建与启动示例
+### 本地构建示例
 
 ```bash
 cp .env.example .env   # 按说明填入密钥（含 REVALIDATE_SECRET 等）
@@ -43,21 +45,18 @@ cp .env.example .env   # 按说明填入密钥（含 REVALIDATE_SECRET 等）
 docker buildx build --platform linux/amd64 \
   --secret id=env,src=.env \
   -t reidliao-dev:latest --load .
-
-docker compose up -d
 ```
 
-导出离线包（部署到 VPS 时）：
+### 发布到 VPS
 
 ```bash
 docker save -o blog.tar reidliao-dev:latest
-# 上传至服务器后：docker load -i blog.tar && docker compose up -d
+# 上传至服务器 /opt/stacks/reidliao-dev/ 后：
+# docker load -i blog.tar，经 Dockge 更新/重新部署
 ```
 
-环境变量说明见 [`.env.example`](./.env.example)。  
+环境变量说明见 [`.env.example`](./.env.example)。`.env` 不进 Git、不进镜像层。
 内容发布后可通过 Sanity Webhook 调用 `/api/revalidate`（请求头 `x-revalidate-secret` 与 `.env` 中 `REVALIDATE_SECRET` 一致）即时刷新缓存。
-
-Compose 中的 `image` 名称须与构建时的 `-t` 标签一致（默认 `reidliao-dev:latest`）。
 
 ## 本地开发
 
@@ -66,9 +65,8 @@ pnpm install
 pnpm dev
 ```
 
-需要数据库、Sanity、Clerk、Upstash、Resend 等相关环境变量时，同样参考 `.env.example`。
+需要数据库、Sanity、Clerk、Upstash、Resend 等环境变量时，参考 `.env.example`。
 
-## 许可与维护
+## 维护状态
 
-本仓库源码公开，供学习与参考。  
-在开源博客方案基础上持续定制，后续功能与体验改进将继续在此更新；正式版本见 [Releases](https://github.com/ReidLiao/reidliao.dev/releases)。
+本仓库由站长独立维护，是唯一的开发分支；原上游已不再维护。后续功能与体验改进均在此更新，正式版本见 [Releases](https://github.com/ReidLiao/reidliao.dev/releases)。源码公开，供学习与参考。
