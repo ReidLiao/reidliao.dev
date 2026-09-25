@@ -49,7 +49,7 @@ export function BlogPostMobileTOC({ headings }: { headings: Node[] }) {
       ref={detailsRef}
       className="group mb-8 rounded-2xl border border-zinc-200/70 bg-white/70 backdrop-blur-sm dark:border-zinc-700/50 dark:bg-zinc-900/50 lg:hidden"
     >
-      <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-4 py-3 text-sm font-medium text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-100">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-4 py-3 text-sm font-medium text-zinc-700 outline-none hover:text-zinc-900 focus-visible:ring-2 focus-visible:ring-lime-500/70 dark:text-zinc-300 dark:hover:text-zinc-100 dark:focus-visible:ring-lime-400/70">
         <span className="inline-flex items-center gap-2">
           <Layers3Icon className="h-4 w-4" />
           文章目录

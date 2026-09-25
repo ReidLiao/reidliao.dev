@@ -14,6 +14,15 @@ const description =
 
 const rolePills = ['Self-hosted', 'Docker', 'Ops'] as const
 
+const aboutSections = [
+  { id: 'server-selection', label: '服务器选择' },
+  { id: 'deployment-principles', label: '部署理念' },
+  { id: 'tech-stack', label: '技术栈' },
+  { id: 'content-focus', label: '内容定位' },
+  { id: 'download-strategy', label: '下载策略' },
+  { id: 'changelog', label: 'Changelog' },
+] as const
+
 const techStack = [
   'Next.js 14',
   'Docker',
@@ -136,6 +145,21 @@ export default function AboutPage() {
         </p>
       </header>
 
+      <nav
+        aria-label="关于页目录"
+        className="mt-8 flex flex-wrap gap-x-4 gap-y-2 text-sm text-zinc-500 dark:text-zinc-400"
+      >
+        {aboutSections.map((section) => (
+          <a
+            key={section.id}
+            href={`#${section.id}`}
+            className="transition hover:text-lime-600 dark:hover:text-lime-400"
+          >
+            {section.label}
+          </a>
+        ))}
+      </nav>
+
       <section className="mt-12 border-t border-zinc-100 pt-10 dark:border-zinc-700/40">
         <div className="flex flex-col gap-8 sm:flex-row sm:items-start">
           <div className="relative mx-auto h-24 w-24 shrink-0 overflow-hidden rounded-full sm:mx-0">
@@ -192,7 +216,7 @@ export default function AboutPage() {
       </section>
 
       <div className="mt-14 grid gap-10 lg:grid-cols-2 lg:gap-12">
-        <section>
+        <section id="server-selection">
           <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
             服务器选择
           </h2>
@@ -229,7 +253,7 @@ export default function AboutPage() {
           </ul>
         </section>
 
-        <section>
+        <section id="deployment-principles">
           <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
             部署理念
           </h2>
@@ -259,7 +283,10 @@ export default function AboutPage() {
         </section>
       </div>
 
-      <section className="mt-14 border-t border-zinc-100 pt-10 dark:border-zinc-700/40">
+      <section
+        id="tech-stack"
+        className="mt-14 border-t border-zinc-100 pt-10 dark:border-zinc-700/40"
+      >
         <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
           技术栈
         </h2>
@@ -285,7 +312,10 @@ export default function AboutPage() {
         </pre>
       </section>
 
-      <section className="mt-14 border-t border-zinc-100 pt-10 dark:border-zinc-700/40">
+      <section
+        id="content-focus"
+        className="mt-14 border-t border-zinc-100 pt-10 dark:border-zinc-700/40"
+      >
         <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
           内容定位
         </h2>
@@ -315,7 +345,10 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="mt-14 border-t border-dashed border-zinc-200 pt-10 dark:border-zinc-700">
+      <section
+        id="download-strategy"
+        className="mt-14 border-t border-dashed border-zinc-200 pt-10 dark:border-zinc-700"
+      >
         <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
           下载策略
         </h2>
@@ -336,7 +369,10 @@ export default function AboutPage() {
         </p>
       </section>
 
-      <section className="mt-14 border-t border-zinc-100 pt-10 dark:border-zinc-700/40">
+      <section
+        id="changelog"
+        className="mt-14 border-t border-zinc-100 pt-10 dark:border-zinc-700/40"
+      >
         <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
           Changelog
         </h2>

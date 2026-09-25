@@ -224,7 +224,6 @@ export function GuestbookInput() {
             }
             onKeyDown={handleKeyDown}
             maxRows={8}
-            autoFocus
           />
         )}
 
