@@ -6,7 +6,7 @@ import { Container } from '~/components/ui/Container'
 
 const title = '机房'
 const description =
-  '这里只收录我真正上手部署、长期跑站的 VPS 与线路。不谈纸面参数，只看实际表现。附上优惠链接——帮你少踩坑，也给我一点续杯咖啡的动力。'
+  '这里只收录我真正上手部署、长期跑站的 VPS 与线路。不谈纸面参数，只看实际表现。'
 export const metadata = {
   title,
   description,
@@ -33,27 +33,37 @@ export default function ProjectsPage() {
   return (
     <Container className="mt-16 sm:mt-32">
       <header className="max-w-2xl">
-        <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-          长期自用的机房
-        </h1>
-        <p className="mt-6 text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
+          <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
+            机房
+          </h1>
+          <span className="inline-flex items-center gap-2 font-mono text-xs text-zinc-500 dark:text-zinc-400">
+            <span
+              aria-hidden="true"
+              className="h-2 w-2 animate-pulse rounded-full bg-lime-500 shadow-[0_0_10px_rgba(132,204,22,0.7)] dark:bg-lime-400"
+            />
+            运行中
+          </span>
+        </div>
+        <p className="mt-4 text-lg font-medium tracking-tight text-zinc-800 dark:text-zinc-100">
+          跑站用到的服务与装备
+        </p>
+        <p className="mt-3 text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
           <Balancer>
             这里只收录我真正上手部署、
             <Highlight>长期跑站</Highlight>
             的 VPS 与线路。不谈纸面参数，只看
             <Highlight>实际表现</Highlight>
-            。附上
-            <Highlight>优惠链接</Highlight>
-            ——帮你少踩坑，也给我一点续杯咖啡的动力。
+            。
           </Balancer>
         </p>
       </header>
       <div className="mt-16 sm:mt-20">
         <Projects />
-        <p className="mt-12 max-w-2xl text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
-          本页含联盟推广链接；经此下单可能为站点带来佣金，不会额外增加你的费用。推荐均来自自用体验，请自行核验条款与线路。
-        </p>
       </div>
+      <p className="mt-16 max-w-2xl text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
+        部分链接为推广链接，通过它们购买价格不变，我会获得一点佣金。
+      </p>
     </Container>
   )
 }
