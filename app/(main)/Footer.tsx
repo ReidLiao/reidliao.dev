@@ -3,7 +3,7 @@ import { unstable_noStore as noStore } from 'next/cache'
 import Link from 'next/link'
 import React, { Suspense } from 'react'
 
-import { CursorClickIcon, UsersIcon } from '~/assets'
+import { UsersIcon } from '~/assets'
 import { Container } from '~/components/ui/Container'
 import { kvKeys } from '~/config/kv'
 import { navigationItems } from '~/config/nav'
@@ -16,6 +16,37 @@ import { redis } from '~/lib/redis'
 import { Newsletter } from './Newsletter'
 
 const VIEWS_CACHE_TTL_SECONDS = 60
+
+function MapPinIcon(props: React.SVGAttributes<SVGElement>) {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      height="24"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      />
+      <circle
+        cx="12"
+        cy="10"
+        r="3"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      />
+    </svg>
+  )
+}
 
 function NavLink({
   href,
@@ -118,7 +149,7 @@ async function LastVisitorInfo() {
 
   return (
     <span className="flex items-center justify-center gap-1 text-xs text-zinc-600 dark:text-zinc-400 md:justify-start">
-      <CursorClickIcon className="h-4 w-4" />
+      <MapPinIcon className="h-4 w-4" />
       <span>
         最近访客来自&nbsp;
         {[lastVisitor.city, lastVisitor.country].filter(Boolean).join(', ')}

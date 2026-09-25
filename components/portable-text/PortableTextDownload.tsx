@@ -200,7 +200,7 @@ export function PortableTextDownload({
           </span>
           <div className="min-w-0 flex-1">
             <p className="font-mono text-[10px] font-medium tracking-[0.18em] text-zinc-600 dark:text-zinc-400">
-              DOWNLOAD
+              下载
             </p>
             <h4 className="mt-0.5 text-base font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-lg">
               {value.title}
