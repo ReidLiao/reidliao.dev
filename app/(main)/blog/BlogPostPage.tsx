@@ -218,7 +218,7 @@ export function BlogPostPage({
               <PostPortableText value={post.body} />
             </Prose>
 
-            <WechatSubscribe variant="compact" className="mt-12 max-w-xl" />
+            <WechatSubscribe className="mt-12 max-w-xl" />
           </article>
         </div>
         <aside className="hidden w-[90px] shrink-0 lg:block">

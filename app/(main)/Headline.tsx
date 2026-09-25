@@ -120,7 +120,7 @@ export function Headline() {
           platform="twitter"
         />
         <SocialLink
-          href="https://reidliao.dev/youtube"
+          href="https://www.youtube.com/@Reidliao"
           aria-label="我的 YouTube"
           platform="youtube"
         />
@@ -130,7 +130,7 @@ export function Headline() {
           platform="bilibili"
         />
         <SocialLink
-          href="https://reidliao.dev/github"
+          href="https://github.com/ReidLiao"
           aria-label="我的 GitHub"
           platform="github"
         />

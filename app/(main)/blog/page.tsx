@@ -1,10 +1,9 @@
-import Link from 'next/link'
 import Balancer from 'react-wrap-balancer'
 
-import { AtomIcon } from '~/assets'
 import { Container } from '~/components/ui/Container'
 
 import { BlogPosts } from './BlogPosts'
+import { RssCopyLink } from './RssCopyLink'
 
 const description =
   '这里记录全栈建站、Docker 自建、系统运维与软件工具——只写自己踩过的坑和验证过的做法。不追流量密码，有 RSS 可订阅，更新也不定期。'
@@ -48,19 +47,7 @@ export default function BlogPage() {
             RSS 可订阅，更新也不定期。
           </Balancer>
         </p>
-        <Link
-          href="/feed.xml"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="RSS 订阅"
-          className="group inline-flex items-center gap-1.5 text-sm font-medium text-zinc-600 transition hover:text-lime-600 dark:text-zinc-400 dark:hover:text-lime-400"
-        >
-          <AtomIcon
-            aria-hidden="true"
-            className="h-5 w-5 text-zinc-500 transition group-hover:text-lime-600 dark:text-zinc-400 dark:group-hover:text-lime-400"
-          />
-          RSS 订阅
-        </Link>
+        <RssCopyLink />
       </header>
       <div className="mt-12 grid grid-cols-1 gap-6 sm:mt-20 lg:grid-cols-2 lg:gap-8">
         <BlogPosts limit={20} />
