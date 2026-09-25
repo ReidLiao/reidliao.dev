@@ -63,9 +63,14 @@ export default function ProjectsPage() {
       </div>
       <aside
         aria-label="推广链接披露"
-        className="mt-16 max-w-2xl border-l-2 border-lime-500/70 py-2 pl-4 text-xs leading-relaxed text-zinc-600 dark:border-l-lime-400/70 dark:text-zinc-400"
+        className="mt-16 flex max-w-2xl items-start gap-2 py-2 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400"
       >
-        部分链接为推广链接：通过它们购买价格不变，我会获得一点佣金；其中部分还附带专属优惠。
+        <span aria-hidden="true" className="shrink-0 text-zinc-400 dark:text-zinc-500">
+          ⓘ
+        </span>
+        <span>
+          部分链接为推广链接：通过它们购买价格不变，我会获得一点佣金；其中部分还附带专属优惠。
+        </span>
       </aside>
     </Container>
   )

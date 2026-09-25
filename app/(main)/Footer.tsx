@@ -68,11 +68,15 @@ function NavLink({
 function Links() {
   return (
     <nav className="flex gap-6 text-sm font-medium text-zinc-800 dark:text-zinc-200">
-      {navigationItems.map(({ href, text }) => (
+      {navigationItems
+        .filter(({ href }) => href !== '/about')
+        .map(({ href, text }) => (
         <NavLink key={href} href={href}>
           {text}
         </NavLink>
-      ))}
+        ))}
+      <NavLink href="/donate">捐赠</NavLink>
+      <NavLink href="/about">关于</NavLink>
     </nav>
   )
 }

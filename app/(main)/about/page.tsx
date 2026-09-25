@@ -216,6 +216,12 @@ export default function AboutPage() {
               >
                 留言交流
               </Link>
+              <Link
+                href="/donate"
+                className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-transparent px-4 py-2 text-xs font-medium text-zinc-700 transition hover:border-lime-500/40 hover:text-lime-600 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-lime-400/40 dark:hover:text-lime-400"
+              >
+                捐赠
+              </Link>
             </div>
           </div>
         </div>
