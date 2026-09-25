@@ -24,7 +24,7 @@ export default function NotFoundPage() {
             这个页面走丢了
           </p>
           <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-            路径不存在，可能已被移除或地址输入有误。
+            链接可能错了，也可能是我把这篇删了。
             <br className="hidden sm:inline" />
             从下方入口继续逛逛：
           </p>
@@ -59,6 +59,7 @@ export default function NotFoundPage() {
               留言墙
             </Link>
           </div>
+
         </Container>
       </main>
     </>

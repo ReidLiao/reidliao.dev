@@ -264,7 +264,7 @@ export default function AboutPage() {
             部署理念
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-            reidliao.dev 基于开源博客方案深度定制，跑在自有 VPS 上。部署采用{' '}
+            reidliao.dev 是我独立维护的个人博客，跑在自有 VPS 上（早期基于某个开源方案起步，现已深度定制，原上游不再维护）。部署采用{' '}
             <strong className="text-zinc-800 dark:text-zinc-200">
               Docker 容器化自建
             </strong>
