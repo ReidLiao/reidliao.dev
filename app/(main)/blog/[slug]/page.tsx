@@ -76,7 +76,18 @@ export default async function BlogPage({
 
   let views: number | undefined
   if (isProduction) {
-    views = undefined
+    try {
+      views = await Promise.race<number | undefined>([
+        redis.get<number>(kvKeys.postViews(post._id)),
+        new Promise<undefined>((resolve) => {
+          setTimeout(resolve, 1500)
+        }),
+      ])
+    } catch (error) {
+      console.error('[PostViews] Failed to read view count', error)
+      views = undefined
+    }
+
     setImmediate(() => {
       void redis.incr(kvKeys.postViews(post._id)).catch((error) => {
         console.error('[PostViews] Failed to record view', error)
