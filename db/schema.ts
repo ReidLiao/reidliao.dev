@@ -47,8 +47,10 @@ export const comments = pgTable(
 export const guestbook = pgTable('guestbook', {
   id: serial('id').primaryKey(),
   userId: varchar('user_id', { length: 200 }).notNull(),
-  userInfo: json('user_info'),
-  message: text('message').notNull(),
-  createdAt: timestamp('created_at').defaultNow(),
+    userInfo: json('user_info'),
+    message: text('message').notNull(),
+    reply: text('reply'),
+    repliedAt: timestamp('replied_at'),
+    createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow(),
 })

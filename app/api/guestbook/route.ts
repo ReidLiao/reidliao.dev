@@ -128,6 +128,8 @@ export async function POST(req: NextRequest) {
         ...guestbookData,
         id: GuestbookHashids.encode(newGuestbook.newId),
         createdAt: new Date(),
+        reply: null,
+        repliedAt: null,
       } satisfies GuestbookDto,
       {
         status: 201,

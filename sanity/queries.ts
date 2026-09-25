@@ -23,10 +23,18 @@ export const getDonorsQuery = () =>
     }
   `
 
-export const getDonors = () =>
-  client.fetch<Donor[]>(getDonorsQuery(), {}, {
-    next: { tags: ['donors'], revalidate: 600 },
-  })
+export const getDonors = async () => {
+  try {
+    return (
+      (await client.fetch<Donor[]>(getDonorsQuery(), {}, {
+        next: { tags: ['donors'], revalidate: 600 },
+      })) ?? []
+    )
+  } catch (error) {
+    console.error('[Sanity donors]', error)
+    return []
+  }
+}
 
 export type BlogPostSitemapEntry = {
   slug: string

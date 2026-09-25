@@ -22,3 +22,15 @@ export function removeMessage(id: string) {
     guestbookState.messages.splice(index, 1)
   }
 }
+
+export function updateMessageReply(
+  id: string,
+  reply: string | null,
+  repliedAt: Date | string | null
+) {
+  const message = guestbookState.messages.find((item) => item.id === id)
+  if (message) {
+    message.reply = reply
+    message.repliedAt = repliedAt
+  }
+}

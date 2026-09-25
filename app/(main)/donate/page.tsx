@@ -97,6 +97,7 @@ export default async function DonatePage() {
                   width={192}
                   height={192}
                   className="h-full w-full"
+                  unoptimized
                 />
               </div>
             </div>
@@ -118,6 +119,7 @@ export default async function DonatePage() {
                   width={192}
                   height={192}
                   className="h-full w-full"
+                  unoptimized
                 />
               </div>
             </div>

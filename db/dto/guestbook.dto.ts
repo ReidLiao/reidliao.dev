@@ -11,6 +11,8 @@ export const GuestbookDtoSchema = z.object({
     imageUrl: z.string().nullable().optional(),
   }),
   createdAt: z.date().or(z.string()),
+  reply: z.string().max(600).nullable(),
+  repliedAt: z.date().or(z.string()).nullable(),
 })
 export type GuestbookDto = z.infer<typeof GuestbookDtoSchema>
 export const GuestbookHashids = new Hashids('guestbook')

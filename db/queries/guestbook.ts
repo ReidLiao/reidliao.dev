@@ -13,6 +13,8 @@ export async function fetchGuestbookMessages({
       userId: guestbook.userId,
       userInfo: guestbook.userInfo,
       message: guestbook.message,
+      reply: guestbook.reply,
+      repliedAt: guestbook.repliedAt,
       createdAt: guestbook.createdAt,
     })
     .from(guestbook)
