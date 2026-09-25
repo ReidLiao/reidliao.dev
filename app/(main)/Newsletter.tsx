@@ -79,8 +79,7 @@ export function Newsletter({ subCount }: { subCount?: string }) {
         <span className="ml-2">邮件订阅</span>
       </h2>
       <p className="mt-2 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400 md:text-sm">
-        有新的建站、运维笔记或工具分享时，会发一封邮件 📬
-        内容精简，每月至多一封，随时可取消。
+        有新的建站折腾、运维笔记或工具分享时，我会给你发一封邮件。内容精简，每月至多一封，随时可取消。
         {subCount ? (
           <>
             {' '}
