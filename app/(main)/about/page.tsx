@@ -146,7 +146,7 @@ export default function AboutPage() {
         <p className="mt-5 max-w-2xl text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
           <Balancer>
             这不是一份简历，而是一台独立服务器上的技术实验室——记录全栈建站、Docker
-            自建与系统运维的真实折腾。本站已在自有 VPS 上跑通并正式开放。
+            自建与系统运维的真实折腾。本站跑在自有 VPS 上。
           </Balancer>
         </p>
       </header>

@@ -8,7 +8,7 @@ import { Guestbook } from './Guestbook'
 
 const title = '留言墙'
 const description =
-  '欢迎在这台「终端」留下足迹：可以是对文章的看法、技术勘误，也可以是一句鼓励或槽点。每条留言我都会看到；聊自建、运维或软件折腾都欢迎。'
+  '欢迎留下足迹：可以是对文章的看法、技术勘误，也可以是一句鼓励或槽点。每条留言我都会看到，聊自建、运维或软件折腾都欢迎。'
 export const metadata = {
   title,
   description,
@@ -42,15 +42,9 @@ export default async function GuestBookPage() {
         </h1>
         <p className="mt-6 text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
           <Balancer>
-            欢迎在这台
-            <span className="font-mono font-medium text-emerald-500">
-              「终端」
-            </span>
-            留下足迹：可以是对文章的看法、
+            欢迎留下足迹：可以是对文章的看法、
             <Highlight>技术勘误</Highlight>
-            ，也可以是一句鼓励或槽点。每条留言我都会
-            <Highlight>看到</Highlight>
-            ；聊自建、运维或软件折腾都欢迎。
+            ，也可以是一句鼓励或槽点。每条留言我都会看到，聊自建、运维或软件折腾都欢迎。
           </Balancer>
         </p>
       </header>

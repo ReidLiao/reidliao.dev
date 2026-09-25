@@ -1,12 +1,13 @@
+import Link from 'next/link'
 import Balancer from 'react-wrap-balancer'
 
-import { SocialLink } from '~/components/links/SocialLink'
+import { AtomIcon } from '~/assets'
 import { Container } from '~/components/ui/Container'
 
 import { BlogPosts } from './BlogPosts'
 
 const description =
-  '这里写全栈建站、Docker 自建、系统运维与软件工具——只记录自己踩过的坑和验证过的做法。不追流量密码，有 RSS 可订阅，更新也不定期。'
+  '这里记录全栈建站、Docker 自建、系统运维与软件工具——只写自己踩过的坑和验证过的做法。不追流量密码，有 RSS 可订阅，更新也不定期。'
 
 export const metadata = {
   title: '近期写作',
@@ -39,17 +40,27 @@ export default function BlogPage() {
         </h1>
         <p className="my-6 text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
           <Balancer>
-            这里写
+            这里记录
             <Highlight>全栈建站</Highlight>、
             <Highlight>Docker 自建</Highlight>、
             <Highlight>系统运维</Highlight>
-            与软件工具——只记录自己踩过的坑和验证过的做法。不追流量密码，有
+            与软件工具——只写自己踩过的坑和验证过的做法。不追流量密码，有
             RSS 可订阅，更新也不定期。
           </Balancer>
         </p>
-        <p className="flex items-center">
-          <SocialLink href="/feed.xml" platform="rss" />
-        </p>
+        <Link
+          href="/feed.xml"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="RSS 订阅"
+          className="group inline-flex items-center gap-1.5 text-sm font-medium text-zinc-600 transition hover:text-lime-600 dark:text-zinc-400 dark:hover:text-lime-400"
+        >
+          <AtomIcon
+            aria-hidden="true"
+            className="h-5 w-5 text-zinc-500 transition group-hover:text-lime-600 dark:text-zinc-400 dark:group-hover:text-lime-400"
+          />
+          RSS 订阅
+        </Link>
       </header>
       <div className="mt-12 grid grid-cols-1 gap-6 sm:mt-20 lg:grid-cols-2 lg:gap-8">
         <BlogPosts limit={20} />
