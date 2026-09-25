@@ -71,6 +71,12 @@ const deployReasons = [
 
 const changelog = [
   {
+    date: '2026-09-25',
+    title: '安全与体验加固',
+    detail:
+      '完成 favicon、图片代理与 link-preview 的 SSRF 防护，统一接口错误返回；浏览量统计改为非阻塞；页脚新增 IPv6 Ready 标识，并集中改进无障碍与次要文字对比度。',
+  },
+  {
     date: '2026-07',
     title: '正式上线',
     detail:
@@ -374,7 +380,7 @@ export default function AboutPage() {
         className="mt-14 border-t border-zinc-100 pt-10 dark:border-zinc-700/40"
       >
         <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
-          Changelog
+          更新记录
         </h2>
         <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-400">
           运维与站点大事记——不记流水账，只记值得回看的节点。
