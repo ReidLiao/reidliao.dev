@@ -9,7 +9,7 @@ import { env } from '~/env.mjs'
  * Sanity Manage → API → Webhooks → Create webhook:
  *   URL: https://reidliao.dev/api/revalidate
  *   Trigger: Create + Update + Delete
- *   Filter: _type in ["post", "settings", "project"]
+ *   Filter: _type in ["post", "settings", "project", "donor"]
  *   Projection: {_type, "slug": slug.current}
  *   HTTP headers: x-revalidate-secret: <REVALIDATE_SECRET>
  *   Drafts: OFF
@@ -47,8 +47,10 @@ export async function POST(req: NextRequest) {
 
   revalidateTag('posts')
   revalidateTag('settings')
+  revalidateTag('donors')
   revalidatePath('/')
   revalidatePath('/blog')
+  revalidatePath('/donate')
   revalidatePath('/feed.xml')
   revalidatePath('/feed')
   revalidatePath('/rss')
@@ -56,9 +58,11 @@ export async function POST(req: NextRequest) {
   const revalidated: string[] = [
     '/',
     '/blog',
+    '/donate',
     '/feed.xml',
     'tag:posts',
     'tag:settings',
+    'tag:donors',
   ]
 
   if (slug) {
