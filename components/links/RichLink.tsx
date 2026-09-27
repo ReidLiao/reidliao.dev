@@ -15,9 +15,21 @@ type RichLinkProps = LinkProps &
   } & {
     favicon?: boolean
     faviconUrl?: string
+    faviconClassName?: string
   }
 export const RichLink = React.forwardRef<HTMLAnchorElement, RichLinkProps>(
-  ({ children, href, favicon = true, faviconUrl, className, ...props }, ref) => {
+  (
+    {
+      children,
+      href,
+      favicon = true,
+      faviconUrl,
+      faviconClassName,
+      className,
+      ...props
+    },
+    ref
+  ) => {
     const hrefHost = new URL(href).host
     const [failedFaviconUrl, setFailedFaviconUrl] = React.useState<string | null>(
       null
@@ -69,7 +81,10 @@ export const RichLink = React.forwardRef<HTMLAnchorElement, RichLinkProps>(
               src={resolvedFaviconUrl}
               alt=""
               aria-hidden="true"
-              className="inline h-4 w-4 rounded-sm object-cover"
+              className={clsxm(
+                'inline h-4 w-4 rounded-sm object-cover',
+                faviconClassName
+              )}
               width={16}
               height={16}
               sizes="16px"

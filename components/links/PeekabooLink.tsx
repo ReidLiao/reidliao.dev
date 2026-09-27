@@ -15,12 +15,14 @@ type PeekabooLinkProps = LinkProps &
   React.ComponentPropsWithoutRef<'a'> & {
     children: React.ReactNode
     faviconUrl?: string
+    faviconClassName?: string
   }
 export function PeekabooLink({
   href,
   children,
   className,
   faviconUrl,
+  faviconClassName,
   ...props
 }: PeekabooLinkProps) {
   const [isOpen, setIsOpen] = React.useState(false)
@@ -39,6 +41,7 @@ export function PeekabooLink({
       <RichLink
         href={href}
         faviconUrl={faviconUrl}
+        faviconClassName={faviconClassName}
         className={clsxm(
           'font-semibold text-zinc-800 hover:underline dark:text-zinc-100',
           className
@@ -61,6 +64,7 @@ export function PeekabooLink({
         <RichLink
           href={href}
           faviconUrl={faviconUrl}
+          faviconClassName={faviconClassName}
           className={clsxm(
             'font-semibold text-zinc-800 hover:underline dark:text-zinc-100',
             className

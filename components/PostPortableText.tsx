@@ -68,7 +68,11 @@ const components: PortableTextComponents = {
         ? 'noreferrer noopener'
         : undefined
       return (
-        <PeekabooLink href={value.href} rel={rel}>
+        <PeekabooLink
+          href={value.href}
+          rel={rel}
+          faviconClassName="rounded-full"
+        >
           {children}
         </PeekabooLink>
       )

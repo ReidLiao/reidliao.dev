@@ -3,37 +3,22 @@
 import React from 'react'
 
 import { Layers3Icon } from '~/assets'
-
-interface HeadingNode {
-  _type: 'span'
-  text: string
-  _key: string
-}
-
-interface Node {
-  _type: 'block'
-  style: 'h1' | 'h2' | 'h3' | 'h4'
-  _key: string
-  children?: HeadingNode[]
-}
-
-function toOutline(nodes: Node[]) {
-  return nodes
-    .filter((node) => node._type === 'block' && node.style.startsWith('h'))
-    .map((node) => ({
-      style: node.style,
-      text: node.children?.[0]?.text ?? '',
-      id: node._key,
-    }))
-    .filter((n) => n.text.length > 0)
-}
+import {
+  parseOutline,
+  type Node,
+  useHighlightedHeadingId,
+} from './BlogPostTableOfContents'
 
 /**
  * Collapsible TOC for md / mobile screens. Desktop uses the sticky sidebar
  * (`BlogPostTableOfContents`) instead.
  */
 export function BlogPostMobileTOC({ headings }: { headings: Node[] }) {
-  const outline = React.useMemo(() => toOutline(headings), [headings])
+  const outline = React.useMemo(
+    () => parseOutline(headings).filter((node) => node.text.length > 0),
+    [headings]
+  )
+  const highlightedHeadingId = useHighlightedHeadingId(outline)
   const detailsRef = React.useRef<HTMLDetailsElement>(null)
 
   if (outline.length === 0) return null
@@ -81,7 +66,10 @@ export function BlogPostMobileTOC({ headings }: { headings: Node[] }) {
               href={`#${node.id}`}
               onClick={onNavigate}
               className={
-                'block truncate rounded-md px-2 py-1.5 text-[13px] leading-5 text-zinc-600 transition-colors hover:bg-lime-500/10 hover:text-lime-700 dark:text-zinc-400 dark:hover:bg-lime-400/10 dark:hover:text-lime-300' +
+                'relative block truncate rounded-md px-2 py-1.5 text-[13px] leading-5 text-zinc-600 transition-colors hover:bg-lime-500/10 hover:text-lime-700 dark:text-zinc-400 dark:hover:bg-lime-400/10 dark:hover:text-lime-300' +
+                (node.id === highlightedHeadingId
+                  ? ' border-l-2 border-lime-500 font-semibold text-zinc-900 dark:border-lime-400 dark:text-zinc-100'
+                  : '') +
                 (node.style === 'h3' ? ' pl-5' : '') +
                 (node.style === 'h4' ? ' pl-8' : '')
               }
