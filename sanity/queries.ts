@@ -171,6 +171,7 @@ export const getSettingsQuery = () =>
       name,
       url,
       description,
+      group,
       icon
     },
     "heroPhotos": heroPhotos[]{

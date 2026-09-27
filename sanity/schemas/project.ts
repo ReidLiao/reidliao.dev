@@ -8,6 +8,7 @@ export const Project = z.object({
   name: z.string(),
   url: z.string().url(),
   description: z.string(),
+  group: z.enum(['VPS / 服务器', '其他服务']).optional().nullable(),
   icon: z.object({
     _ref: z.string(),
     asset: z.any(),
@@ -36,6 +37,19 @@ export default defineType({
       name: 'description',
       title: '简介',
       type: 'text',
+    }),
+    defineField({
+      name: 'group',
+      title: '分组',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'VPS / 服务器', value: 'VPS / 服务器' },
+          { title: '其他服务', value: '其他服务' },
+        ],
+        layout: 'dropdown',
+      },
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'icon',

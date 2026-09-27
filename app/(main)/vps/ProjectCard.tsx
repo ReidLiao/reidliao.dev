@@ -98,10 +98,15 @@ export function ProjectCard({
           {meta.recommendationReason}
         </p>
       )}
-      <p className="pointer-events-none relative z-40 mt-5 flex items-center text-sm font-medium text-zinc-600 transition group-hover:-translate-y-0.5 group-hover:text-lime-600 dark:text-zinc-200 dark:group-hover:text-lime-400">
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer sponsored"
+        className="relative z-40 mt-5 flex items-center text-sm font-medium text-zinc-600 transition hover:-translate-y-0.5 hover:text-lime-600 dark:text-zinc-200 dark:hover:text-lime-400"
+      >
         <span className="mr-2">前往查看</span>
         <ExternalLinkIcon className="h-4 w-4 flex-none transition-transform duration-200 group-hover:translate-x-0.5" />
-      </p>
+      </a>
 
       <AnimatePresence>
         {isHovering && (

@@ -11,6 +11,14 @@ type ProjectMeta = {
 }
 
 function getProjectMeta(project: Project): ProjectMeta {
+  if (project.group) {
+    return {
+      category: project.group,
+      status: /dmit/i.test(project.name) ? '本站在用' : '推荐',
+      recommendationReason: '推荐理由待补充。',
+    }
+  }
+
   if (/dmit/i.test(project.name)) {
     return {
       category: 'VPS / 服务器',
