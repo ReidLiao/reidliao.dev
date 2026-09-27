@@ -51,6 +51,41 @@
   }
 }
 
+.article-body {
+  p {
+    margin-block: 0.75em;
+  }
+
+  > p:first-child {
+    margin-top: 0;
+  }
+
+  > p:last-child {
+    margin-bottom: 0;
+  }
+
+  h2 {
+    margin-top: 1.5em;
+    margin-bottom: 0.75em;
+  }
+
+  h3 {
+    margin-top: 1.25em;
+    margin-bottom: 0.5em;
+  }
+
+  ul,
+  ol {
+    margin-top: 0.8em;
+    margin-bottom: 0.8em;
+  }
+
+  li {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+  }
+}
+
 .dark .comment__message {
   hr {
     @apply border-zinc-100 opacity-20;

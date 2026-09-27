@@ -214,7 +214,7 @@ export function BlogPostPage({
               </p>
             </header>
             <BlogPostMobileTOC headings={post.headings} />
-            <Prose className="mt-8">
+            <Prose className="article-body mt-8">
               <PostPortableText value={post.body} />
             </Prose>
 
