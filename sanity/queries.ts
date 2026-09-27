@@ -172,6 +172,7 @@ export const getSettingsQuery = () =>
       url,
       description,
       group,
+      badge,
       icon
     },
     "heroPhotos": heroPhotos[]{

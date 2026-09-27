@@ -15,7 +15,16 @@ import { cdnImageSrc } from '~/lib/cdn-image'
 import { urlForImage } from '~/sanity/lib/image'
 import { type Project } from '~/sanity/schemas/project'
 
-type ProjectStatus = '本站在用' | '推荐' | '用过'
+const badgeClassNames: Record<string, string> = {
+  本站在用:
+    'bg-lime-500/10 text-lime-700 ring-lime-500/20 dark:bg-lime-400/10 dark:text-lime-300 dark:ring-lime-400/20',
+  推荐:
+    'bg-blue-500/10 text-blue-700 ring-blue-500/20 dark:bg-blue-400/10 dark:text-blue-300 dark:ring-blue-400/20',
+  优惠:
+    'bg-orange-500/10 text-orange-700 ring-orange-500/20 dark:bg-orange-400/10 dark:text-orange-300 dark:ring-orange-400/20',
+  新入驻:
+    'bg-purple-500/10 text-purple-700 ring-purple-500/20 dark:bg-purple-400/10 dark:text-purple-300 dark:ring-purple-400/20',
+}
 
 export function ProjectCard({
   project,
@@ -23,7 +32,7 @@ export function ProjectCard({
 }: {
   project: Project
   meta: {
-    status: ProjectStatus
+    badge: string
     recommendationReason: string
   }
 }) {
@@ -43,10 +52,9 @@ export function ProjectCard({
   )
   const maskBackground = useMotionTemplate`radial-gradient(circle ${radius}px at ${mouseX}px ${mouseY}px, black 40%, transparent)`
   const [isHovering, setIsHovering] = React.useState(false)
-  const statusClassName =
-    meta.status === '本站在用'
-      ? 'bg-lime-500/10 text-lime-700 ring-lime-500/20 dark:bg-lime-400/10 dark:text-lime-300 dark:ring-lime-400/20'
-      : 'bg-zinc-100 text-zinc-600 ring-zinc-900/5 dark:bg-zinc-800 dark:text-zinc-300 dark:ring-white/10'
+  const badgeClassName =
+    badgeClassNames[meta.badge] ??
+    'bg-zinc-100 text-zinc-600 ring-zinc-900/5 dark:bg-zinc-800 dark:text-zinc-300 dark:ring-white/10'
   const hasRecommendationReason =
     meta.recommendationReason.trim() !== '' &&
     meta.recommendationReason !== '推荐理由待补充。'
@@ -82,9 +90,9 @@ export function ProjectCard({
           </Card.Link>
         </h2>
         <span
-          className={`inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-[11px] font-medium ring-1 ${statusClassName}`}
+          className={`inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-[11px] font-medium ring-1 ${badgeClassName}`}
         >
-          {meta.status}
+          {meta.badge}
         </span>
       </div>
       <Card.Description className="mt-4 line-clamp-3">

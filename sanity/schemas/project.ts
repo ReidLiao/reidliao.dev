@@ -8,7 +8,8 @@ export const Project = z.object({
   name: z.string(),
   url: z.string().url(),
   description: z.string(),
-  group: z.enum(['VPS / 服务器', '其他服务']).optional().nullable(),
+  group: z.string().optional().nullable(),
+  badge: z.string().optional().nullable(),
   icon: z.object({
     _ref: z.string(),
     asset: z.any(),
@@ -42,14 +43,14 @@ export default defineType({
       name: 'group',
       title: '分组',
       type: 'string',
-      options: {
-        list: [
-          { title: 'VPS / 服务器', value: 'VPS / 服务器' },
-          { title: '其他服务', value: '其他服务' },
-        ],
-        layout: 'dropdown',
-      },
-      validation: (Rule) => Rule.required(),
+      description: '手填分组名称；留空时前台归入“其他服务”。',
+    }),
+    defineField({
+      name: 'badge',
+      title: '徽章',
+      type: 'string',
+      description: '手填前台显示的徽章文字，例如：本站在用、推荐、优惠、新入驻。',
+      validation: (Rule) => Rule.max(20),
     }),
     defineField({
       name: 'icon',

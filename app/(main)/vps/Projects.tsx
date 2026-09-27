@@ -2,34 +2,24 @@ import { ProjectCard } from '~/app/(main)/vps/ProjectCard'
 import { getSettings } from '~/sanity/queries'
 import { type Project } from '~/sanity/schemas/project'
 
-type ProjectStatus = '本站在用' | '推荐' | '用过'
-
 type ProjectMeta = {
   category: string
-  status: ProjectStatus
+  badge: string
   recommendationReason: string
 }
 
 function getProjectMeta(project: Project): ProjectMeta {
-  if (project.group) {
+  if (project.badge?.trim()) {
     return {
-      category: project.group,
-      status: /dmit/i.test(project.name) ? '本站在用' : '推荐',
-      recommendationReason: '推荐理由待补充。',
-    }
-  }
-
-  if (/dmit/i.test(project.name)) {
-    return {
-      category: 'VPS / 服务器',
-      status: '本站在用',
+      category: project.group?.trim() || '其他服务',
+      badge: project.badge.trim(),
       recommendationReason: '推荐理由待补充。',
     }
   }
 
   return {
-    category: '其他服务',
-    status: '推荐',
+    category: project.group?.trim() || '其他服务',
+    badge: /dmit/i.test(project.name) ? '本站在用' : '推荐',
     recommendationReason: '推荐理由待补充。',
   }
 }
