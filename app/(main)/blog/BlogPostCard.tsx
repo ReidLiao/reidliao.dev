@@ -24,9 +24,7 @@ export function BlogPostCard({ post, views }: { post: Post; views: number }) {
       className="group relative flex w-full transform-gpu flex-col overflow-hidden rounded-3xl bg-transparent ring-2 ring-[--post-image-bg] transition-transform hover:-translate-y-0.5"
       style={
         {
-          '--post-image-fg': mainImage.asset.dominant?.foreground,
           '--post-image-bg': mainImage.asset.dominant?.background,
-          '--post-image': `url(${coverSrc})`,
         } as React.CSSProperties
       }
     >
@@ -43,8 +41,8 @@ export function BlogPostCard({ post, views }: { post: Post; views: number }) {
         />
         <PostAuthorBadge size="md" />
       </div>
-      <span className="relative z-10 flex w-full flex-1 shrink-0 flex-col justify-between gap-0.5 rounded-b-3xl bg-cover bg-bottom bg-no-repeat p-4 bg-blend-overlay [background-image:var(--post-image)] before:pointer-events-none before:absolute before:inset-0 before:z-10 before:select-none before:rounded-b-3xl before:bg-[--post-image-bg] before:opacity-70 before:transition-opacity after:pointer-events-none after:absolute after:inset-0 after:z-10 after:select-none after:rounded-b-3xl after:bg-gradient-to-b after:from-transparent after:to-[--post-image-bg] after:backdrop-blur after:transition-opacity group-hover:before:opacity-30 md:p-5">
-        <h2 className="z-20 text-base font-bold tracking-tight text-[--post-image-fg] opacity-70 transition-opacity group-hover:opacity-100 md:text-xl">
+      <span className="relative z-10 flex w-full flex-1 shrink-0 flex-col justify-between gap-0.5 rounded-b-3xl bg-zinc-900/90 p-4 dark:bg-zinc-950/90 before:pointer-events-none before:absolute before:inset-0 before:z-10 before:select-none before:rounded-b-3xl before:bg-zinc-950/35 before:transition-opacity after:pointer-events-none after:absolute after:inset-0 after:z-10 after:select-none after:rounded-b-3xl after:bg-gradient-to-b after:from-transparent after:to-zinc-950/95 after:transition-opacity group-hover:before:opacity-70 md:p-5">
+        <h2 className="z-20 text-base font-bold tracking-tight text-white transition-opacity group-hover:opacity-100 md:text-xl">
           {title}
         </h2>
 

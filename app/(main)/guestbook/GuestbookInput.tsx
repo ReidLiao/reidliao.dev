@@ -256,62 +256,77 @@ export function GuestbookInput() {
           <span className="sr-only" role="alert" aria-live="assertive" aria-atomic="true">
             {error ?? ''}
           </span>
-          <AnimatePresence>
-            {message.length > 0 && (
-              <motion.aside
-                key="send-button-wrapper"
-                initial={{ opacity: 0, scale: 0.96, y: 8 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.98, y: 8 }}
-                className="flex select-none items-center gap-2.5"
-              >
-                <span
-                  className={clsxm(
-                    'font-mono text-[10px]',
-                    message.length > maxLength
-                      ? 'text-red-500'
-                      : 'text-zinc-500'
-                  )}
+          <aside className="flex select-none items-center gap-2.5">
+            <AnimatePresence>
+              {message.length > 0 && (
+                <motion.div
+                  key="message-actions"
+                  initial={{ opacity: 0, scale: 0.96, y: 8 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.98, y: 8 }}
+                  className="flex items-center gap-2.5"
                 >
-                  {message.length}/{maxLength}
-                </span>
-
-                <ElegantTooltip
-                  content={isPreviewing ? '关闭预览' : '预览一下'}
-                >
-                  <motion.button
-                    className="-my-3 inline-flex h-11 w-11 shrink-0 items-center justify-center appearance-none"
-                    aria-label={isPreviewing ? '关闭留言预览' : '预览留言'}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    type="button"
-                    disabled={isLoading}
-                    onClick={() => setIsPreviewing((prev) => !prev)}
-                  >
-                    {isPreviewing ? (
-                      <EyeCloseIcon className="h-5 w-5 text-zinc-800 dark:text-zinc-200" />
-                    ) : (
-                      <EyeOpenIcon className="h-5 w-5 text-zinc-800 dark:text-zinc-200" />
+                  <span
+                    className={clsxm(
+                      'font-mono text-[10px]',
+                      message.length > maxLength
+                        ? 'text-red-500'
+                        : 'text-zinc-500'
                     )}
-                  </motion.button>
-                </ElegantTooltip>
-
-                <ElegantTooltip content="发送">
-                  <motion.button
-                    className="-my-3 inline-flex h-11 w-11 shrink-0 items-center justify-center appearance-none"
-                    aria-label="发送留言"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    type="button"
-                    disabled={isLoading}
-                    onClick={onClickSend}
                   >
-                    <TiltedSendIcon className="h-5 w-5 text-zinc-800 dark:text-zinc-200" />
-                  </motion.button>
-                </ElegantTooltip>
-              </motion.aside>
-            )}
-          </AnimatePresence>
+                    {message.length}/{maxLength}
+                  </span>
+
+                  <ElegantTooltip
+                    content={isPreviewing ? '关闭预览' : '预览一下'}
+                  >
+                    <motion.button
+                      className="-my-3 inline-flex h-11 w-11 shrink-0 items-center justify-center appearance-none"
+                      aria-label={isPreviewing ? '关闭留言预览' : '预览留言'}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      type="button"
+                      disabled={isLoading}
+                      onClick={() => setIsPreviewing((prev) => !prev)}
+                    >
+                      {isPreviewing ? (
+                        <EyeCloseIcon className="h-5 w-5 text-zinc-800 dark:text-zinc-200" />
+                      ) : (
+                        <EyeOpenIcon className="h-5 w-5 text-zinc-800 dark:text-zinc-200" />
+                      )}
+                    </motion.button>
+                  </ElegantTooltip>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <ElegantTooltip content="发送">
+              <motion.button
+                className={clsxm(
+                  '-my-3 inline-flex h-11 w-11 shrink-0 items-center justify-center appearance-none transition-opacity',
+                  !message.trim() || message.length > maxLength || isLoading
+                    ? 'cursor-not-allowed opacity-40'
+                    : 'opacity-100'
+                )}
+                aria-label="发送留言"
+                whileHover={
+                  !message.trim() || message.length > maxLength || isLoading
+                    ? undefined
+                    : { scale: 1.05 }
+                }
+                whileTap={
+                  !message.trim() || message.length > maxLength || isLoading
+                    ? undefined
+                    : { scale: 0.95 }
+                }
+                type="button"
+                disabled={!message.trim() || message.length > maxLength || isLoading}
+                onClick={onClickSend}
+              >
+                <TiltedSendIcon className="h-5 w-5 text-zinc-800 dark:text-zinc-200" />
+              </motion.button>
+            </ElegantTooltip>
+          </aside>
           <div
             className="pointer-events-none absolute bottom-0 right-0 w-1/2 select-none"
             id={REWARDS_ID}

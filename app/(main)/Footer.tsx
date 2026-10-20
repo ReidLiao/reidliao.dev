@@ -58,7 +58,7 @@ function NavLink({
   return (
     <Link
       href={href}
-      className="transition hover:text-lime-500 dark:hover:text-lime-400"
+      className="whitespace-nowrap transition hover:text-lime-500 dark:hover:text-lime-400"
     >
       {children}
     </Link>
@@ -67,7 +67,7 @@ function NavLink({
 
 function Links() {
   return (
-    <nav className="flex gap-6 text-sm font-medium text-zinc-800 dark:text-zinc-200">
+    <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">
       {navigationItems
         .filter(({ href }) => href !== '/about')
         .map(({ href, text }) => (
@@ -174,7 +174,7 @@ export function Footer() {
                 <FooterNewsletter />
               </Suspense>
             </div>
-            <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
+            <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
               <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-sm text-zinc-600 dark:text-zinc-400">
                 <span>&copy; {new Date().getFullYear()} reidliao.dev</span>
                 <span className="inline-flex items-center gap-1.5">

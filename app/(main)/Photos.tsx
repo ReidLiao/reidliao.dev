@@ -14,13 +14,18 @@ export function Photos({ photos }: { photos: HeroPhoto[] }) {
 
   React.useEffect(() => {
     const handleResize = () => {
-      // 640px is the breakpoint for md
       if (window.innerWidth < 640) {
         setIsCompact(true)
         return setWidth(window.innerWidth / 2 - 64)
       }
 
       setIsCompact(false)
+      if (window.innerWidth < 768) {
+        return setWidth(
+          Math.max(160, window.innerWidth / photos.length - 4 * photos.length)
+        )
+      }
+
       setWidth(window.innerWidth / photos.length - 4 * photos.length)
     }
 
