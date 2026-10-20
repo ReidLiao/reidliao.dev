@@ -3,12 +3,18 @@ import { kvKeys } from '~/config/kv'
 import { isProduction } from '~/lib/is-production'
 import { redis } from '~/lib/redis'
 import { getLatestBlogPosts } from '~/sanity/queries'
+import { type Post } from '~/sanity/schemas/post'
 
 import { BlogPostCard } from './BlogPostCard'
 
-export async function BlogPosts({ limit = 5 }: { limit?: number }) {
-  const posts =
-    (await getLatestBlogPosts({ limit, forDisplay: true })) || []
+export async function BlogPosts({
+  posts: inputPosts,
+  limit = 5,
+}: {
+  posts?: Post[]
+  limit?: number
+}) {
+  const posts = inputPosts ?? (await getLatestBlogPosts({ limit, forDisplay: true })) ?? []
   const postIdKeys = posts.map(({ _id }) => kvKeys.postViews(_id))
 
   let views: number[] = []
@@ -19,6 +25,7 @@ export async function BlogPosts({ limit = 5 }: { limit?: number }) {
   }
 
   if (posts.length === 0) {
+    if (inputPosts !== undefined) return null
     return (
       <div className="col-span-full flex flex-col items-center justify-center rounded-3xl border border-dashed border-zinc-200 py-20 text-center dark:border-zinc-700/60">
         <PencilSwooshIcon className="h-8 w-8 text-zinc-300 dark:text-zinc-600" />

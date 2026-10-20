@@ -9,6 +9,31 @@ export default defineType({
   icon: FilterHorizontalIcon,
   fields: [
     defineField({
+      name: 'announcement',
+      title: '首访公告',
+      type: 'object',
+      options: { collapsible: true, collapsed: true },
+      fields: [
+        defineField({ name: 'enabled', title: '启用公告', type: 'boolean', initialValue: false }),
+        defineField({ name: 'version', title: '版本号', type: 'string', description: '修改公告并希望访客再次看到时递增，例如 1 → 2。', validation: (Rule) => Rule.required() }),
+        defineField({ name: 'title', title: '标题', type: 'string', validation: (Rule) => Rule.required() }),
+        defineField({ name: 'body', title: '正文', type: 'text', rows: 4 }),
+        defineField({ name: 'image', title: '配图', type: 'image', description: '建议 16:9，可用热点调整主体位置。', options: { hotspot: true } }),
+        defineField({ name: 'buttonText', title: '按钮文字', type: 'string' }),
+        defineField({
+          name: 'buttonLink',
+          title: '按钮链接',
+          type: 'string',
+          description: '可填站内路径（如 /blog）或 http/https 完整网址。',
+          validation: (Rule) => Rule.custom((value) =>
+            !value || (value.startsWith('/') && !value.startsWith('//')) || /^https?:\/\//i.test(value)
+              ? true
+              : '请填写站内路径或 http/https 链接'
+          ),
+        }),
+      ],
+    }),
+    defineField({
       name: 'projects',
       title: '机房推荐列表',
       description: '在 `/vps`（机房）页面展示的服务商 / 联盟链接列表',

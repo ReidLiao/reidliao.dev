@@ -1,0 +1,33 @@
+/* Keep the portable-text editor readable in both normal and expanded panes. */
+.reidliao-richtext-editor {
+  width: 100%;
+  min-width: 0;
+}
+
+.reidliao-richtext-editor > div,
+.reidliao-richtext-editor > div > div,
+.reidliao-richtext-editor [data-testid*='field-body'] > div {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.reidliao-richtext-editor [data-testid*='field-body'],
+.reidliao-richtext-editor [data-testid*='portable-text'],
+.reidliao-richtext-editor [data-slate-editor='true'],
+.reidliao-richtext-editor [contenteditable='true'] {
+  width: 100% !important;
+  max-width: 1100px !important;
+}
+
+.reidliao-richtext-editor [data-slate-editor='true'],
+.reidliao-richtext-editor [contenteditable='true'] {
+  font-size: 16.5px !important;
+  line-height: 1.8 !important;
+}
+
+@media (min-width: 900px) {
+  .reidliao-richtext-editor [data-slate-editor='true'],
+  .reidliao-richtext-editor [contenteditable='true'] {
+    min-width: min(900px, 100%);
+  }
+}

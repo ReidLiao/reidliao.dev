@@ -109,7 +109,7 @@ export function SocialLink({
       <Tooltip.Root open={open} onOpenChange={setOpen}>
         <Tooltip.Trigger asChild>
           <Link
-            className="group -m-1 p-1"
+            className="group -m-3 p-3"
             href={href}
             target="_blank"
             prefetch={false}

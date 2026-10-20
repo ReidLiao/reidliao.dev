@@ -20,17 +20,18 @@ import { PortableTextTweet } from '~/components/portable-text/PortableTextTweet'
 import { PortableTextVideoEmbed } from '~/components/portable-text/PortableTextVideoEmbed'
 
 const textColorClass: Record<string, string> = {
-  lime: 'text-lime-600 dark:text-lime-400',
-  emerald: 'text-emerald-600 dark:text-emerald-400',
-  sky: 'text-sky-600 dark:text-sky-400',
-  amber: 'text-amber-600 dark:text-amber-400',
-  rose: 'text-rose-600 dark:text-rose-400',
-  violet: 'text-violet-600 dark:text-violet-400',
-  zinc: 'text-zinc-500 dark:text-zinc-400',
+  lime: 'text-lime-700 dark:text-lime-400',
+  emerald: 'text-emerald-700 dark:text-emerald-300',
+  sky: 'text-sky-700 dark:text-sky-300',
+  amber: 'text-amber-700 dark:text-amber-300',
+  rose: 'text-rose-700 dark:text-rose-300',
+  violet: 'text-violet-700 dark:text-violet-300',
+  zinc: 'text-zinc-600 dark:text-zinc-400',
 }
 
 const highlightClass: Record<string, string> = {
   lime: 'rounded-sm bg-lime-200/70 px-0.5 dark:bg-lime-400/20',
+  emerald: 'rounded-sm bg-emerald-200/70 px-0.5 dark:bg-emerald-400/20',
   amber: 'rounded-sm bg-amber-200/70 px-0.5 dark:bg-amber-400/20',
   sky: 'rounded-sm bg-sky-200/70 px-0.5 dark:bg-sky-400/20',
   rose: 'rounded-sm bg-rose-200/70 px-0.5 dark:bg-rose-400/20',
@@ -71,6 +72,7 @@ const components: PortableTextComponents = {
         <PeekabooLink
           href={value.href}
           rel={rel}
+          className="text-lime-700 decoration-lime-700/50 hover:text-lime-800 hover:decoration-lime-800 dark:text-lime-400 dark:decoration-lime-400/50 dark:hover:text-lime-300 dark:hover:decoration-lime-300"
           faviconClassName="rounded-full"
         >
           {children}

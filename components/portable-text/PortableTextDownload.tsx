@@ -151,6 +151,20 @@ function formatUpdatedAt(iso: string) {
   return `${m[1]}-${m[2]}-${m[3]}`
 }
 
+function sourceLabel(url: string) {
+  try {
+    const host = new URL(url).hostname.replace(/^www\./, '')
+    if (host.includes('pan.baidu.com') || host === 'baidu.com') return '百度网盘'
+    if (host.includes('aliyundrive.com') || host.includes('alipan.com')) return '阿里云盘'
+    if (host.includes('pan.quark.cn')) return '夸克网盘'
+    if (host.includes('123pan.com')) return '123 云盘'
+    if (host.includes('cloud.189.cn')) return '天翼云盘'
+    return host
+  } catch {
+    return ''
+  }
+}
+
 export function PortableTextDownload({
   value,
 }: PortableTextComponentProps<DownloadValue>) {
@@ -175,6 +189,7 @@ export function PortableTextDownload({
     ? formatUpdatedAt(value.updatedAt)
     : null
   const singleBadge = active ? fileLabel(active, files, 0) : null
+  const source = active ? sourceLabel(active.url) : ''
 
   const copyText = React.useCallback(async (text: string, key: string) => {
     try {
@@ -205,9 +220,10 @@ export function PortableTextDownload({
             <h4 className="mt-0.5 text-base font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-lg">
               {value.title}
             </h4>
-            {meta.length > 0 || updatedLabel ? (
+            {meta.length > 0 || updatedLabel || source ? (
               <p className="mt-1 font-mono text-[11px] tabular-nums text-zinc-500 dark:text-zinc-400">
                 {[
+                  source ? `来源 ${source}` : null,
                   ...meta,
                   updatedLabel ? `更新 ${updatedLabel}` : null,
                 ]
@@ -320,7 +336,7 @@ export function PortableTextDownload({
               </span>
             </label>
           ) : singleBadge ? (
-            <span className="inline-flex h-10 shrink-0 items-center rounded-full bg-zinc-100/90 px-3.5 text-xs font-medium text-zinc-600 ring-1 ring-zinc-900/5 dark:bg-zinc-950/70 dark:text-zinc-300 dark:ring-white/10">
+            <span className="inline-flex h-10 shrink-0 items-center rounded-full border border-lime-600/60 px-3.5 text-xs font-medium text-lime-800 dark:border-lime-400/50 dark:text-lime-300">
               {singleBadge}
             </span>
           ) : null}
@@ -329,7 +345,7 @@ export function PortableTextDownload({
             href={active.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full bg-zinc-800 px-4 text-sm font-semibold text-zinc-100 outline-offset-2 transition hover:bg-zinc-700 active:bg-zinc-800 active:text-zinc-100/70 dark:bg-zinc-200 dark:text-black dark:hover:bg-zinc-300 dark:active:bg-zinc-300/70 sm:px-5"
+            className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full bg-lime-700 px-4 text-sm font-semibold text-white outline-offset-2 transition hover:bg-lime-800 active:bg-lime-900 active:text-white/80 dark:bg-lime-400 dark:text-zinc-950 dark:hover:bg-lime-300 dark:active:bg-lime-500 sm:px-5"
           >
             前往下载
             <ExternalLinkIcon className="h-3.5 w-3.5 opacity-80" />

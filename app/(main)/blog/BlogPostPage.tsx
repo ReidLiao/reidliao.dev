@@ -49,7 +49,15 @@ export function BlogPostPage({
     width: 1600,
     quality: 80,
   })
-  const showUpdated = hasMeaningfulUpdate(post.publishedAt, post.updatedAt)
+  const publishedDate = parseDateTime({
+    date: new Date(post.publishedAt),
+  })?.format('YYYY/MM/DD')
+  const updatedDate = post.updatedAt
+    ? parseDateTime({ date: new Date(post.updatedAt) })?.format('YYYY/MM/DD')
+    : undefined
+  const showUpdated =
+    hasMeaningfulUpdate(post.publishedAt, post.updatedAt) &&
+    Boolean(updatedDate && publishedDate !== updatedDate)
 
   return (
     <>
@@ -107,7 +115,7 @@ export function BlogPostPage({
                 <PostAuthorBadge size="lg" priority />
               </motion.div>
               <motion.div
-                className="flex w-full items-center space-x-4 text-sm font-medium text-zinc-600 dark:text-zinc-400"
+                className="flex w-full flex-wrap items-center gap-x-4 gap-y-2 text-sm font-medium text-zinc-600 dark:text-zinc-400"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -123,28 +131,19 @@ export function BlogPostPage({
                   className="flex items-center space-x-1.5"
                 >
                   <CalendarIcon />
-                  <span>
-                    {parseDateTime({
-                      date: new Date(post.publishedAt),
-                    })?.format('YYYY/MM/DD')}
-                  </span>
+                  <span>{publishedDate}</span>
                 </time>
                 {showUpdated && post.updatedAt ? (
                   <time
                     dateTime={post.updatedAt}
-                    className="flex items-center space-x-1.5"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-lime-500/10 px-2.5 py-1 text-xs font-medium text-lime-700 ring-1 ring-lime-500/20 dark:bg-lime-400/10 dark:text-lime-300 dark:ring-lime-400/20"
                     title="最近更新"
                   >
                     <PencilSwooshIcon className="h-4 w-4" />
-                    <span>
-                      更新于{' '}
-                      {parseDateTime({
-                        date: new Date(post.updatedAt),
-                      })?.format('YYYY/MM/DD')}
-                    </span>
+                    <span>更新于 {updatedDate}</span>
                   </time>
                 ) : null}
-                <span className="inline-flex items-center space-x-1.5">
+                <span className="inline-flex items-center gap-1.5">
                   <ScriptIcon />
                   <span>{post.categories?.join(', ')}</span>
                 </span>
@@ -164,7 +163,7 @@ export function BlogPostPage({
                 <Balancer>{post.title}</Balancer>
               </motion.h1>
               <motion.p
-                className="my-5 w-full text-sm font-medium text-zinc-500"
+                className="my-5 w-full text-sm font-medium text-zinc-500 dark:text-zinc-400"
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{

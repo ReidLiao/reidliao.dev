@@ -21,6 +21,7 @@ export function DonationAddress({
 }: DonationAddressProps) {
   const [qrCode, setQrCode] = React.useState('')
   const [copied, setCopied] = React.useState(false)
+  const [copyError, setCopyError] = React.useState('')
 
   React.useEffect(() => {
     let active = true
@@ -28,7 +29,7 @@ export function DonationAddress({
     QRCode.toDataURL(address, {
       errorCorrectionLevel: 'M',
       margin: 1,
-      width: 192,
+      width: 200,
       color: {
         dark: '#000212',
         light: '#ffffff',
@@ -45,12 +46,14 @@ export function DonationAddress({
   }, [address])
 
   const handleCopy = async () => {
+    setCopyError('')
     try {
       await navigator.clipboard.writeText(address)
       setCopied(true)
       window.setTimeout(() => setCopied(false), 2000)
     } catch {
       setCopied(false)
+      setCopyError('复制失败，请手动选中并复制地址。')
     }
   }
 
@@ -77,12 +80,17 @@ export function DonationAddress({
           <button
             type="button"
             onClick={handleCopy}
-            className="mt-3 inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 px-2.5 py-1.5 text-xs font-medium text-zinc-600 transition hover:border-lime-500/40 hover:text-lime-600 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-lime-400/40 dark:hover:text-lime-400"
+            className="relative mt-3 inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 px-2.5 py-1.5 text-xs font-medium text-zinc-600 transition after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] hover:border-lime-500/40 hover:text-lime-600 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-lime-400/40 dark:hover:text-lime-400"
             aria-label={`复制 ${currency} 捐赠地址`}
           >
             <ClipboardCheckIcon className="h-3.5 w-3.5" />
             {copied ? '地址已复制' : '复制地址'}
           </button>
+          {copyError ? (
+            <p role="alert" aria-live="assertive" className="mt-2 text-xs text-red-600 dark:text-red-400">
+              {copyError}
+            </p>
+          ) : null}
           {currency === 'USDT' ? (
             <p className="mt-4 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
               请按 TRON（TRC20）网络转账，选错网络资产将丢失。
@@ -90,13 +98,13 @@ export function DonationAddress({
           ) : null}
         </div>
 
-        <div className="flex h-48 w-48 shrink-0 items-center justify-center rounded-xl bg-white p-3 ring-1 ring-zinc-900/5 dark:ring-white/10">
+        <div className="flex h-[216px] w-[216px] shrink-0 items-center justify-center rounded-xl bg-white p-2 ring-1 ring-zinc-900/5 dark:ring-white/10">
           {qrCode ? (
             <Image
               src={qrCode}
               alt={`${currency} ${network} 捐赠地址二维码`}
-              width={192}
-              height={192}
+              width={200}
+              height={200}
               className="h-full w-full"
               unoptimized
             />

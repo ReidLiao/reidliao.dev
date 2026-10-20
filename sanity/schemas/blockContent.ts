@@ -1,7 +1,18 @@
 import { defineArrayMember, defineField, defineType } from 'sanity'
 
 import { BlockContentInput } from '~/sanity/components/BlockContentInput'
+import { ColorSwatchInput } from '~/sanity/components/ColorSwatchInput'
+import { HighlightMarkIcon, TextColorMarkIcon } from '~/sanity/components/MarkIcons'
 import { Tweet } from '~/sanity/components/Tweet'
+
+const semanticColors = [
+  { title: '青柠', value: 'lime' },
+  { title: '翠绿', value: 'emerald' },
+  { title: '天蓝', value: 'sky' },
+  { title: '琥珀', value: 'amber' },
+  { title: '玫红', value: 'rose' },
+  { title: '紫色', value: 'violet' },
+]
 
 const platformList = [
   { title: '通用', value: 'any' },
@@ -128,24 +139,15 @@ export default defineType({
           {
             title: '文字颜色',
             name: 'textColor',
+            icon: TextColorMarkIcon,
             type: 'object',
             fields: [
               {
                 name: 'color',
                 title: '颜色',
                 type: 'string',
-                options: {
-                  list: [
-                    { title: '青柠', value: 'lime' },
-                    { title: '翠绿', value: 'emerald' },
-                    { title: '天蓝', value: 'sky' },
-                    { title: '琥珀', value: 'amber' },
-                    { title: '玫红', value: 'rose' },
-                    { title: '紫色', value: 'violet' },
-                    { title: '中灰', value: 'zinc' },
-                  ],
-                  layout: 'dropdown',
-                },
+                options: { list: [...semanticColors, { title: '中灰', value: 'zinc' }] },
+                components: { input: ColorSwatchInput },
                 initialValue: 'lime',
               },
             ],
@@ -153,22 +155,15 @@ export default defineType({
           {
             title: '高亮底色',
             name: 'highlight',
+            icon: HighlightMarkIcon,
             type: 'object',
             fields: [
               {
                 name: 'color',
                 title: '颜色',
                 type: 'string',
-                options: {
-                  list: [
-                    { title: '青柠', value: 'lime' },
-                    { title: '琥珀', value: 'amber' },
-                    { title: '天蓝', value: 'sky' },
-                    { title: '玫红', value: 'rose' },
-                    { title: '紫色', value: 'violet' },
-                  ],
-                  layout: 'dropdown',
-                },
+                options: { list: semanticColors },
+                components: { input: ColorSwatchInput },
                 initialValue: 'lime',
               },
             ],
@@ -346,7 +341,7 @@ export default defineType({
           name: 'url',
           type: 'url',
           title: '视频链接',
-          description: '支持 YouTube / Bilibili / 直链 mp4 等',
+          description: '支持 YouTube、Bilibili BV/av/播放器地址与直链 mp4；不支持内嵌的平台链接会保留为原视频入口。',
           validation: (Rule) =>
             Rule.required().uri({ scheme: ['http', 'https'] }),
         },

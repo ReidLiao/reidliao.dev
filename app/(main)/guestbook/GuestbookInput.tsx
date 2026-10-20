@@ -212,19 +212,23 @@ export function GuestbookInput() {
             <CommentMarkdown>{message}</CommentMarkdown>
           </div>
         ) : (
-          <TextareaAutosize
-            ref={textareaRef}
-            className="block w-full shrink-0 resize-none border-0 bg-transparent p-0 text-sm leading-6 text-zinc-800 placeholder-zinc-400 outline-none transition-[height] will-change-[height] focus:outline-none focus:ring-0 dark:text-zinc-200 dark:placeholder-zinc-500"
-            value={message}
-            onChange={(event) => setMessage(event.target.value)}
-            placeholder={
-              user
-                ? '说点什么吧，万一火不了呢...'
-                : '匿名短留言（最多 120 字）...'
-            }
-            onKeyDown={handleKeyDown}
-            maxRows={8}
-          />
+          <>
+            <label htmlFor="guestbook-message" className="sr-only">留言内容</label>
+            <TextareaAutosize
+              id="guestbook-message"
+              ref={textareaRef}
+              className="block w-full shrink-0 resize-none border-0 bg-transparent p-0 text-sm leading-6 text-zinc-800 placeholder-zinc-400 outline-none transition-[height] will-change-[height] focus:outline-none focus:ring-0 dark:text-zinc-200 dark:placeholder-zinc-500"
+              value={message}
+              onChange={(event) => setMessage(event.target.value)}
+              placeholder={
+                user
+                  ? '说点什么吧，万一火不了呢...'
+                  : '匿名短留言（最多 120 字）...'
+              }
+              onKeyDown={handleKeyDown}
+              maxRows={8}
+            />
+          </>
         )}
 
         <footer className="-mb-1.5 mt-3 flex h-5 w-full items-center justify-between">
@@ -248,6 +252,9 @@ export function GuestbookInput() {
                 </RichLink>
               </>
             )}
+          </span>
+          <span className="sr-only" role="alert" aria-live="assertive" aria-atomic="true">
+            {error ?? ''}
           </span>
           <AnimatePresence>
             {message.length > 0 && (
@@ -273,7 +280,8 @@ export function GuestbookInput() {
                   content={isPreviewing ? '关闭预览' : '预览一下'}
                 >
                   <motion.button
-                    className="appearance-none"
+                    className="-my-3 inline-flex h-11 w-11 shrink-0 items-center justify-center appearance-none"
+                    aria-label={isPreviewing ? '关闭留言预览' : '预览留言'}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     type="button"
@@ -290,7 +298,8 @@ export function GuestbookInput() {
 
                 <ElegantTooltip content="发送">
                   <motion.button
-                    className="appearance-none"
+                    className="-my-3 inline-flex h-11 w-11 shrink-0 items-center justify-center appearance-none"
+                    aria-label="发送留言"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     type="button"

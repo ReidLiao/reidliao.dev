@@ -73,16 +73,44 @@ type GetBlogPostsOptions = {
   limit?: number
   offset?: number
   forDisplay?: boolean
+  categorySlug?: string
 }
+
+export type BlogCategoryCount = { title: string; slug: string; count: number }
+
+export const getBlogCategoryCountsQuery = () => groq`
+  *[_type == "category" && defined(slug.current)] | order(title asc) {
+    title,
+    "slug": slug.current,
+    "count": count(*[_type == "post" && !(_id in path("drafts.**"))
+      && publishedAt <= "${getDate().toISOString()}"
+      && defined(slug.current) && references(^._id)])
+  }
+`
+
+export const getBlogCategoryCounts = () =>
+  client.fetch<BlogCategoryCount[]>(getBlogCategoryCountsQuery(), {}, {
+    next: { tags: ['posts'], revalidate: 600 },
+  })
+
+export const getPublishedBlogPostCount = (categorySlug?: string) =>
+  client.fetch<number>(
+    groq`count(*[_type == "post" && !(_id in path("drafts.**"))
+      && publishedAt <= "${getDate().toISOString()}" && defined(slug.current)
+      ${categorySlug ? '&& $categorySlug in categories[]->slug.current' : ''}])`,
+    categorySlug ? { categorySlug } : {},
+    { next: { tags: ['posts'], revalidate: 600 } }
+  )
 
 export const getLatestBlogPostsQuery = ({
   limit = 5,
   offset = 0,
   forDisplay = true,
+  categorySlug,
 }: GetBlogPostsOptions) => {
   return groq`
   *[_type == "post" && !(_id in path("drafts.**")) && publishedAt <= "${getDate().toISOString()}"
-  && defined(slug.current)] | order(publishedAt desc)[${offset}...${offset + limit}] {
+  && defined(slug.current) ${categorySlug ? '&& $categorySlug in categories[]->slug.current' : ''}] | order(publishedAt desc)[${offset}...${offset + limit}] {
     _id,
     title,
     "slug": slug.current,
@@ -107,7 +135,7 @@ export const getLatestBlogPostsQuery = ({
 export const getLatestBlogPosts = (options: GetBlogPostsOptions) =>
   client.fetch<Post[] | null>(
     getLatestBlogPostsQuery(options),
-    {},
+    options.categorySlug ? { categorySlug: options.categorySlug } : {},
     { next: { tags: ['posts'], revalidate: 600 } }
   )
 
@@ -139,7 +167,7 @@ export const getBlogPostQuery = groq`
         "lqip": metadata.lqip
       }
     },
-    "related": *[_type == "post" && slug.current != $slug && count(categories[@._ref in ^.^.categories[]._ref]) > 0] | order(publishedAt desc, _createdAt desc) [0..2] {
+    "related": *[_type == "post" && !(_id in path("drafts.**")) && slug.current != $slug && defined(slug.current) && publishedAt <= "${getDate().toISOString()}" && count(categories[@._ref in ^.^.categories[]._ref]) > 0] | order(publishedAt desc, _createdAt desc) [0..2] {
       _id,
       title,
       "slug": slug.current,
@@ -156,12 +184,22 @@ export const getBlogPostQuery = groq`
       },
     }
   }`
-export const getBlogPost = (slug: string) =>
-  client.fetch<PostDetail | undefined, { slug: string }>(
+export const getBlogPost = async (slug: string) => {
+  const post = await client.fetch<PostDetail | undefined, { slug: string }>(
     getBlogPostQuery,
     { slug },
     { next: { tags: [`post:${slug}`, 'posts'], revalidate: 600 } }
   )
+  if (!post) return post
+
+  const related = post.related ?? []
+  if (related.length >= 3) return post
+  const latest = await getLatestBlogPosts({ limit: 12, forDisplay: true })
+  const used = new Set([post._id, ...related.map((item) => item._id)])
+  const fill = (latest ?? []).filter((item) => !used.has(item._id))
+  const merged = [...related, ...fill].slice(0, 3)
+  return { ...post, related: merged }
+}
 
 export const getSettingsQuery = () =>
   groq`
@@ -192,6 +230,33 @@ export type HeroPhoto = {
   url: string
   lqip?: string
 }
+
+export type SiteAnnouncement = {
+  enabled?: boolean
+  version?: string
+  title?: string
+  body?: string
+  buttonText?: string
+  buttonLink?: string
+  image?: { _type: 'image'; asset: { _id?: string; _ref?: string; url?: string }; crop?: unknown; hotspot?: unknown } | null
+}
+
+export const getAnnouncement = () =>
+  client.fetch<SiteAnnouncement | null>(
+    groq`*[_type == "settings"][0] {
+      "announcement": {
+        enabled,
+        version,
+        title,
+        body,
+        buttonText,
+        buttonLink,
+        "image": image { ..., "asset": asset->{_id, _ref, url} }
+      }
+    }.announcement`,
+    {},
+    { next: { tags: ['settings'], revalidate: 300 } }
+  )
 
 export const getSettings = () =>
   client.fetch<

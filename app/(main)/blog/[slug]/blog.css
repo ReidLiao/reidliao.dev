@@ -52,6 +52,15 @@
 }
 
 .article-body {
+  --tw-prose-body: theme('colors.zinc.600');
+  --tw-prose-links: theme('colors.lime.700');
+  --tw-prose-links-hover: theme('colors.lime.800');
+  --tw-prose-underline: theme('colors.lime.700 / 0.35');
+  --tw-prose-underline-hover: theme('colors.lime.800');
+  --tw-prose-quote-borders: theme('colors.lime.600');
+  font-size: 16px;
+  line-height: 1.8;
+
   p {
     margin-block: 0.75em;
   }
@@ -65,7 +74,7 @@
   }
 
   h2 {
-    margin-top: 1.5em;
+    margin-top: 1.6em;
     margin-bottom: 0.75em;
   }
 
@@ -84,6 +93,39 @@
     margin-top: 0.25em;
     margin-bottom: 0.25em;
   }
+
+  .prismjs {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 768px) {
+  .article-body {
+    font-size: 17px;
+  }
+
+  .article-body .prismjs {
+    font-size: 14.5px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .article-body {
+    font-size: 17px;
+  }
+
+  .article-body .prismjs {
+    font-size: 15px;
+  }
+}
+
+.dark .article-body {
+  --tw-prose-body: theme('colors.zinc.300');
+  --tw-prose-links: theme('colors.lime.400');
+  --tw-prose-links-hover: theme('colors.lime.300');
+  --tw-prose-underline: theme('colors.lime.400 / 0.45');
+  --tw-prose-underline-hover: theme('colors.lime.300');
+  --tw-prose-quote-borders: theme('colors.lime.400');
 }
 
 .dark .comment__message {

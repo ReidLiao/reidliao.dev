@@ -159,7 +159,7 @@ export default function AboutPage() {
           <a
             key={section.id}
             href={`#${section.id}`}
-            className="transition hover:text-lime-600 dark:hover:text-lime-400"
+            className="inline-flex items-center rounded-md py-3 transition hover:text-lime-600 dark:hover:text-lime-400"
           >
             {section.label}
           </a>

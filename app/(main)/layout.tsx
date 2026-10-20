@@ -1,20 +1,40 @@
 import './blog/[slug]/blog.css'
 
 import { Suspense } from 'react'
+import type { Image as SanityImage } from 'sanity'
 
 import { Footer } from '~/app/(main)/Footer'
 import { Header } from '~/app/(main)/Header'
 import { QueryProvider } from '~/app/QueryProvider'
 import { BackToTop } from '~/components/BackToTop'
+import { FirstVisitAnnouncement } from '~/components/FirstVisitAnnouncement'
+import { FloatingContact } from '~/components/FloatingContact'
 import { MotionProvider } from '~/components/MotionProvider'
+import { urlForImage } from '~/sanity/lib/image'
+import { getAnnouncement } from '~/sanity/queries'
 
-export default function BlogLayout({
+export default async function BlogLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const announcement = await getAnnouncement().catch(() => null)
+  const announcementImageUrl = announcement?.image
+    ? urlForImage(announcement.image as unknown as SanityImage)
+        .width(1200)
+        .height(675)
+        .fit('crop')
+        .url()
+    : undefined
+
   return (
     <>
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[110] focus:rounded-full focus:bg-lime-400 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-zinc-950 focus:outline-none focus:ring-2 focus:ring-lime-500 focus:ring-offset-2 focus:ring-offset-zinc-50 dark:focus:ring-offset-zinc-900"
+      >
+        跳到主内容
+      </a>
       <div className="pointer-events-none fixed inset-0 select-none bg-[url('/grid-black.svg')] bg-top bg-repeat dark:bg-[url('/grid.svg')]" />
       <span className="pointer-events-none fixed top-0 block h-[800px] w-full select-none bg-[radial-gradient(103.72%_46.58%_at_50%_0%,rgba(5,5,5,0.045)_0%,rgba(0,0,0,0)_100%)] dark:bg-[radial-gradient(103.72%_46.58%_at_50%_0%,rgba(255,255,255,0.09)_0%,rgba(255,255,255,0)_100%)]" />
 
@@ -28,12 +48,14 @@ export default function BlogLayout({
         <MotionProvider>
           <div className="relative text-zinc-800 transition-colors duration-300 dark:text-zinc-200">
             <Header />
-            <main>{children}</main>
+            <main id="main-content" tabIndex={-1}>{children}</main>
             <Suspense>
               <Footer />
             </Suspense>
           </div>
           <BackToTop />
+          <FloatingContact />
+          <FirstVisitAnnouncement announcement={announcement ? { ...announcement, imageUrl: announcementImageUrl } : null} />
         </MotionProvider>
       </QueryProvider>
     </>

@@ -9,7 +9,7 @@ import { env } from '~/env.mjs'
  * Sanity Manage → API → Webhooks → Create webhook:
  *   URL: https://reidliao.dev/api/revalidate
  *   Trigger: Create + Update + Delete
- *   Filter: _type in ["post", "settings", "project", "donor"]
+ *   Filter: _type in ["post", "category", "settings", "project", "donor"]
  *   Projection: {_type, "slug": slug.current}
  *   HTTP headers: x-revalidate-secret: <REVALIDATE_SECRET>
  *   Drafts: OFF
@@ -33,10 +33,13 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = (await req.json()) as {
+      _type?: string
       slug?: string | { current?: string }
       path?: string
     }
-    if (!slug) {
+    if (body._type === 'category') {
+      slug = ''
+    } else if (!slug) {
       if (typeof body.slug === 'string') slug = body.slug
       else if (body.slug?.current) slug = body.slug.current
       else if (body.path) slug = body.path

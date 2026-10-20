@@ -135,7 +135,7 @@ export function PortableTextCodeBlock({
         </ElegantTooltip>
       </div>
 
-      <div className="max-w-full overflow-x-auto overscroll-x-contain [&_pre]:!text-[13px] md:[&_pre]:!text-sm [&_code]:!text-[13px] md:[&_code]:!text-sm">
+      <div className="max-w-full overflow-x-auto overscroll-x-contain [&_pre]:!text-[14px] md:[&_pre]:!text-[14.5px] xl:[&_pre]:!text-[15px] [&_code]:!text-[14px] md:[&_code]:!text-[14.5px] xl:[&_code]:!text-[15px]">
         <ClientOnly>
           <SyntaxHighlighter
             language={value.language}

@@ -174,7 +174,7 @@ function Message({
         <CommentMarkdown>{message.message}</CommentMarkdown>
       </div>
       {canDelete && isReplying ? (
-        <div className="ml-[3.25rem] mt-3 rounded-xl border border-lime-500/30 bg-lime-500/5 p-3 dark:border-lime-400/25 dark:bg-lime-400/5">
+        <div className="ml-[3.25rem] mt-3 rounded-xl border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-700 dark:bg-zinc-800/50">
           <textarea
             value={reply}
             onChange={(event) => setReply(event.target.value)}
@@ -209,7 +209,7 @@ function Message({
                   setReplyError(null)
                   saveReply()
                 }}
-                className="inline-flex items-center gap-1 rounded-md bg-lime-500 px-2.5 py-1 text-xs font-medium text-zinc-950 transition hover:bg-lime-400 disabled:cursor-not-allowed disabled:opacity-50"
+                className="inline-flex items-center gap-1 rounded-md bg-zinc-800 px-2.5 py-1 text-xs font-medium text-zinc-100 transition hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-200 dark:text-zinc-950 dark:hover:bg-zinc-300"
               >
                 <TiltedSendIcon className="h-3.5 w-3.5" />
                 保存回复
@@ -222,20 +222,31 @@ function Message({
         </div>
       ) : null}
       {message.reply && message.repliedAt ? (
-        <div className="ml-[3.25rem] mt-3 rounded-xl border-l-2 border-lime-500/70 bg-lime-500/5 px-3 py-2.5 dark:border-lime-400/60 dark:bg-lime-400/5">
-          <div className="flex items-center gap-2">
-            <span className="rounded-full bg-lime-500/15 px-2 py-0.5 text-[11px] font-medium text-lime-700 dark:bg-lime-400/15 dark:text-lime-300">
-              站长
-            </span>
-            <time
-              dateTime={message.repliedAt.toString()}
-              className="text-[11px] text-zinc-500 dark:text-zinc-400"
-            >
-              {dayjs(message.repliedAt).locale('zh-cn').fromNow()}
-            </time>
-          </div>
-          <div className="comment__message mt-2 text-sm">
-            <CommentMarkdown>{message.reply}</CommentMarkdown>
+        <div className="ml-[3.25rem] mt-3 flex items-start gap-3">
+          <Image
+            src="/avatar.jpg"
+            alt=""
+            width={40}
+            height={40}
+            sizes="40px"
+            className="h-10 w-10 flex-shrink-0 rounded-full bg-zinc-200 ring-2 ring-zinc-200 dark:bg-zinc-800 dark:ring-zinc-800"
+            unoptimized
+          />
+          <div className="min-w-0 flex-1 rounded-xl border border-y-zinc-200 border-r-zinc-200 border-l-2 border-lime-500/70 bg-white/70 px-3 py-2.5 dark:border-y-zinc-800 dark:border-r-zinc-800 dark:border-lime-400/60 dark:bg-zinc-900/60">
+            <div className="flex items-center gap-2">
+              <span className="rounded-full bg-lime-500/15 px-2 py-0.5 text-[11px] font-medium text-lime-700 dark:bg-lime-400/15 dark:text-lime-300">
+                站长
+              </span>
+              <time
+                dateTime={message.repliedAt.toString()}
+                className="text-[11px] text-zinc-500 dark:text-zinc-400"
+              >
+                {dayjs(message.repliedAt).locale('zh-cn').fromNow()}
+              </time>
+            </div>
+            <div className="comment__message mt-2 text-sm">
+              <CommentMarkdown>{message.reply}</CommentMarkdown>
+            </div>
           </div>
         </div>
       ) : null}

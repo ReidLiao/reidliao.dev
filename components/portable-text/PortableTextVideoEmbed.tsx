@@ -87,7 +87,24 @@ export function PortableTextVideoEmbed({
     [value.url]
   )
 
-  if (!embed) return null
+  if (!embed) {
+    const fallbackUrl = value.url && /^https?:\/\//i.test(value.url) ? value.url : null
+    if (!fallbackUrl) return null
+
+    return (
+      <figure data-blockid={value._key} className="not-prose my-8">
+        <a
+          href={fallbackUrl}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="inline-flex min-h-11 items-center gap-2 rounded-2xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm font-medium text-zinc-700 transition hover:border-lime-600 hover:text-lime-800 dark:border-zinc-700 dark:bg-zinc-900/60 dark:text-zinc-300 dark:hover:border-lime-400 dark:hover:text-lime-300"
+        >
+          此视频暂不支持内嵌播放，打开原视频
+          <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M14 4h6v6M20 4l-9 9" strokeLinecap="round" strokeLinejoin="round"/><path d="M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </a>
+      </figure>
+    )
+  }
 
   return (
     <figure data-blockid={value._key} className="not-prose my-8">

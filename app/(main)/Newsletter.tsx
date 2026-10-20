@@ -30,6 +30,7 @@ export function Newsletter({ subCount }: { subCount?: string }) {
     resolver: zodResolver(newsletterFormSchema),
   })
   const [isSubscribed, setIsSubscribed] = React.useState(false)
+  const [submitError, setSubmitError] = React.useState('')
   const { reward } = useReward('newsletter-rewards', 'emoji', {
     position: 'absolute',
     emoji: ['📬', '✉️', '🎉', '🥳', '😊', '🤓'],
@@ -39,6 +40,8 @@ export function Newsletter({ subCount }: { subCount?: string }) {
     async (data: NewsletterForm) => {
       try {
         if (isSubmitting) return
+
+        setSubmitError('')
 
         const response = await fetch('/api/newsletter', {
           method: 'POST',
@@ -51,9 +54,11 @@ export function Newsletter({ subCount }: { subCount?: string }) {
           reset()
           reward()
           setIsSubscribed(true)
+        } else {
+          setSubmitError('订阅暂时无法完成，请稍后再试。')
         }
-      } catch (error) {
-        console.error(error)
+      } catch {
+        setSubmitError('网络暂时不可用，请检查连接后重试。')
       }
     },
     [isSubmitting, reset, reward]
@@ -99,6 +104,8 @@ export function Newsletter({ subCount }: { subCount?: string }) {
               type="email"
               placeholder="你的邮箱"
               aria-label="电子邮箱"
+              aria-invalid={errors.email ? 'true' : undefined}
+              aria-describedby={errors.email ? 'newsletter-email-error' : undefined}
               required
               className="min-w-0 flex-auto appearance-none rounded-lg border border-zinc-900/10 bg-white px-3 py-[calc(theme(spacing.2)-1px)] placeholder:text-zinc-400 focus:border-lime-500 focus:outline-none focus:ring-4 focus:ring-lime-500/10 dark:border-zinc-700 dark:bg-zinc-700/[0.15] dark:text-zinc-200 dark:placeholder:text-zinc-500 dark:focus:border-lime-400/50 dark:focus:ring-lime-400/5 sm:text-sm"
               {...register('email')}
@@ -114,6 +121,9 @@ export function Newsletter({ subCount }: { subCount?: string }) {
         ) : (
           <motion.p
             className="mt-6 h-10 text-center text-lg text-zinc-700 dark:text-zinc-300"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit="initial"
@@ -124,10 +134,15 @@ export function Newsletter({ subCount }: { subCount?: string }) {
       </AnimatePresence>
       <span id="newsletter-rewards" className="relative h-0 w-0" />
       {errors.email && (
-        <p className="mt-2 text-xs font-medium text-red-600 dark:text-red-400">
+        <p id="newsletter-email-error" role="alert" aria-live="assertive" className="mt-2 text-xs font-medium text-red-600 dark:text-red-400">
           {errors.email.message}
         </p>
       )}
+      {submitError ? (
+        <p role="alert" aria-live="assertive" className="mt-2 text-sm text-red-600 dark:text-red-400">
+          {submitError}
+        </p>
+      ) : null}
     </form>
   )
 }
