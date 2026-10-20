@@ -243,19 +243,19 @@ export type SiteAnnouncement = {
 
 export const getAnnouncement = () =>
   client.fetch<SiteAnnouncement | null>(
-    groq`*[_type == "settings"][0] {
+    groq`*[_type == "settings" && _id == "settings"][0] {
       "announcement": {
-        enabled,
-        version,
-        title,
-        body,
-        buttonText,
-        buttonLink,
-        "image": image { ..., "asset": asset->{_id, _ref, url} }
+        "enabled": announcement.enabled,
+        "version": announcement.version,
+        "title": announcement.title,
+        "body": announcement.body,
+        "buttonText": announcement.buttonText,
+        "buttonLink": announcement.buttonLink,
+        "image": announcement.image { ..., "asset": asset->{_id, _ref, url} }
       }
     }.announcement`,
     {},
-    { next: { tags: ['settings'], revalidate: 300 } }
+    { next: { tags: ['settings'], revalidate: 60 } }
   )
 
 export const getSettings = () =>
