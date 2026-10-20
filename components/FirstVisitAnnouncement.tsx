@@ -17,7 +17,6 @@ type Announcement = {
 export function FirstVisitAnnouncement({ announcement }: { announcement?: Announcement | null }) {
   const [open, setOpen] = React.useState(false)
   const dialogRef = React.useRef<HTMLElement>(null)
-  const closeButtonRef = React.useRef<HTMLButtonElement>(null)
   const previousFocusRef = React.useRef<HTMLElement | null>(null)
   const hasCapturedFocusRef = React.useRef(false)
 
@@ -48,7 +47,7 @@ export function FirstVisitAnnouncement({ announcement }: { announcement?: Announ
         : null
       hasCapturedFocusRef.current = true
     }
-    closeButtonRef.current?.focus()
+    dialogRef.current?.focus()
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -76,7 +75,7 @@ export function FirstVisitAnnouncement({ announcement }: { announcement?: Announ
         event.preventDefault()
         const edgeTarget = event.shiftKey ? last : first
         edgeTarget.focus()
-      } else if (event.shiftKey && document.activeElement === first) {
+      } else if (event.shiftKey && (document.activeElement === first || document.activeElement === dialogRef.current)) {
         event.preventDefault()
         last.focus()
       } else if (!event.shiftKey && document.activeElement === last) {
@@ -101,16 +100,18 @@ export function FirstVisitAnnouncement({ announcement }: { announcement?: Announ
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-zinc-950/65 p-4 backdrop-blur-sm" onMouseDown={(event) => { if (event.target === event.currentTarget) close() }}>
-      <section ref={dialogRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="site-announcement-title" className="relative max-h-[calc(100dvh-2rem)] w-full max-w-xl overflow-y-auto rounded-3xl border border-zinc-700 bg-zinc-900 text-zinc-100 shadow-2xl shadow-black/40">
-        <button ref={closeButtonRef} type="button" onClick={close} aria-label="关闭公告" className="absolute right-3 top-3 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-zinc-950/70 text-zinc-300 transition hover:border-lime-400/60 hover:text-lime-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-400">
-          <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2"><path d="m6 6 12 12M18 6 6 18" strokeLinecap="round" /></svg>
+      <section ref={dialogRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="site-announcement-title" className="relative max-h-[calc(100dvh-2rem)] w-full max-w-xl overflow-y-auto rounded-3xl border border-zinc-700 bg-zinc-900 text-zinc-100 shadow-2xl shadow-black/40 outline-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 focus:shadow-none focus-visible:shadow-none">
+        <button type="button" onClick={close} aria-label="关闭公告" className="group absolute right-2 top-2 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-400">
+          <span aria-hidden="true" className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-zinc-950/70 text-zinc-300 transition group-hover:border-lime-400/60 group-hover:text-lime-300">
+            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2"><path d="m6 6 12 12M18 6 6 18" strokeLinecap="round" /></svg>
+          </span>
         </button>
-        {announcement.imageUrl ? <div className="relative aspect-video w-full"><Image src={announcement.imageUrl} alt="" fill sizes="(max-width: 640px) 100vw, 560px" className="object-cover" /></div> : null}
-        <div className="p-6 sm:p-8">
+        {announcement.imageUrl ? <div className="relative h-40 w-full sm:h-[200px]"><Image src={announcement.imageUrl} alt="" fill sizes="(max-width: 640px) 100vw, 560px" className="object-cover object-center" /></div> : null}
+        <div className="px-6 pb-6 pt-5">
           <span className="mb-3 inline-flex items-center gap-2 font-mono text-xs text-zinc-400"><span className="size-1.5 rounded-full bg-lime-400" />站点公告</span>
           <h2 id="site-announcement-title" className="text-xl font-semibold tracking-tight sm:text-2xl">{announcement.title}</h2>
-          {announcement.body ? <p className="mt-4 whitespace-pre-line text-sm leading-7 text-zinc-300">{announcement.body}</p> : null}
-          {buttonLink && announcement.buttonText ? (external ? <a href={buttonLink} target="_blank" rel="noreferrer noopener" onClick={close} className="mt-6 inline-flex h-10 items-center justify-center rounded-full bg-lime-400 px-5 text-sm font-semibold text-zinc-950 transition hover:bg-lime-300">{announcement.buttonText}</a> : <Link href={buttonLink} onClick={close} className="mt-6 inline-flex h-10 items-center justify-center rounded-full bg-lime-400 px-5 text-sm font-semibold text-zinc-950 transition hover:bg-lime-300">{announcement.buttonText}</Link>) : null}
+          {announcement.body ? <p className="mt-4 whitespace-pre-line text-base leading-7 text-zinc-300">{announcement.body}</p> : null}
+          {buttonLink && announcement.buttonText ? (external ? <a href={buttonLink} target="_blank" rel="noreferrer noopener" onClick={close} className="mt-5 inline-flex h-10 items-center justify-center rounded-full bg-lime-400 px-5 text-sm font-semibold text-zinc-950 transition hover:bg-lime-300 active:scale-[0.98] focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-400">{announcement.buttonText}</a> : <Link href={buttonLink} onClick={close} className="mt-5 inline-flex h-10 items-center justify-center rounded-full bg-lime-400 px-5 text-sm font-semibold text-zinc-950 transition hover:bg-lime-300 active:scale-[0.98] focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-400">{announcement.buttonText}</Link>) : null}
         </div>
       </section>
     </div>
