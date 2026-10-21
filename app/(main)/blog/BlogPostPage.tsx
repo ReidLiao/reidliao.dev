@@ -97,7 +97,7 @@ export function BlogPostPage({
                     alt=""
                     className="select-none"
                     fill
-                    sizes="(max-width: 768px) 100vw, 800px"
+                    sizes="(max-width: 768px) calc(100vw - 2rem), 800px"
                     loading="lazy"
                     aria-hidden={true}
                   />
@@ -109,7 +109,7 @@ export function BlogPostPage({
                   placeholder="blur"
                   blurDataURL={post.mainImage.asset.lqip}
                   fill
-                  sizes="(max-width: 768px) 100vw, 800px"
+                  sizes="(max-width: 768px) calc(100vw - 2rem), 800px"
                   priority
                 />
                 <PostAuthorBadge size="lg" priority />

@@ -2,7 +2,7 @@ import { Manrope } from 'next/font/google'
 
 const sansFont = Manrope({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+  weight: 'variable',
   variable: '--font-sans',
   display: 'swap',
 })
