@@ -213,6 +213,9 @@ export function GuestbookInput() {
           </div>
         ) : (
           <>
+            <p aria-hidden="true" className="mb-1 text-xs font-medium text-zinc-600 dark:text-zinc-400">
+              留言内容
+            </p>
             <label htmlFor="guestbook-message" className="sr-only">留言内容</label>
             <TextareaAutosize
               id="guestbook-message"

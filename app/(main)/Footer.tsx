@@ -58,7 +58,7 @@ function NavLink({
   return (
     <Link
       href={href}
-      className="whitespace-nowrap transition hover:text-lime-500 dark:hover:text-lime-400"
+      className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center whitespace-nowrap transition hover:text-lime-500 dark:hover:text-lime-400"
     >
       {children}
     </Link>
@@ -67,7 +67,7 @@ function NavLink({
 
 function Links() {
   return (
-    <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">
+    <nav className="flex flex-wrap justify-center gap-x-2 gap-y-2 text-sm font-medium text-zinc-800 dark:text-zinc-200 md:gap-x-6">
       {navigationItems
         .filter(({ href }) => href !== '/about')
         .map(({ href, text }) => (

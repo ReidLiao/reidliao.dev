@@ -2,6 +2,7 @@ import { type Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import { BlogPostPage } from '~/app/(main)/blog/BlogPostPage'
+import { JsonLd } from '~/components/JsonLd'
 import { kvKeys } from '~/config/kv'
 import { url } from '~/lib'
 import { cdnImageSrc } from '~/lib/cdn-image'
@@ -126,42 +127,50 @@ export default async function BlogPage({
     absolute: true,
   })
 
+  const siteUrl = url('/').href
+  const postUrl = url(`/blog/${post.slug}`).href
+  const breadcrumbId = `${postUrl}#breadcrumb`
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': url(`/blog/${post.slug}`).href,
-    },
-    headline: post.title,
-    description: post.description,
-    image: [ogImageAbs],
-    datePublished: post.publishedAt,
-    dateModified: postModifiedAt(post.publishedAt, post.updatedAt),
-    author: {
-      '@type': 'Person',
-      name: 'Reid Liao',
-      url: url('/').href,
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'Reidliao.dev',
-      logo: {
-        '@type': 'ImageObject',
-        url: url('/avatar.jpg').href,
+    '@graph': [
+      {
+        '@type': 'Article',
+        '@id': `${postUrl}#article`,
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': postUrl,
+        },
+        headline: post.title,
+        description: post.description,
+        image: [ogImageAbs],
+        datePublished: post.publishedAt,
+        dateModified: postModifiedAt(post.publishedAt, post.updatedAt),
+        author: { '@id': `${siteUrl}about#person` },
+        publisher: { '@id': `${siteUrl}#organization` },
+        ...(post.categories?.length
+          ? { articleSection: post.categories.join(', ') }
+          : {}),
+        breadcrumb: { '@id': breadcrumbId },
       },
-    },
-    ...(post.categories?.length
-      ? { articleSection: post.categories.join(', ') }
-      : {}),
+      {
+        '@type': 'BreadcrumbList',
+        '@id': breadcrumbId,
+        itemListElement: [
+          { name: '首页', item: url('/').href },
+          { name: '近期写作', item: url('/blog').href },
+          { name: post.title, item: postUrl },
+        ].map((item, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          ...item,
+        })),
+      },
+    ],
   }
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <JsonLd data={jsonLd} />
       <BlogPostPage
         post={post}
         views={views}

@@ -9,9 +9,17 @@ import { QueryProvider } from '~/app/QueryProvider'
 import { BackToTop } from '~/components/BackToTop'
 import { FirstVisitAnnouncement } from '~/components/FirstVisitAnnouncement'
 import { FloatingContact } from '~/components/FloatingContact'
+import { JsonLd } from '~/components/JsonLd'
 import { MotionProvider } from '~/components/MotionProvider'
+import { url } from '~/lib'
+import { seo } from '~/lib/seo'
 import { urlForImage } from '~/sanity/lib/image'
 import { getAnnouncement } from '~/sanity/queries'
+
+const siteUrl = seo.url.href
+const websiteId = `${siteUrl}#website`
+const organizationId = `${siteUrl}#organization`
+const personId = `${siteUrl}about#person`
 
 import { SkipLink } from './SkipLink'
 
@@ -31,6 +39,42 @@ export default async function BlogLayout({
 
   return (
     <>
+      <JsonLd
+        data={{
+          '@context': 'https://schema.org',
+          '@graph': [
+            {
+              '@type': 'WebSite',
+              '@id': websiteId,
+              url: siteUrl,
+              name: 'Reidliao.dev',
+              description: seo.description,
+              inLanguage: 'zh-CN',
+              publisher: { '@id': organizationId },
+              creator: { '@id': personId },
+            },
+            {
+              '@type': 'Organization',
+              '@id': organizationId,
+              name: 'Reidliao.dev',
+              url: siteUrl,
+              logo: {
+                '@type': 'ImageObject',
+                url: url('/avatar.jpg').href,
+              },
+            },
+            {
+              '@type': 'Person',
+              '@id': personId,
+              name: 'Reid Liao',
+              url: url('/about').href,
+              image: url('/avatar.jpg').href,
+              description: 'Reidliao.dev 的搭建与维护者。',
+              sameAs: ['https://github.com/ReidLiao'],
+            },
+          ],
+        }}
+      />
       <SkipLink />
       <div className="pointer-events-none fixed inset-0 select-none bg-[url('/grid-black.svg')] bg-top bg-repeat dark:bg-[url('/grid.svg')]" />
       <span className="pointer-events-none fixed top-0 block h-[800px] w-full select-none bg-[radial-gradient(103.72%_46.58%_at_50%_0%,rgba(5,5,5,0.045)_0%,rgba(0,0,0,0)_100%)] dark:bg-[radial-gradient(103.72%_46.58%_at_50%_0%,rgba(255,255,255,0.09)_0%,rgba(255,255,255,0)_100%)]" />

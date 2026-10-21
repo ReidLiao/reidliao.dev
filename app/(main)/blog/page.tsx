@@ -1,7 +1,9 @@
 import Link from 'next/link'
 import Balancer from 'react-wrap-balancer'
 
+import { JsonLd } from '~/components/JsonLd'
 import { Container } from '~/components/ui/Container'
+import { url } from '~/lib'
 import {
   getBlogCategoryCounts,
   getLatestBlogPosts,
@@ -83,9 +85,53 @@ export default async function BlogPage({
     { title: '全部', slug: undefined, count: category ? allTotal : total },
     ...orderedCategories.map((item) => ({ ...item })),
   ]
+  const collectionUrl = url(queryHref(safeCategory, currentPage)).href
+  const breadcrumbItems = [
+    { name: '首页', item: url('/').href },
+    { name: '近期写作', item: url('/blog').href },
+    ...(selectedCategory
+      ? [{ name: selectedCategory.title, item: collectionUrl }]
+      : []),
+  ]
 
   return (
     <Container className="mt-16 sm:mt-24">
+      <JsonLd
+        data={{
+          '@context': 'https://schema.org',
+          '@graph': [
+            {
+              '@type': 'CollectionPage',
+              '@id': `${collectionUrl}#collection`,
+              url: collectionUrl,
+              name: '近期写作',
+              description,
+              inLanguage: 'zh-CN',
+              mainEntity: {
+                '@type': 'ItemList',
+                numberOfItems: posts?.length ?? 0,
+                itemListElement: (posts ?? []).map((post, index) => ({
+                  '@type': 'ListItem',
+                  position: (currentPage - 1) * pageSize + index + 1,
+                  url: url(`/blog/${post.slug}`).href,
+                  name: post.title,
+                })),
+              },
+              breadcrumb: { '@id': `${collectionUrl}#breadcrumb` },
+            },
+            {
+              '@type': 'BreadcrumbList',
+              '@id': `${collectionUrl}#breadcrumb`,
+              itemListElement: breadcrumbItems.map((item, index) => ({
+                '@type': 'ListItem',
+                position: index + 1,
+                name: item.name,
+                item: item.item,
+              })),
+            },
+          ],
+        }}
+      />
       <header className="max-w-2xl">
         <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
           近期写作
@@ -104,10 +150,10 @@ export default async function BlogPage({
       </header>
       <div className="mt-8 border-b-0 pb-2 dark:border-zinc-800 sm:border-b sm:pb-4">
         <div className="flex items-center gap-3">
-          <div className="relative min-w-0 flex-1 after:pointer-events-none after:absolute after:inset-y-0 after:right-0 after:w-7 after:bg-gradient-to-l after:from-zinc-50 after:to-transparent dark:after:from-primary-900 sm:after:hidden">
+          <div className="relative min-w-0 flex-1 after:pointer-events-none after:absolute after:inset-y-0 after:right-0 after:w-4 after:bg-gradient-to-l after:from-zinc-50 after:to-transparent dark:after:from-primary-900 sm:after:hidden">
             <nav
               aria-label="文章分类"
-              className="flex min-w-0 gap-2 overflow-x-auto py-1 pr-8 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+              className="flex min-w-0 gap-2 overflow-x-auto py-1 pr-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
             >
               {tabs.map((tab) => {
                 const active = (tab.slug ?? '') === (safeCategory ?? '')
