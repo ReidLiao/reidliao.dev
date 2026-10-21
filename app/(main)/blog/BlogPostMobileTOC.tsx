@@ -3,9 +3,10 @@
 import React from 'react'
 
 import { Layers3Icon } from '~/assets'
+
 import {
-  parseOutline,
   type Node,
+  parseOutline,
   useHighlightedHeadingId,
 } from './BlogPostTableOfContents'
 
