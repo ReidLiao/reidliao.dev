@@ -102,12 +102,12 @@ export default async function BlogPage({
         </p>
         <RssCopyLink />
       </header>
-      <div className="mt-8 border-b border-zinc-200 pb-4 dark:border-zinc-800">
+      <div className="mt-8 border-b-0 pb-2 dark:border-zinc-800 sm:border-b sm:pb-4">
         <div className="flex items-center gap-3">
           <div className="relative min-w-0 flex-1 after:pointer-events-none after:absolute after:inset-y-0 after:right-0 after:w-7 after:bg-gradient-to-l after:from-zinc-50 after:to-transparent dark:after:from-primary-900 sm:after:hidden">
             <nav
               aria-label="文章分类"
-              className="flex min-w-0 gap-2 overflow-x-auto py-1 pr-8"
+              className="flex min-w-0 gap-2 overflow-x-auto py-1 pr-8 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
             >
               {tabs.map((tab) => {
                 const active = (tab.slug ?? '') === (safeCategory ?? '')
@@ -136,17 +136,19 @@ export default async function BlogPage({
               })}
             </nav>
           </div>
-          <Link href="/submit" className="hidden h-9 shrink-0 items-center justify-center rounded-full border border-zinc-300 px-3 text-xs font-medium text-zinc-700 transition hover:border-lime-500 hover:text-lime-700 sm:inline-flex sm:px-4 sm:text-sm dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-lime-400 dark:hover:text-lime-300">
+          <Link href="/submit" className="hidden h-9 shrink-0 items-center justify-center gap-2 rounded-full border border-lime-600 px-3 text-xs font-medium text-lime-700 transition hover:bg-lime-400/10 sm:inline-flex sm:px-4 sm:text-sm dark:border-lime-400 dark:text-lime-300 dark:hover:bg-lime-400/10">
             投稿推荐
+            <span aria-hidden="true">→</span>
           </Link>
         </div>
-        <div className="mt-3 flex justify-end sm:hidden">
-          <Link href="/submit" className="inline-flex h-9 items-center justify-center rounded-full border border-zinc-300 px-4 text-sm font-medium text-zinc-700 transition hover:border-lime-500 hover:text-lime-700 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-lime-400 dark:hover:text-lime-300">
+        <div className="mt-2 sm:hidden">
+          <Link href="/submit" className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-full border border-lime-600 px-4 text-sm font-medium text-lime-700 transition hover:bg-lime-400/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 dark:border-lime-400 dark:text-lime-300 dark:hover:bg-lime-400/10 dark:focus-visible:ring-lime-400">
             投稿推荐
+            <span aria-hidden="true">→</span>
           </Link>
         </div>
       </div>
-      <div className="mt-12 grid grid-cols-1 gap-6 sm:mt-20 lg:grid-cols-2 lg:gap-8">
+      <div className="mt-8 grid grid-cols-1 gap-6 sm:mt-20 lg:grid-cols-2 lg:gap-8">
         <BlogPosts posts={posts ?? []} />
       </div>
       {safeTotal === 0 ? (

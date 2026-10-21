@@ -95,7 +95,7 @@ export default async function DonatePage() {
                       扫码时备注你的昵称，我会把你加进感谢名单
                     </p>
                   </div>
-                  <div className="flex h-[216px] w-[216px] shrink-0 items-center justify-center rounded-xl bg-white p-2 ring-1 ring-zinc-900/5 dark:ring-white/10">
+                  <div className="mx-auto flex h-[216px] w-[216px] shrink-0 items-center justify-center rounded-xl bg-white p-2 ring-1 ring-zinc-900/5 sm:mx-0 dark:ring-white/10">
                     <Image
                       src="/donate-zfb.png"
                       alt="支付宝二维码"
@@ -120,7 +120,7 @@ export default async function DonatePage() {
                       扫码时备注你的昵称，我会把你加进感谢名单
                     </p>
                   </div>
-                  <div className="flex h-[216px] w-[216px] shrink-0 items-center justify-center rounded-xl bg-white p-2 ring-1 ring-zinc-900/5 dark:ring-white/10">
+                  <div className="mx-auto flex h-[216px] w-[216px] shrink-0 items-center justify-center rounded-xl bg-white p-2 ring-1 ring-zinc-900/5 sm:mx-0 dark:ring-white/10">
                     <Image
                       src="/donate-wx.png"
                       alt="微信支付二维码"

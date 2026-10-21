@@ -25,21 +25,21 @@ export function FloatingContact() {
                 <motion.div
                   role="dialog"
                   aria-label="微信公众号二维码"
-                  className="mb-1 w-48 rounded-2xl border border-zinc-200 bg-white p-3 text-center shadow-xl dark:border-zinc-700 dark:bg-zinc-900"
+                  className="mb-1 w-[232px] min-w-[232px] shrink-0 rounded-2xl border border-zinc-200 bg-white p-2.5 text-center shadow-xl dark:border-zinc-700 dark:bg-zinc-900"
                   initial={{ opacity: 0, scale: 0.96, y: 4 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.96, y: 4 }}
                 >
-                  <div className="rounded-xl bg-white p-2">
+                  <div className="mx-auto w-[212px] shrink-0 rounded-xl bg-white p-1.5">
                     <Image
                       src="/wechat-qrcode.jpg"
                       alt="微信公众号二维码"
-                      width={160}
-                      height={160}
-                      className="h-auto w-full rounded-lg"
+                      width={200}
+                      height={200}
+                      className="block h-[200px] w-[200px] max-w-none shrink-0 aspect-square rounded-lg object-contain"
                     />
                   </div>
-                  <p className="mt-2 text-xs text-zinc-600 dark:text-zinc-300">
+                  <p className="mt-2 whitespace-nowrap text-xs text-zinc-600 dark:text-zinc-300">
                     微信扫一扫关注公众号
                   </p>
                 </motion.div>
