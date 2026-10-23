@@ -1,8 +1,7 @@
 /* Keep the portable-text editor readable in both normal and expanded panes. */
 .reidliao-richtext-editor {
-  width: min(1100px, calc(100vw - 48px));
-  min-width: min(900px, calc(100vw - 48px));
-  max-width: none;
+  width: 100%;
+  min-width: 0;
 }
 
 .reidliao-richtext-editor > div,
@@ -29,6 +28,6 @@
 @media (min-width: 900px) {
   .reidliao-richtext-editor [data-slate-editor='true'],
   .reidliao-richtext-editor [contenteditable='true'] {
-    min-width: min(900px, calc(100vw - 48px));
+    min-width: min(900px, 100%);
   }
 }
