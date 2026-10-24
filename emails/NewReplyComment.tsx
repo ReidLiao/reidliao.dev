@@ -8,10 +8,10 @@ import Layout from './Layout'
 const NewReplyCommentEmail = ({
   postLink = 'https://reidliao.dev',
   postTitle = '测试文章 Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-  postImageUrl = 'https://reidliao.dev/avatar.jpg',
+  postImageUrl = 'https://reidliao.dev/avatar.png',
   userFirstName = 'Reidliao.dev',
   userLastName = '',
-  userImageUrl = 'https://reidliao.dev/avatar.jpg',
+  userImageUrl = 'https://reidliao.dev/avatar.png',
   commentContent = '*测试评论*\n- Wow wtf\n- Cool',
 }: {
   postLink?: string | null
@@ -47,7 +47,7 @@ const NewReplyCommentEmail = ({
               alt=""
               width="24"
               height="24"
-              className="rounded-full"
+              className={userImageUrl?.endsWith('/avatar.png') ? 'rounded-[16%]' : 'rounded-full'}
             />
           )}
         </Text>

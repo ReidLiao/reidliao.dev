@@ -36,7 +36,7 @@ export default function Layout({
             <Hr className="mx-0 my-[20px] h-px w-full bg-zinc-100" />
             <Section className="text-center">
               <Img
-                src={`${emailConfig.baseUrl}/avatar.jpg`}
+                src={`${emailConfig.baseUrl}/avatar.png`}
                 width="80"
                 height="80"
                 alt="Reidliao.dev"

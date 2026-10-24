@@ -34,12 +34,12 @@ function AvatarImage({
       {...props}
     >
       <Image
-        src="/avatar.jpg"
+        src="/avatar.png"
         alt="Reidliao.dev"
         width={large ? 64 : 36}
         height={large ? 64 : 36}
         className={clsxm(
-          'rounded-full bg-zinc-100 object-cover dark:bg-zinc-800',
+          'rounded-full bg-zinc-100 object-cover [clip-path:circle(46%_at_50%_50%)] dark:bg-zinc-800',
           large ? 'h-16 w-16' : 'h-9 w-9'
         )}
         priority

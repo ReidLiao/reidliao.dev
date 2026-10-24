@@ -37,7 +37,7 @@ export function GuestbookInput() {
   const [error, setError] = React.useState<string | null>(null)
 
   const maxLength = user ? MAX_MESSAGE_LENGTH : MAX_ANONYMOUS_MESSAGE_LENGTH
-  const avatarUrl = user?.imageUrl ?? '/avatar.jpg'
+  const avatarUrl = user?.imageUrl ?? '/avatar.png'
 
   const { reward } = useReward(REWARDS_ID, 'emoji', {
     position: 'absolute',
@@ -197,7 +197,7 @@ export function GuestbookInput() {
           width={40}
           height={40}
           sizes="40px"
-          className="h-8 w-8 select-none rounded-full md:h-10 md:w-10"
+          className="h-8 w-8 select-none rounded-full [clip-path:circle(46%_at_50%_50%)] md:h-10 md:w-10"
           loading="lazy"
           unoptimized
         />

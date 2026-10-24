@@ -27,12 +27,12 @@ export function PostAuthorBadge({
       )}
     >
       <Image
-        src="/avatar.jpg"
+        src="/avatar.png"
         alt=""
         width={px}
         height={px}
         className={clsxm(
-          'rounded-full object-cover',
+          'rounded-full object-cover [clip-path:circle(46%_at_50%_50%)]',
           size === 'sm' && 'h-5 w-5',
           size === 'md' && 'h-6 w-6 md:h-7 md:w-7',
           size === 'lg' && 'h-7 w-7 md:h-8 md:w-8'

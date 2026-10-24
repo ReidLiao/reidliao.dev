@@ -60,7 +60,7 @@ export default async function BlogLayout({
               url: siteUrl,
               logo: {
                 '@type': 'ImageObject',
-                url: url('/avatar.jpg').href,
+                url: url('/avatar.png').href,
               },
             },
             {
@@ -68,7 +68,7 @@ export default async function BlogLayout({
               '@id': personId,
               name: 'Reid Liao',
               url: url('/about').href,
-              image: url('/avatar.jpg').href,
+              image: url('/avatar.png').href,
               description: 'Reidliao.dev 的搭建与维护者。',
               sameAs: ['https://github.com/ReidLiao'],
             },

@@ -170,11 +170,11 @@ export default function AboutPage() {
         <div className="flex flex-col gap-8 sm:flex-row sm:items-start">
           <div className="relative mx-auto h-24 w-24 shrink-0 overflow-hidden rounded-full sm:mx-0">
             <Image
-              src="/avatar.jpg"
+              src="/avatar.png"
               alt="Reidliao.dev"
               width={96}
               height={96}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover [clip-path:circle(46%_at_50%_50%)]"
               priority
               unoptimized
             />

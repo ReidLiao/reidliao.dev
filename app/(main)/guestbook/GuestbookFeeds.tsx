@@ -224,12 +224,12 @@ function Message({
       {message.reply && message.repliedAt ? (
         <div className="ml-[3.25rem] mt-3 flex items-start gap-3">
           <Image
-            src="/avatar.jpg"
+            src="/avatar.png"
             alt=""
             width={40}
             height={40}
             sizes="40px"
-            className="h-10 w-10 flex-shrink-0 rounded-full bg-zinc-200 ring-2 ring-zinc-200 dark:bg-zinc-800 dark:ring-zinc-800"
+            className="h-10 w-10 flex-shrink-0 rounded-full bg-zinc-200 ring-2 ring-zinc-200 [clip-path:circle(46%_at_50%_50%)] dark:bg-zinc-800 dark:ring-zinc-800"
             unoptimized
           />
           <div className="min-w-0 flex-1 rounded-xl border border-y-zinc-200 border-r-zinc-200 border-l-2 border-lime-500/70 bg-white/70 px-3 py-2.5 dark:border-y-zinc-800 dark:border-r-zinc-800 dark:border-lime-400/60 dark:bg-zinc-900/60">

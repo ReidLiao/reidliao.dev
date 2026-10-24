@@ -11,7 +11,7 @@ const ConfirmSubscriptionEmail = ({ link = 'link.com/confirm?fake-token' }) => {
     <Layout previewText={previewText}>
       <Section className="mt-[24px] text-center">
         <Img
-          src={`${emailConfig.baseUrl}/avatar.jpg`}
+          src={`${emailConfig.baseUrl}/avatar.png`}
           width="80"
           height="80"
           alt="Reidliao.dev"
@@ -19,7 +19,7 @@ const ConfirmSubscriptionEmail = ({ link = 'link.com/confirm?fake-token' }) => {
           style={{
             width: '80px',
             height: '80px',
-            borderRadius: '50%',
+            borderRadius: '16.3%',
             objectFit: 'cover',
             display: 'block',
             margin: '0 auto',
