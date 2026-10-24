@@ -23,6 +23,16 @@ const platformList = [
   { title: 'iOS', value: 'ios' },
 ]
 
+/** Only numeric versions get a `v` prefix; names/editions stay as-is. */
+const formatPreviewVersion = (version?: string) => {
+  if (!version) return null
+  const text = String(version).trim()
+  if (!text) return null
+  if (/^v\d/i.test(text)) return text
+  if (/^\d+(\.\d+)*([-.+][0-9A-Za-z.-]+)?$/.test(text)) return `v${text}`
+  return text
+}
+
 /** Separate type — avoid nested anonymous objects / reserved `file` name crashing Studio. */
 export const downloadItem = defineType({
   name: 'downloadItem',
@@ -41,7 +51,20 @@ export const downloadItem = defineType({
       name: 'version',
       type: 'string',
       title: '版本',
-      description: '例如 2.0；多版本时作为切换标签',
+      description:
+        '例如 2.0；多版本时作为切换标签。系统名/版本（如 Windows XP Professional）直接写，不要带 v 前缀，前台只给纯数字版本号加 v',
+    }),
+    defineField({
+      name: 'arch',
+      type: 'string',
+      title: '架构',
+      description: '例如 x86、x64；系统镜像必填，普通软件可留空',
+    }),
+    defineField({
+      name: 'language',
+      type: 'string',
+      title: '语言',
+      description: '例如 简体中文；系统镜像必填，普通软件可留空',
     }),
     defineField({
       name: 'url',
@@ -74,16 +97,19 @@ export const downloadItem = defineType({
     select: {
       version: 'version',
       platform: 'platform',
+      arch: 'arch',
+      language: 'language',
       url: 'url',
     },
-    prepare({ version, platform, url }) {
+    prepare({ version, platform, arch, language, url }) {
       const plat =
         platform && platform !== 'any'
           ? platformList.find((p) => p.value === platform)?.title || platform
           : null
-      const ver = version ? `v${String(version).replace(/^v/i, '')}` : null
+      const ver = formatPreviewVersion(version)
       return {
-        title: [plat, ver].filter(Boolean).join(' · ') || '下载项',
+        title:
+          [plat, ver, arch, language].filter(Boolean).join(' · ') || '下载项',
         subtitle: url,
       }
     },

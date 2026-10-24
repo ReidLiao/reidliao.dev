@@ -26,6 +26,8 @@ type DownloadFile = {
   url: string
   version?: string
   platform?: string
+  arch?: string
+  language?: string
   size?: string
   checksum?: string
 }
@@ -41,6 +43,8 @@ type DownloadValue = {
   url?: string
   version?: string
   platform?: string
+  arch?: string
+  language?: string
   size?: string
   checksum?: string
 }
@@ -55,6 +59,8 @@ function normalizeFiles(value: DownloadValue): DownloadFile[] {
         url: value.url,
         version: value.version,
         platform: value.platform,
+        arch: value.arch,
+        language: value.language,
         size: value.size,
         checksum: value.checksum,
       },
@@ -92,7 +98,22 @@ function pickInitialIndex(files: DownloadFile[]): number {
 
 function formatVersion(version?: string) {
   if (!version) return null
-  return `v${version.replace(/^v/i, '')}`
+  const text = version.trim()
+  if (!text) return null
+  // Only numeric versions get a `v` prefix, e.g. 2.0 -> v2.0, v2.0 stays v2.0.
+  // Names/editions stay as-is, otherwise "Windows XP | Professional"
+  // would wrongly render as "vWindows XP | Professional".
+  if (/^v\d/i.test(text)) return text
+  if (/^\d+(\.\d+)*([-.+][0-9A-Za-z.-]+)?$/.test(text)) return `v${text}`
+  return text
+}
+
+function checksumLabel(checksum: string) {
+  const hex = checksum.trim()
+  if (/^[0-9a-fA-F]{64}$/.test(hex)) return 'SHA-256'
+  if (/^[0-9a-fA-F]{40}$/.test(hex)) return 'SHA-1'
+  if (/^[0-9a-fA-F]{32}$/.test(hex)) return 'MD5'
+  return '校验和'
 }
 
 /**
@@ -124,7 +145,7 @@ function fileLabel(file: DownloadFile, files: DownloadFile[], idx: number) {
 function fileMeta(
   file: DownloadFile,
   files: DownloadFile[],
-  opts?: { hidePlatform?: boolean }
+  opts?: { hidePlatform?: boolean; hideVersion?: boolean }
 ) {
   const items: string[] = []
   const ver = formatVersion(file.version)
@@ -135,12 +156,14 @@ function fileMeta(
   const multiPlatform = uniquePlatforms.size > 1
 
   if (multiPlatform) {
-    if (ver) items.push(ver)
+    if (ver && !opts?.hideVersion) items.push(ver)
   } else if (plat && !opts?.hidePlatform) {
     items.push(plat)
-  } else if (ver) {
+  } else if (ver && !opts?.hideVersion) {
     items.push(ver)
   }
+  if (file.arch) items.push(file.arch)
+  if (file.language) items.push(file.language)
   if (file.size) items.push(file.size.replace(/^大小[：:]\s*/, ''))
   return items
 }
@@ -182,8 +205,10 @@ export function PortableTextDownload({
   const safeIndex = Math.min(selected, Math.max(files.length - 1, 0))
   const active = files[safeIndex]
   const multi = files.length > 1
+  // Single file: the version/edition is already shown as the right-side
+  // badge, so don't repeat it in the source line.
   const meta = active
-    ? fileMeta(active, files, { hidePlatform: !multi })
+    ? fileMeta(active, files, { hidePlatform: !multi, hideVersion: !multi })
     : []
   const updatedLabel = value.updatedAt
     ? formatUpdatedAt(value.updatedAt)
@@ -280,7 +305,9 @@ export function PortableTextDownload({
             ) : null}
             {active.checksum ? (
               <div className="mt-2.5 flex max-w-md items-start gap-2 overflow-hidden rounded-lg bg-zinc-950/95 px-2.5 py-1.5 font-mono text-[10px] leading-relaxed text-lime-400/90">
-                <span className="shrink-0 text-zinc-500">sha</span>
+                <span className="shrink-0 text-zinc-500">
+                  {checksumLabel(active.checksum)}
+                </span>
                 <code className="min-w-0 flex-1 break-all">
                   {active.checksum}
                 </code>
