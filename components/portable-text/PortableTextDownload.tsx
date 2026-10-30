@@ -6,7 +6,6 @@ import React from 'react'
 import {
   ClipboardCheckIcon,
   ClipboardDataIcon,
-  CloudIcon,
   ExternalLinkIcon,
 } from '~/assets'
 import { ElegantTooltip } from '~/components/ui/Tooltip'
@@ -119,7 +118,8 @@ function checksumLabel(checksum: string) {
 /**
  * Select labels stay short:
  * - multi-platform → macOS / Windows（同平台多项时带版本）
- * - same platform → v2.0 / v1.1
+ * - same platform → v2.0 / v1.1（平台只在来源行里，不在下拉里重复）
+ * - single file → v2.0 / version label (used as the badge)
  */
 function fileLabel(file: DownloadFile, files: DownloadFile[], idx: number) {
   const ver = formatVersion(file.version)
@@ -137,6 +137,10 @@ function fileLabel(file: DownloadFile, files: DownloadFile[], idx: number) {
     if (samePlatformCount > 1 && ver) return `${plat} ${ver}`
     return plat
   }
+  // Same platform: platform is already in the source line, so the
+  // dropdown shows only the version — repeating it here (e.g.
+  // "macOS v27.0.3-586" next to a source line that already says macOS)
+  // is redundant.
   if (ver) return ver
   if (plat) return plat
   return `版本 ${idx + 1}`
@@ -180,7 +184,7 @@ function sourceLabel(url: string) {
     if (host.includes('pan.baidu.com') || host === 'baidu.com') return '百度网盘'
     if (host.includes('aliyundrive.com') || host.includes('alipan.com')) return '阿里云盘'
     if (host.includes('pan.quark.cn')) return '夸克网盘'
-    if (host.includes('123pan.com')) return '123 云盘'
+    if (host.includes('123pan')) return '123 云盘'
     if (host.includes('cloud.189.cn')) return '天翼云盘'
     return host
   } catch {
@@ -205,10 +209,15 @@ export function PortableTextDownload({
   const safeIndex = Math.min(selected, Math.max(files.length - 1, 0))
   const active = files[safeIndex]
   const multi = files.length > 1
-  // Single file: the version/edition is already shown as the right-side
-  // badge, so don't repeat it in the source line.
+  // Single file on desktop: the version/edition is already shown as the
+  // right-side badge, so don't repeat it in the source line.
   const meta = active
     ? fileMeta(active, files, { hidePlatform: !multi, hideVersion: !multi })
+    : []
+  // Mobile has no badge (see below), so the mobile source line keeps
+  // the version instead of dropping it.
+  const metaMobile = active
+    ? fileMeta(active, files, { hidePlatform: !multi, hideVersion: false })
     : []
   const updatedLabel = value.updatedAt
     ? formatUpdatedAt(value.updatedAt)
@@ -234,19 +243,26 @@ export function PortableTextDownload({
       className="not-prose group/download my-8 overflow-hidden rounded-2xl border border-zinc-200/80 bg-gradient-to-b from-zinc-50/50 to-white/90 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:border-zinc-700/50 dark:from-zinc-900/50 dark:to-zinc-800/90 dark:ring-white/10 sm:rounded-3xl"
     >
       <div className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:gap-5 sm:p-5">
-        <div className="flex min-w-0 flex-1 items-start gap-3.5">
-          <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lime-500/10 text-lime-700 ring-1 ring-lime-500/15 dark:bg-lime-400/10 dark:text-lime-300 dark:ring-lime-400/15">
-            <CloudIcon className="h-5 w-5" />
-          </span>
-          <div className="min-w-0 flex-1">
+        <div className="min-w-0 flex-1">
             <p className="font-mono text-[10px] font-medium tracking-[0.18em] text-zinc-600 dark:text-zinc-400">
               下载
             </p>
             <h4 className="mt-0.5 text-base font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-lg">
               {value.title}
             </h4>
+            {metaMobile.length > 0 || updatedLabel || source ? (
+              <p className="mt-1 block font-mono text-[11px] tabular-nums text-zinc-500 dark:text-zinc-400 sm:hidden">
+                {[
+                  source ? `来源 ${source}` : null,
+                  ...metaMobile,
+                  updatedLabel ? `更新 ${updatedLabel}` : null,
+                ]
+                  .filter(Boolean)
+                  .join(' · ')}
+              </p>
+            ) : null}
             {meta.length > 0 || updatedLabel || source ? (
-              <p className="mt-1 font-mono text-[11px] tabular-nums text-zinc-500 dark:text-zinc-400">
+              <p className="mt-1 hidden font-mono text-[11px] tabular-nums text-zinc-500 dark:text-zinc-400 sm:block">
                 {[
                   source ? `来源 ${source}` : null,
                   ...meta,
@@ -269,7 +285,7 @@ export function PortableTextDownload({
                 >
                   <button
                     type="button"
-                    className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-zinc-500 transition hover:bg-white hover:text-lime-600 dark:hover:bg-zinc-800 dark:hover:text-lime-400"
+                    className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-zinc-500 transition hover:bg-white hover:text-lime-600 dark:hover:bg-zinc-800 dark:hover:text-lime-400"
                     onClick={() => copyText(value.extractCode, 'code')}
                     aria-label="复制提取码"
                   >
@@ -290,7 +306,7 @@ export function PortableTextDownload({
                 >
                   <button
                     type="button"
-                    className="ml-1.5 inline-flex translate-y-0.5 text-zinc-600 transition hover:text-lime-600 dark:text-zinc-400 dark:hover:text-lime-400"
+                    className="ml-1 inline-flex h-6 w-6 translate-y-0.5 items-center justify-center text-zinc-600 transition hover:text-lime-600 dark:text-zinc-400 dark:hover:text-lime-400"
                     onClick={() => copyText(value.note, 'note')}
                     aria-label="复制备注"
                   >
@@ -304,42 +320,43 @@ export function PortableTextDownload({
               </p>
             ) : null}
             {active.checksum ? (
-              <div className="mt-2.5 flex max-w-md items-start gap-2 overflow-hidden rounded-lg bg-zinc-950/95 px-2.5 py-1.5 font-mono text-[10px] leading-relaxed text-lime-400/90">
-                <span className="shrink-0 text-zinc-500">
-                  {checksumLabel(active.checksum)}
-                </span>
-                <code className="min-w-0 flex-1 break-all">
+              <div className="mt-2.5 max-w-md overflow-hidden rounded-lg bg-zinc-950/95 px-2.5 py-1.5 font-mono text-[10px] leading-relaxed text-lime-400/90">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="shrink-0 text-zinc-500">
+                    {checksumLabel(active.checksum)}
+                  </span>
+                  <ElegantTooltip
+                    content={copied === 'sha' ? '已复制' : '复制校验和'}
+                  >
+                    <button
+                      type="button"
+                      className="inline-flex h-8 w-8 shrink-0 items-center justify-center text-zinc-500 transition hover:text-lime-300"
+                      onClick={() => copyText(active.checksum, 'sha')}
+                      aria-label="复制校验和"
+                    >
+                      {copied === 'sha' ? (
+                        <ClipboardCheckIcon className="h-3.5 w-3.5" />
+                      ) : (
+                        <ClipboardDataIcon className="h-3.5 w-3.5" />
+                      )}
+                    </button>
+                  </ElegantTooltip>
+                </div>
+                <code className="mt-1 block break-all">
                   {active.checksum}
                 </code>
-                <ElegantTooltip
-                  content={copied === 'sha' ? '已复制' : '复制校验和'}
-                >
-                  <button
-                    type="button"
-                    className="shrink-0 text-zinc-500 transition hover:text-lime-300"
-                    onClick={() => copyText(active.checksum, 'sha')}
-                    aria-label="复制校验和"
-                  >
-                    {copied === 'sha' ? (
-                      <ClipboardCheckIcon className="h-3.5 w-3.5" />
-                    ) : (
-                      <ClipboardDataIcon className="h-3.5 w-3.5" />
-                    )}
-                  </button>
-                </ElegantTooltip>
               </div>
             ) : null}
-          </div>
         </div>
 
-        <div className="flex w-full shrink-0 flex-row items-center gap-2.5 sm:w-auto sm:flex-col sm:items-end">
+        <div className="flex w-full shrink-0 flex-col items-stretch gap-2.5 sm:w-auto sm:items-end">
           {multi ? (
-            <label className="relative min-w-0 flex-1 sm:w-auto sm:max-w-[11rem] sm:flex-none">
-              <span className="sr-only">选择平台</span>
+            <label className="relative min-w-0 w-full flex-none sm:w-auto sm:max-w-[18rem]">
+              <span className="sr-only">选择下载文件</span>
               <select
                 value={safeIndex}
                 onChange={(e) => setSelected(Number(e.target.value))}
-                className="h-10 w-full min-w-0 cursor-pointer appearance-none rounded-full border-0 bg-zinc-100/90 py-0 pl-3.5 pr-8 text-xs font-medium text-zinc-800 outline-none ring-1 ring-zinc-900/5 transition focus:ring-2 focus:ring-lime-500/25 dark:bg-zinc-950/70 dark:text-zinc-100 dark:ring-white/10 dark:focus:ring-lime-400/20 sm:min-w-[7.5rem]"
+                className="h-10 w-full min-w-0 cursor-pointer appearance-none truncate rounded-full border border-lime-600/60 bg-lime-500/10 py-0 pl-3.5 pr-8 text-sm font-medium text-lime-800 outline-none transition focus:ring-2 focus:ring-lime-500/25 dark:border-lime-400/50 dark:bg-lime-400/10 dark:text-lime-300 dark:focus:ring-lime-400/20 sm:min-w-[7.5rem]"
               >
                 {files.map((file, idx) => (
                   <option key={file._key || `${file.url}-${idx}`} value={idx}>
@@ -349,7 +366,7 @@ export function PortableTextDownload({
               </select>
               <span
                 aria-hidden
-                className="pointer-events-none absolute inset-y-0 right-2.5 flex items-center text-zinc-400"
+                className="pointer-events-none absolute inset-y-0 right-2.5 flex items-center text-lime-700 dark:text-lime-300"
               >
                 <svg
                   viewBox="0 0 12 12"
@@ -363,7 +380,7 @@ export function PortableTextDownload({
               </span>
             </label>
           ) : singleBadge ? (
-            <span className="inline-flex h-10 shrink-0 items-center rounded-full border border-lime-600/60 px-3.5 text-xs font-medium text-lime-800 dark:border-lime-400/50 dark:text-lime-300">
+            <span className="hidden h-10 max-w-full shrink-0 items-center self-end truncate rounded-full border border-lime-600/60 px-3.5 text-xs font-medium text-lime-800 dark:border-lime-400/50 dark:text-lime-300 sm:inline-flex">
               {singleBadge}
             </span>
           ) : null}
@@ -372,7 +389,7 @@ export function PortableTextDownload({
             href={active.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full bg-lime-700 px-4 text-sm font-semibold text-white outline-offset-2 transition hover:bg-lime-800 active:bg-lime-900 active:text-white/80 dark:bg-lime-400 dark:text-zinc-950 dark:hover:bg-lime-300 dark:active:bg-lime-500 sm:px-5"
+            className="inline-flex h-10 w-full shrink-0 items-center justify-center gap-2 rounded-full bg-lime-700 px-4 text-sm font-semibold text-white outline-offset-2 transition hover:bg-lime-800 active:bg-lime-900 active:text-white/80 dark:bg-lime-400 dark:text-zinc-950 dark:hover:bg-lime-300 dark:active:bg-lime-500 sm:w-auto sm:px-5"
           >
             前往下载
             <ExternalLinkIcon className="h-3.5 w-3.5 opacity-80" />
