@@ -62,7 +62,11 @@ const components: PortableTextComponents = {
     ),
     em: ({ children }) => <em className="italic">{children}</em>,
     code: ({ children }) => (
-      <code className="text-inherit">{children}</code>
+      // break-all: a long unbroken token (e.g. an ISO filename with
+      // underscores and no spaces) must wrap inside the paragraph
+      // instead of forcing the whole article wider than the viewport
+      // on mobile and clipping the left edge.
+      <code className="break-all text-inherit">{children}</code>
     ),
     link: ({ children, value }) => {
       const rel = !value.href.startsWith('/')
