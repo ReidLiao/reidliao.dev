@@ -46,7 +46,19 @@ export default defineType({
       title: '首页图片',
       description: '首页顶部的几张图片（推荐设置 6 张）',
       type: 'array',
-      of: [{ type: 'image' }],
+      of: [
+        {
+          type: 'image',
+          fields: [
+            defineField({
+              name: 'link',
+              title: '跳转链接',
+              type: 'url',
+              description: '可选，填写目标文章的绝对 URL；留空则只显示图片。',
+            }),
+          ],
+        },
+      ],
     }),
 
     defineField({

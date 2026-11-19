@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 
 import { cdnImageSrc } from '~/lib/cdn-image'
@@ -57,29 +58,44 @@ export function Photos({ photos }: { photos: HeroPhoto[] }) {
                 transform: `rotate(${idx % 2 === 0 ? 2 : -1}deg)`,
               }
 
-          return (
+          const cardClassName =
+            'group relative h-40 flex-none shrink-0 snap-start overflow-hidden rounded-xl bg-zinc-100 ring-2 ring-lime-800/20 transition-[width,filter,opacity] duration-300 hover:opacity-100 hover:[filter:grayscale(0)] dark:bg-zinc-800 dark:ring-lime-300/10 md:h-72 md:rounded-3xl md:opacity-90 md:[filter:grayscale(0.4)] md:hover:!w-[var(--expanded-w)]'
+          const cardStyle = {
+            ...style,
+            '--expanded-w': `${expandedWidth}px`,
+          } as React.CSSProperties
+          const image = (
+            <Image
+              src={cdnImageSrc(photo.url, { width: 720, quality: 75 })}
+              alt=""
+              width={500}
+              height={500}
+              sizes="(max-width: 640px) 45vw, 18rem"
+              className="pointer-events-none absolute inset-0 h-full w-full select-none object-cover"
+              priority={idx === 0}
+              loading={idx === 0 ? undefined : 'lazy'}
+              placeholder={photo.lqip ? 'blur' : 'empty'}
+              blurDataURL={photo.lqip}
+            />
+          )
+
+          return photo.link ? (
+            <Link
+              key={photo.url ?? idx}
+              href={photo.link}
+              aria-label={`打开精选内容：${photo.link}`}
+              className={cardClassName}
+              style={cardStyle}
+            >
+              {image}
+            </Link>
+          ) : (
             <div
               key={photo.url ?? idx}
-              className="group relative h-40 flex-none shrink-0 snap-start overflow-hidden rounded-xl bg-zinc-100 ring-2 ring-lime-800/20 transition-[width,filter,opacity] duration-300 hover:opacity-100 hover:[filter:grayscale(0)] dark:bg-zinc-800 dark:ring-lime-300/10 md:h-72 md:rounded-3xl md:opacity-90 md:[filter:grayscale(0.4)] md:hover:!w-[var(--expanded-w)]"
-              style={
-                {
-                  ...style,
-                  '--expanded-w': `${expandedWidth}px`,
-                } as React.CSSProperties
-              }
+              className={cardClassName}
+              style={cardStyle}
             >
-              <Image
-                src={cdnImageSrc(photo.url, { width: 720, quality: 75 })}
-                alt=""
-                width={500}
-                height={500}
-                sizes="(max-width: 640px) 45vw, 18rem"
-                className="pointer-events-none absolute inset-0 h-full w-full select-none object-cover"
-                priority={idx === 0}
-                loading={idx === 0 ? undefined : 'lazy'}
-                placeholder={photo.lqip ? 'blur' : 'empty'}
-                blurDataURL={photo.lqip}
-              />
+              {image}
             </div>
           )
         })}

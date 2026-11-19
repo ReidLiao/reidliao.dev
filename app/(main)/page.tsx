@@ -20,7 +20,7 @@ export default async function BlogHomePage() {
 
       {settings?.heroPhotos && <Photos photos={settings.heroPhotos} />}
 
-      <Container className="mt-24 md:mt-28">
+      <Container className="-mb-20 mt-24 md:mt-28">
         <div className="mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none lg:grid-cols-2">
           <div className="flex flex-col gap-6 pt-6">
             <h2 className="flex items-center text-sm font-semibold text-zinc-900 dark:text-zinc-100">
@@ -30,7 +30,7 @@ export default async function BlogHomePage() {
             <BlogPosts />
           </div>
           <aside className="space-y-10 lg:sticky lg:top-8 lg:h-fit lg:pl-16 xl:pl-20">
-            <Newsletter />
+            <Newsletter subCount="6" />
             {settings?.resume && <Resume resume={settings.resume} />}
           </aside>
         </div>

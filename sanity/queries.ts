@@ -215,7 +215,8 @@ export const getSettingsQuery = () =>
     },
     "heroPhotos": heroPhotos[]{
       "url": asset->url,
-      "lqip": asset->metadata.lqip
+      "lqip": asset->metadata.lqip,
+      link
     },
     "resume": resume[]{
       company,
@@ -229,6 +230,7 @@ export const getSettingsQuery = () =>
 export type HeroPhoto = {
   url: string
   lqip?: string
+  link?: string | null
 }
 
 export type SiteAnnouncement = {

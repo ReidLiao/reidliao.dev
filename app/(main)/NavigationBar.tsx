@@ -9,6 +9,12 @@ import React from 'react'
 
 import { navigationItems } from '~/config/nav'
 
+const topNavigationItems = [
+  ...navigationItems.filter(({ href }) => href !== '/about'),
+  { href: '/donate', text: '捐赠' },
+  ...navigationItems.filter(({ href }) => href === '/about'),
+]
+
 function NavItem({
   href,
   children,
@@ -80,7 +86,7 @@ function Desktop({
       />
 
       <ul className="flex bg-transparent px-3 text-sm font-medium text-zinc-800 dark:text-zinc-200 ">
-        {navigationItems.map(({ href, text }) => (
+        {topNavigationItems.map(({ href, text }) => (
           <NavItem key={href} href={href}>
             {text}
           </NavItem>
@@ -174,7 +180,7 @@ function Mobile(props: PopoverProps<'div'>) {
             </div>
             <nav className="mt-6">
               <ul className="-my-2 divide-y divide-zinc-500/20 text-base text-zinc-800 dark:divide-zinc-100/5 dark:text-zinc-300">
-                {navigationItems.map(({ href, text }) => (
+                {topNavigationItems.map(({ href, text }) => (
                   <MobileNavItem key={href} href={href}>
                     {text}
                   </MobileNavItem>
