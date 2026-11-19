@@ -5,6 +5,7 @@ import { BlogPostPage } from '~/app/(main)/blog/BlogPostPage'
 import { JsonLd } from '~/components/JsonLd'
 import { kvKeys } from '~/config/kv'
 import { url } from '~/lib'
+import { pageMetadata } from '~/lib/page-metadata'
 import { cdnImageSrc } from '~/lib/cdn-image'
 import { isProduction } from '~/lib/is-production'
 import { postModifiedAt } from '~/lib/post-dates'
@@ -34,7 +35,9 @@ export const generateMetadata = async ({
   return {
     title,
     description,
+    alternates: pageMetadata(`/blog/${params.slug}`).alternates,
     openGraph: {
+      ...pageMetadata(`/blog/${params.slug}`).openGraph,
       title,
       description,
       images: [

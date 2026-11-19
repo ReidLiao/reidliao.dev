@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { Container } from '~/components/ui/Container'
+import { pageMetadata } from '~/lib/page-metadata'
 import { getDonors } from '~/sanity/queries'
 
 import { DonationAddress } from './DonationAddress'
@@ -33,7 +34,9 @@ const donationAddresses = [
 export const metadata = {
   title,
   description,
+  alternates: pageMetadata('/donate').alternates,
   openGraph: {
+    ...pageMetadata('/donate').openGraph,
     title,
     description,
   },

@@ -3,6 +3,7 @@ import Balancer from 'react-wrap-balancer'
 
 import { Container } from '~/components/ui/Container'
 import { fetchGuestbookMessages } from '~/db/queries/guestbook'
+import { pageMetadata } from '~/lib/page-metadata'
 
 import { Guestbook } from './Guestbook'
 
@@ -12,7 +13,9 @@ const description =
 export const metadata = {
   title,
   description,
+  alternates: pageMetadata('/guestbook').alternates,
   openGraph: {
+    ...pageMetadata('/guestbook').openGraph,
     title,
     description,
   },

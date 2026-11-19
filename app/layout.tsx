@@ -14,7 +14,7 @@ import { seo } from '~/lib/seo'
 export const metadata: Metadata = {
   metadataBase: seo.url,
   title: {
-    template: '%s | Reidliao.dev',
+    template: '%s | 青柠夜栈',
     default: seo.title,
   },
   description: seo.description,
@@ -57,10 +57,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: {
       default: seo.title,
-      template: '%s | Reidliao.dev',
+      template: '%s | 青柠夜栈',
     },
     description: seo.description,
-    siteName: 'Reidliao.dev',
+    siteName: '青柠夜栈',
     locale: 'zh_CN',
     type: 'website',
     url: 'https://reidliao.dev',

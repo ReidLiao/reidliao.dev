@@ -1,13 +1,21 @@
 import Link from 'next/link'
+import { type Metadata } from 'next'
 
 import { Container } from '~/components/ui/Container'
+import { pageMetadata } from '~/lib/page-metadata'
 
 import { SubmitRecommendationForm } from './SubmitRecommendationForm'
 
 export const metadata = {
   title: '投稿推荐',
   description: '推荐你亲自用过的软件或资源。',
-}
+  ...pageMetadata('/submit'),
+  openGraph: {
+    ...pageMetadata('/submit').openGraph,
+    title: '投稿推荐',
+    description: '推荐你亲自用过的软件或资源。',
+  },
+} satisfies Metadata
 
 export default function SubmitPage() {
   return (

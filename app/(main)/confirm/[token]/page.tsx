@@ -1,15 +1,25 @@
 import { eq } from 'drizzle-orm'
+import { type Metadata } from 'next'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
 import { Container } from '~/components/ui/Container'
 import { db } from '~/db'
 import { subscribers } from '~/db/schema'
+import { pageMetadata } from '~/lib/page-metadata'
 
 import { SubbedCelebration } from './SubbedCelebration'
 
-export const metadata = {
-  title: '订阅已确认',
+export async function generateMetadata({ params }: { params: { token: string } }) {
+  const title = '订阅已确认'
+  return {
+    title,
+    alternates: pageMetadata(`/confirm/${params.token}`).alternates,
+    openGraph: {
+      ...pageMetadata(`/confirm/${params.token}`).openGraph,
+      title,
+    },
+  } satisfies Metadata
 }
 
 export default async function ConfirmPage({

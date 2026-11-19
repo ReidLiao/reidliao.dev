@@ -3,6 +3,7 @@ import Balancer from 'react-wrap-balancer'
 
 import { Projects } from '~/app/(main)/vps/Projects'
 import { Container } from '~/components/ui/Container'
+import { pageMetadata } from '~/lib/page-metadata'
 
 const title = '机房'
 const description =
@@ -10,7 +11,9 @@ const description =
 export const metadata = {
   title,
   description,
+  alternates: pageMetadata('/vps').alternates,
   openGraph: {
+    ...pageMetadata('/vps').openGraph,
     title,
     description,
   },

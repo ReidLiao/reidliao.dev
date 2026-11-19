@@ -7,8 +7,9 @@ import { GitHubIcon } from '~/assets'
 import { PeekabooLink } from '~/components/links/PeekabooLink'
 import { Container } from '~/components/ui/Container'
 import { WechatSubscribe } from '~/components/WechatSubscribe'
+import { pageMetadata } from '~/lib/page-metadata'
 
-const title = '关于 reidliao.dev'
+const title = '关于青柠夜栈'
 const description =
   'reidliao.dev：DMIT VPS 上 Docker 自建的技术博客——全栈建站、运维实战、软件下载与自用机房线路。'
 
@@ -117,7 +118,9 @@ const changelog = [
 export const metadata = {
   title,
   description,
+  alternates: pageMetadata('/about').alternates,
   openGraph: {
+    ...pageMetadata('/about').openGraph,
     title,
     description,
   },

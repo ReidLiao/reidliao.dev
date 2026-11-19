@@ -4,6 +4,7 @@ import Balancer from 'react-wrap-balancer'
 import { JsonLd } from '~/components/JsonLd'
 import { Container } from '~/components/ui/Container'
 import { url } from '~/lib'
+import { pageMetadata } from '~/lib/page-metadata'
 import {
   getBlogCategoryCounts,
   getLatestBlogPosts,
@@ -19,7 +20,9 @@ const description =
 export const metadata = {
   title: '近期写作',
   description,
+  alternates: pageMetadata('/blog').alternates,
   openGraph: {
+    ...pageMetadata('/blog').openGraph,
     title: '近期写作',
     description,
   },

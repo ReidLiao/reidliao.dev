@@ -6,6 +6,7 @@ import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
 import { Container } from '~/components/ui/Container'
 import { db } from '~/db'
 import { newsletters } from '~/db/schema'
+import { pageMetadata } from '~/lib/page-metadata'
 
 async function getNewsletter(id: string) {
   const [newsletter] = await db
@@ -34,7 +35,9 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   return {
     title: newsletter.subject,
     description: newsletter.subject,
+    alternates: pageMetadata(`/newsletters/${params.id}`).alternates,
     openGraph: {
+      ...pageMetadata(`/newsletters/${params.id}`).openGraph,
       images: imageUrl ? [{ url: imageUrl }] : undefined,
       title: newsletter.subject ?? '',
       description: newsletter.subject ?? '',
