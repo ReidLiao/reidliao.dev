@@ -1,12 +1,10 @@
 import { count, isNotNull } from 'drizzle-orm'
 import { unstable_noStore as noStore } from 'next/cache'
-import Link from 'next/link'
 import React, { Suspense } from 'react'
 
 import { UsersIcon } from '~/assets'
 import { Container } from '~/components/ui/Container'
 import { kvKeys } from '~/config/kv'
-import { navigationItems } from '~/config/nav'
 import { db } from '~/db'
 import { subscribers } from '~/db/schema'
 import { isProduction } from '~/lib/is-production'
@@ -48,39 +46,6 @@ function MapPinIcon(props: React.SVGAttributes<SVGElement>) {
   )
 }
 
-function NavLink({
-  href,
-  children,
-}: {
-  href: string
-  children: React.ReactNode
-}) {
-  return (
-    <Link
-      href={href}
-      className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center whitespace-nowrap transition hover:text-lime-500 dark:hover:text-lime-400"
-    >
-      {children}
-    </Link>
-  )
-}
-
-function Links() {
-  return (
-    <nav className="flex flex-wrap justify-end gap-x-1 gap-y-1 text-sm font-medium text-zinc-800 dark:text-zinc-200">
-      {navigationItems
-        .map(({ href, text }) => href === '/about' ? (
-          <React.Fragment key={href}>
-            <NavLink href="/links">友链</NavLink>
-            <NavLink href={href}>{text}</NavLink>
-          </React.Fragment>
-        ) : (
-          <NavLink key={href} href={href}>{text}</NavLink>
-        ))}
-    </nav>
-  )
-}
-
 async function FooterNewsletter() {
   noStore()
 
@@ -113,7 +78,7 @@ async function TotalPageViews() {
   }
 
   return (
-    <span className="flex items-center justify-center gap-1 text-xs text-zinc-600 dark:text-zinc-400 md:justify-start">
+    <span className="flex items-center justify-start gap-1 text-xs text-zinc-500 dark:text-zinc-400">
       <UsersIcon className="h-4 w-4" />
       <span title={`${Intl.NumberFormat('en-US').format(views)}次浏览`}>
         总浏览量&nbsp;
@@ -152,7 +117,7 @@ async function LastVisitorInfo() {
   }
 
   return (
-    <span className="flex items-center justify-center gap-1 text-xs text-zinc-600 dark:text-zinc-400 md:justify-start">
+    <span className="flex items-center justify-start gap-1 text-xs text-zinc-500 dark:text-zinc-400">
       <MapPinIcon className="h-4 w-4" />
       <span>
         最近访客来自&nbsp;
@@ -174,49 +139,36 @@ export function Footer() {
                 <FooterNewsletter />
               </Suspense>
             </div>
-            <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
-              <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-sm text-zinc-600 dark:text-zinc-400">
-                <span>&copy; {new Date().getFullYear()} 青柠夜栈</span>
-                <span className="inline-flex items-center gap-1.5">
-                  <span className="relative flex h-1.5 w-1.5">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
-                    <span className="relative inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
-                  </span>
-                  <span>
-                    Crafted with{' '}
-                    <span className="font-semibold text-zinc-700 dark:text-zinc-200">
-                      Next.js
-                    </span>{' '}
-                    &{' '}
-                    <span className="font-semibold text-zinc-700 dark:text-zinc-200">
-                      Tailwind
+            <div className="flex flex-col gap-3">
+              <div>
+                <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-zinc-600 dark:text-zinc-400">
+                  <span>&copy; {new Date().getFullYear()} 青柠夜栈</span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <span className="relative flex h-1.5 w-1.5">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+                      <span className="relative inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+                    </span>
+                    <span>
+                      Crafted with{' '}
+                      <span className="font-semibold text-zinc-700 dark:text-zinc-200">
+                        Next.js
+                      </span>{' '}
+                      &amp;{' '}
+                      <span className="font-semibold text-zinc-700 dark:text-zinc-200">
+                        Tailwind
+                      </span>
                     </span>
                   </span>
-                </span>
-              </p>
-              <Links />
-            </div>
-          </Container.Inner>
-          <Container.Inner className="mt-6">
-            <div className="flex flex-col items-center justify-start gap-2 sm:flex-row">
-              <Suspense>
-                <TotalPageViews />
-              </Suspense>
-              <Suspense>
-                <LastVisitorInfo />
-              </Suspense>
-              <a
-                href="https://ready.chair6.net/?url=https://reidliao.dev"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 rounded-full bg-lime-500/10 px-2 py-1 text-[11px] font-medium text-lime-700 ring-1 ring-lime-500/20 transition hover:bg-lime-500/20 dark:bg-lime-400/10 dark:text-lime-300 dark:ring-lime-400/20 dark:hover:bg-lime-400/20"
-              >
-                <span
-                  aria-hidden="true"
-                  className="h-1.5 w-1.5 rounded-full bg-lime-500 dark:bg-lime-400"
-                />
-                IPv6 Ready
-              </a>
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-zinc-500 dark:text-zinc-400">
+                <Suspense>
+                  <TotalPageViews />
+                </Suspense>
+                <Suspense>
+                  <LastVisitorInfo />
+                </Suspense>
+              </div>
             </div>
           </Container.Inner>
         </div>

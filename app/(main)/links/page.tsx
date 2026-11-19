@@ -29,18 +29,27 @@ export default async function FriendLinksPage() {
         <p className="font-mono text-sm text-zinc-500 dark:text-zinc-400">/links</p>
         <h1 className="mt-3 text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-5xl">友情链接</h1>
         <p className="mt-4 text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
-          收录认真维护的个人博客与技术站。申请信息仅用于审核和联系；提交申请不会自动上榜，只有在 Sanity 审核通过并发布后才会显示。
+          收录认真维护的个人博客与技术站。申请经站长审核通过后展示。
         </p>
       </header>
 
       <div className="mt-10 grid gap-8 lg:grid-cols-2 lg:items-start">
         <section aria-labelledby="friend-link-application-heading" className="rounded-2xl border border-zinc-200 bg-white/70 p-5 dark:border-zinc-800 dark:bg-zinc-900/60 sm:p-6">
           <h2 id="friend-link-application-heading" className="text-base font-semibold text-zinc-900 dark:text-zinc-100">申请说明</h2>
-          <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">填写站名、链接、简介和联系邮箱。邮箱仅用于核实信息或回复，不会公开。每个 IP 每小时最多提交 3 次。</p>
+          <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">填写站名、链接、简介和联系邮箱。邮箱仅用于核实信息或回复，不会公开。</p>
+          <p className="mt-4 border-t border-zinc-200 pt-4 text-xs font-semibold text-zinc-700 dark:border-zinc-700 dark:text-zinc-300">申请条件</p>
+          <ul className="mt-2 grid grid-cols-2 gap-x-3 gap-y-2 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
+            <li>个人博客或技术站</li>
+            <li>有原创内容</li>
+            <li>近 3 个月有更新</li>
+            <li>网站可以正常访问</li>
+            <li>需要添加本站链接</li>
+            <li>内容合法，非纯营销或采集站</li>
+          </ul>
           <FriendLinkApplicationForm />
         </section>
 
-        <section aria-labelledby="approved-friend-links-heading">
+        <section aria-labelledby="approved-friend-links-heading" className="rounded-2xl border border-zinc-200 bg-white/70 p-5 dark:border-zinc-800 dark:bg-zinc-900/60 sm:p-6">
           <h2 id="approved-friend-links-heading" className="text-base font-semibold text-zinc-900 dark:text-zinc-100">已审核名单</h2>
           {friendLinks.length ? (
             <ul className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -61,22 +70,11 @@ export default async function FriendLinksPage() {
               ))}
             </ul>
           ) : (
-            <p className="mt-4 rounded-xl border border-dashed border-zinc-300 px-4 py-5 text-sm text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">名单还在整理中。</p>
+            <p className="mt-4 rounded-xl border border-dashed border-zinc-300 px-4 py-5 text-sm text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">暂无已审核友链。</p>
           )}
         </section>
       </div>
 
-      <section aria-labelledby="friend-link-criteria-heading" className="mt-8 rounded-2xl border border-zinc-200/80 px-5 py-5 dark:border-zinc-800">
-        <h2 id="friend-link-criteria-heading" className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">申请条件</h2>
-        <ul className="mt-3 grid gap-x-6 gap-y-2 text-sm text-zinc-600 dark:text-zinc-400 sm:grid-cols-2">
-          <li>个人博客或技术站</li>
-          <li>有原创内容</li>
-          <li>近 3 个月内有更新</li>
-          <li>网站可以正常访问</li>
-          <li>网站中需要添加本站链接</li>
-          <li>内容合法合规，非纯营销或采集站</li>
-        </ul>
-      </section>
     </Container>
   )
 }

@@ -9,8 +9,7 @@ import { getDonors } from '~/sanity/queries'
 import { DonationAddress } from './DonationAddress'
 
 const title = '捐赠'
-const description =
-  '请我喝杯咖啡——本站 VPS、域名均为自费维护，捐赠用于覆盖服务器成本。先谢了，咖啡管够我就多更两篇。'
+const description = '谢谢你愿意支持青柠夜栈。'
 
 const donationAddresses = [
   {
@@ -86,9 +85,9 @@ export default async function DonatePage() {
             >
               常用支付
             </h2>
-            <div className="mt-4 space-y-5">
+            <div className="mt-4 grid gap-4 xl:grid-cols-2">
               <article className="rounded-2xl border border-zinc-200 p-5 dark:border-zinc-800">
-                <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-col gap-4 xl:flex-row xl:items-center">
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
@@ -98,14 +97,8 @@ export default async function DonatePage() {
                         推荐
                       </span>
                     </div>
-                    <p className="mt-4 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
-                      打开支付宝扫一扫，金额随意
-                    </p>
-                    <p className="mt-2 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
-                      扫码时备注你的昵称，我会把你加进感谢名单
-                    </p>
                   </div>
-                  <div className="mx-auto flex h-[216px] w-[216px] shrink-0 items-center justify-center rounded-xl bg-white p-2 ring-1 ring-zinc-900/5 sm:mx-0 dark:ring-white/10">
+                  <div className="mx-auto flex h-[216px] w-[216px] shrink-0 items-center justify-center rounded-xl bg-white p-2 ring-1 ring-zinc-900/5 xl:mx-0 xl:h-36 xl:w-36 dark:ring-white/10">
                     <Image
                       src="/donate-zfb.png"
                       alt="支付宝二维码"
@@ -118,19 +111,18 @@ export default async function DonatePage() {
                 </div>
               </article>
               <article className="rounded-2xl border border-zinc-200 p-5 dark:border-zinc-800">
-                <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-col gap-4 xl:flex-row xl:items-center">
                   <div className="min-w-0 flex-1">
-                    <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
-                      微信支付
-                    </h3>
-                    <p className="mt-4 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
-                      打开微信扫一扫，金额随意
-                    </p>
-                    <p className="mt-2 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
-                      扫码时备注你的昵称，我会把你加进感谢名单
-                    </p>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
+                        微信支付
+                      </h3>
+                      <span className="rounded-full bg-lime-500/10 px-2 py-0.5 text-[11px] font-medium text-lime-700 ring-1 ring-lime-500/20 dark:bg-lime-400/10 dark:text-lime-300 dark:ring-lime-400/20">
+                        推荐
+                      </span>
+                    </div>
                   </div>
-                  <div className="mx-auto flex h-[216px] w-[216px] shrink-0 items-center justify-center rounded-xl bg-white p-2 ring-1 ring-zinc-900/5 sm:mx-0 dark:ring-white/10">
+                  <div className="mx-auto flex h-[216px] w-[216px] shrink-0 items-center justify-center rounded-xl bg-white p-2 ring-1 ring-zinc-900/5 xl:mx-0 xl:h-36 xl:w-36 dark:ring-white/10">
                     <Image
                       src="/donate-wx.png"
                       alt="微信支付二维码"
@@ -143,6 +135,9 @@ export default async function DonatePage() {
                 </div>
               </article>
             </div>
+            <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+              使用对应 App 扫码并自行输入金额，备注昵称便于核实并加入感谢名单。桌面访问请用手机扫码；手机访问可保存二维码后使用对应 App 扫描。
+            </p>
           </section>
 
           <section aria-labelledby="crypto-heading">
@@ -172,7 +167,7 @@ export default async function DonatePage() {
           </p>
         </div>
 
-        <aside className="space-y-5 lg:pt-9">
+        <aside className="space-y-5">
           <section
             className="rounded-2xl border border-zinc-200 bg-white/70 p-5 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/60"
             aria-labelledby="donors-heading"
@@ -219,17 +214,8 @@ export default async function DonatePage() {
             )}
           </section>
           <section className="rounded-2xl border border-zinc-200 bg-white/70 p-5 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/60">
-            <h2 className="text-base font-semibold text-zinc-800 dark:text-zinc-100">
-              支持去向
-            </h2>
-            <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-              本站固定开销只有 VPS 续费和域名续费两样，收到的捐赠全部用在这上面。
-            </p>
-          </section>
-          <section className="rounded-2xl border border-zinc-200 bg-white/70 p-5 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/60">
             <h2 className="text-base font-semibold text-zinc-800 dark:text-zinc-100">捐后说明</h2>
             <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">支付完成后欢迎在留言墙告诉我昵称，我会手动核实并更新感谢名单。上榜仅展示昵称与日期；不提供自助上榜，也不公开邮箱或钱包信息。</p>
-            <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">桌面扫码时，请用手机打开支付宝或微信扫描右侧二维码并自行输入金额；手机访问可保存二维码后使用对应 App 扫描。</p>
           </section>
         </aside>
       </div>
