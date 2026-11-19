@@ -14,10 +14,40 @@ import {
   PortableTextBlocksNormal,
 } from '~/components/portable-text/PortableTextBlocks'
 import { PortableTextCodeBlock } from '~/components/portable-text/PortableTextCodeBlock'
+import { PortableTextAccordion, PortableTextCallout, PortableTextLinkButton, PortableTextTable, PortableTextTimeline } from '~/components/portable-text/PortableTextCustomBlocks'
 import { PortableTextDownload } from '~/components/portable-text/PortableTextDownload'
 import { PortableTextImage } from '~/components/portable-text/PortableTextImage'
 import { PortableTextTweet } from '~/components/portable-text/PortableTextTweet'
 import { PortableTextVideoEmbed } from '~/components/portable-text/PortableTextVideoEmbed'
+
+function preserveNumbering(value: unknown) {
+  if (!Array.isArray(value)) return value
+  let running = 0
+  let interrupted = false
+  let currentList: string | undefined
+  return (value as unknown[]).map((block) => {
+    if (!block || typeof block !== 'object') return block
+    const item = block as Record<string, unknown>
+    if (item._type === 'block' && item.listItem === 'number') {
+      const level = typeof item.level === 'number' ? item.level : 1
+      const key = `${item.listItem}:${level}`
+      if (currentList !== key && !interrupted) running = 0
+      running += 1
+      const next = interrupted ? { ...item, _listStart: running } : item
+      currentList = key
+      interrupted = false
+      return next
+    }
+    if (item._type === 'block') {
+      running = 0
+      currentList = undefined
+      interrupted = false
+      return item
+    }
+    if (running > 0) interrupted = true
+    return item
+  })
+}
 
 const textColorClass: Record<string, string> = {
   lime: 'text-lime-700 dark:text-lime-400',
@@ -48,12 +78,23 @@ const components: PortableTextComponents = {
     blockquote: PortableTextBlocksBlockquote,
   },
   listItem: PortableTextBlocksListItem,
+  list: {
+    number: ({ children, value }) => {
+      const first = (value as { children?: { _listStart?: number }[] }).children?.[0]
+      return <ol start={first?._listStart ?? 1}>{children}</ol>
+    },
+  },
   types: {
     image: PortableTextImage,
     tweet: PortableTextTweet,
     codeBlock: PortableTextCodeBlock,
     download: PortableTextDownload,
     videoEmbed: PortableTextVideoEmbed,
+    accordion: PortableTextAccordion,
+    callout: PortableTextCallout,
+    comparisonTable: PortableTextTable,
+    timeline: PortableTextTimeline,
+    linkButton: PortableTextLinkButton,
   },
 
   marks: {
@@ -64,6 +105,9 @@ const components: PortableTextComponents = {
     code: ({ children }) => (
       <code className="text-inherit">{children}</code>
     ),
+    underline: ({ children }) => <u>{children}</u>,
+    'strike-through': ({ children }) => <del>{children}</del>,
+    kbd: ({ children }) => <kbd className="rounded border border-zinc-300 bg-zinc-100 px-1.5 py-0.5 font-mono text-[0.85em] text-zinc-800 shadow-sm dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100">{children}</kbd>,
     link: ({ children, value }) => {
       const rel = !value.href.startsWith('/')
         ? 'noreferrer noopener'
@@ -106,5 +150,5 @@ export function PostPortableText(props: {
   value: any
   components?: PortableTextComponents
 }) {
-  return <PortableText value={props.value} components={props.components ?? components} />
+  return <PortableText value={preserveNumbering(props.value) as typeof props.value} components={props.components ?? components} />
 }

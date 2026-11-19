@@ -9,11 +9,7 @@ import React from 'react'
 
 import { navigationItems } from '~/config/nav'
 
-const topNavigationItems = [
-  ...navigationItems.filter(({ href }) => href !== '/about'),
-  { href: '/donate', text: '捐赠' },
-  ...navigationItems.filter(({ href }) => href === '/about'),
-]
+const topNavigationItems = navigationItems
 
 function NavItem({
   href,

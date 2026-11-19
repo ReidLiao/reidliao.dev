@@ -15,7 +15,7 @@ export default async function BlogHomePage() {
   return (
     <>
       <Container className="mt-10">
-        <Headline />
+        <Headline wish={settings?.festival?.enabled ? settings.festival.wish : undefined} />
       </Container>
 
       {settings?.heroPhotos && <Photos photos={settings.heroPhotos} />}

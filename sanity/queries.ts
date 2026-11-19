@@ -12,6 +12,39 @@ export type Donor = {
   message?: string | null
 }
 
+export type FriendLink = {
+  _id: string
+  siteName: string
+  url: string
+  description: string
+  avatar?: { asset?: { url?: string } } | null
+}
+
+export const getApprovedFriendLinks = () => client.fetch<FriendLink[]>(groq`
+  *[_type == "friendLink" && approved == true && !(_id in path("drafts.**"))]
+    | order(order asc, siteName asc) {
+      _id, siteName, url, description,
+      avatar { ..., "asset": asset->{url} }
+    }
+`, {}, { next: { tags: ['friend-links'], revalidate: 600 } })
+
+export type Deal = {
+  _id: string
+  provider: 'aliyun' | 'tencent' | 'dmit'
+  title: string
+  discount: string
+  description?: string | null
+  validUntil?: string | null
+  promotionUrl: string
+}
+
+export const getDeals = () => client.fetch<Deal[]>(groq`
+  *[_type == "deal" && enabled == true && !(_id in path("drafts.**"))]
+    | order(order asc, _createdAt desc) {
+      _id, provider, title, discount, description, validUntil, promotionUrl
+    }
+`)
+
 export const getDonorsQuery = () =>
   groq`
   *[_type == "donor" && !(_id in path("drafts.**"))]
@@ -204,6 +237,7 @@ export const getBlogPost = async (slug: string) => {
 export const getSettingsQuery = () =>
   groq`
   *[_type == "settings"][0] {
+    festival,
     "projects": projects[]->{
       _id,
       name,
@@ -260,10 +294,18 @@ export const getAnnouncement = () =>
     { next: { tags: ['settings'], revalidate: 60 } }
   )
 
+export type FestivalSettings = { enabled?: boolean; festival?: string; wish?: string } | null
+export const getFestivalSettings = () => client.fetch<FestivalSettings>(
+  groq`*[_type == "settings" && _id == "settings"][0].festival`,
+  {},
+  { next: { tags: ['settings'], revalidate: 300 } }
+)
+
 export const getSettings = () =>
   client.fetch<
     {
       projects: Project[] | null
+      festival?: { enabled?: boolean; festival?: string; wish?: string } | null
       heroPhotos?: HeroPhoto[] | null
       resume?:
         | {

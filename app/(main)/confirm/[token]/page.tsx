@@ -10,7 +10,7 @@ import { pageMetadata } from '~/lib/page-metadata'
 
 import { SubbedCelebration } from './SubbedCelebration'
 
-export async function generateMetadata({ params }: { params: { token: string } }) {
+export function generateMetadata({ params }: { params: { token: string } }) {
   const title = '订阅已确认'
   return {
     title,

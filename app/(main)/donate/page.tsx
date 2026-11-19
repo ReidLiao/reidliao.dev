@@ -51,7 +51,7 @@ export default async function DonatePage() {
   const donors = await getDonors()
 
   return (
-    <Container className="mt-16 sm:mt-32">
+    <Container data-donate-page className="mt-16 sm:mt-32">
       <header className="max-w-2xl">
         <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
           <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
@@ -70,8 +70,15 @@ export default async function DonatePage() {
         </p>
       </header>
 
-      <div className="mt-12 grid gap-8 lg:grid-cols-3 lg:items-start">
-        <div className="min-w-0 space-y-12 lg:col-span-2">
+      <div className="mt-12 grid gap-8 lg:grid-cols-[minmax(0,1.6fr)_minmax(18rem,1fr)] lg:items-start">
+        <div className="min-w-0 space-y-10">
+          <section className="rounded-2xl border border-zinc-200 bg-white/70 p-5 dark:border-zinc-800 dark:bg-zinc-900/60">
+            <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">为什么捐赠</h2>
+            <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">捐赠用于支付本站 VPS 与域名续费，让这个独立维护的技术博客继续稳定运行。金额随意，5 / 10 / 20 元只是参考。</p>
+            <div className="mt-4 flex flex-wrap gap-2" aria-label="建议金额">
+              {[5, 10, 20].map((amount) => <span key={amount} className="rounded-lg border border-zinc-300 px-3 py-1.5 font-mono text-sm text-zinc-700 dark:border-zinc-700 dark:text-zinc-300">¥{amount}</span>)}
+            </div>
+          </section>
           <section aria-labelledby="payment-heading">
             <h2
               id="payment-heading"
@@ -150,6 +157,7 @@ export default async function DonatePage() {
                 <DonationAddress key={donation.currency} {...donation} />
               ))}
             </div>
+            <p className="mt-4 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm leading-relaxed text-amber-900 dark:text-amber-200">转账前请仔细核对币种与网络：ETH 仅限 ERC20 以太坊主网，BTC 仅限比特币主网，USDT 使用 TRC20。网络选错可能导致资产无法找回。</p>
           </section>
 
           <p className="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
@@ -217,6 +225,11 @@ export default async function DonatePage() {
             <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
               本站固定开销只有 VPS 续费和域名续费两样，收到的捐赠全部用在这上面。
             </p>
+          </section>
+          <section className="rounded-2xl border border-zinc-200 bg-white/70 p-5 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/60">
+            <h2 className="text-base font-semibold text-zinc-800 dark:text-zinc-100">捐后说明</h2>
+            <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">支付完成后欢迎在留言墙告诉我昵称，我会手动核实并更新感谢名单。上榜仅展示昵称与日期；不提供自助上榜，也不公开邮箱或钱包信息。</p>
+            <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">桌面扫码时，请用手机打开支付宝或微信扫描右侧二维码并自行输入金额；手机访问可保存二维码后使用对应 App 扫描。</p>
           </section>
         </aside>
       </div>

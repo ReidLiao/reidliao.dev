@@ -14,7 +14,7 @@ import { MotionProvider } from '~/components/MotionProvider'
 import { url } from '~/lib'
 import { seo } from '~/lib/seo'
 import { urlForImage } from '~/sanity/lib/image'
-import { getAnnouncement } from '~/sanity/queries'
+import { getAnnouncement, getFestivalSettings } from '~/sanity/queries'
 
 const siteUrl = seo.url.href
 const websiteId = `${siteUrl}#website`
@@ -29,6 +29,7 @@ export default async function BlogLayout({
   children: React.ReactNode
 }) {
   const announcement = await getAnnouncement().catch(() => null)
+  const festival = await getFestivalSettings().catch(() => null)
   const announcementImageUrl = announcement?.image
     ? urlForImage(announcement.image as unknown as SanityImage)
         .width(1200)
@@ -47,7 +48,7 @@ export default async function BlogLayout({
               '@type': 'WebSite',
               '@id': websiteId,
               url: siteUrl,
-              name: 'Reidliao.dev',
+              name: '青柠夜栈',
               description: seo.description,
               inLanguage: 'zh-CN',
               publisher: { '@id': organizationId },
@@ -56,7 +57,7 @@ export default async function BlogLayout({
             {
               '@type': 'Organization',
               '@id': organizationId,
-              name: 'Reidliao.dev',
+              name: '青柠夜栈',
               url: siteUrl,
               logo: {
                 '@type': 'ImageObject',
@@ -88,7 +89,8 @@ export default async function BlogLayout({
       <QueryProvider>
         <MotionProvider>
           <div className="relative text-zinc-800 transition-colors duration-300 dark:text-zinc-200">
-            <Header />
+            {festival?.enabled && festival.wish ? <div className="relative z-40 border-b border-amber-500/20 bg-amber-100/70 px-4 py-2 text-center text-sm text-amber-950 dark:bg-amber-950/40 dark:text-amber-100">{festival.wish}</div> : null}
+            <Header festival={festival?.enabled ? festival.festival : undefined} />
             <main id="main-content" tabIndex={-1}>{children}</main>
             <Suspense>
               <Footer />

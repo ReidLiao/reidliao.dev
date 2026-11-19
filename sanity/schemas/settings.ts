@@ -9,6 +9,16 @@ export default defineType({
   icon: FilterHorizontalIcon,
   fields: [
     defineField({
+      name: 'festival', title: '节日装饰', type: 'object',
+      description: '手动开关；仅显示节日点缀与祝福语，不按日期自动切换。',
+      options: { collapsible: true, collapsed: true },
+      fields: [
+        defineField({ name: 'enabled', title: '启用节日装饰', type: 'boolean', initialValue: false }),
+        defineField({ name: 'festival', title: '节日', type: 'string', options: { list: [{ title: '春节', value: 'spring-festival' }, { title: '国庆', value: 'national-day' }, { title: '中秋', value: 'mid-autumn' }] } }),
+        defineField({ name: 'wish', title: '祝福语', type: 'string', validation: (Rule) => Rule.max(80) }),
+      ],
+    }),
+    defineField({
       name: 'announcement',
       title: '首访公告',
       type: 'object',

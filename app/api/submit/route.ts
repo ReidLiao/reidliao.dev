@@ -12,6 +12,7 @@ const submissionSchema = z.object({
   introduction: z.string().trim().min(1).max(300),
   url: z.string().url().max(2048).refine((value) => /^https?:\/\//i.test(value)),
   nickname: z.string().trim().min(1).max(80),
+  email: z.union([z.literal(''), z.string().trim().email().max(254)]).optional(),
 })
 
 const ratelimit = new Ratelimit({
@@ -50,6 +51,7 @@ export async function POST(req: NextRequest) {
       `介绍：${input.introduction}`,
       `链接：${input.url}`,
       `投稿人：${input.nickname}`,
+      ...(input.email ? [`投稿人邮箱（仅用于核实或通知，不公开）：${input.email}`] : []),
     ]
     const { error } = await resend.emails.send({
       from: emailConfig.from,

@@ -24,7 +24,7 @@ const platformList = [
 ]
 
 /** Only numeric versions get a `v` prefix; names/editions stay as-is. */
-const formatPreviewVersion = (version?: string) => {
+const formatPreviewVersion = (version?: unknown) => {
   if (!version) return null
   const text = String(version).trim()
   if (!text) return null
@@ -120,6 +120,13 @@ export default defineType({
   title: '块级富文本',
   name: 'blockContent',
   type: 'array',
+  validation: (Rule) => Rule.custom((value) => {
+    if (!Array.isArray(value)) return true
+    const primaryCount = value.filter((block: unknown) =>
+      Boolean(block && typeof block === 'object' && '_type' in block && block._type === 'linkButton' && 'style' in block && block.style === 'primary')
+    ).length
+    return primaryCount <= 1 || '一篇文章里最多放一个主按钮'
+  }),
   components: {
     input: BlockContentInput,
   },
@@ -148,6 +155,7 @@ export default defineType({
           { title: '下划线', value: 'underline' },
           { title: '删除线', value: 'strike-through' },
           { title: '代码', value: 'code' },
+          { title: '键盘按键', value: 'kbd' },
         ],
         annotations: [
           {
@@ -214,6 +222,47 @@ export default defineType({
           type: 'string',
           title: '标注',
         },
+      ],
+    }),
+    defineArrayMember({
+      type: 'object', name: 'accordion', title: '手风琴',
+      fields: [defineField({ name: 'items', title: '项目', type: 'array', of: [{ type: 'object', fields: [
+        defineField({ name: 'title', title: '标题', type: 'string', validation: (Rule) => Rule.required() }),
+        defineField({ name: 'body', title: '内容', type: 'text', rows: 4, validation: (Rule) => Rule.required() }),
+      ] }] })],
+    }),
+    defineArrayMember({
+      type: 'object', name: 'callout', title: '提示 / 警告',
+      fields: [
+        defineField({ name: 'title', title: '标题', type: 'string', validation: (Rule) => Rule.required() }),
+        defineField({ name: 'body', title: '正文', type: 'text', rows: 4, validation: (Rule) => Rule.required() }),
+        defineField({ name: 'icon', title: '图标', type: 'string', options: { list: [{ title: '提示', value: 'info' }, { title: '注意', value: 'alert' }, { title: '禁止', value: 'stop' }, { title: '说明', value: 'note' }] }, initialValue: 'info' }),
+        defineField({ name: 'tone', title: '颜色', type: 'string', options: { list: [{ title: '青柠', value: 'lime' }, { title: '琥珀', value: 'amber' }, { title: '玫红', value: 'rose' }, { title: '天蓝', value: 'sky' }, { title: 'Zinc', value: 'zinc' }] }, initialValue: 'lime' }),
+      ],
+    }),
+    defineArrayMember({
+      type: 'object', name: 'comparisonTable', title: '表格',
+      fields: [
+        defineField({ name: 'caption', title: '表格标题', type: 'string' }),
+        defineField({ name: 'headers', title: '列标题', type: 'array', of: [{ type: 'string' }], validation: (Rule) => Rule.required().min(1) }),
+        defineField({ name: 'rows', title: '行', type: 'array', of: [{ type: 'object', fields: [defineField({ name: 'cells', title: '单元格', type: 'array', of: [{ type: 'string' }] })] }] }),
+      ],
+    }),
+    defineArrayMember({
+      type: 'object', name: 'timeline', title: '时间轴',
+      fields: [defineField({ name: 'items', title: '记录', type: 'array', of: [{ type: 'object', fields: [
+        defineField({ name: 'date', title: '日期', type: 'string', validation: (Rule) => Rule.required() }),
+        defineField({ name: 'title', title: '标题', type: 'string', validation: (Rule) => Rule.required() }),
+        defineField({ name: 'description', title: '一句话说明', type: 'string', validation: (Rule) => Rule.required() }),
+      ] }] })],
+    }),
+    defineArrayMember({
+      type: 'object', name: 'linkButton', title: '链接按钮',
+      fields: [
+        defineField({ name: 'text', title: '按钮文字', type: 'string', validation: (Rule) => Rule.required() }),
+        defineField({ name: 'href', title: '链接', type: 'string', validation: (Rule) => Rule.required().custom((value) => !value || (/^(https?:\/\/|\/)/i.test(value) && !value.startsWith('//')) ? true : '请填写站内路径或 http/https 链接') }),
+        defineField({ name: 'style', title: '样式', type: 'string', options: { list: [{ title: '主按钮（青柠）', value: 'primary' }, { title: '次按钮（白底描边）', value: 'secondary' }] }, initialValue: 'primary' }),
+        defineField({ name: 'isPromotion', title: '推广链接', type: 'boolean', initialValue: false }),
       ],
     }),
     defineArrayMember({

@@ -67,16 +67,16 @@ function NavLink({
 
 function Links() {
   return (
-    <nav className="flex flex-wrap justify-center gap-x-2 gap-y-2 text-sm font-medium text-zinc-800 dark:text-zinc-200 md:gap-x-6">
+    <nav className="flex flex-wrap justify-end gap-x-1 gap-y-1 text-sm font-medium text-zinc-800 dark:text-zinc-200">
       {navigationItems
-        .filter(({ href }) => href !== '/about')
-        .map(({ href, text }) => (
-        <NavLink key={href} href={href}>
-          {text}
-        </NavLink>
+        .map(({ href, text }) => href === '/about' ? (
+          <React.Fragment key={href}>
+            <NavLink href="/links">友链</NavLink>
+            <NavLink href={href}>{text}</NavLink>
+          </React.Fragment>
+        ) : (
+          <NavLink key={href} href={href}>{text}</NavLink>
         ))}
-      <NavLink href="/donate">捐赠</NavLink>
-      <NavLink href="/about">关于</NavLink>
     </nav>
   )
 }
@@ -169,7 +169,7 @@ export function Footer() {
       <Container.Outer>
         <div className="border-t border-zinc-100 pb-16 pt-10 dark:border-zinc-700/40">
           <Container.Inner>
-            <div className="mx-auto mb-8 max-w-md">
+            <div data-footer-newsletter className="mx-auto mb-8 max-w-md">
               <Suspense fallback={<Newsletter subCount="0" />}>
                 <FooterNewsletter />
               </Suspense>

@@ -415,6 +415,14 @@ export default function AboutPage() {
           ))}
         </ol>
       </section>
+
+      <section className="mt-14 border-t border-zinc-100 pt-10 dark:border-zinc-700/40">
+        <Link href="/links" className="group inline-flex min-h-11 items-center gap-2 rounded-lg text-sm font-semibold text-zinc-800 transition hover:text-lime-700 dark:text-zinc-200 dark:hover:text-lime-400">
+          友情链接与申请
+          <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">→</span>
+        </Link>
+        <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">查看已审核名单或提交友链申请。</p>
+      </section>
     </Container>
   )
 }

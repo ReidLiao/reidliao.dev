@@ -30,7 +30,7 @@ import { Container } from '~/components/ui/Container'
 import { Tooltip } from '~/components/ui/Tooltip'
 import { url } from '~/lib'
 import { clamp } from '~/lib/math'
-export function Header() {
+export function Header({ festival }: { festival?: string }) {
   const isHomePage = usePathname() === '/'
 
   const headerRef = React.useRef<HTMLDivElement>(null)
@@ -205,6 +205,7 @@ export function Header() {
                       }}
                     >
                       <Avatar.Image large className="block h-full w-full" />
+                      {festival ? <span aria-label="节日装饰已启用" className="absolute -right-1 -top-1 h-3 w-3 rounded-full border-2 border-zinc-50 bg-amber-500 dark:border-zinc-900" /> : null}
                     </motion.div>
                   </motion.div>
                 </motion.div>
