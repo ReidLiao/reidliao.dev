@@ -93,7 +93,7 @@ export function Headline() {
             href="https://github.com/ReidLiao/reidliao.dev"
             faviconUrl="/favicons/github.png"
           >
-            reidliao.dev
+            青柠夜栈
           </PeekabooLink>{' '}
           的站长，喜欢折腾
           <Highlight>全栈开发</Highlight>、

@@ -143,7 +143,7 @@ export default function AboutPage() {
             关于
           </span>{' '}
           <span className="font-mono text-zinc-800 dark:text-zinc-100">
-            reidliao.dev
+            青柠夜栈
           </span>
         </h1>
         <p className="mt-5 max-w-2xl text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
@@ -174,7 +174,7 @@ export default function AboutPage() {
           <div className="relative mx-auto h-24 w-24 shrink-0 overflow-hidden rounded-full sm:mx-0">
             <Image
               src="/avatar.png"
-              alt="Reidliao.dev"
+              alt="青柠夜栈"
               width={96}
               height={96}
               className="h-full w-full object-cover [clip-path:circle(46%_at_50%_50%)]"
@@ -273,7 +273,7 @@ export default function AboutPage() {
             部署理念
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-            reidliao.dev 是我独立维护的个人博客，跑在自有 VPS 上（早期基于某个开源方案起步，现已深度定制，原上游不再维护）。部署采用{' '}
+            青柠夜栈是我独立维护的个人博客，跑在自有 VPS 上（早期基于某个开源方案起步，现已深度定制，原上游不再维护）。部署采用{' '}
             <strong className="text-zinc-800 dark:text-zinc-200">
               Docker 容器化自建
             </strong>

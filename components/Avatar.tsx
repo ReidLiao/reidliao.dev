@@ -35,7 +35,7 @@ function AvatarImage({
     >
       <Image
         src="/avatar.png"
-        alt="Reidliao.dev"
+        alt="青柠夜栈"
         width={large ? 64 : 36}
         height={large ? 64 : 36}
         className={clsxm(

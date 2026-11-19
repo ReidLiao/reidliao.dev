@@ -176,7 +176,7 @@ export function Footer() {
             </div>
             <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
               <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-sm text-zinc-600 dark:text-zinc-400">
-                <span>&copy; {new Date().getFullYear()} reidliao.dev</span>
+                <span>&copy; {new Date().getFullYear()} 青柠夜栈</span>
                 <span className="inline-flex items-center gap-1.5">
                   <span className="relative flex h-1.5 w-1.5">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
