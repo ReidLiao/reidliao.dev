@@ -19,6 +19,58 @@ import { PortableTextImage } from '~/components/portable-text/PortableTextImage'
 import { PortableTextTweet } from '~/components/portable-text/PortableTextTweet'
 import { PortableTextVideoEmbed } from '~/components/portable-text/PortableTextVideoEmbed'
 
+function preserveNumberingAcrossCodeBlocks(value: unknown) {
+  if (!Array.isArray(value)) return value
+
+  const blocks = value as unknown[]
+  let number = 0
+  let listLevel: number | undefined
+  let previousWasNumbered = false
+  let separatedByCodeBlock = false
+
+  return blocks.map((block): unknown => {
+    if (!block || typeof block !== 'object') {
+      number = 0
+      listLevel = undefined
+      previousWasNumbered = false
+      separatedByCodeBlock = false
+      return block
+    }
+
+    const item = block as Record<string, unknown>
+    if (item._type === 'block' && item.listItem === 'number') {
+      const level = typeof item.level === 'number' ? item.level : 1
+      if (
+        !previousWasNumbered &&
+        !(separatedByCodeBlock && level === listLevel)
+      ) {
+        number = 0
+      }
+
+      number += 1
+      listLevel = level
+      previousWasNumbered = true
+      separatedByCodeBlock = false
+      return { ...item, _listStart: number }
+    }
+
+    if (
+      item._type === 'codeBlock' &&
+      (previousWasNumbered || separatedByCodeBlock)
+    ) {
+      previousWasNumbered = false
+      separatedByCodeBlock = true
+      return block
+    }
+
+    number = 0
+    listLevel = undefined
+    previousWasNumbered = false
+    separatedByCodeBlock = false
+    return block
+  })
+}
+
 const textColorClass: Record<string, string> = {
   lime: 'text-lime-700 dark:text-lime-400',
   emerald: 'text-emerald-700 dark:text-emerald-300',
@@ -39,6 +91,12 @@ const components: PortableTextComponents = {
     blockquote: PortableTextBlocksBlockquote,
   },
   listItem: PortableTextBlocksListItem,
+  list: {
+    number: ({ children, value }) => {
+      const first = value.children[0] as { _listStart?: number } | undefined
+      return <ol start={first?._listStart ?? 1}>{children}</ol>
+    },
+  },
   types: {
     image: PortableTextImage,
     tweet: PortableTextTweet,
@@ -87,5 +145,10 @@ export function PostPortableText(props: {
   value: any
   components?: PortableTextComponents
 }) {
-  return <PortableText value={props.value} components={props.components ?? components} />
+  return (
+    <PortableText
+      value={preserveNumberingAcrossCodeBlocks(props.value) as typeof props.value}
+      components={props.components ?? components}
+    />
+  )
 }

@@ -15,15 +15,6 @@ const description =
 
 const rolePills = ['Self-hosted', 'Docker', 'Ops'] as const
 
-const aboutSections = [
-  { id: 'server-selection', label: '服务器选择' },
-  { id: 'deployment-principles', label: '部署理念' },
-  { id: 'tech-stack', label: '技术栈' },
-  { id: 'content-focus', label: '内容定位' },
-  { id: 'download-strategy', label: '下载策略' },
-  { id: 'changelog', label: '更新记录' },
-] as const
-
 const techStack = [
   'Next.js 14',
   'Docker',
@@ -153,21 +144,6 @@ export default function AboutPage() {
           </Balancer>
         </p>
       </header>
-
-      <nav
-        aria-label="关于页目录"
-        className="mt-8 flex flex-wrap gap-x-4 gap-y-2 text-sm text-zinc-500 dark:text-zinc-400"
-      >
-        {aboutSections.map((section) => (
-          <a
-            key={section.id}
-            href={`#${section.id}`}
-            className="inline-flex items-center rounded-md py-3 transition hover:text-lime-600 dark:hover:text-lime-400"
-          >
-            {section.label}
-          </a>
-        ))}
-      </nav>
 
       <section className="mt-12 border-t border-zinc-100 pt-10 dark:border-zinc-700/40">
         <div className="flex flex-col gap-8 sm:flex-row sm:items-start">
