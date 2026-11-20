@@ -63,7 +63,7 @@ export function ProjectCard({
     <Card
       as="li"
       key={_id}
-      className="w-full rounded-2xl border border-zinc-200 bg-white p-5 transition-[transform,border-color] duration-200 ease-out hover:-translate-y-1 hover:border-lime-500/50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-lime-400/50"
+      className="w-full rounded-2xl border border-zinc-200 bg-white p-5 transition-[transform,border-color] duration-200 ease-out hover:-translate-y-1 hover:border-lime-500/50 focus-within:border-lime-500/60 has-[:active]:border-lime-500/70 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-lime-400/50 dark:focus-within:border-lime-400/60 dark:has-[:active]:border-lime-400/70"
       onMouseEnter={() => setIsHovering(true)}
       onMouseMove={handleMouseMove}
       onMouseLeave={() => setIsHovering(false)}
@@ -85,9 +85,7 @@ export function ProjectCard({
           />
         </div>
         <h3 className="min-w-0 flex-1 text-base font-bold text-zinc-800 dark:text-zinc-100">
-          <Card.Link href={url} target="_blank" rel="noopener noreferrer sponsored">
-            {name}
-          </Card.Link>
+          {name}
         </h3>
         <span
           className={`inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-[11px] font-medium ring-1 ${badgeClassName}`}
@@ -110,10 +108,10 @@ export function ProjectCard({
         href={url}
         target="_blank"
         rel="noopener noreferrer sponsored"
-        className="relative z-40 mt-5 flex items-center text-sm font-medium text-zinc-600 transition hover:-translate-y-0.5 hover:text-lime-600 dark:text-zinc-200 dark:hover:text-lime-400"
+        className="relative z-40 mt-4 inline-flex min-h-11 items-center gap-2 rounded-md text-sm font-medium text-zinc-600 underline decoration-zinc-300 underline-offset-4 transition hover:text-lime-600 hover:decoration-lime-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime-500 active:text-lime-700 dark:text-zinc-200 dark:decoration-zinc-600 dark:hover:text-lime-400 dark:hover:decoration-lime-400 dark:active:text-lime-300"
       >
-        <span className="mr-2">前往查看</span>
-        <ExternalLinkIcon className="h-4 w-4 flex-none transition-transform duration-200 group-hover:translate-x-0.5" />
+        <span>前往查看</span>
+        <ExternalLinkIcon className="h-4 w-4 flex-none" aria-hidden="true" />
       </a>
 
       <AnimatePresence>

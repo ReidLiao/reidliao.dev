@@ -85,7 +85,10 @@ export default async function DonatePage() {
             >
               常用支付
             </h2>
-            <div className="mt-4 grid gap-4 xl:grid-cols-2">
+            <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+              桌面端请用手机扫码；手机端可保存二维码后用对应 App 扫描。扫码后输入金额，并备注昵称便于核实。
+            </p>
+            <div className="mt-4 grid gap-4 lg:grid-cols-2">
               <article className="rounded-2xl border border-zinc-200 p-5 dark:border-zinc-800">
                 <div className="flex flex-col gap-4 xl:flex-row xl:items-center">
                   <div className="min-w-0 flex-1">
@@ -97,6 +100,9 @@ export default async function DonatePage() {
                         推荐
                       </span>
                     </div>
+                    <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+                      打开支付宝扫码
+                    </p>
                   </div>
                   <div className="mx-auto flex h-[216px] w-[216px] shrink-0 items-center justify-center rounded-xl bg-white p-2 ring-1 ring-zinc-900/5 xl:mx-0 xl:h-36 xl:w-36 dark:ring-white/10">
                     <Image
@@ -121,6 +127,9 @@ export default async function DonatePage() {
                         推荐
                       </span>
                     </div>
+                    <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+                      打开微信扫码
+                    </p>
                   </div>
                   <div className="mx-auto flex h-[216px] w-[216px] shrink-0 items-center justify-center rounded-xl bg-white p-2 ring-1 ring-zinc-900/5 xl:mx-0 xl:h-36 xl:w-36 dark:ring-white/10">
                     <Image
@@ -135,9 +144,6 @@ export default async function DonatePage() {
                 </div>
               </article>
             </div>
-            <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-              使用对应 App 扫码并自行输入金额，备注昵称便于核实并加入感谢名单。桌面访问请用手机扫码；手机访问可保存二维码后使用对应 App 扫描。
-            </p>
           </section>
 
           <section aria-labelledby="crypto-heading">
@@ -147,12 +153,14 @@ export default async function DonatePage() {
             >
               加密货币
             </h2>
+            <p className="mt-3 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm leading-relaxed text-amber-900 dark:text-amber-200">
+              转账前请仔细核对币种与网络：ETH 仅限 ERC20 以太坊主网，BTC 仅限比特币主网，USDT 使用 TRC20。网络选错可能导致资产无法找回。
+            </p>
             <div className="mt-4 space-y-5">
               {donationAddresses.map((donation) => (
                 <DonationAddress key={donation.currency} {...donation} />
               ))}
             </div>
-            <p className="mt-4 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm leading-relaxed text-amber-900 dark:text-amber-200">转账前请仔细核对币种与网络：ETH 仅限 ERC20 以太坊主网，BTC 仅限比特币主网，USDT 使用 TRC20。网络选错可能导致资产无法找回。</p>
           </section>
 
           <p className="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">

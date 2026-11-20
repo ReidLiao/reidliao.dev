@@ -38,7 +38,7 @@ export default async function FriendLinksPage() {
           <h2 id="friend-link-application-heading" className="text-base font-semibold text-zinc-900 dark:text-zinc-100">申请说明</h2>
           <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">填写站名、链接、简介和联系邮箱。邮箱仅用于核实信息或回复，不会公开。</p>
           <p className="mt-4 border-t border-zinc-200 pt-4 text-xs font-semibold text-zinc-700 dark:border-zinc-700 dark:text-zinc-300">申请条件</p>
-          <ul className="mt-2 grid grid-cols-2 gap-x-3 gap-y-2 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
+          <ul className="mt-2 grid grid-cols-1 gap-x-3 gap-y-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 sm:grid-cols-2">
             <li>个人博客或技术站</li>
             <li>有原创内容</li>
             <li>近 3 个月有更新</li>
@@ -64,7 +64,9 @@ export default async function FriendLinksPage() {
                     <span className="min-w-0">
                       <span className="block truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">{friend.siteName}</span>
                       <span className="mt-1 block text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">{friend.description}</span>
+                      <span className="sr-only">（新窗口打开）</span>
                     </span>
+                    <span aria-hidden="true" className="ml-auto shrink-0 text-zinc-400">↗</span>
                   </a>
                 </li>
               ))}

@@ -178,26 +178,26 @@ export default function AboutPage() {
                 href="https://github.com/ReidLiao/reidliao.dev"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-full bg-zinc-900 px-4 py-2 text-xs font-medium text-white transition hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
+                className="inline-flex min-h-11 items-center gap-1.5 rounded-full bg-zinc-900 px-4 py-2 text-xs font-medium text-white transition hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
               >
                 <GitHubIcon className="h-3.5 w-3.5" />
                 查看源码
               </Link>
               <Link
                 href="/vps"
-                className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-transparent px-4 py-2 text-xs font-medium text-zinc-700 transition hover:border-lime-500/40 hover:text-lime-600 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-lime-400/40 dark:hover:text-lime-400"
+                className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-zinc-200 bg-transparent px-4 py-2 text-xs font-medium text-zinc-700 transition hover:border-lime-500/40 hover:text-lime-600 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-lime-400/40 dark:hover:text-lime-400"
               >
                 自用机房
               </Link>
               <Link
                 href="/guestbook"
-                className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-transparent px-4 py-2 text-xs font-medium text-zinc-700 transition hover:border-lime-500/40 hover:text-lime-600 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-lime-400/40 dark:hover:text-lime-400"
+                className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-zinc-200 bg-transparent px-4 py-2 text-xs font-medium text-zinc-700 transition hover:border-lime-500/40 hover:text-lime-600 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-lime-400/40 dark:hover:text-lime-400"
               >
                 留言交流
               </Link>
               <Link
                 href="/donate"
-                className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-transparent px-4 py-2 text-xs font-medium text-zinc-700 transition hover:border-lime-500/40 hover:text-lime-600 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-lime-400/40 dark:hover:text-lime-400"
+                className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-zinc-200 bg-transparent px-4 py-2 text-xs font-medium text-zinc-700 transition hover:border-lime-500/40 hover:text-lime-600 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-lime-400/40 dark:hover:text-lime-400"
               >
                 捐赠
               </Link>
@@ -206,9 +206,9 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <div className="mt-14 grid gap-10 lg:grid-cols-2 lg:gap-12">
+      <div className="mt-16 grid gap-10 lg:grid-cols-2 lg:gap-12">
         <section id="server-selection">
-          <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
+          <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
             服务器选择
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
@@ -245,7 +245,7 @@ export default function AboutPage() {
         </section>
 
         <section id="deployment-principles">
-          <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
+          <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
             部署理念
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
@@ -276,9 +276,9 @@ export default function AboutPage() {
 
       <section
         id="tech-stack"
-        className="mt-14 border-t border-zinc-100 pt-10 dark:border-zinc-700/40"
+        className="mt-16 border-t border-zinc-100 pt-10 dark:border-zinc-700/40"
       >
-        <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
+        <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
           技术栈
         </h2>
         <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-400">
@@ -305,9 +305,9 @@ export default function AboutPage() {
 
       <section
         id="content-focus"
-        className="mt-14 border-t border-zinc-100 pt-10 dark:border-zinc-700/40"
+        className="mt-16 border-t border-zinc-100 pt-10 dark:border-zinc-700/40"
       >
-        <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
+        <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
           内容定位
         </h2>
         <p className="mt-3 max-w-2xl text-sm text-zinc-600 dark:text-zinc-400">
@@ -330,7 +330,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="mt-14 border-t border-zinc-100 pt-10 dark:border-zinc-700/40">
+      <section className="mt-16 border-t border-zinc-100 pt-10 dark:border-zinc-700/40">
         <div className="max-w-xl">
           <WechatSubscribe />
         </div>
@@ -338,9 +338,9 @@ export default function AboutPage() {
 
       <section
         id="download-strategy"
-        className="mt-14 border-t border-dashed border-zinc-200 pt-10 dark:border-zinc-700"
+        className="mt-16 border-t border-dashed border-zinc-200 pt-10 dark:border-zinc-700"
       >
-        <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
+        <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
           下载策略
         </h2>
         <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
@@ -362,9 +362,9 @@ export default function AboutPage() {
 
       <section
         id="changelog"
-        className="mt-14 border-t border-zinc-100 pt-10 dark:border-zinc-700/40"
+        className="mt-16 border-t border-zinc-100 pt-10 dark:border-zinc-700/40"
       >
-        <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
+        <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
           更新记录
         </h2>
         <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-400">
@@ -375,7 +375,7 @@ export default function AboutPage() {
             <li key={`${entry.date}-${entry.title}`} className="flex gap-4">
               <time
                 dateTime={entry.date}
-                className="w-14 shrink-0 pt-0.5 font-mono text-[11px] tabular-nums text-zinc-600 dark:text-zinc-400"
+                className="w-20 shrink-0 whitespace-nowrap pt-0.5 font-mono text-xs tabular-nums text-zinc-600 dark:text-zinc-400"
               >
                 {entry.date}
               </time>
@@ -383,7 +383,7 @@ export default function AboutPage() {
                 <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
                   {entry.title}
                 </p>
-                <p className="mt-1 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+                <p className="mt-1 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
                   {entry.detail}
                 </p>
               </div>
@@ -392,7 +392,7 @@ export default function AboutPage() {
         </ol>
       </section>
 
-      <section className="mt-14 border-t border-zinc-100 pt-10 dark:border-zinc-700/40">
+      <section className="mt-16 border-t border-zinc-100 pt-10 dark:border-zinc-700/40">
         <Link href="/links" className="group inline-flex min-h-11 items-center gap-2 rounded-lg text-sm font-semibold text-zinc-800 transition hover:text-lime-700 dark:text-zinc-200 dark:hover:text-lime-400">
           友情链接与申请
           <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">→</span>

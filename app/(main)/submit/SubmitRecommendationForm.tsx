@@ -44,17 +44,20 @@ export function SubmitRecommendationForm() {
     <form onSubmit={submit} className="mt-0 w-full max-w-none rounded-3xl border border-zinc-200 bg-white/70 p-5 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/60 sm:p-8">
       <fieldset className="grid gap-6" disabled={pending}>
         <legend className="sr-only">投稿内容</legend>
-        <div>
-          <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">类型 <span className="text-rose-600" aria-label="必填">*</span></span>
-          <div className="mt-2 flex gap-2">
+        <fieldset>
+          <legend className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
+            类型 <span className="text-rose-600" aria-hidden="true">*</span>
+            <span className="sr-only">必填</span>
+          </legend>
+          <div className="mt-2 flex flex-wrap gap-3">
             {['软件', '资源'].map((type, index) => (
-              <label key={type} className="relative inline-flex h-10 cursor-pointer items-center gap-2 rounded-full border border-zinc-300 bg-white px-4 text-sm text-zinc-700 transition after:absolute after:inset-x-0 after:-inset-y-0.5 after:content-[''] has-[:checked]:border-lime-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:has-[:checked]:border-lime-400">
+              <label key={type} className="relative inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-full border border-zinc-300 bg-white px-5 text-sm text-zinc-700 transition after:absolute after:inset-x-0 after:-inset-y-0.5 after:content-[''] has-[:checked]:border-lime-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:has-[:checked]:border-lime-400">
                 <input type="radio" name="type" value={type} defaultChecked={index === 0} required className="accent-lime-600" />
                 {type}
               </label>
             ))}
           </div>
-        </div>
+        </fieldset>
         <label className="block text-sm font-medium text-zinc-800 dark:text-zinc-200">
           名称 <span className="text-rose-600" aria-label="必填">*</span>
           <input name="name" required maxLength={100} className={fieldClass} placeholder="软件或资源名称" />

@@ -36,6 +36,11 @@ export async function Projects() {
 
   return (
     <div className="space-y-16">
+      {groups.size === 0 ? (
+        <p className="rounded-2xl border border-dashed border-zinc-300 px-5 py-6 text-sm text-zinc-600 dark:border-zinc-700 dark:text-zinc-400">
+          暂无收录的机房项目。
+        </p>
+      ) : null}
       {[...groups.entries()].map(([category, categoryProjects], groupIndex) => {
         const headingId = `project-group-${groupIndex}`
 
