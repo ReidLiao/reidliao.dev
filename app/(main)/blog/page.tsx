@@ -12,6 +12,7 @@ import {
 } from '~/sanity/queries'
 
 import { BlogPosts } from './BlogPosts'
+import { CategoryScrollFade } from './CategoryScrollFade'
 import { RssCopyLink } from './RssCopyLink'
 
 const description =
@@ -153,10 +154,10 @@ export default async function BlogPage({
       </header>
       <div className="mt-8 border-b-0 pb-2 dark:border-zinc-800 sm:border-b sm:pb-4">
         <div className="flex items-center gap-3">
-          <div className="relative min-w-0 flex-1 after:pointer-events-none after:absolute after:inset-y-0 after:right-0 after:w-4 after:bg-gradient-to-l after:from-zinc-50 after:to-transparent dark:after:from-primary-900 sm:after:hidden">
+          <CategoryScrollFade>
             <nav
               aria-label="文章分类"
-              className="flex min-w-0 gap-2 overflow-x-auto py-1 pr-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+              className="flex shrink-0 gap-2"
             >
               {tabs.map((tab) => {
                 const active = (tab.slug ?? '') === (safeCategory ?? '')
@@ -184,7 +185,7 @@ export default async function BlogPage({
                 )
               })}
             </nav>
-          </div>
+          </CategoryScrollFade>
           <Link href="/submit" className="hidden h-9 shrink-0 items-center justify-center gap-2 rounded-full border border-lime-600 px-3 text-xs font-medium text-lime-700 transition hover:bg-lime-400/10 sm:inline-flex sm:px-4 sm:text-sm dark:border-lime-400 dark:text-lime-300 dark:hover:bg-lime-400/10">
             投稿推荐
             <span aria-hidden="true">→</span>
