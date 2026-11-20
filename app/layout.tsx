@@ -4,7 +4,6 @@ import './prism.css'
 
 import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata, Viewport } from 'next'
-import Script from 'next/script'
 
 import { ThemeProvider } from '~/app/(main)/ThemeProvider'
 import { url } from '~/lib'
@@ -92,18 +91,20 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <ClerkProvider localization={zhCN} afterSignOutUrl={url('/').href}>
-      <html
-        lang="zh-CN"
-        className={`${sansFont.variable} m-0 h-full p-0 font-sans antialiased`}
-        suppressHydrationWarning
-      >
-        <head>
-          <Script id="theme-init" strategy="beforeInteractive">
-            {`(function(){try{var t=localStorage.getItem('theme')||'system';var d=document.documentElement;var dark=t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);d.classList.remove('light','dark','system');d.classList.add(dark?'dark':'light');d.style.colorScheme=dark?'dark':'light'}catch(_){}})();`}
-          </Script>
-        </head>
-        <body className="flex h-full flex-col">
+    <html
+      lang="zh-CN"
+      className={`${sansFont.variable} m-0 h-full p-0 font-sans antialiased`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme')||'system';var d=document.documentElement;var dark=t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);d.classList.remove('light','dark','system');d.classList.add(dark?'dark':'light');d.style.colorScheme=dark?'dark':'light'}catch(_){}})();`,
+          }}
+        />
+      </head>
+      <body className="flex h-full flex-col">
+        <ClerkProvider localization={zhCN} afterSignOutUrl={url('/').href}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -111,8 +112,8 @@ export default function RootLayout({
           >
             {children}
           </ThemeProvider>
-        </body>
-      </html>
-    </ClerkProvider>
+        </ClerkProvider>
+      </body>
+    </html>
   )
 }

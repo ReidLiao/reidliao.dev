@@ -28,7 +28,7 @@ type GuestbookErrorResponse = {
 }
 const MAX_ANONYMOUS_MESSAGE_LENGTH = 120
 export function GuestbookInput() {
-  const { user, isLoaded } = useUser()
+  const { user } = useUser()
   const textareaRef = React.useRef<HTMLTextAreaElement>(null)
   const rewardsRef = React.useRef<HTMLDivElement>(null)
   const [message, setMessage] = React.useState('')
@@ -131,12 +131,6 @@ export function GuestbookInput() {
     [mouseX, mouseY]
   )
   const background = useMotionTemplate`radial-gradient(320px circle at ${mouseX}px ${mouseY}px, var(--spotlight-color) 0%, transparent 85%)`
-
-  if (!isLoaded) {
-    return (
-      <div className="h-[82px] animate-pulse rounded-xl bg-white/70 ring-2 ring-zinc-200/30 dark:bg-zinc-800/80 dark:ring-zinc-700/30" />
-    )
-  }
 
   return (
     <div

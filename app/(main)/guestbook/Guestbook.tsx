@@ -17,7 +17,7 @@ export function Guestbook(props: { messages?: GuestbookDto[] }) {
     <section className="max-w-2xl">
       <div className="space-y-3">
         <GuestbookInput />
-        <Show when="signed-out">
+        <Show when="signed-out" treatPendingAsSignedOut>
           <p className="flex flex-wrap items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
             <span>
               当前为匿名短留言（最多 120 字）。登录后可写更长内容并显示头像。
