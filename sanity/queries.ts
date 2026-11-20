@@ -28,23 +28,6 @@ export const getApprovedFriendLinks = () => client.fetch<FriendLink[]>(groq`
     }
 `, {}, { next: { tags: ['friend-links'], revalidate: 600 } })
 
-export type Deal = {
-  _id: string
-  provider: 'aliyun' | 'tencent' | 'dmit'
-  title: string
-  discount: string
-  description?: string | null
-  validUntil?: string | null
-  promotionUrl: string
-}
-
-export const getDeals = () => client.fetch<Deal[]>(groq`
-  *[_type == "deal" && enabled == true && !(_id in path("drafts.**"))]
-    | order(order asc, _createdAt desc) {
-      _id, provider, title, discount, description, validUntil, promotionUrl
-    }
-`)
-
 export const getDonorsQuery = () =>
   groq`
   *[_type == "donor" && !(_id in path("drafts.**"))]
