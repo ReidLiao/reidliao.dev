@@ -80,7 +80,7 @@ export function SubmitRecommendationForm() {
           <input name="website" tabIndex={-1} autoComplete="off" />
         </label>
         <div className="flex flex-col gap-3">
-          <button type="submit" className="inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-lime-400 px-6 text-sm font-semibold text-zinc-950 transition hover:bg-lime-300 disabled:cursor-wait disabled:opacity-60">
+          <button type="submit" className="inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-black px-6 text-sm font-semibold text-white transition hover:bg-zinc-800 disabled:cursor-wait disabled:opacity-60 dark:bg-black dark:hover:bg-zinc-800">
             {pending ? '正在提交…' : '提交推荐'}
           </button>
           <p role="status" aria-live="polite" className={`text-sm ${status.kind === 'success' ? 'text-lime-700 dark:text-lime-300' : status.kind === 'idle' ? 'text-zinc-500 dark:text-zinc-400' : 'text-rose-700 dark:text-rose-300'}`}>

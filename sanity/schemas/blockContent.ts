@@ -2,7 +2,7 @@ import { defineArrayMember, defineField, defineType } from 'sanity'
 
 import { BlockContentInput } from '~/sanity/components/BlockContentInput'
 import { ColorSwatchInput } from '~/sanity/components/ColorSwatchInput'
-import { HighlightMarkIcon, TextColorMarkIcon } from '~/sanity/components/MarkIcons'
+import { TextColorMarkIcon } from '~/sanity/components/MarkIcons'
 import { Tweet } from '~/sanity/components/Tweet'
 
 const semanticColors = [
@@ -153,9 +153,7 @@ export default defineType({
           { title: '加粗', value: 'strong' },
           { title: '斜体', value: 'em' },
           { title: '下划线', value: 'underline' },
-          { title: '删除线', value: 'strike-through' },
           { title: '代码', value: 'code' },
-          { title: '键盘按键', value: 'kbd' },
         ],
         annotations: [
           {
@@ -181,22 +179,6 @@ export default defineType({
                 title: '颜色',
                 type: 'string',
                 options: { list: [...semanticColors, { title: '中灰', value: 'zinc' }] },
-                components: { input: ColorSwatchInput },
-                initialValue: 'lime',
-              },
-            ],
-          },
-          {
-            title: '高亮底色',
-            name: 'highlight',
-            icon: HighlightMarkIcon,
-            type: 'object',
-            fields: [
-              {
-                name: 'color',
-                title: '颜色',
-                type: 'string',
-                options: { list: semanticColors },
                 components: { input: ColorSwatchInput },
                 initialValue: 'lime',
               },

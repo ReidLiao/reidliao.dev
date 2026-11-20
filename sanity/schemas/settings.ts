@@ -9,16 +9,6 @@ export default defineType({
   icon: FilterHorizontalIcon,
   fields: [
     defineField({
-      name: 'festival', title: '节日装饰', type: 'object',
-      description: '手动开关；仅显示节日点缀与祝福语，不按日期自动切换。',
-      options: { collapsible: true, collapsed: true },
-      fields: [
-        defineField({ name: 'enabled', title: '启用节日装饰', type: 'boolean', initialValue: false }),
-        defineField({ name: 'festival', title: '节日', type: 'string', options: { list: [{ title: '春节', value: 'spring-festival' }, { title: '国庆', value: 'national-day' }, { title: '中秋', value: 'mid-autumn' }] } }),
-        defineField({ name: 'wish', title: '祝福语', type: 'string', validation: (Rule) => Rule.max(80) }),
-      ],
-    }),
-    defineField({
       name: 'announcement',
       title: '首访公告',
       type: 'object',
@@ -103,17 +93,6 @@ export default defineType({
               validation: (Rule) => Rule.required(),
             }),
             defineField({
-              name: 'start',
-              title: '开始时间',
-              type: 'string',
-              validation: (Rule) => Rule.required(),
-            }),
-            defineField({
-              name: 'end',
-              title: '结束时间（留空会显示“至今”）',
-              type: 'string',
-            }),
-            defineField({
               name: 'url',
               title: '跳转链接',
               type: 'url',
@@ -126,12 +105,11 @@ export default defineType({
               company: 'company',
               title: 'title',
               logo: 'logo',
-              start: 'start',
-              end: 'end',
+              url: 'url',
             },
             prepare: (selection) => ({
               title: `${selection.company} - ${selection.title}`,
-              subtitle: `${selection.start} - ${selection.end ?? '至今'}`,
+              subtitle: selection.url,
               media: selection.logo,
             }),
           },

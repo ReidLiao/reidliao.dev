@@ -236,8 +236,7 @@ export const getBlogPost = async (slug: string) => {
 
 export const getSettingsQuery = () =>
   groq`
-  *[_type == "settings"][0] {
-    festival,
+  *[_type == "settings" && _id == "settings"][0] {
     "projects": projects[]->{
       _id,
       name,
@@ -255,8 +254,6 @@ export const getSettingsQuery = () =>
     "limitedOffers": limitedOffers[]{
       company,
       title,
-      start,
-      end,
       url,
       "logo": logo.asset->url
     }
@@ -295,29 +292,19 @@ export const getAnnouncement = () =>
     { next: { tags: ['settings'], revalidate: 60 } }
   )
 
-export type FestivalSettings = { enabled?: boolean; festival?: string; wish?: string } | null
-export const getFestivalSettings = () => client.fetch<FestivalSettings>(
-  groq`*[_type == "settings" && _id == "settings"][0].festival`,
-  {},
-  { next: { tags: ['settings'], revalidate: 300 } }
-)
-
 export const getSettings = () =>
   client.fetch<
     {
       projects: Project[] | null
-      festival?: { enabled?: boolean; festival?: string; wish?: string } | null
       heroPhotos?: HeroPhoto[] | null
       limitedOffers?:
         | {
             company: string
             title: string
             logo: string
-            start: string
-            end?: string
             url: string
           }[]
         | null
     },
     Record<string, never>
-  >(getSettingsQuery(), {}, { next: { tags: ['settings'], revalidate: 300 } })
+  >(getSettingsQuery(), {}, { next: { tags: ['settings'], revalidate: 60 } })

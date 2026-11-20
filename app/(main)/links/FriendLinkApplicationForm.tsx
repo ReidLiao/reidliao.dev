@@ -52,7 +52,7 @@ export function FriendLinkApplicationForm() {
         请留空此项
         <input name="website" tabIndex={-1} autoComplete="off" />
       </label>
-      <button type="submit" disabled={pending} className="inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-lime-400 px-5 text-sm font-semibold text-zinc-950 transition hover:bg-lime-300 disabled:cursor-wait disabled:opacity-60">
+      <button type="submit" disabled={pending} className="inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-black px-5 text-sm font-semibold text-white transition hover:bg-zinc-800 disabled:cursor-wait disabled:opacity-60 dark:bg-black dark:hover:bg-zinc-800">
         {pending ? '正在提交…' : '提交申请'}
       </button>
       <p role="status" aria-live="polite" className={`min-h-5 text-sm ${status === 'success' ? 'text-lime-700 dark:text-lime-300' : status === 'error' ? 'text-rose-700 dark:text-rose-300' : 'text-zinc-500 dark:text-zinc-400'}`}>
