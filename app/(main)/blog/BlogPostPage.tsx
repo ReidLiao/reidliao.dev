@@ -27,24 +27,19 @@ import { Button } from '~/components/ui/Button'
 import { Container } from '~/components/ui/Container'
 import { WechatSubscribe } from '~/components/WechatSubscribe'
 import { cdnImageSrc } from '~/lib/cdn-image'
-import { prettifyNumber } from '~/lib/math'
 import { hasMeaningfulUpdate } from '~/lib/post-dates'
 import { type PostDetail } from '~/sanity/schemas/post'
 
 import { BlogPostCard } from './BlogPostCard'
 import { BlogPostTableOfContents } from './BlogPostTableOfContents'
+import { LivePostViewCount, useLivePostMetrics } from './LivePostMetrics'
 
 export function BlogPostPage({
   post,
-  views,
-  reactions,
-  relatedViews,
 }: {
   post: PostDetail
-  views?: number
-  reactions?: number[]
-  relatedViews: number[]
 }) {
+  const postMetrics = useLivePostMetrics(post._id)
   const coverSrc = cdnImageSrc(post.mainImage.asset.url, {
     width: 1600,
     quality: 80,
@@ -190,10 +185,12 @@ export function BlogPostPage({
               >
                 <span
                   className="inline-flex items-center space-x-1.5"
-                  title={views?.toString()}
+                  title={postMetrics?.views.toString()}
                 >
                   <CursorClickIcon />
-                  <span>{prettifyNumber(views ?? 0, true)}次点击</span>
+                  <span>
+                    <LivePostViewCount postId={post._id} />次点击
+                  </span>
                 </span>
 
                 <span className="inline-flex items-center space-x-1.5">
@@ -225,7 +222,7 @@ export function BlogPostPage({
             <BlogReactions
               _id={post._id}
               mood={post.mood}
-              reactions={reactions}
+              reactions={postMetrics?.reactions}
             />
           </div>
         </aside>
@@ -239,10 +236,9 @@ export function BlogPostPage({
           </h2>
 
           <div className="mt-6 grid grid-cols-1 justify-center gap-6 md:grid-cols-[repeat(auto-fit,75%)] lg:grid-cols-[repeat(auto-fit,45%)] lg:gap-8">
-            {post.related.map((post, idx) => (
+            {post.related.map((post) => (
               <BlogPostCard
                 post={post}
-                views={relatedViews[idx] ?? 0}
                 key={post._id}
               />
             ))}

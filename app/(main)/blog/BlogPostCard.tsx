@@ -10,10 +10,11 @@ import {
 } from '~/assets'
 import { PostAuthorBadge } from '~/components/PostAuthorBadge'
 import { cdnImageSrc } from '~/lib/cdn-image'
-import { prettifyNumber } from '~/lib/math'
 import { type Post } from '~/sanity/schemas/post'
 
-export function BlogPostCard({ post, views }: { post: Post; views: number }) {
+import { LivePostViewCount } from './LivePostMetrics'
+
+export function BlogPostCard({ post }: { post: Post }) {
   const { title, slug, mainImage, publishedAt, categories, readingTime } = post
   const coverSrc = cdnImageSrc(mainImage.asset.url, { width: 840, quality: 75 })
 
@@ -67,7 +68,9 @@ export function BlogPostCard({ post, views }: { post: Post; views: number }) {
           <span className="inline-flex shrink-0 items-center space-x-3 text-[12px] font-medium md:text-xs">
             <span className="inline-flex items-center space-x-1">
               <CursorClickIcon />
-              <span>{prettifyNumber(views, true)}</span>
+              <span>
+                <LivePostViewCount postId={post._id} />
+              </span>
             </span>
 
             <span className="inline-flex items-center space-x-1">

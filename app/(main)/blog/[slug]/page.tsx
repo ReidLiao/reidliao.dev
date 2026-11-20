@@ -2,14 +2,12 @@ import { type Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import { BlogPostPage } from '~/app/(main)/blog/BlogPostPage'
+import { LivePostMetricsProvider } from '~/app/(main)/blog/LivePostMetrics'
 import { JsonLd } from '~/components/JsonLd'
-import { kvKeys } from '~/config/kv'
 import { url } from '~/lib'
 import { cdnImageSrc } from '~/lib/cdn-image'
-import { isProduction } from '~/lib/is-production'
 import { pageMetadata } from '~/lib/page-metadata'
 import { postModifiedAt } from '~/lib/post-dates'
-import { getReactions, redis } from '~/lib/redis'
 import { getBlogPost } from '~/sanity/queries'
 
 export const generateMetadata = async ({
@@ -78,52 +76,6 @@ export default async function BlogPage({
     notFound()
   }
 
-  let views: number | undefined
-  if (isProduction) {
-    try {
-      views = await Promise.race<number | undefined>([
-        redis.get<number>(kvKeys.postViews(post._id)),
-        new Promise<undefined>((resolve) => {
-          setTimeout(resolve, 1500)
-        }),
-      ])
-    } catch (error) {
-      console.error('[PostViews] Failed to read view count', error)
-      views = undefined
-    }
-
-    setImmediate(() => {
-      void redis.incr(kvKeys.postViews(post._id)).catch((error) => {
-        console.error('[PostViews] Failed to record view', error)
-      })
-    })
-  } else {
-    views = 30578
-  }
-
-  let reactions: number[] = []
-  try {
-    if (isProduction) {
-      reactions = await getReactions(post._id)
-    } else {
-      reactions = Array.from({ length: 4 }, () =>
-        Math.floor(Math.random() * 50000)
-      )
-    }
-  } catch (error) {
-    console.error(error)
-  }
-
-  let relatedViews: number[] = []
-  if (typeof post.related !== 'undefined' && post.related.length > 0) {
-    if (!isProduction) {
-      relatedViews = post.related.map(() => Math.floor(Math.random() * 1000))
-    } else {
-      const postIdKeys = post.related.map(({ _id }) => kvKeys.postViews(_id))
-      relatedViews = await redis.mget<number[]>(...postIdKeys)
-    }
-  }
-
   const ogImageAbs = cdnImageSrc(post.mainImage.asset.url, {
     width: 1200,
     quality: 80,
@@ -174,12 +126,15 @@ export default async function BlogPage({
   return (
     <>
       <JsonLd data={jsonLd} />
-      <BlogPostPage
-        post={post}
-        views={views}
-        relatedViews={relatedViews}
-        reactions={reactions.length > 0 ? reactions : undefined}
-      />
+      <LivePostMetricsProvider
+        postIds={[
+          post._id,
+          ...(post.related?.map(({ _id }) => _id) ?? []),
+        ]}
+        incrementPostId={post._id}
+      >
+        <BlogPostPage post={post} />
+      </LivePostMetricsProvider>
     </>
   )
 }

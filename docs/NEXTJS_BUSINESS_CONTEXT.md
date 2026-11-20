@@ -61,7 +61,7 @@
 
 ### 3.2 API `app/api/`
 
-`revalidate`、`img`（图片同源代理+磁盘缓存）、`guestbook`、`comments`、`reactions`、`newsletter`、`link-preview`、`favicon`、`tweet`。
+`revalidate`、`img`（图片同源代理+磁盘缓存）、`footer-stats`、`live-post-metrics`、`guestbook`、`comments`、`reactions`、`newsletter`、`link-preview`、`favicon`、`tweet`。
 
 ### 3.3 其他
 
@@ -94,12 +94,12 @@
 - Sanity Webhook → `POST /api/revalidate`（`x-revalidate-secret`）
 - 过滤：`_type in ["post","settings","project"]`
 - 刷新 tags + `/` `/blog` `/blog/{slug}` `/feed.xml` 等
-- 页面 `revalidate` 多为 600s 兜底
-
-> ⚠️ **待排查（2026-09-22 线上实测）**：首页响应头实际为
-> `Cache-Control: private, no-cache, no-store`，600s 疑似未生效。
-> 初步判断 middleware（Clerk / 访客统计）将页面逼成了动态渲染。
-> 在结论出来之前，**不要**把「600s 兜底」当既定事实；相关排查见任务清单。
+- 主站共享 Footer 不再在服务器组件里读 Redis 或调用 `noStore()`；访客统计由客户端读取 `/api/footer-stats`，接口响应 `private, no-store`。总浏览量仍使用 Redis 60 秒短缓存。
+- 文章卡片浏览量、文章页浏览量与反应数由客户端批量读取 `/api/live-post-metrics`；文章浏览量在该请求后 fire-and-forget 增加。统计不写入可缓存的 HTML。
+- 首页/文章详情页设有 600 秒 ISR 兜底；Sanity 查询带 `posts` / `post:{slug}` / `settings` tags。网站设置查询与共享布局公告查询的兜底为 60 秒，Webhook 会主动失效对应 tags/paths。
+- `/blog` 读取 `searchParams`（分类、分页），所以该筛选页面按请求渲染；其 Sanity 列表、分类计数和总数仍使用 600 秒 Data Cache，并由 `posts` tag 即时失效。
+- 留言墙、订阅确认、往期 newsletter 读取 Neon 数据，显式保持动态渲染；Footer 移除 `noStore()` 不会把这些页面缓存。
+- Middleware 访客统计仍是 fire-and-forget；它只做响应旁路统计，不设置页面缓存头。未启用 Cache Components。
 
 ### 4.3 图片管道（性能关键）
 

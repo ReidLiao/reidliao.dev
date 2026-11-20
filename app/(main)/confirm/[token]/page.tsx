@@ -10,6 +10,8 @@ import { pageMetadata } from '~/lib/page-metadata'
 
 import { SubbedCelebration } from './SubbedCelebration'
 
+export const dynamic = 'force-dynamic'
+
 export function generateMetadata({ params }: { params: { token: string } }) {
   const title = '订阅已确认'
   return {

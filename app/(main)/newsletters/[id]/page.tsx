@@ -8,6 +8,8 @@ import { db } from '~/db'
 import { newsletters } from '~/db/schema'
 import { pageMetadata } from '~/lib/page-metadata'
 
+export const dynamic = 'force-dynamic'
+
 async function getNewsletter(id: string) {
   const [newsletter] = await db
     .select()
@@ -71,5 +73,3 @@ export default async function NewsletterRenderPage({
     </Container>
   )
 }
-
-export const revalidate = 3600

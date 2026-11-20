@@ -10,6 +10,8 @@ import { Guestbook } from './Guestbook'
 const title = '留言墙'
 const description =
   '欢迎留下足迹：可以是对文章的看法、技术勘误，也可以是一句鼓励或槽点。每条留言我都会看到，聊自建、运维或软件折腾都欢迎。'
+export const dynamic = 'force-dynamic'
+
 export const metadata = {
   title,
   description,

@@ -39,6 +39,11 @@ export function BlogReactions({
   const [cachedReactions, setCachedReactions] = React.useState(
     reactions ?? [0, 0, 0, 0]
   )
+
+  React.useEffect(() => {
+    if (reactions) setCachedReactions(reactions)
+  }, [reactions])
+
   const onClick = React.useCallback(
     async (index: number) => {
       // Optimistic update
