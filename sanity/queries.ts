@@ -252,11 +252,12 @@ export const getSettingsQuery = () =>
       "lqip": asset->metadata.lqip,
       link
     },
-    "resume": resume[]{
+    "limitedOffers": limitedOffers[]{
       company,
       title,
       start,
       end,
+      url,
       "logo": logo.asset->url
     }
 }`
@@ -307,13 +308,14 @@ export const getSettings = () =>
       projects: Project[] | null
       festival?: { enabled?: boolean; festival?: string; wish?: string } | null
       heroPhotos?: HeroPhoto[] | null
-      resume?:
+      limitedOffers?:
         | {
             company: string
             title: string
             logo: string
             start: string
             end?: string
+            url: string
           }[]
         | null
     },

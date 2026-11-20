@@ -72,9 +72,9 @@ export default defineType({
     }),
 
     defineField({
-      name: 'resume',
-      title: '简历',
-      description: '在主页侧边栏展示的简历信息（留空就不展示）',
+      name: 'limitedOffers',
+      title: '限时福利',
+      description: '在主页侧边栏展示的限时福利（留空就不展示）',
       type: 'array',
       of: [
         {
@@ -82,19 +82,19 @@ export default defineType({
           fields: [
             defineField({
               name: 'company',
-              title: '公司名称',
+              title: '商家名称',
               type: 'string',
               validation: (Rule) => Rule.required(),
             }),
             defineField({
               name: 'title',
-              title: '职位',
+              title: '福利说明',
               type: 'string',
               validation: (Rule) => Rule.required(),
             }),
             defineField({
               name: 'logo',
-              title: '公司 Logo',
+              title: '商家 Logo',
               description: '建议尺寸 100x100px 正方形裁切',
               type: 'image',
               options: {
@@ -112,6 +112,13 @@ export default defineType({
               name: 'end',
               title: '结束时间（留空会显示“至今”）',
               type: 'string',
+            }),
+            defineField({
+              name: 'url',
+              title: '跳转链接',
+              type: 'url',
+              validation: (Rule) =>
+                Rule.required().uri({ scheme: ['http', 'https'] }),
             }),
           ],
           preview: {

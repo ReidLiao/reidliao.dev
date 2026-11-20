@@ -2,9 +2,9 @@ import React from 'react'
 
 import { BlogPosts } from '~/app/(main)/blog/BlogPosts'
 import { Headline } from '~/app/(main)/Headline'
+import { LimitedOffers } from '~/app/(main)/LimitedOffers'
 import { Newsletter } from '~/app/(main)/Newsletter'
 import { Photos } from '~/app/(main)/Photos'
-import { Resume } from '~/app/(main)/Resume'
 import { PencilSwooshIcon } from '~/assets'
 import { Container } from '~/components/ui/Container'
 import { getSettings } from '~/sanity/queries'
@@ -31,7 +31,9 @@ export default async function BlogHomePage() {
           </div>
           <aside className="space-y-10 lg:sticky lg:top-8 lg:h-fit lg:pl-16 xl:pl-20">
             <Newsletter subCount="6" />
-            {settings?.resume && <Resume resume={settings.resume} />}
+            {settings?.limitedOffers?.length ? (
+              <LimitedOffers offers={settings.limitedOffers} />
+            ) : null}
           </aside>
         </div>
       </Container>
