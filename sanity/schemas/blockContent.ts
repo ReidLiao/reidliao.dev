@@ -2,7 +2,10 @@ import { defineArrayMember, defineField, defineType } from 'sanity'
 
 import { BlockContentInput } from '~/sanity/components/BlockContentInput'
 import { ColorSwatchInput } from '~/sanity/components/ColorSwatchInput'
-import { TextColorMarkIcon } from '~/sanity/components/MarkIcons'
+import {
+  HighlightMarkIcon,
+  TextColorMarkIcon,
+} from '~/sanity/components/MarkIcons'
 import { Tweet } from '~/sanity/components/Tweet'
 
 const semanticColors = [
@@ -172,6 +175,27 @@ export default defineType({
                 title: '颜色',
                 type: 'string',
                 options: { list: [...semanticColors, { title: '中灰', value: 'zinc' }] },
+                components: { input: ColorSwatchInput },
+                initialValue: 'lime',
+              },
+            ],
+          },
+          {
+            title: '背景色',
+            name: 'textBackground',
+            icon: HighlightMarkIcon,
+            type: 'object',
+            fields: [
+              {
+                name: 'color',
+                title: '背景色',
+                type: 'string',
+                options: {
+                  list: [
+                    { title: '青柠', value: 'lime' },
+                    { title: 'Zinc', value: 'zinc' },
+                  ],
+                },
                 components: { input: ColorSwatchInput },
                 initialValue: 'lime',
               },

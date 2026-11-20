@@ -81,6 +81,11 @@ const textColorClass: Record<string, string> = {
   zinc: 'text-zinc-600 dark:text-zinc-400',
 }
 
+const textBackgroundClass: Record<string, string> = {
+  lime: 'rounded-sm bg-lime-300 px-0.5 text-zinc-950 dark:bg-lime-400',
+  zinc: 'rounded-sm bg-zinc-200 px-0.5 text-zinc-900 dark:bg-zinc-700 dark:text-zinc-100',
+}
+
 const components: PortableTextComponents = {
   block: {
     normal: PortableTextBlocksNormal,
@@ -136,6 +141,11 @@ const components: PortableTextComponents = {
           {children}
         </span>
       )
+    },
+    textBackground: ({ children, value }) => {
+      const cls =
+        textBackgroundClass[value?.color as string] || textBackgroundClass.lime
+      return <span className={cls}>{children}</span>
     },
   },
 }
