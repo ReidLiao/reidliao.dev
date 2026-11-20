@@ -1,6 +1,6 @@
 'use client'
 
-import { SignedIn, SignedOut, SignInButton } from '@clerk/nextjs'
+import { Show, SignInButton } from '@clerk/nextjs'
 import { usePathname } from 'next/navigation'
 
 import { UserArrowLeftIcon } from '~/assets'
@@ -17,7 +17,7 @@ export function Guestbook(props: { messages?: GuestbookDto[] }) {
     <section className="max-w-2xl">
       <div className="space-y-3">
         <GuestbookInput />
-        <SignedOut>
+        <Show when="signed-out">
           <p className="flex flex-wrap items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
             <span>
               当前为匿名短留言（最多 120 字）。登录后可写更长内容并显示头像。
@@ -32,12 +32,12 @@ export function Guestbook(props: { messages?: GuestbookDto[] }) {
               </button>
             </SignInButton>
           </p>
-        </SignedOut>
-        <SignedIn>
+        </Show>
+        <Show when="signed-in">
           <p className="text-xs text-zinc-600 dark:text-zinc-400">
             已登录，可发布最长 600 字的 Markdown 留言。
           </p>
-        </SignedIn>
+        </Show>
       </div>
 
       <GuestbookFeeds messages={props.messages} />

@@ -2,7 +2,7 @@
 
 import 'dayjs/locale/zh-cn'
 
-import { SignedIn, SignedOut, SignInButton, useUser } from '@clerk/nextjs'
+import { Show, SignInButton, useUser } from '@clerk/nextjs'
 import { useMutation } from '@tanstack/react-query'
 import { clsxm } from '@zolplay/utils'
 import dayjs from 'dayjs'
@@ -279,14 +279,14 @@ function Root({ className, blockId }: CommentableProps) {
                     ref={formRef}
                     onSubmit={onSubmit}
                   >
-                    <SignedIn>
+                    <Show when="signed-in">
                       <CommentTextarea
                         isLoading={isLoading}
                         onSubmit={onSubmit}
                       />
-                    </SignedIn>
+                    </Show>
 
-                    <SignedOut>
+                    <Show when="signed-out">
                       <div className="flex justify-center">
                         <SignInButton
                           mode="modal"
@@ -298,7 +298,7 @@ function Root({ className, blockId }: CommentableProps) {
                           </Button>
                         </SignInButton>
                       </div>
-                    </SignedOut>
+                    </Show>
                   </form>
                 </main>
               </motion.div>

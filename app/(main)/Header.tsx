@@ -1,8 +1,7 @@
 'use client'
 
 import {
-  SignedIn,
-  SignedOut,
+  Show,
   SignInButton,
   UserButton,
   useUser,
@@ -293,7 +292,7 @@ function UserInfo() {
 
   return (
     <AnimatePresence>
-      <SignedIn key="user-info">
+      <Show when="signed-in" key="user-info">
         <motion.div
           className="pointer-events-auto relative flex h-10 items-center"
           initial={{ opacity: 0, x: 25 }}
@@ -313,8 +312,8 @@ function UserInfo() {
             </span>
           )}
         </motion.div>
-      </SignedIn>
-      <SignedOut key="sign-in">
+      </Show>
+      <Show when="signed-out" key="sign-in">
         <motion.div
           className="pointer-events-auto"
           initial={{ opacity: 0, x: 25 }}
@@ -352,7 +351,7 @@ function UserInfo() {
             </Tooltip.Root>
           </Tooltip.Provider>
         </motion.div>
-      </SignedOut>
+      </Show>
     </AnimatePresence>
   )
 }
