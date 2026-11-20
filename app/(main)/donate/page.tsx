@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { Container } from '~/components/ui/Container'
+import { url } from '~/lib'
 import { pageMetadata } from '~/lib/page-metadata'
 import { getDonors } from '~/sanity/queries'
 
@@ -38,11 +39,13 @@ export const metadata = {
     ...pageMetadata('/donate').openGraph,
     title,
     description,
+    images: [{ url: url('/donate/opengraph-image.png').href }],
   },
   twitter: {
     title,
     description,
     card: 'summary_large_image',
+    images: [url('/donate/twitter-image.png').href],
   },
 } satisfies Metadata
 

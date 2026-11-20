@@ -2,6 +2,7 @@ import { type Metadata } from 'next'
 import Link from 'next/link'
 
 import { Container } from '~/components/ui/Container'
+import { url } from '~/lib'
 import { pageMetadata } from '~/lib/page-metadata'
 
 import { SubmitRecommendationForm } from './SubmitRecommendationForm'
@@ -14,6 +15,13 @@ export const metadata = {
     ...pageMetadata('/submit').openGraph,
     title: '投稿推荐',
     description: '推荐你亲自用过的软件或资源。',
+    images: [{ url: url('/submit/opengraph-image.png').href }],
+  },
+  twitter: {
+    title: '投稿推荐',
+    description: '推荐你亲自用过的软件或资源。',
+    card: 'summary_large_image',
+    images: [url('/submit/twitter-image.png').href],
   },
 } satisfies Metadata
 

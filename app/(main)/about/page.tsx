@@ -7,6 +7,7 @@ import { GitHubIcon } from '~/assets'
 import { PeekabooLink } from '~/components/links/PeekabooLink'
 import { Container } from '~/components/ui/Container'
 import { WechatSubscribe } from '~/components/WechatSubscribe'
+import { url } from '~/lib'
 import { pageMetadata } from '~/lib/page-metadata'
 
 const title = '关于青柠夜栈'
@@ -114,11 +115,13 @@ export const metadata = {
     ...pageMetadata('/about').openGraph,
     title,
     description,
+    images: [{ url: url('/about/opengraph-image.png').href }],
   },
   twitter: {
     title,
     description,
     card: 'summary_large_image',
+    images: [url('/about/twitter-image.png').href],
   },
 } satisfies Metadata
 

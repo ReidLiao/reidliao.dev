@@ -3,6 +3,7 @@ import Balancer from 'react-wrap-balancer'
 
 import { Projects } from '~/app/(main)/vps/Projects'
 import { Container } from '~/components/ui/Container'
+import { url } from '~/lib'
 import { pageMetadata } from '~/lib/page-metadata'
 
 const title = '机房'
@@ -16,11 +17,13 @@ export const metadata = {
     ...pageMetadata('/vps').openGraph,
     title,
     description,
+    images: [{ url: url('/vps/opengraph-image.png').href }],
   },
   twitter: {
     title,
     description,
     card: 'summary_large_image',
+    images: [url('/vps/twitter-image.png').href],
   },
 } satisfies Metadata
 
