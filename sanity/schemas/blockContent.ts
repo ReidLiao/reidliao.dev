@@ -29,7 +29,7 @@ const platformList = [
 /** Only numeric versions get a `v` prefix; names/editions stay as-is. */
 const formatPreviewVersion = (version?: unknown) => {
   if (!version) return null
-  const text = String(version).trim()
+  const text = typeof version === 'string' || typeof version === 'number' ? String(version).trim() : ''
   if (!text) return null
   if (/^v\d/i.test(text)) return text
   if (/^\d+(\.\d+)*([-.+][0-9A-Za-z.-]+)?$/.test(text)) return `v${text}`

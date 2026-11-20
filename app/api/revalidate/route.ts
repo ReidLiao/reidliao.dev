@@ -48,9 +48,9 @@ export async function POST(req: NextRequest) {
     // no JSON body — query params only
   }
 
-  revalidateTag('posts')
-  revalidateTag('settings')
-  revalidateTag('donors')
+  revalidateTag('posts', { expire: 0 })
+  revalidateTag('settings', { expire: 0 })
+  revalidateTag('donors', { expire: 0 })
   revalidatePath('/')
   revalidatePath('/blog')
   revalidatePath('/donate')
@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
       revalidatePath(slug)
       revalidated.push(slug)
     } else {
-      revalidateTag(`post:${slug}`)
+      revalidateTag(`post:${slug}`, { expire: 0 })
       revalidatePath(`/blog/${slug}`)
       revalidated.push(`/blog/${slug}`, `tag:post:${slug}`)
     }

@@ -6,6 +6,7 @@ import { ImageResponse } from 'next/og'
 import { type NextRequest, NextResponse } from 'next/server'
 
 import { ratelimit, redis } from '~/lib/redis'
+import { getTrustedProxyIp } from '~/lib/trusted-proxy-ip'
 
 export const runtime = 'nodejs'
 export const revalidate = 259200 // 3 days
@@ -203,7 +204,9 @@ export async function GET(req: NextRequest) {
     return errorResponse('Invalid URL', 400)
   }
 
-  const { success } = await ratelimit.limit('favicon' + `_${req.ip ?? ''}`)
+  const { success } = await ratelimit.limit(
+    'favicon' + `_${getTrustedProxyIp(req) ?? ''}`
+  )
   if (!success) {
     return errorResponse('Too many requests', 429)
   }

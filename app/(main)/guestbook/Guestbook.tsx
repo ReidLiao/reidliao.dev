@@ -22,7 +22,7 @@ export function Guestbook(props: { messages?: GuestbookDto[] }) {
             <span>
               当前为匿名短留言（最多 120 字）。登录后可写更长内容并显示头像。
             </span>
-            <SignInButton mode="modal" redirectUrl={url(pathname).href}>
+            <SignInButton mode="modal" forceRedirectUrl={url(pathname).href}>
               <button
                 type="button"
                 className="inline-flex items-center rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700 transition hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"

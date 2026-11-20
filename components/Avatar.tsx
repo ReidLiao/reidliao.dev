@@ -1,9 +1,12 @@
-import { type ComponentProps } from '@zolplay/react'
 import { clsxm } from '@zolplay/utils'
 import Image from 'next/image'
-import Link, { type LinkProps } from 'next/link'
+import Link from 'next/link'
+import { type ComponentProps } from 'react'
 
-function AvatarContainer({ className, ...props }: ComponentProps) {
+function AvatarContainer({
+  className,
+  ...props
+}: ComponentProps<'div'>) {
   return (
     <div
       className={clsxm(
@@ -15,8 +18,7 @@ function AvatarContainer({ className, ...props }: ComponentProps) {
   )
 }
 
-type AvatarImageProps = ComponentProps &
-  Omit<LinkProps, 'href'> & {
+type AvatarImageProps = Omit<ComponentProps<typeof Link>, 'href'> & {
     large?: boolean
     href?: string
   }

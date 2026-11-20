@@ -1,4 +1,5 @@
-import { Button, Flex, Menu, MenuButton, MenuItem, Text } from '@sanity/ui'
+import { Button, Flex, Text } from '@sanity/ui'
+import { Menu, MenuButton, MenuItem } from '@sanity/ui/menu'
 import { set, type StringInputProps } from 'sanity'
 
 const swatches: Record<string, string> = {

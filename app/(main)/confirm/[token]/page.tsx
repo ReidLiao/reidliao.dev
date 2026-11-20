@@ -12,7 +12,8 @@ import { SubbedCelebration } from './SubbedCelebration'
 
 export const dynamic = 'force-dynamic'
 
-export function generateMetadata({ params }: { params: { token: string } }) {
+export async function generateMetadata(props: { params: Promise<{ token: string }> }) {
+  const params = await props.params;
   const title = '订阅已确认'
   return {
     title,
@@ -24,11 +25,12 @@ export function generateMetadata({ params }: { params: { token: string } }) {
   } satisfies Metadata
 }
 
-export default async function ConfirmPage({
-  params,
-}: {
-  params: { token: string }
-}) {
+export default async function ConfirmPage(
+  props: {
+    params: Promise<{ token: string }>
+  }
+) {
+  const params = await props.params;
   const [subscriber] = await db
     .select()
     .from(subscribers)

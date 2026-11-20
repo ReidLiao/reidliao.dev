@@ -1,7 +1,7 @@
 import { desc } from 'drizzle-orm'
 
 import { db } from '~/db'
-import { type GuestbookDto, GuestbookHashids } from '~/db/dto/guestbook.dto'
+import { GuestbookHashids } from '~/db/dto/guestbook.dto'
 import { guestbook } from '~/db/schema'
 
 export async function fetchGuestbookMessages({
@@ -26,6 +26,6 @@ export async function fetchGuestbookMessages({
       ({
         ...rest,
         id: GuestbookHashids.encode(id),
-      } as GuestbookDto)
+      })
   )
 }

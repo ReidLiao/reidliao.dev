@@ -53,11 +53,12 @@ function queryHref(category: string | undefined, page: number) {
   return search ? `/blog?${search}` : '/blog'
 }
 
-export default async function BlogPage({
-  searchParams,
-}: {
-  searchParams?: { category?: string; page?: string }
-}) {
+export default async function BlogPage(
+  props: {
+    searchParams?: Promise<{ category?: string; page?: string }>
+  }
+) {
+  const searchParams = await props.searchParams;
   const category = searchParams?.category
   const parsedPage = Number(searchParams?.page)
   const page = Number.isInteger(parsedPage) && parsedPage > 0 ? parsedPage : 1

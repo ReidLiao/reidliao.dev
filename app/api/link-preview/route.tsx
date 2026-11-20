@@ -5,6 +5,7 @@ import { type NextRequest, NextResponse } from 'next/server'
 
 import { env } from '~/env.mjs'
 import { ratelimit } from '~/lib/redis'
+import { getTrustedProxyIp } from '~/lib/trusted-proxy-ip'
 
 const MAX_RESPONSE_BYTES = 5 * 1024 * 1024
 const FETCH_TIMEOUT_MS = 5000
@@ -160,7 +161,9 @@ export async function GET(req: NextRequest) {
     return errorResponse('Link preview is unavailable', 503)
   }
 
-  const { success } = await ratelimit.limit('link-preview_', req)
+  const { success } = await ratelimit.limit('link-preview_', {
+    geo: { ip: getTrustedProxyIp(req) },
+  })
   if (!success) return errorResponse('Too many requests', 429)
 
   try {

@@ -1,4 +1,4 @@
-import { currentUser } from '@clerk/nextjs'
+import { currentUser } from '@clerk/nextjs/server'
 import { type NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
@@ -12,6 +12,7 @@ import { env } from '~/env.mjs'
 import { url } from '~/lib'
 import { resend } from '~/lib/mail'
 import { ratelimit } from '~/lib/redis'
+import { getTrustedProxyIp } from '~/lib/trusted-proxy-ip'
 
 const ANONYMOUS_USER_ID = 'anonymous'
 const MAX_AUTHED_LENGTH = 600
@@ -23,7 +24,9 @@ function getKey(id?: string) {
 
 export async function GET(req: NextRequest) {
   try {
-    const { success } = await ratelimit.limit(getKey(req.ip ?? ''))
+    const { success } = await ratelimit.limit(
+      getKey(getTrustedProxyIp(req) ?? '')
+    )
     if (!success) {
       return NextResponse.json(
         { error: '留言加载过于频繁，请稍后再试' },
@@ -68,7 +71,7 @@ export async function POST(req: NextRequest) {
     }
 
     const rateLimitKey = isAnonymous
-      ? getKey(`anon:${req.ip ?? 'unknown'}`)
+      ? getKey(`anon:${getTrustedProxyIp(req) ?? 'unknown'}`)
       : getKey(user.id)
 
     const { success } = await ratelimit.limit(rateLimitKey)

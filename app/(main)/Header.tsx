@@ -283,9 +283,7 @@ function UserInfo() {
 
     switch (strategy) {
       case 'from_oauth_github':
-        return GitHubBrandIcon as (
-          props: React.ComponentProps<'svg'>
-        ) => JSX.Element
+        return GitHubBrandIcon
       case 'from_oauth_google':
         return GoogleBrandIcon
       default:
@@ -303,7 +301,6 @@ function UserInfo() {
           exit={{ opacity: 0, x: 25 }}
         >
           <UserButton
-            afterSignOutUrl={url(pathname).href}
             appearance={{
               elements: {
                 avatarBox: 'w-9 h-9 ring-2 ring-white/20',
@@ -326,7 +323,7 @@ function UserInfo() {
         >
           <Tooltip.Provider disableHoverableContent>
             <Tooltip.Root open={tooltipOpen} onOpenChange={setTooltipOpen}>
-              <SignInButton mode="modal" redirectUrl={url(pathname).href}>
+              <SignInButton mode="modal" forceRedirectUrl={url(pathname).href}>
                 <Tooltip.Trigger asChild>
                   <button
                     type="button"

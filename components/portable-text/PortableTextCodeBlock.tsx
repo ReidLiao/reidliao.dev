@@ -67,11 +67,11 @@ const aliases: Record<string, string> = {
   md: 'markdown',
 }
 for (const [name, lang] of Object.entries(languages)) {
-  SyntaxHighlighter.registerLanguage(name, lang as never)
+  SyntaxHighlighter.registerLanguage(name, lang)
 }
 for (const [alias, target] of Object.entries(aliases)) {
   if (languages[target]) {
-    SyntaxHighlighter.registerLanguage(alias, languages[target] as never)
+    SyntaxHighlighter.registerLanguage(alias, languages[target])
   }
 }
 

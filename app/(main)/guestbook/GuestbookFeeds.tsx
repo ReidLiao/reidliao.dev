@@ -3,11 +3,11 @@
 import 'dayjs/locale/zh-cn'
 
 import { useUser } from '@clerk/nextjs'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import Image from 'next/image'
 import React from 'react'
-import { useMutation, useQuery } from 'react-query'
 import { useSnapshot } from 'valtio'
 
 import { TiltedSendIcon, XIcon } from '~/assets'
@@ -43,9 +43,9 @@ function Message({
     setReply(message.reply ?? '')
   }, [message.reply])
 
-  const { mutate: onDelete, isLoading } = useMutation(
-    ['guestbook-delete', message.id],
-    async () => {
+  const { mutate: onDelete, isPending: isLoading } = useMutation({
+    mutationKey: ['guestbook-delete', message.id],
+    mutationFn: async () => {
       const res = await fetch(`/api/guestbook/${message.id}`, {
         method: 'DELETE',
       })
@@ -54,16 +54,14 @@ function Message({
       }
       return message.id
     },
-    {
-      onSuccess: (id) => {
+    onSuccess: (id) => {
         removeMessage(id)
-      },
-    }
-  )
+    },
+  })
 
-  const { mutate: saveReply, isLoading: isSavingReply } = useMutation(
-    ['guestbook-reply', message.id],
-    async () => {
+  const { mutate: saveReply, isPending: isSavingReply } = useMutation({
+    mutationKey: ['guestbook-reply', message.id],
+    mutationFn: async () => {
       const res = await fetch(`/api/guestbook/${message.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -79,19 +77,17 @@ function Message({
       }
       return data
     },
-    {
-      onSuccess: (data) => {
+    onSuccess: (data) => {
         updateMessageReply(message.id, data.reply ?? null, data.repliedAt ?? null)
         setIsReplying(false)
         setReplyError(null)
-      },
-      onError: (error: Error) => setReplyError(error.message),
-    }
-  )
+    },
+    onError: (error: Error) => setReplyError(error.message),
+  })
 
-  const { mutate: removeReply, isLoading: isRemovingReply } = useMutation(
-    ['guestbook-reply-delete', message.id],
-    async () => {
+  const { mutate: removeReply, isPending: isRemovingReply } = useMutation({
+    mutationKey: ['guestbook-reply-delete', message.id],
+    mutationFn: async () => {
       const res = await fetch(`/api/guestbook/${message.id}?reply=true`, {
         method: 'DELETE',
       })
@@ -99,16 +95,14 @@ function Message({
         throw new Error('删除回复失败，请稍后再试')
       }
     },
-    {
-      onSuccess: () => {
+    onSuccess: () => {
         updateMessageReply(message.id, null, null)
         setReply('')
         setIsReplying(false)
         setReplyError(null)
-      },
-      onError: (error: Error) => setReplyError(error.message),
-    }
-  )
+    },
+    onError: (error: Error) => setReplyError(error.message),
+  })
 
   const isReplyLoading = isSavingReply || isRemovingReply
 
@@ -261,18 +255,16 @@ export function GuestbookFeeds(props: { messages?: GuestbookDto[] }) {
     (user?.publicMetadata as { siteOwner?: boolean } | undefined)?.siteOwner
   )
 
-  const { data: feed } = useQuery(
-    ['guestbook'],
-    async () => {
+  const { data: feed } = useQuery({
+    queryKey: ['guestbook'],
+    queryFn: async () => {
       const res = await fetch('/api/guestbook')
       const data = await res.json()
       return data as GuestbookDto[]
     },
-    {
-      refetchInterval: 30000,
-      initialData: props.messages ?? [],
-    }
-  )
+    refetchInterval: 30000,
+    initialData: props.messages ?? [],
+  })
   const { messages } = useSnapshot(guestbookState)
   React.useEffect(() => {
     setMessages(feed ?? [])

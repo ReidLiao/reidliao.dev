@@ -1,4 +1,4 @@
-import { HighlightIcon } from '@sanity/icons'
+import { HighlightIcon } from '@sanity/icons/Highlight'
 
 export function TextColorMarkIcon() {
   return (

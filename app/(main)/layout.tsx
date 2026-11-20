@@ -30,7 +30,7 @@ export default async function BlogLayout({
 }) {
   const announcement = await getAnnouncement().catch(() => null)
   const announcementImageUrl = announcement?.image
-    ? urlForImage(announcement.image as unknown as SanityImage)
+      ? urlForImage(announcement.image as SanityImage)
         .width(1200)
         .height(675)
         .fit('crop')

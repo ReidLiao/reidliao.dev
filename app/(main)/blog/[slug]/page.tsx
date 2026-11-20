@@ -10,11 +10,12 @@ import { pageMetadata } from '~/lib/page-metadata'
 import { postModifiedAt } from '~/lib/post-dates'
 import { getBlogPost } from '~/sanity/queries'
 
-export const generateMetadata = async ({
-  params,
-}: {
-  params: { slug: string }
-}) => {
+export const generateMetadata = async (
+  props: {
+    params: Promise<{ slug: string }>
+  }
+) => {
+  const params = await props.params;
   const post = await getBlogPost(params.slug)
   if (!post) {
     notFound()
@@ -66,11 +67,12 @@ export const generateMetadata = async ({
   } satisfies Metadata
 }
 
-export default async function BlogPage({
-  params,
-}: {
-  params: { slug: string }
-}) {
+export default async function BlogPage(
+  props: {
+    params: Promise<{ slug: string }>
+  }
+) {
+  const params = await props.params;
   const post = await getBlogPost(params.slug)
   if (!post) {
     notFound()

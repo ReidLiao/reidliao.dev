@@ -1,4 +1,4 @@
-import { clerkClient, currentUser } from '@clerk/nextjs'
+import { clerkClient, currentUser } from '@clerk/nextjs/server'
 import { Ratelimit } from '@upstash/ratelimit'
 import { and, asc, eq } from 'drizzle-orm'
 import { type NextRequest, NextResponse } from 'next/server'
@@ -9,7 +9,6 @@ import { db } from '~/db'
 import {
   type CommentDto,
   CommentHashids,
-  type PostIDLessCommentDto,
 } from '~/db/dto/comment.dto'
 import { comments } from '~/db/schema'
 import NewReplyCommentEmail from '~/emails/NewReplyComment'
@@ -17,6 +16,7 @@ import { env } from '~/env.mjs'
 import { url } from '~/lib'
 import { resend } from '~/lib/mail'
 import { redis } from '~/lib/redis'
+import { getTrustedProxyIp } from '~/lib/trusted-proxy-ip'
 import { client } from '~/sanity/lib/client'
 
 const ratelimit = new Ratelimit({
@@ -29,13 +29,14 @@ function getKey(id: string) {
   return `comments:${id}`
 }
 
-type Params = { params: { id: string } }
-export async function GET(req: NextRequest, { params }: Params) {
+type Params = { params: Promise<{ id: string }> }
+export async function GET(req: NextRequest, props: Params) {
+  const params = await props.params;
   try {
     const postId = params.id
 
     const { success } = await ratelimit.limit(
-      getKey(postId) + `_${req.ip ?? ''}`
+      getKey(postId) + `_${getTrustedProxyIp(req) ?? ''}`
     )
     if (!success) {
       return NextResponse.json(
@@ -58,15 +59,12 @@ export async function GET(req: NextRequest, { params }: Params) {
       .orderBy(asc(comments.createdAt))
 
     return NextResponse.json(
-      data.map(
-        ({ id, parentId, ...rest }) =>
-          ({
-            ...rest,
-            id: CommentHashids.encode(id),
-            parentId: parentId ? CommentHashids.encode(parentId) : null,
-          }) as PostIDLessCommentDto
-      )
-    )
+      data.map(({ id, parentId, ...rest }) => ({
+        ...rest,
+        id: CommentHashids.encode(id),
+        parentId: parentId ? CommentHashids.encode(parentId) : null,
+      })),
+    );
   } catch (error) {
     console.error('[Comments GET]', error)
     return NextResponse.json(
@@ -84,7 +82,8 @@ const CreateCommentSchema = z.object({
   parentId: z.string().nullable().optional(),
 })
 
-export async function POST(req: NextRequest, { params }: Params) {
+export async function POST(req: NextRequest, props: Params) {
+  const params = await props.params;
   try {
     const user = await currentUser()
     if (!user) {
@@ -93,7 +92,7 @@ export async function POST(req: NextRequest, { params }: Params) {
 
     const postId = params.id
     const { success } = await ratelimit.limit(
-      getKey(postId) + `_${req.ip ?? ''}`
+      getKey(postId) + `_${getTrustedProxyIp(req) ?? ''}`
     )
     if (!success) {
       return NextResponse.json(
@@ -150,7 +149,7 @@ export async function POST(req: NextRequest, { params }: Params) {
         parentUserFromDb.userId !== user.id
       ) {
         const { primaryEmailAddressId, emailAddresses } =
-          await clerkClient.users.getUser(parentUserFromDb.userId)
+          await (await clerkClient()).users.getUser(parentUserFromDb.userId)
         const primaryEmailAddress = emailAddresses.find(
           (emailAddress) => emailAddress.id === primaryEmailAddressId
         )

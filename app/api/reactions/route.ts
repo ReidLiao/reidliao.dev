@@ -3,6 +3,7 @@ import { revalidateTag } from 'next/cache'
 import { type NextRequest, NextResponse } from 'next/server'
 
 import { getReactions, redis } from '~/lib/redis'
+import { getTrustedProxyIp } from '~/lib/trusted-proxy-ip'
 
 export const runtime = 'nodejs'
 
@@ -21,7 +22,9 @@ export async function GET(req: NextRequest) {
   const id = searchParams.get('id')
   if (!id) return new Response('Missing id', { status: 400 })
 
-  const { success } = await ratelimit.limit(getKey(id) + `_${req.ip ?? ''}`)
+  const { success } = await ratelimit.limit(
+    getKey(id) + `_${getTrustedProxyIp(req) ?? ''}`
+  )
   if (!success) {
     return new Response('Too Many Requests', {
       status: 429,
@@ -41,7 +44,9 @@ export async function PATCH(req: NextRequest) {
 
   const key = getKey(id)
 
-  const { success } = await ratelimit.limit(key + `_${req.ip ?? ''}`)
+  const { success } = await ratelimit.limit(
+    key + `_${getTrustedProxyIp(req) ?? ''}`
+  )
   if (!success) {
     return new Response('Too Many Requests', {
       status: 429,
@@ -57,7 +62,7 @@ export async function PATCH(req: NextRequest) {
 
   await redis.set(key, current)
 
-  revalidateTag(key)
+  revalidateTag(key, { expire: 0 })
 
   return NextResponse.json({
     data: current,

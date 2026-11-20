@@ -1,6 +1,7 @@
 'use client'
 
 import { useUser } from '@clerk/nextjs'
+import { useMutation } from '@tanstack/react-query'
 import { clsxm } from '@zolplay/utils'
 import {
   AnimatePresence,
@@ -10,8 +11,7 @@ import {
 } from 'framer-motion'
 import Image from 'next/image'
 import React from 'react'
-import { useMutation } from 'react-query'
-import { useReward } from 'react-rewards'
+import { emoji, useReward } from 'react-rewards'
 import TextareaAutosize from 'react-textarea-autosize'
 
 import { signBook } from '~/app/(main)/guestbook/guestbook.state'
@@ -27,11 +27,10 @@ type GuestbookErrorResponse = {
   error?: unknown
 }
 const MAX_ANONYMOUS_MESSAGE_LENGTH = 120
-const REWARDS_ID = 'guestbook-rewards'
-
 export function GuestbookInput() {
   const { user, isLoaded } = useUser()
   const textareaRef = React.useRef<HTMLTextAreaElement>(null)
+  const rewardsRef = React.useRef<HTMLDivElement>(null)
   const [message, setMessage] = React.useState('')
   const [isPreviewing, setIsPreviewing] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
@@ -39,9 +38,8 @@ export function GuestbookInput() {
   const maxLength = user ? MAX_MESSAGE_LENGTH : MAX_ANONYMOUS_MESSAGE_LENGTH
   const avatarUrl = user?.imageUrl ?? '/avatar.png'
 
-  const { reward } = useReward(REWARDS_ID, 'emoji', {
-    position: 'absolute',
-    emoji: [
+  const { reward } = useReward(rewardsRef, emoji, {
+    emojis: [
       '🤓',
       '😊',
       '🥳',
@@ -62,12 +60,12 @@ export function GuestbookInput() {
       '👀',
       '👨🏻‍💻',
     ],
-    elementCount: 62,
+    count: 62,
   })
 
-  const { mutate: signGuestbook, isLoading } = useMutation(
-    ['guestbook'],
-    async () => {
+  const { mutate: signGuestbook, isPending: isLoading } = useMutation({
+    mutationKey: ['guestbook'],
+    mutationFn: async () => {
       setError(null)
       const res = await fetch('/api/guestbook', {
         method: 'POST',
@@ -92,18 +90,16 @@ export function GuestbookInput() {
       const data: GuestbookDto = await res.json()
       return data
     },
-    {
-      onSuccess: (data) => {
+    onSuccess: (data) => {
         setMessage('')
         setIsPreviewing(false)
         reward()
         signBook(data)
-      },
-      onError: (err: Error) => {
+    },
+    onError: (err: Error) => {
         setError(err.message)
-      },
-    }
-  )
+    },
+  })
 
   const onClickSend = () => {
     if (isLoading || message.trim().length === 0) {
@@ -332,7 +328,7 @@ export function GuestbookInput() {
           </aside>
           <div
             className="pointer-events-none absolute bottom-0 right-0 w-1/2 select-none"
-            id={REWARDS_ID}
+            ref={rewardsRef}
           />
         </footer>
       </div>

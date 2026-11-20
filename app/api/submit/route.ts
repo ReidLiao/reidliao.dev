@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { emailConfig } from '~/config/email'
 import { resend } from '~/lib/mail'
 import { redis } from '~/lib/redis'
+import { getTrustedProxyIp } from '~/lib/trusted-proxy-ip'
 
 const submissionSchema = z.object({
   type: z.enum(['软件', '资源']),
@@ -36,7 +37,7 @@ export async function POST(req: NextRequest) {
     }
     const input = submissionSchema.parse(payload)
 
-    const ip = req.ip ?? req.headers.get('x-real-ip') ?? 'unknown'
+    const ip = getTrustedProxyIp(req) ?? 'unknown'
     const { success } = await ratelimit.limit(ip)
     if (!success) {
       return NextResponse.json(

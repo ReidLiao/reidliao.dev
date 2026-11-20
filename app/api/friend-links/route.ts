@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { emailConfig } from '~/config/email'
 import { resend } from '~/lib/mail'
 import { redis } from '~/lib/redis'
+import { getTrustedProxyIp } from '~/lib/trusted-proxy-ip'
 
 const applicationSchema = z.object({
   siteName: z.string().trim().min(1).max(80),
@@ -29,7 +30,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: '申请已收到，审核通过后会显示在关于页。' })
     }
 
-    const ip = req.ip ?? req.headers.get('x-real-ip') ?? 'unknown'
+    const ip = getTrustedProxyIp(req) ?? 'unknown'
     const { success } = await ratelimit.limit(ip)
     if (!success) {
       return NextResponse.json(

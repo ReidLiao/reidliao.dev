@@ -431,11 +431,12 @@ export const zhCN = {
       },
     },
     passwordPage: {
-      title: '设置密码',
-      changePasswordTitle: '更改密码',
-      successMessage: '您的密码已设置。',
-      changePasswordSuccessMessage: '您的密码已更新。',
-      sessionsSignedOutSuccessMessage: '所有其他设备已退出。',
+      title__set: '设置密码',
+      title__update: '更改密码',
+      successMessage__set: '您的密码已设置。',
+      successMessage__update: '您的密码已更新。',
+      successMessage__signOutOfOtherSessions: '所有其他设备已退出。',
+      readonly: '密码由您的身份提供商管理。',
     },
     mfaPage: {
       title: '添加两步验证',
@@ -548,8 +549,8 @@ export const zhCN = {
       detailsTitle__emptyRow: '没有可显示的成员',
       action__invite: '邀请',
       start: {
-        headerTitle__active: '活跃',
-        headerTitle__invited: '已邀请',
+        headerTitle__members: '活跃',
+        headerTitle__invitations: '已邀请',
       },
       activeMembersTab: {
         tableHeader__user: '用户',

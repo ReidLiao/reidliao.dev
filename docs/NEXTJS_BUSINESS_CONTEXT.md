@@ -26,7 +26,7 @@
 
 | 层 | 选型 |
 |----|------|
-| 框架 | Next.js 14 App Router + React 18 |
+| 框架 | Next.js 16 App Router + React 19 |
 | CMS | Sanity 3 + Studio `/studio` |
 | 鉴权 | Clerk（留言墙登录、Admin `siteOwner`） |
 | 数据库 | Neon Postgres + Drizzle（留言、评论、订阅、newsletter） |
@@ -37,7 +37,7 @@
 | 包管理 | pnpm 8.15.8（Docker corepack） |
 | 部署 | 本机构建 Docker 镜像 → 传到 VPS → Dockge / Compose；前置 Nginx Proxy Manager（底层为 OpenResty，`Server` 头显示 `openresty` 属正常） |
 
-关键文件：`package.json`、`env.mjs`、`.env.example`、`sanity.config.ts`、`middleware.ts`、`Dockerfile`、`docker-compose.yml`。
+关键文件：`package.json`、`env.mjs`、`.env.example`、`sanity.config.ts`、`proxy.ts`、`Dockerfile`、`docker-compose.yml`。
 
 ---
 
@@ -99,7 +99,7 @@
 - 首页/文章详情页设有 600 秒 ISR 兜底；Sanity 查询带 `posts` / `post:{slug}` / `settings` tags。网站设置查询与共享布局公告查询的兜底为 60 秒，Webhook 会主动失效对应 tags/paths。
 - `/blog` 读取 `searchParams`（分类、分页），所以该筛选页面按请求渲染；其 Sanity 列表、分类计数和总数仍使用 600 秒 Data Cache，并由 `posts` tag 即时失效。
 - 留言墙、订阅确认、往期 newsletter 读取 Neon 数据，显式保持动态渲染；Footer 移除 `noStore()` 不会把这些页面缓存。
-- Middleware 访客统计仍是 fire-and-forget；它只做响应旁路统计，不设置页面缓存头。未启用 Cache Components。
+- `proxy.ts` 访客统计仍是 fire-and-forget；它只做响应旁路统计，不设置页面缓存头。未启用 Cache Components。
 
 ### 4.3 图片管道（性能关键）
 
@@ -113,13 +113,15 @@
 
 - **段落留言**：Portable Text 段落/标题旁 `Commentable` → Neon `comments`
 - **反应**：`BlogReactions` + Redis
-- **浏览量**：文章 `INCR`；页脚总浏览 / 最近访客 geo（middleware **fire-and-forget**，不阻塞响应）
+- **浏览量**：文章 `INCR`；页脚总浏览 / 最近访客 geo（`proxy.ts` **fire-and-forget**，不阻塞响应）
 - **留言墙 / 订阅**：Clerk + Neon + Resend
 - **链接预览**：默认关闭（`NEXT_PUBLIC_SITE_LINK_PREVIEW_ENABLED`）
 
 ### 4.5 鉴权边界
 
-- Middleware：Clerk `publicRoutes` 含 catch-all → **页面级不强制登录**
+- Proxy：Clerk 不在全站强制登录；Admin 仍由布局中的 `siteOwner` 单独校验。访客统计保持 fire-and-forget。
+- Proxy IP：只读反向代理覆盖写入的 `X-Real-IP`，不信任 `X-Forwarded-For` 链。Nginx Proxy Manager 必须覆盖该头，并阻止绕过反代直连应用端口，否则客户端可伪造该头影响限流/地理统计。
+- Next.js 16：Turbopack 为默认开发/构建打包器；Cache Components 保持关闭；自定义 `images.loader` 仍由 `lib/image-loader.ts` 提供。
 - Admin：布局内检查 `siteOwner`
 - `/studio`：Sanity 自身登录
 
@@ -285,7 +287,7 @@ Sanity(内容) ──webhook──► /api/revalidate ──► ISR tags
 Next 页面渲染 ◄── Neon(互动/订阅) ◄── Clerk
      │
      ├── 图片 ──► /api/img + 磁盘缓存
-     ├── 计数/反应/访客 ──► Upstash Redis（middleware 不阻塞）
+     ├── 计数/反应/访客 ──► Upstash Redis（proxy 不阻塞）
      └── 邮件 ──► Resend
 
 Docker 本机 build（secret 注入 .env）→ 镜像 → VPS Dockge + NPM
@@ -308,7 +310,7 @@ Docker 本机 build（secret 注入 .env）→ 镜像 → VPS Dockge + NPM
 | 下载块 | `components/portable-text/PortableTextDownload.tsx` |
 | 文章 Schema | `sanity/schemas/post.ts` |
 | 查询 | `sanity/queries.ts` |
-| 中间件 | `middleware.ts` |
+| Proxy / 访客统计 | `proxy.ts`、`lib/trusted-proxy-ip.ts` |
 | Docker | `Dockerfile`、`.dockerignore`、`docker-compose.yml` |
 
 ---

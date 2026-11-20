@@ -7,7 +7,7 @@ export function Card({
   children,
   ...props
 }: {
-  as?: keyof JSX.IntrinsicElements
+  as?: React.ElementType
   className?: string
   children: React.ReactNode
   onMouseMove?: React.MouseEventHandler

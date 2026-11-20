@@ -58,17 +58,6 @@ export type BlogPostSitemapEntry = {
   updatedAt?: string | null
 }
 
-export const getAllLatestBlogPostSlugsQuery = () =>
-  groq`
-  *[_type == "post" && !(_id in path("drafts.**"))
-  && publishedAt <="${getDate().toISOString()}"
-  && defined(slug.current)] | order(publishedAt desc).slug.current
-  `
-
-export const getAllLatestBlogPostSlugs = () => {
-  return client.fetch<string[]>(getAllLatestBlogPostSlugsQuery())
-}
-
 export const getBlogPostsForSitemapQuery = () =>
   groq`
   *[_type == "post" && !(_id in path("drafts.**"))

@@ -5,7 +5,7 @@ import { clsxm } from '@zolplay/utils'
 import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { useReward } from 'react-rewards'
+import { emoji, useReward } from 'react-rewards'
 import { z } from 'zod'
 
 import { TiltedSendIcon } from '~/assets'
@@ -38,10 +38,10 @@ export function Newsletter({
   })
   const [isSubscribed, setIsSubscribed] = React.useState(false)
   const [submitError, setSubmitError] = React.useState('')
-  const { reward } = useReward('newsletter-rewards', 'emoji', {
-    position: 'absolute',
-    emoji: ['📬', '✉️', '🎉', '🥳', '😊', '🤓'],
-    elementCount: 32,
+  const rewardsRef = React.useRef<HTMLSpanElement>(null)
+  const { reward } = useReward(rewardsRef, emoji, {
+    emojis: ['📬', '✉️', '🎉', '🥳', '😊', '🤓'],
+    count: 32,
   })
   const onSubmit = React.useCallback(
     async (data: NewsletterForm) => {
@@ -148,7 +148,7 @@ export function Newsletter({
           </motion.p>
         )}
       </AnimatePresence>
-      <span id="newsletter-rewards" className="relative h-0 w-0" />
+      <span ref={rewardsRef} className="relative h-0 w-0" />
       {errors.email && (
         <p id="newsletter-email-error" role="alert" aria-live="assertive" className="mt-2 text-xs font-medium text-red-600 dark:text-red-400">
           {errors.email.message}

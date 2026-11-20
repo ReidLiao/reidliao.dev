@@ -11,6 +11,7 @@ import { env } from '~/env.mjs'
 import { url } from '~/lib'
 import { resend } from '~/lib/mail'
 import { redis } from '~/lib/redis'
+import { getTrustedProxyIp } from '~/lib/trusted-proxy-ip'
 
 const newsletterFormSchema = z.object({
   email: z.string().email().min(1),
@@ -25,7 +26,9 @@ const ratelimit = new Ratelimit({
 export async function POST(req: NextRequest) {
   try {
     if (env.NODE_ENV === 'production') {
-      const { success } = await ratelimit.limit('subscribe_' + (req.ip ?? ''))
+      const { success } = await ratelimit.limit(
+        'subscribe_' + (getTrustedProxyIp(req) ?? '')
+      )
       if (!success) {
         return NextResponse.json(
           { error: '请求过于频繁，请稍后再试' },

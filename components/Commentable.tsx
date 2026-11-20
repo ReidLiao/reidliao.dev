@@ -3,6 +3,7 @@
 import 'dayjs/locale/zh-cn'
 
 import { SignedIn, SignedOut, SignInButton, useUser } from '@clerk/nextjs'
+import { useMutation } from '@tanstack/react-query'
 import { clsxm } from '@zolplay/utils'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -10,7 +11,6 @@ import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import React from 'react'
-import { useMutation } from 'react-query'
 import TextareaAutosize from 'react-textarea-autosize'
 import { useSnapshot } from 'valtio'
 
@@ -101,9 +101,9 @@ function Root({ className, blockId }: CommentableProps) {
     }, 300)
   }, [])
 
-  const { mutate: createComment, isLoading } = useMutation(
-    ['comment', postId],
-    async (comment: string) => {
+  const { mutate: createComment, isPending: isLoading } = useMutation({
+    mutationKey: ['comment', postId],
+    mutationFn: async (comment: string) => {
       const res = await fetch(`/api/comments/${postId}`, {
         method: 'POST',
         headers: {
@@ -120,8 +120,7 @@ function Root({ className, blockId }: CommentableProps) {
       const data: CommentDto = await res.json()
       return data
     },
-    {
-      onSuccess: (data) => {
+    onSuccess: (data) => {
         addComment(data)
 
         window.requestAnimationFrame(() => {
@@ -129,9 +128,8 @@ function Root({ className, blockId }: CommentableProps) {
         })
 
         window.dispatchEvent(new CustomEvent('clear-comment'))
-      },
-    }
-  )
+    },
+  })
   const onSubmit = React.useCallback(
     (e?: React.FormEvent<HTMLFormElement> | string) => {
       let comment = ''
@@ -292,7 +290,7 @@ function Root({ className, blockId }: CommentableProps) {
                       <div className="flex justify-center">
                         <SignInButton
                           mode="modal"
-                          redirectUrl={url(pathname).href}
+                          forceRedirectUrl={url(pathname).href}
                         >
                           <Button type="button">
                             <UserArrowLeftIcon className="mr-1 h-5 w-5" />

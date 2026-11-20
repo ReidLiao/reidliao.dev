@@ -1,10 +1,11 @@
-import { authMiddleware } from '@clerk/nextjs'
+import { clerkMiddleware } from '@clerk/nextjs/server'
 import { type NextRequest, NextResponse } from 'next/server'
 
 import { kvKeys } from '~/config/kv'
 import countries from '~/lib/countries.json'
 import { isProduction } from '~/lib/is-production'
 import { redis } from '~/lib/redis'
+import { getTrustedProxyIp } from '~/lib/trusted-proxy-ip'
 
 export const config = {
   matcher: ['/((?!_next|studio|.*\\..*).*)'],
@@ -14,14 +15,7 @@ const GEO_CACHE_TTL_SECONDS = 60 * 60 * 24
 const IP_LOOKUP_TIMEOUT_MS = 2500
 
 function getClientIP(req: NextRequest): string {
-  let ip =
-    req.headers.get('x-forwarded-for') ||
-    req.headers.get('x-real-ip') ||
-    '127.0.0.1'
-
-  if (ip.includes(',')) {
-    ip = ip.split(',')[0].trim()
-  }
+  const ip = getTrustedProxyIp(req) ?? '127.0.0.1'
 
   if (ip === '::1') {
     return '127.0.0.1'
@@ -114,24 +108,4 @@ function beforeAuthMiddleware(req: NextRequest) {
   return NextResponse.next()
 }
 
-export default authMiddleware({
-  beforeAuth: beforeAuthMiddleware,
-  publicRoutes: [
-    '/',
-    '/studio(.*)',
-    '/api(.*)',
-    '/blog(.*)',
-    '/confirm(.*)',
-    '/vps',
-    '/guestbook',
-    '/newsletters(.*)',
-    '/about',
-    '/rss',
-    '/feed',
-    '/sign-in(.*)',
-    '/blocked',
-    // Allow unmatched routes (404) without redirecting to sign-in.
-    // /admin is still protected by app/admin/layout.tsx (siteOwner check).
-    '/(.*)',
-  ],
-})
+export default clerkMiddleware((_auth, req) => beforeAuthMiddleware(req))
