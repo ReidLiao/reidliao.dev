@@ -5,6 +5,12 @@
   "engines": {
     "node": ">=20.9.0"
   },
+  "browserslist": [
+    "chrome 111",
+    "edge 111",
+    "firefox 111",
+    "safari 16.4"
+  ],
   "scripts": {
     "build": "next build",
     "db:generate": "drizzle-kit generate:pg",
