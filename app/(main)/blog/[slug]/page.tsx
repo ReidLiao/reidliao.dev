@@ -1,9 +1,12 @@
+import { parseDateTime } from '@zolplay/utils'
 import { type Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import { BlogPostPage } from '~/app/(main)/blog/BlogPostPage'
 import { LivePostMetricsProvider } from '~/app/(main)/blog/LivePostMetrics'
+import { QueryProvider } from '~/app/QueryProvider'
 import { JsonLd } from '~/components/JsonLd'
+import { PostPortableText } from '~/components/PostPortableText'
 import { url } from '~/lib'
 import { cdnImageSrc } from '~/lib/cdn-image'
 import { pageMetadata } from '~/lib/page-metadata'
@@ -91,7 +94,7 @@ export default async function BlogPage(
     '@context': 'https://schema.org',
     '@graph': [
       {
-        '@type': 'Article',
+        '@type': 'BlogPosting',
         '@id': `${postUrl}#article`,
         mainEntityOfPage: {
           '@type': 'WebPage',
@@ -135,7 +138,19 @@ export default async function BlogPage(
         ]}
         incrementPostId={post._id}
       >
-        <BlogPostPage post={post} />
+      <QueryProvider>
+        <BlogPostPage
+          post={post}
+          publishedDate={
+            parseDateTime({
+              date: new Date(post.publishedAt),
+              timezone: 'UTC',
+            })?.format('YYYY/MM/DD') ?? ''
+          }
+        >
+          <PostPortableText value={post.body} />
+        </BlogPostPage>
+      </QueryProvider>
       </LivePostMetricsProvider>
     </>
   )

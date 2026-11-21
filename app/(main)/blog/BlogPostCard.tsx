@@ -16,7 +16,7 @@ import { LivePostViewCount } from './LivePostMetrics'
 
 export function BlogPostCard({ post }: { post: Post }) {
   const { title, slug, mainImage, publishedAt, categories, readingTime } = post
-  const coverSrc = cdnImageSrc(mainImage.asset.url, { width: 840, quality: 75 })
+  const coverSrc = cdnImageSrc(mainImage.asset.url, { width: 1200, quality: 90 })
 
   return (
     <Link
@@ -37,7 +37,7 @@ export function BlogPostCard({ post }: { post: Post }) {
           placeholder="blur"
           blurDataURL={mainImage.asset.lqip}
           fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px"
+          sizes="(max-width: 640px) calc(100vw - 2rem), (max-width: 1024px) calc(50vw - 2rem), 420px"
           loading="lazy"
         />
         <PostAuthorBadge size="md" />
@@ -52,9 +52,10 @@ export function BlogPostCard({ post }: { post: Post }) {
             <span className="inline-flex items-center space-x-1 text-[12px] font-medium md:text-sm">
               <CalendarIcon />
               <span>
-                {parseDateTime({ date: new Date(publishedAt) })?.format(
-                  'YYYY/MM/DD'
-                )}
+                {parseDateTime({
+                  date: new Date(publishedAt),
+                  timezone: 'UTC',
+                })?.format('YYYY/MM/DD')}
               </span>
             </span>
 

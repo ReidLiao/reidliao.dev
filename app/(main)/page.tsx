@@ -6,6 +6,7 @@ import { LimitedOffers } from '~/app/(main)/LimitedOffers'
 import { Newsletter } from '~/app/(main)/Newsletter'
 import { Photos } from '~/app/(main)/Photos'
 import { PencilSwooshIcon } from '~/assets'
+import { BreadcrumbJsonLd } from '~/components/BreadcrumbJsonLd'
 import { Container } from '~/components/ui/Container'
 import { getSettings } from '~/sanity/queries'
 
@@ -14,6 +15,7 @@ export default async function BlogHomePage() {
 
   return (
     <>
+      <BreadcrumbJsonLd items={[{ name: '首页', path: '/' }]} />
       <Container className="mt-10">
         <Headline />
       </Container>

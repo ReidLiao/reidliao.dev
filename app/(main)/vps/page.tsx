@@ -2,13 +2,14 @@ import { type Metadata } from 'next'
 import Balancer from 'react-wrap-balancer'
 
 import { Projects } from '~/app/(main)/vps/Projects'
+import { BreadcrumbJsonLd } from '~/components/BreadcrumbJsonLd'
 import { Container } from '~/components/ui/Container'
 import { url } from '~/lib'
 import { pageMetadata } from '~/lib/page-metadata'
 
 const title = '机房'
 const description =
-  '这里只收录我真正上手部署、长期跑站的 VPS 与线路。不谈纸面参数，只看实际表现。'
+  '这里记录我实际部署并长期用于跑站的 VPS 与线路体验，关注真实使用表现与适用场景；页面也列出相关服务与装备，并注明推广链接信息。'
 export const metadata = {
   title,
   description,
@@ -38,6 +39,12 @@ function Highlight({ children }: { children: React.ReactNode }) {
 export default function ProjectsPage() {
   return (
     <Container className="mt-16 sm:mt-32">
+      <BreadcrumbJsonLd
+        items={[
+          { name: '首页', path: '/' },
+          { name: title, path: '/vps' },
+        ]}
+      />
       <header className="max-w-2xl">
         <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
           <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">

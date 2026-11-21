@@ -36,7 +36,7 @@ function AvatarImage({
       {...props}
     >
       <Image
-        src="/avatar.png"
+        src={large ? '/avatar-128.webp' : '/avatar-64.webp'}
         alt="青柠夜栈"
         width={large ? 64 : 36}
         height={large ? 64 : 36}
@@ -44,8 +44,7 @@ function AvatarImage({
           'rounded-full bg-zinc-100 object-cover [clip-path:circle(46%_at_50%_50%)] dark:bg-zinc-800',
           large ? 'h-16 w-16' : 'h-9 w-9'
         )}
-        priority
-        unoptimized
+        priority={large}
       />
     </Link>
   )

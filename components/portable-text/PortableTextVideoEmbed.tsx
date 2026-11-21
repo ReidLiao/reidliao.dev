@@ -1,6 +1,5 @@
 'use client'
 
-import { type PortableTextComponentProps } from '@portabletext/react'
 import React from 'react'
 
 function parseVideoEmbed(url: string): {
@@ -77,11 +76,7 @@ function parseVideoEmbed(url: string): {
 
 export function PortableTextVideoEmbed({
   value,
-}: PortableTextComponentProps<{
-  _key: string
-  url: string
-  title?: string
-}>) {
+}: { value: { _key: string; url: string; title?: string } }) {
   const embed = React.useMemo(
     () => (value.url ? parseVideoEmbed(value.url) : null),
     [value.url]
@@ -118,7 +113,7 @@ export function PortableTextVideoEmbed({
           <video
             controls
             playsInline
-            preload="metadata"
+            preload="none"
             className="aspect-video w-full"
             src={embed.src}
           >

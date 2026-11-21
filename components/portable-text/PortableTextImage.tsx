@@ -1,6 +1,5 @@
 'use client'
 
-import { type PortableTextComponentProps } from '@portabletext/react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { clsxm } from '@zolplay/utils'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -13,17 +12,19 @@ import { cdnImageSrc } from '~/lib/cdn-image'
 
 export function PortableTextImage({
   value,
-}: PortableTextComponentProps<{
-  _key: string
-  url: string
-  dimensions: {
-    width: number
-    height: number
+}: {
+  value: {
+    _key: string
+    url: string
+    dimensions: {
+      width: number
+      height: number
+    }
+    lqip?: string
+    label?: string
+    alt?: string
   }
-  lqip?: string
-  label?: string
-  alt?: string
-}>) {
+}) {
   const [isZoomed, setIsZoomed] = React.useState(false)
   const hasLabel = React.useMemo(
     () => typeof value.label === 'string' && value.label.length > 0,

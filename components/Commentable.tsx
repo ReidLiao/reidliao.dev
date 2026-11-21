@@ -3,7 +3,7 @@
 import 'dayjs/locale/zh-cn'
 
 import { Show, SignInButton, useUser } from '@clerk/nextjs'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { clsxm } from '@zolplay/utils'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -55,9 +55,12 @@ type CommentableProps = {
 
 function Root({ className, blockId }: CommentableProps) {
   const pathname = usePathname()
+  const queryClient = useQueryClient()
   const { postId, comments, currentBlockId } = useSnapshot(blogPostState)
   const { user: me } = useUser()
   const [isCommenting, setIsCommenting] = React.useState(false)
+  const [isLoadingComments, setIsLoadingComments] = React.useState(false)
+  const [commentsLoadError, setCommentsLoadError] = React.useState(false)
   const currentComments = React.useMemo(
     () => comments.filter((c) => c.body.blockId === blockId),
     [comments, blockId]
@@ -89,6 +92,36 @@ function Root({ className, blockId }: CommentableProps) {
 
   const formRef = React.useRef<HTMLFormElement>(null)
   const commentsRef = React.useRef<HTMLUListElement>(null)
+  const loadComments = React.useCallback(async () => {
+    if (!postId) return
+
+    setIsLoadingComments(true)
+    setCommentsLoadError(false)
+    try {
+      const loadedComments = await queryClient.fetchQuery({
+        queryKey: ['comments', postId],
+        queryFn: async () => {
+          const response = await fetch(`/api/comments/${postId}`)
+          if (!response.ok) throw new Error('Failed to load comments')
+          return (await response.json()) as PostIDLessCommentDto[]
+        },
+        staleTime: Infinity,
+      })
+      loadedComments.forEach((comment) => {
+        if (!blogPostState.comments.some(({ id }) => id === comment.id)) {
+          addComment(comment)
+        }
+      })
+    } catch {
+      setCommentsLoadError(true)
+    } finally {
+      setIsLoadingComments(false)
+    }
+  }, [postId, queryClient])
+
+  React.useEffect(() => {
+    if (isCommenting) void loadComments()
+  }, [isCommenting, loadComments])
   const scrollToComment = React.useCallback((id: string) => {
     setTimeout(() => {
       if (commentsRef.current) {
@@ -121,6 +154,10 @@ function Root({ className, blockId }: CommentableProps) {
       return data
     },
     onSuccess: (data) => {
+        queryClient.setQueryData<PostIDLessCommentDto[]>(
+          ['comments', postId],
+          (comments = []) => [...comments, data]
+        )
         addComment(data)
 
         window.requestAnimationFrame(() => {
@@ -259,6 +296,19 @@ function Root({ className, blockId }: CommentableProps) {
                   <XIcon className="h-6 w-6 rounded-full border border-zinc-400/20 bg-white/95 p-1 text-zinc-500 backdrop-blur transition-all group-hover:w-12 group-hover:text-zinc-700 dark:border-zinc-500/30 dark:bg-zinc-800/95 dark:text-zinc-400 dark:group-hover:text-zinc-200" />
                 </button>
                 <main className="flex w-[clamp(140px,75vw,300px)] flex-col">
+                  {isLoadingComments ? (
+                    <p role="status" className="py-2 text-center text-xs text-zinc-500 dark:text-zinc-400">
+                      正在加载评论…
+                    </p>
+                  ) : null}
+                  {commentsLoadError ? (
+                    <p role="alert" className="py-2 text-center text-xs text-zinc-600 dark:text-zinc-400">
+                      评论暂时无法加载。{' '}
+                      <button type="button" className="underline underline-offset-2" onClick={() => void loadComments()}>
+                        重试
+                      </button>
+                    </p>
+                  ) : null}
                   {currentComments.length > 0 && (
                     <header className="-mx-4 -mt-4 rounded-t-xl border-b border-zinc-400/20 bg-zinc-100/50 dark:border-zinc-300/10 dark:bg-black/20">
                       <ul

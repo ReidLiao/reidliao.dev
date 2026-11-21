@@ -1,17 +1,18 @@
 import './blog/[slug]/blog.css'
 
+import { ClerkProvider } from '@clerk/nextjs'
 import { Suspense } from 'react'
 import type { Image as SanityImage } from 'sanity'
 
 import { Footer } from '~/app/(main)/Footer'
 import { Header } from '~/app/(main)/Header'
-import { QueryProvider } from '~/app/QueryProvider'
 import { BackToTop } from '~/components/BackToTop'
 import { FirstVisitAnnouncement } from '~/components/FirstVisitAnnouncement'
 import { FloatingContact } from '~/components/FloatingContact'
 import { JsonLd } from '~/components/JsonLd'
 import { MotionProvider } from '~/components/MotionProvider'
 import { url } from '~/lib'
+import { zhCN } from '~/lib/clerkLocalizations'
 import { seo } from '~/lib/seo'
 import { urlForImage } from '~/sanity/lib/image'
 import { getAnnouncement } from '~/sanity/queries'
@@ -85,7 +86,7 @@ export default async function BlogLayout({
         </div>
       </div>
 
-      <QueryProvider>
+      <ClerkProvider localization={zhCN} afterSignOutUrl={url('/').href}>
         <MotionProvider>
           <div className="relative text-zinc-800 transition-colors duration-300 dark:text-zinc-200">
             <Header />
@@ -98,7 +99,7 @@ export default async function BlogLayout({
           <FloatingContact />
           <FirstVisitAnnouncement announcement={announcement ? { ...announcement, imageUrl: announcementImageUrl } : null} />
         </MotionProvider>
-      </QueryProvider>
+      </ClerkProvider>
     </>
   )
 }

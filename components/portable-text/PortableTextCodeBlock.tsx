@@ -1,97 +1,85 @@
 'use client'
 
-import { type PortableTextComponentProps } from '@portabletext/react'
 import React from 'react'
-import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
-import bash from 'react-syntax-highlighter/dist/esm/languages/prism/bash'
-import css from 'react-syntax-highlighter/dist/esm/languages/prism/css'
-import diff from 'react-syntax-highlighter/dist/esm/languages/prism/diff'
-import docker from 'react-syntax-highlighter/dist/esm/languages/prism/docker'
-import go from 'react-syntax-highlighter/dist/esm/languages/prism/go'
-import ini from 'react-syntax-highlighter/dist/esm/languages/prism/ini'
-import javascript from 'react-syntax-highlighter/dist/esm/languages/prism/javascript'
-import json from 'react-syntax-highlighter/dist/esm/languages/prism/json'
-import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx'
-import markdown from 'react-syntax-highlighter/dist/esm/languages/prism/markdown'
-import markup from 'react-syntax-highlighter/dist/esm/languages/prism/markup'
-import nginx from 'react-syntax-highlighter/dist/esm/languages/prism/nginx'
-import python from 'react-syntax-highlighter/dist/esm/languages/prism/python'
-import scss from 'react-syntax-highlighter/dist/esm/languages/prism/scss'
-import sql from 'react-syntax-highlighter/dist/esm/languages/prism/sql'
-import toml from 'react-syntax-highlighter/dist/esm/languages/prism/toml'
-import tsx from 'react-syntax-highlighter/dist/esm/languages/prism/tsx'
-import typescript from 'react-syntax-highlighter/dist/esm/languages/prism/typescript'
-import yaml from 'react-syntax-highlighter/dist/esm/languages/prism/yaml'
 
 import { ClipboardCheckIcon, ClipboardDataIcon } from '~/assets'
 import { ClientOnly } from '~/components/ClientOnly'
 import { Commentable } from '~/components/Commentable'
 import { ElegantTooltip } from '~/components/ui/Tooltip'
 
-// 只注册常用语言，避免把整个 Prism 语言库打进客户端 bundle。
-// 未注册的语言会安全退化为纯文本（无高亮）。
-const languages: Record<string, unknown> = {
-  bash,
-  css,
-  diff,
-  docker,
-  go,
-  ini,
-  javascript,
-  json,
-  jsx,
-  markdown,
-  markup,
-  nginx,
-  python,
-  scss,
-  sql,
-  toml,
-  tsx,
-  typescript,
-  yaml,
+const DeferredSyntaxHighlighter = React.lazy(
+  () => import('./PortableTextCodeSyntax')
+)
+
+function PlainCode({ language, code }: { language: string; code: string }) {
+  return (
+    <pre className={`prismjs language-${language}`}>
+      <code className={`language-${language}`}>{code}</code>
+    </pre>
+  )
 }
-// 常见别名，兼容 Sanity 里可能写的语言标识。
-const aliases: Record<string, string> = {
-  sh: 'bash',
-  shell: 'bash',
-  zsh: 'bash',
-  console: 'bash',
-  js: 'javascript',
-  ts: 'typescript',
-  py: 'python',
-  yml: 'yaml',
-  dockerfile: 'docker',
-  html: 'markup',
-  xml: 'markup',
-  md: 'markdown',
-}
-for (const [name, lang] of Object.entries(languages)) {
-  SyntaxHighlighter.registerLanguage(name, lang)
-}
-for (const [alias, target] of Object.entries(aliases)) {
-  if (languages[target]) {
-    SyntaxHighlighter.registerLanguage(alias, languages[target])
-  }
+
+function CodeSyntaxOnView({
+  language,
+  code,
+}: {
+  language: string
+  code: string
+}) {
+  const containerRef = React.useRef<HTMLDivElement>(null)
+  const [isNearViewport, setIsNearViewport] = React.useState(false)
+
+  React.useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+
+    if (!('IntersectionObserver' in window)) {
+      setIsNearViewport(true)
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return
+        setIsNearViewport(true)
+        observer.disconnect()
+      },
+      { rootMargin: '320px 0px' }
+    )
+    observer.observe(container)
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <div ref={containerRef}>
+      {isNearViewport ? (
+        <React.Suspense fallback={<PlainCode language={language} code={code} />}>
+          <DeferredSyntaxHighlighter language={language} code={code} />
+        </React.Suspense>
+      ) : (
+        <PlainCode language={language} code={code} />
+      )}
+    </div>
+  )
 }
 
 export function PortableTextCodeBlock({
   value,
-}: PortableTextComponentProps<{
-  _key: string
-  language: string
-  code: string
-  filename?: string
-}>) {
+}: {
+  value: {
+    _key: string
+    language: string
+    code: string
+    filename?: string
+  }
+}) {
   const [hasCopied, setHasCopied] = React.useState(false)
   const onClickCopy = React.useCallback(() => {
     navigator.clipboard
       .writeText(value.code)
       .then(() => {
         setHasCopied(true)
-        setTimeout(() => {
-          setHasCopied(false)
-        }, 3000)
+        setTimeout(() => setHasCopied(false), 3000)
       })
       .catch(() => {
         console.error('Failed to copy code block')
@@ -136,30 +124,7 @@ export function PortableTextCodeBlock({
       </div>
 
       <div className="max-w-full overflow-x-auto overscroll-x-contain [&_pre]:!text-[14px] md:[&_pre]:!text-[14.5px] xl:[&_pre]:!text-[15px] [&_code]:!text-[14px] md:[&_code]:!text-[14.5px] xl:[&_code]:!text-[15px]">
-        <ClientOnly>
-          <SyntaxHighlighter
-            language={value.language}
-            showLineNumbers
-            useInlineStyles={false}
-            customStyle={{
-              margin: 0,
-              borderRadius: 0,
-              background: 'transparent',
-              maxWidth: '100%',
-            }}
-            codeTagProps={{
-              style: {},
-              className: `language-${value.language}`,
-            }}
-            lineNumberStyle={{
-              minWidth: '2.25em',
-              paddingRight: '1em',
-              opacity: 0.35,
-            }}
-          >
-            {value.code}
-          </SyntaxHighlighter>
-        </ClientOnly>
+        <CodeSyntaxOnView language={value.language} code={value.code} />
       </div>
     </div>
   )

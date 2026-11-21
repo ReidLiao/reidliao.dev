@@ -1,6 +1,8 @@
 import { type Metadata } from 'next'
 import Balancer from 'react-wrap-balancer'
 
+import { QueryProvider } from '~/app/QueryProvider'
+import { BreadcrumbJsonLd } from '~/components/BreadcrumbJsonLd'
 import { Container } from '~/components/ui/Container'
 import { fetchGuestbookMessages } from '~/db/queries/guestbook'
 import { pageMetadata } from '~/lib/page-metadata'
@@ -41,6 +43,12 @@ export default async function GuestBookPage() {
 
   return (
     <Container className="mt-16 sm:mt-32">
+      <BreadcrumbJsonLd
+        items={[
+          { name: '首页', path: '/' },
+          { name: title, path: '/guestbook' },
+        ]}
+      />
       <header className="max-w-2xl">
         <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
           留言墙
@@ -54,7 +62,9 @@ export default async function GuestBookPage() {
         </p>
       </header>
       <div className="mt-16 sm:mt-20">
-        <Guestbook messages={messages} />
+        <QueryProvider>
+          <Guestbook messages={messages} />
+        </QueryProvider>
       </div>
     </Container>
   )

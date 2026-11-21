@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Balancer from 'react-wrap-balancer'
 
 import { GitHubIcon } from '~/assets'
+import { BreadcrumbJsonLd } from '~/components/BreadcrumbJsonLd'
 import { PeekabooLink } from '~/components/links/PeekabooLink'
 import { Container } from '~/components/ui/Container'
 import { WechatSubscribe } from '~/components/WechatSubscribe'
@@ -17,7 +18,7 @@ const description =
 const rolePills = ['Self-hosted', 'Docker', 'Ops'] as const
 
 const techStack = [
-  'Next.js 14',
+  'Next.js 16',
   'Docker',
   'Nginx Proxy Manager',
   'Neon PostgreSQL',
@@ -63,6 +64,12 @@ const deployReasons = [
 ]
 
 const changelog = [
+  {
+    date: '2026-11-22',
+    title: '迁移至腾讯云',
+    detail:
+      '博客从 DMIT 迁移至腾讯云轻量应用服务器（香港节点）；Next.js 升级至 16，缓存策略与速度优化同步落地。',
+  },
   {
     date: '2026-09-25',
     title: '安全与体验加固',
@@ -128,6 +135,12 @@ export const metadata = {
 export default function AboutPage() {
   return (
     <Container className="mt-16 sm:mt-32">
+      <BreadcrumbJsonLd
+        items={[
+          { name: '首页', path: '/' },
+          { name: title, path: '/about' },
+        ]}
+      />
       <header className="max-w-3xl">
         <p className="font-mono text-sm text-zinc-500 dark:text-zinc-400">
           /about
@@ -152,13 +165,11 @@ export default function AboutPage() {
         <div className="flex flex-col gap-8 sm:flex-row sm:items-start">
           <div className="relative mx-auto h-24 w-24 shrink-0 overflow-hidden rounded-full sm:mx-0">
             <Image
-              src="/avatar.png"
+              src="/avatar-128.webp"
               alt="青柠夜栈"
               width={96}
               height={96}
               className="h-full w-full object-cover [clip-path:circle(46%_at_50%_50%)]"
-              priority
-              unoptimized
             />
           </div>
           <div className="flex-1 text-center sm:text-left">
@@ -215,21 +226,18 @@ export default function AboutPage() {
             服务器选择
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-            本站运行在一台{' '}
+            本站运行在
             <PeekabooLink
-              href="https://www.dmit.io/aff.php?aff=7399"
+              href="https://curl.qcloud.com/QUHfIJik"
               target="_blank"
             >
-              DMIT VPS
-            </PeekabooLink>{' '}
-            上，系统环境为 Debian/Ubuntu。这不是「租来就跑」的共享虚拟主机，而是一台承载独立精神的小型服务器——CPU、内存与带宽都由我自行规划与监控。
+              腾讯云
+            </PeekabooLink>
+            轻量应用服务器上（香港节点），系统环境为 Ubuntu。这不是「租来就跑」的共享虚拟主机，而是一台承载独立精神的小型服务器——CPU、内存与带宽都由我自行规划与监控。
           </p>
           <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-            <PeekabooLink href="https://www.dmit.io" target="_blank">
-              DMIT
-            </PeekabooLink>{' '}
-            主打优质国际线路，香港、洛杉矶、东京等节点延迟表现稳定，适合博客、开发测试与长期跑站。更多我实际用过的服务商与优惠入口，见{' '}
-            <PeekabooLink href="/vps">机房</PeekabooLink> 页。
+            腾讯云轻量服务器开箱即用、带宽稳定，香港节点离大陆最近、免备案，适合博客、开发测试与长期跑站。更多我实际用过的服务商与优惠入口，见{' '}
+            <PeekabooLink href="/vps">机房</PeekabooLink>页。
           </p>
           <ul className="mt-4 space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
             <li className="flex gap-2">

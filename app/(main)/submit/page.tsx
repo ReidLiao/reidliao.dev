@@ -1,6 +1,7 @@
 import { type Metadata } from 'next'
 import Link from 'next/link'
 
+import { BreadcrumbJsonLd } from '~/components/BreadcrumbJsonLd'
 import { Container } from '~/components/ui/Container'
 import { url } from '~/lib'
 import { pageMetadata } from '~/lib/page-metadata'
@@ -9,17 +10,20 @@ import { SubmitRecommendationForm } from './SubmitRecommendationForm'
 
 export const metadata = {
   title: '投稿推荐',
-  description: '推荐你亲自用过的软件或资源。',
+  description:
+    '推荐你亲自用过的软件或资源。我会先体验和核实，通常在 7 个工作日内处理；合适的内容可能写成文章或收录进机房页。邮箱仅用于核实或通知，不会公开。',
   ...pageMetadata('/submit'),
   openGraph: {
     ...pageMetadata('/submit').openGraph,
     title: '投稿推荐',
-    description: '推荐你亲自用过的软件或资源。',
+    description:
+      '推荐你亲自用过的软件或资源。我会先体验和核实，通常在 7 个工作日内处理；合适的内容可能写成文章或收录进机房页。邮箱仅用于核实或通知，不会公开。',
     images: [{ url: url('/submit/opengraph-image.png').href }],
   },
   twitter: {
     title: '投稿推荐',
-    description: '推荐你亲自用过的软件或资源。',
+    description:
+      '推荐你亲自用过的软件或资源。我会先体验和核实，通常在 7 个工作日内处理；合适的内容可能写成文章或收录进机房页。邮箱仅用于核实或通知，不会公开。',
     card: 'summary_large_image',
     images: [url('/submit/twitter-image.png').href],
   },
@@ -28,6 +32,12 @@ export const metadata = {
 export default function SubmitPage() {
   return (
     <Container className="mt-16 sm:mt-24">
+      <BreadcrumbJsonLd
+        items={[
+          { name: '首页', path: '/' },
+          { name: '投稿推荐', path: '/submit' },
+        ]}
+      />
       <header className="max-w-2xl">
         <h1 className="text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-5xl">投稿推荐</h1>
         <p className="mt-5 text-base leading-relaxed text-zinc-600 dark:text-zinc-400">

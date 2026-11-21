@@ -1,20 +1,34 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 
+import { BreadcrumbJsonLd } from '~/components/BreadcrumbJsonLd'
 import { Container } from '~/components/ui/Container'
+import { url } from '~/lib'
 import { pageMetadata } from '~/lib/page-metadata'
 import { getApprovedFriendLinks } from '~/sanity/queries'
 
 import { FriendLinkApplicationForm } from './FriendLinkApplicationForm'
 
 const title = '友情链接'
-const description = '查看青柠夜栈已审核的友情链接，或提交个人博客与技术站申请。'
+const description =
+  '这里收录经站长审核通过的个人博客与技术站。你可以浏览已审核名单，或提交站名、链接、简介和联系邮箱申请；邮箱仅用于核实或回复，不会公开。'
 
 export const metadata = {
   title,
   description,
   ...pageMetadata('/links'),
-  openGraph: { ...pageMetadata('/links').openGraph, title, description },
+  openGraph: {
+    ...pageMetadata('/links').openGraph,
+    title,
+    description,
+    images: [{ url: url('/opengraph-image.png').href }],
+  },
+  twitter: {
+    title,
+    description,
+    card: 'summary_large_image',
+    images: [url('/twitter-image.png').href],
+  },
 } satisfies Metadata
 
 export default async function FriendLinksPage() {
@@ -25,6 +39,12 @@ export default async function FriendLinksPage() {
 
   return (
     <Container className="mt-16 sm:mt-32">
+      <BreadcrumbJsonLd
+        items={[
+          { name: '首页', path: '/' },
+          { name: title, path: '/links' },
+        ]}
+      />
       <header className="max-w-2xl">
         <p className="font-mono text-sm text-zinc-500 dark:text-zinc-400">/links</p>
         <h1 className="mt-3 text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-5xl">友情链接</h1>

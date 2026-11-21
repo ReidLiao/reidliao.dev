@@ -21,7 +21,6 @@ import {
 } from '~/assets'
 import { ClientOnly } from '~/components/ClientOnly'
 import { PostAuthorBadge } from '~/components/PostAuthorBadge'
-import { PostPortableText } from '~/components/PostPortableText'
 import { Prose } from '~/components/Prose'
 import { Button } from '~/components/ui/Button'
 import { Container } from '~/components/ui/Container'
@@ -36,17 +35,18 @@ import { LivePostViewCount, useLivePostMetrics } from './LivePostMetrics'
 
 export function BlogPostPage({
   post,
+  publishedDate,
+  children,
 }: {
   post: PostDetail
+  publishedDate: string
+  children: React.ReactNode
 }) {
   const postMetrics = useLivePostMetrics(post._id)
   const coverSrc = cdnImageSrc(post.mainImage.asset.url, {
     width: 1600,
     quality: 80,
   })
-  const publishedDate = parseDateTime({
-    date: new Date(post.publishedAt),
-  })?.format('YYYY/MM/DD')
   const updatedDate = post.updatedAt
     ? parseDateTime({ date: new Date(post.updatedAt) })?.format('YYYY/MM/DD')
     : undefined
@@ -211,7 +211,7 @@ export function BlogPostPage({
             </header>
             <BlogPostMobileTOC headings={post.headings} />
             <Prose className="article-body mt-8">
-              <PostPortableText value={post.body} />
+              {children}
             </Prose>
 
             <WechatSubscribe className="mt-12 max-w-xl" />

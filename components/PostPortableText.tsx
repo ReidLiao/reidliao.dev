@@ -1,6 +1,8 @@
-'use client'
-
-import { PortableText, type PortableTextComponents } from '@portabletext/react'
+import {
+  PortableText,
+  type PortableTextComponentProps,
+  type PortableTextComponents,
+} from '@portabletext/react'
 import React from 'react'
 
 import { PeekabooLink } from '~/components/links/PeekabooLink'
@@ -86,6 +88,47 @@ const textBackgroundClass: Record<string, string> = {
   zinc: 'rounded-sm bg-zinc-200 px-0.5 text-zinc-900 dark:bg-zinc-700 dark:text-zinc-100',
 }
 
+// PortableTextComponentProps also contains renderNode; keep it server-side.
+function PortableTextImageBlock({ value }: PortableTextComponentProps<unknown>) {
+  return (
+    <PortableTextImage
+      value={value as Parameters<typeof PortableTextImage>[0]['value']}
+    />
+  )
+}
+
+function PortableTextTweetBlock({ value }: PortableTextComponentProps<unknown>) {
+  return (
+    <PortableTextTweet
+      value={value as Parameters<typeof PortableTextTweet>[0]['value']}
+    />
+  )
+}
+
+function PortableTextCodeBlockServer({ value }: PortableTextComponentProps<unknown>) {
+  return (
+    <PortableTextCodeBlock
+      value={value as Parameters<typeof PortableTextCodeBlock>[0]['value']}
+    />
+  )
+}
+
+function PortableTextDownloadBlock({ value }: PortableTextComponentProps<unknown>) {
+  return (
+    <PortableTextDownload
+      value={value as Parameters<typeof PortableTextDownload>[0]['value']}
+    />
+  )
+}
+
+function PortableTextVideoEmbedBlock({ value }: PortableTextComponentProps<unknown>) {
+  return (
+    <PortableTextVideoEmbed
+      value={value as Parameters<typeof PortableTextVideoEmbed>[0]['value']}
+    />
+  )
+}
+
 const components: PortableTextComponents = {
   block: {
     normal: PortableTextBlocksNormal,
@@ -103,11 +146,11 @@ const components: PortableTextComponents = {
     },
   },
   types: {
-    image: PortableTextImage,
-    tweet: PortableTextTweet,
-    codeBlock: PortableTextCodeBlock,
-    download: PortableTextDownload,
-    videoEmbed: PortableTextVideoEmbed,
+    image: PortableTextImageBlock,
+    tweet: PortableTextTweetBlock,
+    codeBlock: PortableTextCodeBlockServer,
+    download: PortableTextDownloadBlock,
+    videoEmbed: PortableTextVideoEmbedBlock,
   },
 
   marks: {

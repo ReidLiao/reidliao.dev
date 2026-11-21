@@ -1,6 +1,5 @@
 'use client'
 
-import { type PortableTextComponentProps } from '@portabletext/react'
 import React from 'react'
 
 import {
@@ -194,7 +193,7 @@ function sourceLabel(url: string) {
 
 export function PortableTextDownload({
   value,
-}: PortableTextComponentProps<DownloadValue>) {
+}: { value: DownloadValue }) {
   const [copied, setCopied] = React.useState<string | null>(null)
   const files = React.useMemo(() => normalizeFiles(value), [value])
   const [selected, setSelected] = React.useState(0)

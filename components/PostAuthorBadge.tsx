@@ -27,7 +27,7 @@ export function PostAuthorBadge({
       )}
     >
       <Image
-        src="/avatar.png"
+        src="/avatar-64.webp"
         alt=""
         width={px}
         height={px}
@@ -38,7 +38,6 @@ export function PostAuthorBadge({
           size === 'lg' && 'h-7 w-7 md:h-8 md:w-8'
         )}
         priority={priority}
-        unoptimized
       />
     </span>
   )

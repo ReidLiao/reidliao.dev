@@ -36,7 +36,7 @@ export function GuestbookInput() {
   const [error, setError] = React.useState<string | null>(null)
 
   const maxLength = user ? MAX_MESSAGE_LENGTH : MAX_ANONYMOUS_MESSAGE_LENGTH
-  const avatarUrl = user?.imageUrl ?? '/avatar.png'
+  const avatarUrl = user?.imageUrl ?? '/avatar-64.webp'
 
   const { reward } = useReward(rewardsRef, emoji, {
     emojis: [

@@ -218,7 +218,7 @@ function Message({
       {message.reply && message.repliedAt ? (
         <div className="ml-[3.25rem] mt-3 flex items-start gap-3">
           <Image
-            src="/avatar.png"
+            src="/avatar-64.webp"
             alt=""
             width={40}
             height={40}
@@ -262,7 +262,13 @@ export function GuestbookFeeds(props: { messages?: GuestbookDto[] }) {
       const data = await res.json()
       return data as GuestbookDto[]
     },
-    refetchInterval: 30000,
+    refetchInterval: () =>
+      typeof document !== 'undefined' &&
+      document.visibilityState === 'visible'
+        ? 60000
+        : false,
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: true,
     initialData: props.messages ?? [],
   })
   const { messages } = useSnapshot(guestbookState)

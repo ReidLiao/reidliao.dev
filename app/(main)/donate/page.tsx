@@ -2,6 +2,7 @@ import { type Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { BreadcrumbJsonLd } from '~/components/BreadcrumbJsonLd'
 import { Container } from '~/components/ui/Container'
 import { url } from '~/lib'
 import { pageMetadata } from '~/lib/page-metadata'
@@ -10,7 +11,8 @@ import { getDonors } from '~/sanity/queries'
 import { DonationAddress } from './DonationAddress'
 
 const title = '捐赠'
-const description = '谢谢你愿意支持青柠夜栈。'
+const description =
+  '如果你愿意支持青柠夜栈，捐赠将用于支付本站 VPS 与域名续费，帮助这个独立维护的技术博客继续运行。页面提供支付宝、微信和加密货币等方式，金额随意。'
 
 const donationAddresses = [
   {
@@ -54,6 +56,12 @@ export default async function DonatePage() {
 
   return (
     <Container data-donate-page className="mt-16 sm:mt-32">
+      <BreadcrumbJsonLd
+        items={[
+          { name: '首页', path: '/' },
+          { name: title, path: '/donate' },
+        ]}
+      />
       <header className="max-w-2xl">
         <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
           <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">

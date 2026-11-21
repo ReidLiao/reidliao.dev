@@ -1,5 +1,6 @@
 'use client'
 
+import { clsxm } from '@zolplay/utils'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -9,34 +10,13 @@ import { cdnImageSrc } from '~/lib/cdn-image'
 import { type HeroPhoto } from '~/sanity/queries'
 
 export function Photos({ photos }: { photos: HeroPhoto[] }) {
-  const [width, setWidth] = React.useState(0)
-  const [isCompact, setIsCompact] = React.useState(false)
-  const expandedWidth = React.useMemo(() => width * 1.38, [width])
-
-  React.useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 640) {
-        setIsCompact(true)
-        return setWidth(window.innerWidth / 2 - 64)
-      }
-
-      setIsCompact(false)
-      if (window.innerWidth < 768) {
-        return setWidth(
-          Math.max(160, window.innerWidth / photos.length - 4 * photos.length)
-        )
-      }
-
-      setWidth(window.innerWidth / photos.length - 4 * photos.length)
-    }
-
-    window.addEventListener('resize', handleResize)
-    handleResize()
-
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [photos.length])
+  const photoCount = Math.max(photos.length, 1)
+  const desktopWidth = `calc(${100 / photoCount}vw - ${4 * photoCount}px)`
+  const photoWidths = {
+    '--photo-width-tablet': `max(160px, ${desktopWidth})`,
+    '--photo-width-desktop': desktopWidth,
+    '--expanded-w': `calc(${(100 / photoCount) * 1.38}vw - ${4 * photoCount * 1.38}px)`,
+  } as React.CSSProperties
 
   return (
     <motion.div
@@ -49,21 +29,15 @@ export function Photos({ photos }: { photos: HeroPhoto[] }) {
         ease: 'easeOut',
       }}
     >
-      <div className="-my-4 flex w-full snap-x snap-proximity scroll-pl-4 justify-start gap-4 overflow-x-auto px-4 py-4 sm:gap-6 md:justify-center md:overflow-x-hidden md:px-0">
+      <div
+        className="-my-4 flex w-full snap-x snap-proximity scroll-pl-4 justify-start gap-4 overflow-x-auto px-4 py-4 sm:gap-6 md:justify-center md:overflow-x-hidden md:px-0"
+        style={photoWidths}
+      >
         {photos.map((photo, idx) => {
-          const style: React.CSSProperties = isCompact
-            ? { width }
-            : {
-                width,
-                transform: `rotate(${idx % 2 === 0 ? 2 : -1}deg)`,
-              }
-
-          const cardClassName =
-            'group relative h-40 flex-none shrink-0 snap-start overflow-hidden rounded-xl bg-zinc-100 ring-2 ring-lime-800/20 transition-[width,filter,opacity] duration-300 hover:opacity-100 hover:[filter:grayscale(0)] dark:bg-zinc-800 dark:ring-lime-300/10 md:h-72 md:rounded-3xl md:opacity-90 md:[filter:grayscale(0.4)] md:hover:!w-[var(--expanded-w)]'
-          const cardStyle = {
-            ...style,
-            '--expanded-w': `${expandedWidth}px`,
-          } as React.CSSProperties
+          const cardClassName = clsxm(
+            'group relative h-40 w-[calc(50vw_-_64px)] flex-none shrink-0 snap-start overflow-hidden rounded-xl bg-zinc-100 ring-2 ring-lime-800/20 transition-[width,filter,opacity] duration-300 hover:opacity-100 hover:[filter:grayscale(0)] dark:bg-zinc-800 dark:ring-lime-300/10 sm:w-[var(--photo-width-tablet)] md:h-72 md:w-[var(--photo-width-desktop)] md:rounded-3xl md:opacity-90 md:[filter:grayscale(0.4)] md:hover:!w-[var(--expanded-w)]',
+            idx % 2 === 0 ? 'sm:rotate-2' : 'sm:-rotate-1'
+          )
           const image = (
             <Image
               src={cdnImageSrc(photo.url, { width: 720, quality: 75 })}
@@ -85,7 +59,6 @@ export function Photos({ photos }: { photos: HeroPhoto[] }) {
               href={photo.link}
               aria-label={`打开精选内容：${photo.link}`}
               className={cardClassName}
-              style={cardStyle}
             >
               {image}
             </Link>
@@ -93,7 +66,6 @@ export function Photos({ photos }: { photos: HeroPhoto[] }) {
             <div
               key={photo.url ?? idx}
               className={cardClassName}
-              style={cardStyle}
             >
               {image}
             </div>
