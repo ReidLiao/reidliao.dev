@@ -4,7 +4,6 @@ import { parseDateTime } from '@zolplay/utils'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import React from 'react'
-import Balancer from 'react-wrap-balancer'
 
 import { BlogPostMobileTOC } from '~/app/(main)/blog/BlogPostMobileTOC'
 import { BlogPostStateLoader } from '~/app/(main)/blog/BlogPostStateLoader'
@@ -155,7 +154,7 @@ export function BlogPostPage({
                   delay: 0.2,
                 }}
               >
-                <Balancer>{post.title}</Balancer>
+                <span style={{ textWrap: 'balance' }}>{post.title}</span>
               </motion.h1>
               <motion.p
                 className="my-5 w-full text-sm font-medium text-zinc-500 dark:text-zinc-400"
