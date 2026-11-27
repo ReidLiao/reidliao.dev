@@ -56,6 +56,12 @@ export default defineType({
               type: 'url',
               description: '可选，填写目标文章的绝对 URL；留空则只显示图片。',
             }),
+            defineField({
+              name: 'description',
+              title: '图片描述',
+              type: 'string',
+              description: '用于首页图片的替代文本和链接可访问名称，简短说明图片内容。',
+            }),
           ],
         },
       ],

@@ -12,6 +12,7 @@ export const Post = z.object({
     _ref: z.string(),
     asset: z.object({
       url: z.string(),
+      mimeType: z.string().optional(),
       lqip: z.string().optional(),
       dominant: z
         .object({

@@ -10,6 +10,29 @@ import { pageMetadata } from '~/lib/page-metadata'
 
 export const dynamic = 'force-dynamic'
 
+function summarizeNewsletter(subject: string | null, body: string) {
+  const paragraphs = body
+    .split(/\r?\n\s*\r?\n/)
+    .map((paragraph) =>
+      paragraph
+        .replace(/^#{1,6}\s+/gm, '')
+        .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+        .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/[>*_~`]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim()
+    )
+    .filter(Boolean)
+
+  const summary = paragraphs.find((paragraph) => paragraph !== subject) ?? ''
+  const withoutRepeatedSubject = subject && summary.startsWith(subject)
+    ? summary.slice(subject.length).replace(/^[\s:：—-]+/, '')
+    : summary
+
+  return Array.from(withoutRepeatedSubject).slice(0, 160).join('').trim()
+}
+
 async function getNewsletter(id: string) {
   const [newsletter] = await db
     .select()
@@ -26,6 +49,7 @@ async function getNewsletter(id: string) {
 export async function generateMetadata(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const newsletter = await getNewsletter(params.id)
+  const description = summarizeNewsletter(newsletter.subject, newsletter.body ?? '')
 
   const imageUrlRegex = /!\[[^\]]*\]\((.*?)\)/
   const match = newsletter.body?.match(imageUrlRegex)
@@ -37,19 +61,19 @@ export async function generateMetadata(props: { params: Promise<{ id: string }> 
 
   return {
     title: newsletter.subject,
-    description: newsletter.subject,
+    description: description || undefined,
     alternates: pageMetadata(`/newsletters/${params.id}`).alternates,
     openGraph: {
       ...pageMetadata(`/newsletters/${params.id}`).openGraph,
       images: imageUrl ? [{ url: imageUrl }] : undefined,
       title: newsletter.subject ?? '',
-      description: newsletter.subject ?? '',
+      description,
       type: 'article',
     },
     twitter: {
       card: 'summary_large_image',
       title: newsletter.subject ?? '',
-      description: newsletter.subject ?? '',
+      description,
       images: imageUrl ? [{ url: imageUrl }] : undefined,
     },
   } satisfies Metadata

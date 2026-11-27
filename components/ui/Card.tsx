@@ -1,6 +1,7 @@
 import { clsxm } from '@zolplay/utils'
 import Link, { type LinkProps } from 'next/link'
 
+// Clickable hover card. Use components/shadcn/card for plain content cards.
 export function Card({
   as: Component = 'div',
   className,

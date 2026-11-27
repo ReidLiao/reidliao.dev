@@ -34,6 +34,7 @@ export function Photos({ photos }: { photos: HeroPhoto[] }) {
         style={photoWidths}
       >
         {photos.map((photo, idx) => {
+          const imageName = photo.description?.trim() || `首页精选图片 ${idx + 1}`
           const cardClassName = clsxm(
             'group relative h-40 w-[calc(50vw_-_64px)] flex-none shrink-0 snap-start overflow-hidden rounded-xl bg-zinc-100 ring-2 ring-lime-800/20 transition-[width,filter,opacity] duration-300 hover:opacity-100 hover:[filter:grayscale(0)] dark:bg-zinc-800 dark:ring-lime-300/10 sm:w-[var(--photo-width-tablet)] md:h-72 md:w-[var(--photo-width-desktop)] md:rounded-3xl md:opacity-90 md:[filter:grayscale(0.4)] md:hover:!w-[var(--expanded-w)]',
             idx % 2 === 0 ? 'sm:rotate-2' : 'sm:-rotate-1'
@@ -41,7 +42,7 @@ export function Photos({ photos }: { photos: HeroPhoto[] }) {
           const image = (
             <Image
               src={cdnImageSrc(photo.url, { width: 720, quality: 75 })}
-              alt=""
+              alt={imageName}
               width={500}
               height={500}
               sizes="(max-width: 640px) 45vw, 18rem"
@@ -57,7 +58,7 @@ export function Photos({ photos }: { photos: HeroPhoto[] }) {
             <Link
               key={photo.url ?? idx}
               href={photo.link}
-              aria-label={`打开精选内容：${photo.link}`}
+              aria-label={`打开精选内容：${imageName}`}
               className={cardClassName}
             >
               {image}

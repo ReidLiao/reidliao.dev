@@ -1,17 +1,14 @@
 import * as React from 'react'
 
+import { buttonBaseStyles, buttonVariantStyles } from '~/components/ui/buttonStyles'
 import { cn } from '~/lib/utils'
 
 const buttonVariants = {
-  default:
-    'bg-zinc-800 text-zinc-100 hover:bg-zinc-700 active:bg-zinc-800 dark:bg-zinc-200 dark:text-zinc-950 dark:hover:bg-zinc-300',
-  secondary:
-    'bg-zinc-100 text-zinc-800 hover:bg-zinc-200 active:bg-zinc-300 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700',
-  outline:
-    'border border-zinc-200 bg-transparent text-zinc-800 hover:border-lime-500/60 hover:bg-lime-500/5 dark:border-zinc-700 dark:text-zinc-100 dark:hover:border-lime-400/50 dark:hover:bg-lime-400/5',
-  ghost:
-    'text-zinc-700 hover:bg-zinc-100 hover:text-zinc-950 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100',
-  link: 'text-lime-700 underline-offset-4 hover:underline dark:text-lime-400',
+  default: buttonVariantStyles.primary,
+  secondary: buttonVariantStyles.secondary,
+  outline: buttonVariantStyles.outline,
+  ghost: buttonVariantStyles.ghost,
+  link: buttonVariantStyles.link,
 } as const
 
 const buttonSizes = {
@@ -41,7 +38,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       ref={ref}
       type={type}
       className={cn(
-        'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium outline-offset-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500/70 disabled:pointer-events-none disabled:opacity-50 dark:focus-visible:ring-lime-400/70',
+        buttonBaseStyles + ' whitespace-nowrap',
         buttonVariants[variant],
         buttonSizes[size],
         className

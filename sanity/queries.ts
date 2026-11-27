@@ -167,7 +167,7 @@ export const getLatestBlogPostsForFeed = () =>
         },
         mainImage {
           _ref,
-          asset->{url}
+          asset->{url, mimeType}
         }
       }`,
     {},
@@ -251,7 +251,8 @@ export const getSettingsQuery = () =>
     "heroPhotos": heroPhotos[]{
       "url": asset->url,
       "lqip": asset->metadata.lqip,
-      link
+      link,
+      description
     },
     "limitedOffers": limitedOffers[]{
       _key,
@@ -278,6 +279,7 @@ export type HeroPhoto = {
   url: string
   lqip?: string
   link?: string | null
+  description?: string | null
 }
 
 export type HomepageOffer = {

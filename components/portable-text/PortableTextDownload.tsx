@@ -284,7 +284,7 @@ export function PortableTextDownload({
                 >
                   <button
                     type="button"
-                    className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-zinc-500 transition hover:bg-white hover:text-lime-600 dark:hover:bg-zinc-800 dark:hover:text-lime-400"
+                    className="-my-1 -mr-1 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-zinc-500 transition hover:bg-white hover:text-lime-600 dark:hover:bg-zinc-800 dark:hover:text-lime-400"
                     onClick={() => copyText(value.extractCode, 'code')}
                     aria-label="复制提取码"
                   >
@@ -305,7 +305,7 @@ export function PortableTextDownload({
                 >
                   <button
                     type="button"
-                    className="ml-1 inline-flex h-6 w-6 translate-y-0.5 items-center justify-center text-zinc-600 transition hover:text-lime-600 dark:text-zinc-400 dark:hover:text-lime-400"
+                    className="-my-1 ml-0 inline-flex h-8 w-8 translate-y-0.5 items-center justify-center text-zinc-600 transition hover:text-lime-600 dark:text-zinc-400 dark:hover:text-lime-400"
                     onClick={() => copyText(value.note, 'note')}
                     aria-label="复制备注"
                   >
@@ -329,7 +329,7 @@ export function PortableTextDownload({
                   >
                     <button
                       type="button"
-                      className="inline-flex h-8 w-8 shrink-0 items-center justify-center text-zinc-500 transition hover:text-lime-300"
+                      className="-my-1 -mr-1 inline-flex h-10 w-10 shrink-0 items-center justify-center text-zinc-500 transition hover:text-lime-300"
                       onClick={() => copyText(active.checksum, 'sha')}
                       aria-label="复制校验和"
                     >

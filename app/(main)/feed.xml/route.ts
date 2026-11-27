@@ -264,7 +264,7 @@ export async function GET() {
         ? {
             enclosure: {
               url: imageUrl,
-              type: 'image/jpeg',
+              type: post.mainImage.asset.mimeType ?? 'application/octet-stream',
             },
           }
         : {}),

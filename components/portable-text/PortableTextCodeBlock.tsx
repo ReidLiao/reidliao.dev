@@ -110,7 +110,7 @@ export function PortableTextCodeBlock({
         <ElegantTooltip content="复制">
           <button
             type="button"
-            className="shrink-0 text-zinc-600 transition hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-300"
+            className="-my-1 -mr-1 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md text-zinc-600 transition hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-300"
             onClick={onClickCopy}
             aria-label="复制代码"
           >
