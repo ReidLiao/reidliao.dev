@@ -12,7 +12,14 @@ function toCdata(html: string) {
 type FeedBlock = Record<string, unknown>
 
 function escapeHtml(value: unknown) {
-  return String(value ?? '')
+  const text =
+    typeof value === 'string'
+      ? value
+      : typeof value === 'number' || typeof value === 'boolean'
+        ? `${value}`
+        : ''
+
+  return text
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
@@ -69,9 +76,10 @@ function renderPortableText(body: unknown) {
   const renderBlockChildren = (block: FeedBlock) => {
     const children = Array.isArray(block.children) ? (block.children as FeedBlock[]) : []
     const markDefs = Array.isArray(block.markDefs) ? (block.markDefs as FeedBlock[]) : []
-    const marksByKey = new Map(
-      markDefs.map((mark) => [String(mark._key ?? ''), mark] as const)
-    )
+    const marksByKey = new Map<string, FeedBlock>()
+    for (const mark of markDefs) {
+      if (typeof mark._key === 'string') marksByKey.set(mark._key, mark)
+    }
 
     return children
       .map((child) => {
