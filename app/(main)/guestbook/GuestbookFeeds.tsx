@@ -12,6 +12,7 @@ import { useSnapshot } from 'valtio'
 
 import { TiltedSendIcon, XIcon } from '~/assets'
 import { CommentMarkdown } from '~/components/CommentMarkdown'
+import { Skeleton } from '~/components/shadcn/skeleton'
 import { type GuestbookDto } from '~/db/dto/guestbook.dto'
 import { parseDisplayName } from '~/lib/string'
 
@@ -255,7 +256,7 @@ export function GuestbookFeeds(props: { messages?: GuestbookDto[] }) {
     (user?.publicMetadata as { siteOwner?: boolean } | undefined)?.siteOwner
   )
 
-  const { data: feed } = useQuery({
+  const { data: feed, isLoading } = useQuery({
     queryKey: ['guestbook'],
     queryFn: async () => {
       const res = await fetch('/api/guestbook')
@@ -269,12 +270,41 @@ export function GuestbookFeeds(props: { messages?: GuestbookDto[] }) {
         : false,
     refetchIntervalInBackground: false,
     refetchOnWindowFocus: true,
-    initialData: props.messages ?? [],
+    initialData: props.messages,
   })
   const { messages } = useSnapshot(guestbookState)
   React.useEffect(() => {
     setMessages(feed ?? [])
   }, [feed])
+
+  if (isLoading && !props.messages) {
+    return (
+      <div
+        className="relative mt-12"
+        role="status"
+        aria-label="正在加载留言"
+        aria-busy="true"
+      >
+        <ul role="list" className="-mb-8 px-1 md:px-4">
+          {Array.from({ length: 4 }, (_, index) => (
+            <li key={index} className="relative pb-8">
+              <div className="flex items-start gap-3">
+                <Skeleton className="h-10 w-10 shrink-0 rounded-full" />
+                <div className="flex-1 space-y-3 pt-1">
+                  <Skeleton className="h-3 w-36" />
+                  <Skeleton className="h-3 w-5/6" />
+                  {index % 2 === 0 ? (
+                    <Skeleton className="h-12 w-4/5 rounded-xl" />
+                  ) : null}
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <span className="sr-only">留言加载中</span>
+      </div>
+    )
+  }
 
   return (
     <div className="relative mt-12">

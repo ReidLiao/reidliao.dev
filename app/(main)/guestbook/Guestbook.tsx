@@ -4,6 +4,7 @@ import { Show, SignInButton } from '@clerk/nextjs'
 import { usePathname } from 'next/navigation'
 
 import { UserArrowLeftIcon } from '~/assets'
+import { Button } from '~/components/shadcn/button'
 import { type GuestbookDto } from '~/db/dto/guestbook.dto'
 import { url } from '~/lib'
 
@@ -23,13 +24,15 @@ export function Guestbook(props: { messages?: GuestbookDto[] }) {
               当前为匿名短留言（最多 120 字）。登录后可写更长内容并显示头像。
             </span>
             <SignInButton mode="modal" forceRedirectUrl={url(pathname).href}>
-              <button
+              <Button
                 type="button"
-                className="inline-flex items-center rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700 transition hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
+                variant="secondary"
+                size="sm"
+                className="h-8 rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
               >
                 <UserArrowLeftIcon className="mr-1 h-3.5 w-3.5" />
                 登录
-              </button>
+              </Button>
             </SignInButton>
           </p>
         </Show>

@@ -10,7 +10,8 @@ import Image from 'next/image'
 import React from 'react'
 
 import { ExternalLinkIcon } from '~/assets'
-import { Card } from '~/components/ui/Card'
+import { Badge } from '~/components/shadcn/badge'
+import { Card, CardDescription } from '~/components/shadcn/card'
 import { cdnImageSrc } from '~/lib/cdn-image'
 import { urlForImage } from '~/sanity/lib/image'
 import { type Project } from '~/sanity/schemas/project'
@@ -87,15 +88,13 @@ export function ProjectCard({
         <h3 className="min-w-0 flex-1 text-base font-bold text-zinc-800 dark:text-zinc-100">
           {name}
         </h3>
-        <span
-          className={`inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-[11px] font-medium ring-1 ${badgeClassName}`}
-        >
+        <Badge className={`shrink-0 ${badgeClassName}`}>
           {meta.badge}
-        </span>
+        </Badge>
       </div>
-      <Card.Description className="mt-4 line-clamp-3">
+      <CardDescription className="relative z-10 mt-4 line-clamp-3">
         {description}
-      </Card.Description>
+      </CardDescription>
       {hasRecommendationReason && (
         <p className="relative z-10 mt-3 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
           <span className="font-medium text-zinc-700 dark:text-zinc-300">
