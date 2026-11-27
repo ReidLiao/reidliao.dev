@@ -70,7 +70,7 @@ export default async function BlogLayout({
               name: 'Reid Liao',
               url: url('/about').href,
               image: url('/avatar.png').href,
-              description: 'Reidliao.dev 的搭建与维护者。',
+              description: '青柠夜栈的搭建与维护者。',
               sameAs: ['https://github.com/ReidLiao'],
             },
           ],

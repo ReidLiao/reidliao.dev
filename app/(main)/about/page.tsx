@@ -10,10 +10,10 @@ import { Container } from '~/components/ui/Container'
 import { WechatSubscribe } from '~/components/WechatSubscribe'
 import { url } from '~/lib'
 import { pageMetadata } from '~/lib/page-metadata'
+import { seo } from '~/lib/seo'
 
 const title = '关于青柠夜栈'
-const description =
-  'reidliao.dev：DMIT VPS 上 Docker 自建的技术博客——全栈建站、运维实战、软件下载与自用机房线路。'
+const description = seo.description
 
 const rolePills = ['Self-hosted', 'Docker', 'Ops'] as const
 
@@ -154,10 +154,7 @@ export default function AboutPage() {
           </span>
         </h1>
         <p className="mt-5 max-w-2xl text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
-          <Balancer>
-            这不是一份简历，而是一台独立服务器上的技术实验室——记录全栈建站、Docker
-            自建与系统运维的真实折腾。本站跑在自有 VPS 上。
-          </Balancer>
+          <Balancer>{description}</Balancer>
         </p>
       </header>
 
