@@ -24,6 +24,12 @@ export default async function sitemap() {
     {
       url: url('/about').href,
     },
+    {
+      url: url('/links').href,
+    },
+    {
+      url: url('/submit').href,
+    },
   ] satisfies MetadataRoute.Sitemap
 
   const posts = ((await getBlogPostsForSitemap()) || []).filter(
