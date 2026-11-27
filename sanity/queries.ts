@@ -144,6 +144,36 @@ export const getLatestBlogPosts = (options: GetBlogPostsOptions) =>
     { next: { tags: ['posts'], revalidate: 600 } }
   )
 
+export const getLatestBlogPostsForFeed = () =>
+  client.fetch<Post[] | null>(
+    groq`*[_type == "post" && !(_id in path("drafts.**"))
+      && publishedAt <= "${getDate().toISOString()}" && defined(slug.current)]
+      | order(publishedAt desc)[0...999] {
+        _id,
+        title,
+        "slug": slug.current,
+        "categories": categories[]->title,
+        description,
+        publishedAt,
+        readingTime,
+        body[]{
+          ...,
+          _type == "image" => {
+            "url": asset->url,
+            "lqip": asset->metadata.lqip,
+            "dimensions": asset->metadata.dimensions,
+            ...
+          }
+        },
+        mainImage {
+          _ref,
+          asset->{url}
+        }
+      }`,
+    {},
+    { next: { tags: ['posts'], revalidate: 600 } }
+  )
+
 export const getBlogPostQuery = groq`
   *[_type == "post" && slug.current == $slug && !(_id in path("drafts.**"))][0] {
     _id,
