@@ -16,6 +16,9 @@ export default async function sitemap() {
       url: url('/vps').href,
     },
     {
+      url: url('/donate').href,
+    },
+    {
       url: url('/guestbook').href,
     },
     {
