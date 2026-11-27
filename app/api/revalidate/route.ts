@@ -9,7 +9,7 @@ import { env } from '~/env.mjs'
  * Sanity Manage → API → Webhooks → Create webhook:
  *   URL: https://reidliao.dev/api/revalidate
  *   Trigger: Create + Update + Delete
- *   Filter: _type in ["post", "category", "settings", "project", "donor"]
+ *   Filter: _type in ["post", "category", "settings", "project", "donor", "offerSupplier"]
  *   Projection: {_type, "slug": slug.current}
  *   HTTP headers: x-revalidate-secret: <REVALIDATE_SECRET>
  *   Drafts: OFF

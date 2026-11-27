@@ -21,8 +21,8 @@ export function Photos({ photos }: { photos: HeroPhoto[] }) {
   return (
     <motion.div
       className="mt-16 sm:mt-20"
-      initial={{ opacity: 0, scale: 0.94, y: 12 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
+      initial={{ scale: 0.94, y: 12 }}
+      animate={{ scale: 1, y: 0 }}
       transition={{
         delay: 0.35,
         duration: 0.45,

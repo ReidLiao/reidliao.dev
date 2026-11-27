@@ -5,7 +5,10 @@ import { z } from 'zod'
 import { emailConfig } from '~/config/email'
 import { db } from '~/db'
 import { type GuestbookDto, GuestbookHashids } from '~/db/dto/guestbook.dto'
-import { fetchGuestbookMessages } from '~/db/queries/guestbook'
+import {
+  fetchGuestbookMessages,
+  GUESTBOOK_PAGE_SIZE,
+} from '~/db/queries/guestbook'
 import { guestbook } from '~/db/schema'
 import NewGuestbookEmail from '~/emails/NewGuestbook'
 import { env } from '~/env.mjs'
@@ -24,6 +27,12 @@ function getKey(id?: string) {
 
 export async function GET(req: NextRequest) {
   try {
+    const rawOffset = req.nextUrl.searchParams.get('offset')
+    const offset = rawOffset === null ? 0 : Number(rawOffset)
+    if (!Number.isSafeInteger(offset) || offset < 0) {
+      return NextResponse.json({ error: '无效的留言分页位置' }, { status: 400 })
+    }
+
     const { success } = await ratelimit.limit(
       getKey(getTrustedProxyIp(req) ?? '')
     )
@@ -34,7 +43,9 @@ export async function GET(req: NextRequest) {
       )
     }
 
-    return NextResponse.json(await fetchGuestbookMessages())
+    return NextResponse.json(
+      await fetchGuestbookMessages({ limit: GUESTBOOK_PAGE_SIZE, offset })
+    )
   } catch (error) {
     console.error('[Guestbook GET]', error)
     return NextResponse.json(

@@ -26,6 +26,7 @@ export function FirstVisitAnnouncement({
   announcement?: Announcement | null
 }) {
   const [open, setOpen] = React.useState(false)
+  const [imageLoaded, setImageLoaded] = React.useState(false)
   const dialogRef = React.useRef<HTMLDivElement>(null)
   const previousFocusRef = React.useRef<HTMLElement | null>(null)
 
@@ -112,13 +113,26 @@ export function FirstVisitAnnouncement({
           </span>
         </button>
         {announcement.imageUrl ? (
-          <div className="relative h-40 w-full sm:h-[200px]">
+          <div
+            className="relative h-40 w-full overflow-hidden bg-zinc-800 sm:h-[200px]"
+            aria-busy={!imageLoaded}
+          >
+            {!imageLoaded ? (
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 animate-pulse bg-zinc-800"
+              />
+            ) : null}
             <Image
               src={announcement.imageUrl}
               alt=""
               fill
+              unoptimized
+              loading="eager"
+              fetchPriority="high"
               sizes="(max-width: 640px) 100vw, 560px"
-              className="object-cover object-center"
+              onLoad={() => setImageLoaded(true)}
+              className={`object-cover object-center transition-opacity duration-200 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
             />
           </div>
         ) : null}

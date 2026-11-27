@@ -254,10 +254,23 @@ export const getSettingsQuery = () =>
       link
     },
     "limitedOffers": limitedOffers[]{
-      company,
+      _key,
+      "company": coalesce(supplier->name, company),
       title,
+      subtitle,
+      deadline,
       url,
-      "logo": logo.asset->url
+      tags,
+      "logo": coalesce(supplier->avatar.asset->url, logo.asset->url)
+    },
+    offersAllLink,
+    offersAvatarNote,
+    offersDescription,
+    latestSoftware[]{
+      _key,
+      name,
+      url,
+      "icon": icon.asset->url
     }
 }`
 
@@ -265,6 +278,24 @@ export type HeroPhoto = {
   url: string
   lqip?: string
   link?: string | null
+}
+
+export type HomepageOffer = {
+  _key: string
+  company: string
+  title: string
+  subtitle?: string | null
+  deadline?: string | null
+  logo?: string | null
+  url: string
+  tags?: string[] | null
+}
+
+export type HomepageSoftware = {
+  _key: string
+  name: string
+  icon?: string | null
+  url: string
 }
 
 export type SiteAnnouncement = {
@@ -299,14 +330,11 @@ export const getSettings = () =>
     {
       projects: Project[] | null
       heroPhotos?: HeroPhoto[] | null
-      limitedOffers?:
-        | {
-            company: string
-            title: string
-            logo: string
-            url: string
-          }[]
-        | null
+      limitedOffers?: HomepageOffer[] | null
+      offersAllLink?: string | null
+      offersAvatarNote?: string | null
+      offersDescription?: string | null
+      latestSoftware?: HomepageSoftware[] | null
     },
     Record<string, never>
   >(getSettingsQuery(), {}, { next: { tags: ['settings'], revalidate: 60 } })

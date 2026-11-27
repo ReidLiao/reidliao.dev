@@ -6,7 +6,7 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  allowedDevOrigins: ['192.168.5.13'],
+  allowedDevOrigins: ['192.168.5.14'],
   typescript: {
     ignoreBuildErrors: false,
   },

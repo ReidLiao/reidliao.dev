@@ -9,7 +9,18 @@ export const guestbookState = proxy<{
 })
 
 export function setMessages(messages: GuestbookDto[]) {
-  guestbookState.messages = messages
+  const recentIds = new Set(messages.map((message) => message.id))
+  const olderMessages = guestbookState.messages.filter(
+    (message) => !recentIds.has(message.id)
+  )
+  guestbookState.messages = [...messages, ...olderMessages]
+}
+
+export function appendMessages(messages: GuestbookDto[]) {
+  const knownIds = new Set(guestbookState.messages.map((message) => message.id))
+  guestbookState.messages.push(
+    ...messages.filter((message) => !knownIds.has(message.id))
+  )
 }
 
 export function signBook(message: GuestbookDto) {

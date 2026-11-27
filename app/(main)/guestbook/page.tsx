@@ -39,7 +39,7 @@ function Highlight({ children }: { children: React.ReactNode }) {
 }
 
 export default async function GuestBookPage() {
-  const messages = await fetchGuestbookMessages()
+  const guestbookPage = await fetchGuestbookMessages()
 
   return (
     <Container className="mt-16 sm:mt-32">
@@ -63,7 +63,7 @@ export default async function GuestBookPage() {
       </header>
       <div className="mt-16 sm:mt-20">
         <QueryProvider>
-          <Guestbook messages={messages} />
+          <Guestbook {...guestbookPage} />
         </QueryProvider>
       </div>
     </Container>

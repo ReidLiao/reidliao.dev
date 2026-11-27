@@ -30,13 +30,20 @@ export default async function BlogLayout({
   children: React.ReactNode
 }) {
   const announcement = await getAnnouncement().catch(() => null)
-  const announcementImageUrl = announcement?.image
-      ? urlForImage(announcement.image as SanityImage)
-        .width(1200)
-        .height(675)
+  let announcementImageUrl: string | undefined
+  if (announcement?.image) {
+    const imageUrl = new URL(
+      urlForImage(announcement.image as SanityImage)
+        .width(960)
+        .height(540)
         .fit('crop')
+        .format('jpg')
+        .quality(70)
         .url()
-    : undefined
+    )
+    imageUrl.searchParams.delete('auto')
+    announcementImageUrl = imageUrl.toString()
+  }
 
   return (
     <>

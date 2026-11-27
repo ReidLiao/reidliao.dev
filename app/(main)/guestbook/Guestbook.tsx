@@ -11,7 +11,11 @@ import { url } from '~/lib'
 import { GuestbookFeeds } from './GuestbookFeeds'
 import { GuestbookInput } from './GuestbookInput'
 
-export function Guestbook(props: { messages?: GuestbookDto[] }) {
+export function Guestbook(props: {
+  messages?: GuestbookDto[]
+  hasMore?: boolean
+  nextOffset?: number
+}) {
   const pathname = usePathname()
 
   return (
@@ -43,7 +47,7 @@ export function Guestbook(props: { messages?: GuestbookDto[] }) {
         </Show>
       </div>
 
-      <GuestbookFeeds messages={props.messages} />
+      <GuestbookFeeds {...props} />
     </section>
   )
 }

@@ -62,8 +62,8 @@ export function Headline() {
     <div className="max-w-2xl">
       <motion.h1
         className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ y: 30 }}
+        animate={{ y: 0 }}
         transition={{
           type: 'spring',
           damping: 25,
@@ -77,8 +77,8 @@ export function Headline() {
       </motion.h1>
       <motion.p
         className="mt-6 text-base text-zinc-600 dark:text-zinc-400"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ y: 20 }}
+        animate={{ y: 0 }}
         transition={{
           type: 'spring',
           damping: 30,
@@ -104,8 +104,8 @@ export function Headline() {
       </motion.p>
       <motion.div
         className="mt-6 flex gap-6"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ y: 10 }}
+        animate={{ y: 0 }}
         transition={{
           type: 'spring',
           damping: 50,

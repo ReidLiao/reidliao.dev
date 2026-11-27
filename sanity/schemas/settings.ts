@@ -63,34 +63,69 @@ export default defineType({
 
     defineField({
       name: 'limitedOffers',
-      title: '限时福利',
-      description: '在主页侧边栏展示的限时福利（留空就不展示）',
+      title: '首页优惠活动',
+      description: '按这里的顺序展示。已有活动可以继续使用原商家资料，也可以改选供应商。',
       type: 'array',
       of: [
         {
           type: 'object',
           fields: [
             defineField({
+              name: 'supplier',
+              title: '供应商',
+              type: 'reference',
+              to: [{ type: 'offerSupplier' }],
+              description: '选择已发布的供应商。头像在「优惠活动供应商」里统一维护。',
+              validation: (Rule) =>
+                Rule.custom((value, { parent }) =>
+                  value || (parent as { company?: string } | undefined)?.company
+                    ? true
+                    : '请选择供应商'
+                ),
+            }),
+            defineField({
               name: 'company',
-              title: '商家名称',
+              title: '原商家名称',
               type: 'string',
-              validation: (Rule) => Rule.required(),
+              hidden: ({ parent, value }) => Boolean(parent?.supplier || !value),
             }),
             defineField({
               name: 'title',
-              title: '福利说明',
+              title: '活动说明',
               type: 'string',
               validation: (Rule) => Rule.required(),
             }),
             defineField({
+              name: 'subtitle',
+              title: '副标题描述',
+              type: 'string',
+              description: '活动标题下方的补充说明，可选。',
+              validation: (Rule) => Rule.max(120),
+            }),
+            defineField({
+              name: 'deadline',
+              title: '截止日期',
+              type: 'date',
+              description: '可选；填写后显示截止日期或剩余天数，留空时显示“长期活动”。',
+            }),
+            defineField({
               name: 'logo',
-              title: '商家 Logo',
+              title: '原商家头像',
               description: '建议尺寸 100x100px 正方形裁切',
               type: 'image',
               options: {
                 hotspot: true,
               },
-              validation: (Rule) => Rule.required(),
+              hidden: ({ parent, value }) => Boolean(parent?.supplier || !value),
+            }),
+            defineField({
+              name: 'tags',
+              title: '筛选标签',
+              type: 'array',
+              of: [{ type: 'string' }],
+              options: { layout: 'tags' },
+              description: '可填多个标签，例如限时、免费、新用户。首页会从所有已发布活动汇总标签。',
+              validation: (Rule) => Rule.unique(),
             }),
             defineField({
               name: 'url',
@@ -103,16 +138,75 @@ export default defineType({
           preview: {
             select: {
               company: 'company',
+              supplier: 'supplier.name',
               title: 'title',
               logo: 'logo',
+              avatar: 'supplier.avatar',
               url: 'url',
             },
             prepare: (selection) => ({
-              title: `${selection.company} - ${selection.title}`,
-              subtitle: selection.url,
-              media: selection.logo,
+              title: selection.title,
+              subtitle: selection.supplier ?? selection.company ?? selection.url,
+              media: selection.avatar ?? selection.logo,
             }),
           },
+        },
+      ],
+    }),
+    defineField({
+      name: 'offersAllLink',
+      title: '优惠活动 · 查看全部链接',
+      type: 'url',
+      description: '留空时跳转到 /vps；也可填写其他站内路径或完整网址。',
+      initialValue: '/vps',
+      validation: (Rule) => Rule.uri({ allowRelative: true, scheme: ['http', 'https'] }),
+    }),
+    defineField({
+      name: 'offersAvatarNote',
+      title: '优惠活动 · 头像旁说明',
+      type: 'string',
+      description: '显示在活动头像旁，可填写产品口径的数量说明。留空时前台按活动涉及的常用服务数生成默认文案。',
+      validation: (Rule) => Rule.max(100),
+    }),
+    defineField({
+      name: 'offersDescription',
+      title: '优惠活动 · 头部说明',
+      type: 'string',
+      description: '显示在首页“最新优惠”标题下方。',
+      initialValue: '我自己在用的几家，活动价比日常价划算不少。',
+      validation: (Rule) => Rule.max(160),
+    }),
+    defineField({
+      name: 'latestSoftware',
+      title: '首页最新软件',
+      type: 'array',
+      description: '每项显示一行，按这里的顺序展示。文章发布后可把链接换成文章地址。',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'name',
+              title: '软件名称',
+              type: 'string',
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'icon',
+              title: '软件图标',
+              type: 'image',
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'url',
+              title: '链接',
+              type: 'url',
+              description: '可填官网完整网址，或已发布文章的链接，如 /blog/xxx。',
+              validation: (Rule) =>
+                Rule.required().uri({ allowRelative: true, scheme: ['http', 'https'] }),
+            }),
+          ],
+          preview: { select: { title: 'name', subtitle: 'url', media: 'icon' } },
         },
       ],
     }),

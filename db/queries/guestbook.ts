@@ -4,9 +4,12 @@ import { db } from '~/db'
 import { GuestbookHashids } from '~/db/dto/guestbook.dto'
 import { guestbook } from '~/db/schema'
 
+export const GUESTBOOK_PAGE_SIZE = 10
+
 export async function fetchGuestbookMessages({
-  limit = 200,
-}: { limit?: number } = {}) {
+  limit = GUESTBOOK_PAGE_SIZE,
+  offset = 0,
+}: { limit?: number; offset?: number } = {}) {
   const data = await db
     .select({
       id: guestbook.id,
@@ -19,13 +22,20 @@ export async function fetchGuestbookMessages({
     })
     .from(guestbook)
     .orderBy(desc(guestbook.createdAt))
-    .limit(limit)
+    .limit(limit + 1)
+    .offset(offset)
 
-  return data.map(
-    ({ id, ...rest }) =>
-      ({
+  const hasMore = data.length > limit
+  const page = data.slice(0, limit)
+
+  return {
+    messages: page.map(
+      ({ id, ...rest }) => ({
         ...rest,
         id: GuestbookHashids.encode(id),
       })
-  )
+    ),
+    hasMore,
+    nextOffset: offset + page.length,
+  }
 }

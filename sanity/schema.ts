@@ -6,6 +6,7 @@ import blockContent, { downloadItem } from './schemas/blockContent'
 import category from './schemas/category'
 import donor from './schemas/donor'
 import friendLink from './schemas/friendLink'
+import offerSupplier from './schemas/offerSupplier'
 import post from './schemas/post'
 import project from './schemas/project'
 import settings from './schemas/settings'
@@ -20,6 +21,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     friendLink,
     blockContent,
     project,
+    offerSupplier,
     settings,
   ],
 }

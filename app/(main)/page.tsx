@@ -2,8 +2,8 @@ import React from 'react'
 
 import { BlogPosts } from '~/app/(main)/blog/BlogPosts'
 import { Headline } from '~/app/(main)/Headline'
+import { LatestSoftware } from '~/app/(main)/LatestSoftware'
 import { LimitedOffers } from '~/app/(main)/LimitedOffers'
-import { Newsletter } from '~/app/(main)/Newsletter'
 import { Photos } from '~/app/(main)/Photos'
 import { PencilSwooshIcon } from '~/assets'
 import { BreadcrumbJsonLd } from '~/components/BreadcrumbJsonLd'
@@ -32,10 +32,13 @@ export default async function BlogHomePage() {
             <BlogPosts />
           </div>
           <aside className="space-y-10 lg:sticky lg:top-8 lg:h-fit lg:pl-16 xl:pl-20">
-            <Newsletter subCount="6" />
-            {settings?.limitedOffers?.length ? (
-              <LimitedOffers offers={settings.limitedOffers} />
-            ) : null}
+            <LimitedOffers
+              offers={settings?.limitedOffers ?? []}
+              allLink={settings?.offersAllLink}
+              avatarNote={settings?.offersAvatarNote}
+              description={settings?.offersDescription}
+            />
+            <LatestSoftware items={settings?.latestSoftware ?? []} />
           </aside>
         </div>
       </Container>

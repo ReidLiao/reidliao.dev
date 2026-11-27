@@ -12,11 +12,13 @@ import { useSnapshot } from 'valtio'
 
 import { TiltedSendIcon, XIcon } from '~/assets'
 import { CommentMarkdown } from '~/components/CommentMarkdown'
+import { Button } from '~/components/shadcn/button'
 import { Skeleton } from '~/components/shadcn/skeleton'
 import { type GuestbookDto } from '~/db/dto/guestbook.dto'
 import { parseDisplayName } from '~/lib/string'
 
 import {
+  appendMessages,
   guestbookState,
   removeMessage,
   setMessages,
@@ -108,7 +110,7 @@ function Message({
   const isReplyLoading = isSavingReply || isRemovingReply
 
   return (
-    <li className="relative pb-8">
+    <li className={`relative ${idx === length - 1 ? 'pb-0' : 'pb-8'}`}>
       {idx !== length - 1 && (
         <span
           className="absolute left-5 top-14 -ml-px h-[calc(100%-4.5rem)] w-0.5 rounded bg-zinc-200 dark:bg-zinc-800"
@@ -250,8 +252,25 @@ function Message({
 }
 const MessageBlock = React.memo(Message)
 
-export function GuestbookFeeds(props: { messages?: GuestbookDto[] }) {
+type GuestbookPage = {
+  messages: GuestbookDto[]
+  hasMore: boolean
+  nextOffset: number
+}
+
+export function GuestbookFeeds(props: {
+  messages?: GuestbookDto[]
+  hasMore?: boolean
+  nextOffset?: number
+}) {
   const { user } = useUser()
+  const [hasMore, setHasMore] = React.useState(props.hasMore ?? false)
+  const [nextOffset, setNextOffset] = React.useState(
+    props.nextOffset ?? props.messages?.length ?? 0
+  )
+  const [isLoadingMore, setIsLoadingMore] = React.useState(false)
+  const [loadMoreError, setLoadMoreError] = React.useState<string | null>(null)
+  const [isFeedSynced, setIsFeedSynced] = React.useState(false)
   const isSiteOwner = Boolean(
     (user?.publicMetadata as { siteOwner?: boolean } | undefined)?.siteOwner
   )
@@ -260,8 +279,11 @@ export function GuestbookFeeds(props: { messages?: GuestbookDto[] }) {
     queryKey: ['guestbook'],
     queryFn: async () => {
       const res = await fetch('/api/guestbook')
-      const data = await res.json()
-      return data as GuestbookDto[]
+      const data = (await res.json()) as GuestbookPage & { error?: string }
+      if (!res.ok || !Array.isArray(data.messages)) {
+        throw new Error(data.error ?? '留言暂时无法加载，请稍后再试')
+      }
+      return data
     },
     refetchInterval: () =>
       typeof document !== 'undefined' &&
@@ -270,12 +292,45 @@ export function GuestbookFeeds(props: { messages?: GuestbookDto[] }) {
         : false,
     refetchIntervalInBackground: false,
     refetchOnWindowFocus: true,
-    initialData: props.messages,
+    initialData: props.messages
+      ? {
+          messages: props.messages,
+          hasMore: props.hasMore ?? false,
+          nextOffset: props.nextOffset ?? props.messages.length,
+        }
+      : undefined,
   })
-  const { messages } = useSnapshot(guestbookState)
+  const snapshot = useSnapshot(guestbookState)
+  const messages = isFeedSynced ? snapshot.messages : (feed?.messages ?? [])
   React.useEffect(() => {
-    setMessages(feed ?? [])
+    if (!feed) return
+    setMessages(feed.messages)
+    setIsFeedSynced(true)
+    setHasMore(feed.hasMore)
+    setNextOffset((current) => Math.max(current, feed.nextOffset))
   }, [feed])
+
+  const loadMore = async () => {
+    if (isLoadingMore) return
+    setIsLoadingMore(true)
+    setLoadMoreError(null)
+    try {
+      const res = await fetch(`/api/guestbook?offset=${nextOffset}`)
+      const data = (await res.json()) as GuestbookPage & { error?: string }
+      if (!res.ok || !Array.isArray(data.messages)) {
+        throw new Error(data.error ?? '留言加载失败，请稍后重试')
+      }
+      appendMessages(data.messages)
+      setHasMore(data.hasMore)
+      setNextOffset(data.nextOffset)
+    } catch (error) {
+      setLoadMoreError(
+        error instanceof Error ? error.message : '留言加载失败，请稍后重试'
+      )
+    } finally {
+      setIsLoadingMore(false)
+    }
+  }
 
   if (isLoading && !props.messages) {
     return (
@@ -308,7 +363,7 @@ export function GuestbookFeeds(props: { messages?: GuestbookDto[] }) {
 
   return (
     <div className="relative mt-12">
-      <ul role="list" className="-mb-8 px-1 md:px-4">
+      <ul role="list" className="px-1 md:px-4">
         {messages.map((message, idx) => (
           <MessageBlock
             key={message.id}
@@ -319,6 +374,32 @@ export function GuestbookFeeds(props: { messages?: GuestbookDto[] }) {
           />
         ))}
       </ul>
+      {hasMore ? (
+        <div className="relative z-10 mt-2 flex flex-col items-center gap-2">
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            disabled={isLoadingMore}
+            aria-busy={isLoadingMore}
+            onClick={loadMore}
+            className="min-w-[6.5rem] rounded-full disabled:opacity-100"
+          >
+            {isLoadingMore && (
+              <span
+                aria-hidden="true"
+                className="h-3.5 w-3.5 rounded-full border-2 border-current border-r-transparent motion-safe:animate-spin"
+              />
+            )}
+            {isLoadingMore ? '加载中…' : '加载更多留言'}
+          </Button>
+          {loadMoreError ? (
+            <p role="alert" className="text-xs text-red-600 dark:text-red-400">
+              {loadMoreError}
+            </p>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   )
 }

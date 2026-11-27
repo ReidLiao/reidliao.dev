@@ -166,8 +166,8 @@ export function Header() {
                     position:
                       'var(--header-inner-position)' as React.CSSProperties['position'],
                   }}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ y: 15 }}
+                  animate={{ y: 0 }}
                   transition={{
                     type: 'spring',
                     damping: 30,
