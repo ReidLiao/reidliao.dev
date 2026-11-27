@@ -17,6 +17,13 @@ export const metadata: Metadata = {
   },
   description: seo.description,
   keywords: 'Reidliao.dev, 全栈建站, 系统运维, Docker容器, 云服务器方案, 软件下载, 个人博客',
+  verification: {
+    google: 'njpotjl7IQBgP2iiDXiyomgWTMSOD1INlQv9PTXWzPk',
+    other: {
+      'msvalidate.01': '54236E3CF0D4AC42B4D20FD0B520982D',
+      'baidu-site-verification': 'codeva-98CUpMFAJd',
+    },
+  },
   manifest: '/site.webmanifest',
   icons: {
     icon: [
