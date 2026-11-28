@@ -131,10 +131,6 @@ html.dark ::selection {
   color: var(--color-zinc-950);
 }
 
-main:has([data-donate-page]) ~ footer [data-footer-newsletter] {
-  max-width: 22rem;
-}
-
 /* Consistent keyboard focus ring — a11y baseline for buttons / links / inputs.
    Do NOT force border-radius here; keep each control's own shape (e.g. rounded-full). */
 :where(a, button, [role='button'], input, textarea, select, [tabindex]):focus-visible {
