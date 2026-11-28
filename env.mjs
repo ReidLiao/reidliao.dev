@@ -52,9 +52,8 @@ const processEnv = {
 
 const merged = server.merge(client)
 
-/** @typedef {z.input<typeof merged>} MergedInput */
 /** @typedef {z.infer<typeof merged>} MergedOutput */
-/** @typedef {z.SafeParseReturnType<MergedInput, MergedOutput>} MergedSafeParseReturn */
+/** @typedef {z.ZodSafeParseResult<MergedOutput>} MergedSafeParseReturn */
 
 let env = /** @type {MergedOutput} */ (process.env)
 
@@ -70,7 +69,7 @@ if (!!process.env.SKIP_ENV_VALIDATION == false) {
   if (parsed.success === false) {
     console.error(
       '❌ Invalid environment variables:',
-      parsed.error.flatten().fieldErrors
+      z.flattenError(parsed.error).fieldErrors
     )
     throw new Error('Invalid environment variables')
   }

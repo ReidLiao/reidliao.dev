@@ -12,7 +12,7 @@ export const Project = z.object({
   badge: z.string().optional().nullable(),
   icon: z.object({
     _ref: z.string(),
-    asset: z.any(),
+    asset: z.any().optional(),
   }),
 })
 export type Project = z.infer<typeof Project>

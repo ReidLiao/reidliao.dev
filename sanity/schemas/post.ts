@@ -26,7 +26,7 @@ export const Post = z.object({
   updatedAt: z.string().nullable().optional(),
   description: z.string(),
   categories: z.array(z.string()).optional(),
-  body: z.any(),
+  body: z.any().optional(),
   readingTime: z.number(),
   mood: z.enum(['happy', 'sad', 'neutral']),
 })
