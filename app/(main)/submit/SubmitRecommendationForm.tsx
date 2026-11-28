@@ -13,9 +13,9 @@ export function SubmitRecommendationForm() {
   }>({ kind: 'idle', message: '' })
   const [pending, setPending] = React.useState(false)
 
-  async function submit(event: React.FormEvent<HTMLFormElement>) {
+  async function submit(event: React.FormEvent<HTMLElement>) {
     event.preventDefault()
-    const formElement = event.currentTarget
+    const formElement = event.currentTarget as HTMLFormElement
     setPending(true)
     setStatus({ kind: 'idle', message: '' })
     const form = new FormData(formElement)

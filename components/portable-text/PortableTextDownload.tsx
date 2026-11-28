@@ -7,6 +7,10 @@ import {
   ClipboardDataIcon,
   ExternalLinkIcon,
 } from '~/assets'
+import { Badge } from '~/components/shadcn/badge'
+import { Button } from '~/components/shadcn/button'
+import { Card } from '~/components/shadcn/card'
+import { Select } from '~/components/shadcn/select'
 import { ElegantTooltip } from '~/components/ui/Tooltip'
 
 const platformLabel: Record<string, string> = {
@@ -237,11 +241,12 @@ export function PortableTextDownload({
   if (!value?.title || !active) return null
 
   return (
-    <aside
+    <Card
+      as="aside"
       data-blockid={value._key}
-      className="not-prose group/download my-8 overflow-hidden rounded-2xl border border-zinc-200/80 bg-gradient-to-b from-zinc-50/50 to-white/90 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:border-zinc-700/50 dark:from-zinc-900/50 dark:to-zinc-800/90 dark:ring-white/10 sm:rounded-3xl"
+      className="not-prose group/download my-8 overflow-hidden rounded-2xl border-zinc-200/80 bg-gradient-to-b from-zinc-50/50 to-white/90 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:border-zinc-700/50 dark:from-zinc-900/50 dark:to-zinc-800/90 dark:ring-white/10 sm:rounded-3xl"
     >
-      <div className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:gap-5 sm:p-5">
+      <div className="flex flex-col gap-3 p-3 sm:flex-row sm:items-center sm:gap-4 sm:p-4">
         <div className="min-w-0 flex-1">
             <p className="font-mono text-[10px] font-medium tracking-[0.18em] text-zinc-600 dark:text-zinc-400">
               下载
@@ -282,9 +287,11 @@ export function PortableTextDownload({
                 <ElegantTooltip
                   content={copied === 'code' ? '已复制' : '复制提取码'}
                 >
-                  <button
+                  <Button
                     type="button"
-                    className="-my-1 -mr-1 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-zinc-500 transition hover:bg-white hover:text-emerald-700 dark:hover:bg-zinc-800 dark:hover:text-emerald-400"
+                    variant="ghost"
+                    size="icon"
+                    className="-my-1 -mr-1 h-10 w-10 shrink-0 rounded-full text-zinc-500 hover:bg-white hover:text-emerald-700 dark:hover:bg-zinc-800 dark:hover:text-emerald-400"
                     onClick={() => copyText(value.extractCode, 'code')}
                     aria-label="复制提取码"
                   >
@@ -293,7 +300,7 @@ export function PortableTextDownload({
                     ) : (
                       <ClipboardDataIcon className="h-3.5 w-3.5" />
                     )}
-                  </button>
+                  </Button>
                 </ElegantTooltip>
               </div>
             ) : null}
@@ -303,9 +310,11 @@ export function PortableTextDownload({
                 <ElegantTooltip
                   content={copied === 'note' ? '已复制' : '复制备注'}
                 >
-                  <button
+                  <Button
                     type="button"
-                    className="-my-1 ml-0 inline-flex h-8 w-8 translate-y-0.5 items-center justify-center text-zinc-600 transition hover:text-emerald-700 dark:text-zinc-400 dark:hover:text-emerald-400"
+                    variant="ghost"
+                    size="icon"
+                    className="-my-1 ml-0 h-8 w-8 translate-y-0.5 text-zinc-600 hover:text-emerald-700 dark:text-zinc-400 dark:hover:text-emerald-400"
                     onClick={() => copyText(value.note, 'note')}
                     aria-label="复制备注"
                   >
@@ -314,7 +323,7 @@ export function PortableTextDownload({
                     ) : (
                       <ClipboardDataIcon className="h-3.5 w-3.5" />
                     )}
-                  </button>
+                  </Button>
                 </ElegantTooltip>
               </p>
             ) : null}
@@ -327,9 +336,11 @@ export function PortableTextDownload({
                   <ElegantTooltip
                     content={copied === 'sha' ? '已复制' : '复制校验和'}
                   >
-                    <button
+                    <Button
                       type="button"
-                      className="-my-1 -mr-1 inline-flex h-10 w-10 shrink-0 items-center justify-center text-zinc-500 transition hover:text-emerald-700"
+                      variant="ghost"
+                      size="icon"
+                      className="-my-1 -mr-1 h-10 w-10 shrink-0 text-zinc-500 hover:text-emerald-700 dark:hover:text-emerald-400"
                       onClick={() => copyText(active.checksum, 'sha')}
                       aria-label="复制校验和"
                     >
@@ -338,7 +349,7 @@ export function PortableTextDownload({
                       ) : (
                         <ClipboardDataIcon className="h-3.5 w-3.5" />
                       )}
-                    </button>
+                    </Button>
                   </ElegantTooltip>
                 </div>
                 <code className="mt-1 block break-all">
@@ -352,17 +363,17 @@ export function PortableTextDownload({
           {multi ? (
             <label className="relative min-w-0 w-full flex-none sm:w-auto sm:max-w-[18rem]">
               <span className="sr-only">选择下载文件</span>
-              <select
+              <Select
                 value={safeIndex}
                 onChange={(e) => setSelected(Number(e.target.value))}
-                className="h-10 w-full min-w-0 cursor-pointer appearance-none truncate rounded-full border border-emerald-700/60 bg-emerald-700/10 py-0 pl-3.5 pr-8 text-sm font-medium text-emerald-700 outline-hidden transition focus:ring-2 focus:ring-emerald-700/25 dark:border-emerald-400/50 dark:bg-emerald-400/10 dark:text-emerald-400 dark:focus:ring-emerald-400/20 sm:min-w-[7.5rem]"
+                className="min-w-0 cursor-pointer truncate border-emerald-700/60 bg-emerald-700/10 text-emerald-700 dark:border-emerald-400/50 dark:bg-emerald-400/10 dark:text-emerald-400 sm:min-w-[7.5rem]"
               >
                 {files.map((file, idx) => (
                   <option key={file._key || `${file.url}-${idx}`} value={idx}>
                     {fileLabel(file, files, idx)}
                   </option>
                 ))}
-              </select>
+              </Select>
               <span
                 aria-hidden
                 className="pointer-events-none absolute inset-y-0 right-2.5 flex items-center text-emerald-700 dark:text-emerald-400"
@@ -379,9 +390,9 @@ export function PortableTextDownload({
               </span>
             </label>
           ) : singleBadge ? (
-            <span className="hidden h-10 max-w-full shrink-0 items-center self-end truncate rounded-full border border-emerald-700/60 px-3.5 text-xs font-medium text-emerald-700 dark:border-emerald-400/50 dark:text-emerald-400 sm:inline-flex">
+            <Badge variant="outline" className="hidden h-10 max-w-full shrink-0 self-end truncate border-emerald-700/60 px-3.5 text-xs text-emerald-700 dark:border-emerald-400/50 dark:text-emerald-400 sm:inline-flex">
               {singleBadge}
-            </span>
+            </Badge>
           ) : null}
 
           <a
@@ -399,6 +410,6 @@ export function PortableTextDownload({
       <p className="border-t border-zinc-100/80 px-4 py-2 text-[11px] leading-relaxed text-zinc-600 dark:border-zinc-700/50 dark:text-zinc-400 sm:px-5">
         资源由第三方网盘提供，本站不托管安装包。请自行核验来源与完整性。
       </p>
-    </aside>
+    </Card>
   )
 }

@@ -65,8 +65,8 @@ function cacheKey(url: string) {
 function pathsFor(url: string) {
   const key = cacheKey(url)
   return {
-    file: path.join(CACHE_DIR, key),
-    meta: path.join(CACHE_DIR, `${key}.meta`),
+    file: path.join(/* turbopackIgnore: true */ CACHE_DIR, key),
+    meta: path.join(/* turbopackIgnore: true */ CACHE_DIR, `${key}.meta`),
   }
 }
 
@@ -84,8 +84,8 @@ export async function readImageCache(url: string): Promise<{
   const { file, meta } = pathsFor(normalized)
   try {
     const [body, contentType] = await Promise.all([
-      fs.readFile(file),
-      fs.readFile(meta, 'utf8'),
+      fs.readFile(/* turbopackIgnore: true */ file),
+      fs.readFile(/* turbopackIgnore: true */ meta, 'utf8'),
     ])
     const normalizedContentType = contentType.trim().split(';')[0]
     if (
@@ -117,8 +117,12 @@ export async function writeImageCache(
   await ensureImageCacheDir()
   const { file, meta } = pathsFor(normalized)
   await Promise.all([
-    fs.writeFile(file, body),
-    fs.writeFile(meta, contentType || 'image/jpeg', 'utf8'),
+    fs.writeFile(/* turbopackIgnore: true */ file, body),
+    fs.writeFile(
+      /* turbopackIgnore: true */ meta,
+      contentType || 'image/jpeg',
+      'utf8'
+    ),
   ])
 }
 
