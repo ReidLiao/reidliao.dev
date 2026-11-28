@@ -52,7 +52,7 @@
     "cheerio": "1.0.0-rc.12",
     "dayjs": "^1.11.10",
     "dotenv": "^16.4.5",
-    "drizzle-orm": "^0.30.1",
+    "drizzle-orm": "0.45.4",
     "edge-cors": "^0.2.1",
     "framer-motion": "^14.14.0",
     "hashids": "^2.3.0",
