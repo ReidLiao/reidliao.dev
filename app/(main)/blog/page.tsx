@@ -62,10 +62,16 @@ export default async function BlogPage(
   const category = searchParams?.category
   const parsedPage = Number(searchParams?.page)
   const page = Number.isInteger(parsedPage) && parsedPage > 0 ? parsedPage : 1
-  const [categoryCounts, total, allTotal] = await Promise.all([
+  const [categoryCounts, total, allTotal, requestedPosts] = await Promise.all([
     getBlogCategoryCounts(),
     getPublishedBlogPostCount(category),
     category ? getPublishedBlogPostCount() : Promise.resolve(0),
+    getLatestBlogPosts({
+      limit: pageSize,
+      offset: (page - 1) * pageSize,
+      categorySlug: category,
+      forDisplay: true,
+    }),
   ])
   const selectedCategory = categoryCounts.find((item) => item.slug === category)
   const safeCategory = selectedCategory?.slug
@@ -77,12 +83,17 @@ export default async function BlogPage(
     { length: Math.min(totalPages, 5) },
     (_, index) => firstPageNumber + index
   )
-  const posts = safeTotal > 0 ? await getLatestBlogPosts({
-    limit: pageSize,
-    offset: (currentPage - 1) * pageSize,
-    categorySlug: safeCategory,
-    forDisplay: true,
-  }) : []
+  const posts =
+    safeTotal === 0
+      ? []
+      : currentPage === page
+        ? requestedPosts
+        : await getLatestBlogPosts({
+            limit: pageSize,
+            offset: (currentPage - 1) * pageSize,
+            categorySlug: safeCategory,
+            forDisplay: true,
+          })
   const orderedCategories = categoryOrder.flatMap((title) =>
     categoryCounts.filter((item) => item.title === title)
   )

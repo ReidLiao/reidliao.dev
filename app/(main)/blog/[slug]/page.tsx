@@ -81,6 +81,8 @@ export default async function BlogPage(
     notFound()
   }
 
+  const { body, ...clientPost } = post
+
   const ogImageAbs = cdnImageSrc(post.mainImage.asset.url, {
     width: 1200,
     quality: 80,
@@ -140,7 +142,7 @@ export default async function BlogPage(
       >
       <QueryProvider>
         <BlogPostPage
-          post={post}
+          post={clientPost}
           publishedDate={
             parseDateTime({
               date: new Date(post.publishedAt),
@@ -148,7 +150,7 @@ export default async function BlogPage(
             })?.format('YYYY/MM/DD') ?? ''
           }
         >
-          <PostPortableText value={post.body} />
+          <PostPortableText value={body} />
         </BlogPostPage>
       </QueryProvider>
       </LivePostMetricsProvider>

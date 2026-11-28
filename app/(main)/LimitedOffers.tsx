@@ -50,6 +50,37 @@ function SupplierAvatar({
   )
 }
 
+function OfferCountdown({ deadline }: { deadline: number }) {
+  const [now, setNow] = useState<number | null>(null)
+
+  useEffect(() => {
+    const update = () => {
+      const currentTime = Date.now()
+      setNow(currentTime)
+      return currentTime >= deadline
+    }
+
+    if (update()) return
+
+    const timer = window.setInterval(() => {
+      if (update()) window.clearInterval(timer)
+    }, 1000)
+
+    return () => window.clearInterval(timer)
+  }, [deadline])
+
+  if (now === null || now >= deadline) return null
+
+  return (
+    <span
+      role="timer"
+      className="text-[11px] tabular-nums leading-4 text-zinc-600 dark:text-zinc-400"
+    >
+      {formatOfferCountdown(deadline, now)}
+    </span>
+  )
+}
+
 export function LimitedOffers({
   offers,
   allLink,
@@ -63,8 +94,6 @@ export function LimitedOffers({
 }) {
   const [company, setCompany] = useState<string | null>(null)
   const [tag, setTag] = useState<string | null>(null)
-  const [now, setNow] = useState<number | null>(null)
-
   const suppliers = new Map<string, string | null>()
   const tags = new Set<string>(offerCategories)
   const items = offers.map((offer) => {
@@ -89,13 +118,11 @@ export function LimitedOffers({
       displayTitle: titleWithoutPrice || title,
     }
   })
-  let lastDeadline = 0
   for (const offer of items) {
     if (offer.company && !suppliers.get(offer.company)) {
       suppliers.set(offer.company, offer.logo ?? null)
     }
     for (const value of offer.categories) tags.add(value)
-    lastDeadline = Math.max(lastDeadline, offer.deadline ?? 0)
   }
   const supplierEntries = [...suppliers]
   const visibleSuppliers = supplierEntries.slice(0, 5)
@@ -112,20 +139,6 @@ export function LimitedOffers({
       count: items.filter((offer) => offer.categories.has(category)).length,
     })),
   ].filter(({ count }) => count > 0)
-
-  useEffect(() => {
-    if (!lastDeadline) return
-    const startedAt = Date.now()
-    setNow(startedAt)
-    if (startedAt >= lastDeadline) return
-
-    const timer = window.setInterval(() => {
-      const currentTime = Date.now()
-      setNow(currentTime)
-      if (currentTime >= lastDeadline) window.clearInterval(timer)
-    }, 1000)
-    return () => window.clearInterval(timer)
-  }, [lastDeadline])
 
   return (
     <Card as="section" className="min-w-0 items-stretch rounded-2xl p-5 sm:p-7">
@@ -268,13 +281,8 @@ export function LimitedOffers({
                       {offer.price}
                     </Badge>
                   ) : null}
-                  {offer.deadline !== null && now !== null ? (
-                    <span
-                      role="timer"
-                      className="text-[11px] tabular-nums leading-4 text-zinc-600 dark:text-zinc-400"
-                    >
-                      {formatOfferCountdown(offer.deadline, now)}
-                    </span>
+                  {typeof offer.deadline === 'number' ? (
+                    <OfferCountdown deadline={offer.deadline} />
                   ) : null}
                 </div>
                 <svg

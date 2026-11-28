@@ -8,14 +8,16 @@ import { LivePostMetricsProvider } from './LivePostMetrics'
 export async function BlogPosts({
   posts: inputPosts,
   limit = 5,
+  showEmptyState = false,
 }: {
   posts?: Post[]
   limit?: number
+  showEmptyState?: boolean
 }) {
   const posts = inputPosts ?? (await getLatestBlogPosts({ limit, forDisplay: true })) ?? []
 
   if (posts.length === 0) {
-    if (inputPosts !== undefined) return null
+    if (inputPosts !== undefined && !showEmptyState) return null
     return (
       <div className="col-span-full flex flex-col items-center justify-center rounded-3xl border border-dashed border-zinc-200 py-20 text-center dark:border-zinc-700/60">
         <PencilSwooshIcon className="h-8 w-8 text-zinc-300 dark:text-zinc-600" />

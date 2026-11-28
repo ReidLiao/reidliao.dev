@@ -3,17 +3,15 @@
 import React from 'react'
 
 import { blogPostState } from '~/app/(main)/blog/blog-post.state'
-import { type Post } from '~/sanity/schemas/post'
-
-export function BlogPostStateLoader({ post }: { post: Post }) {
+export function BlogPostStateLoader({ postId }: { postId: string }) {
   React.useEffect(() => {
-    if (blogPostState.postId !== post._id) {
+    if (blogPostState.postId !== postId) {
       blogPostState.comments = []
       blogPostState.currentBlockId = null
       blogPostState.replyingTo = null
     }
-    blogPostState.postId = post._id
-  }, [post._id])
+    blogPostState.postId = postId
+  }, [postId])
 
   return null
 }

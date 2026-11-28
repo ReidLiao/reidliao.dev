@@ -68,7 +68,7 @@ export default async function BlogLayout({
               url: siteUrl,
               logo: {
                 '@type': 'ImageObject',
-                url: url('/avatar.png').href,
+                url: url('/avatar-128.webp').href,
               },
             },
             {
@@ -76,7 +76,7 @@ export default async function BlogLayout({
               '@id': personId,
               name: 'Reid Liao',
               url: url('/about').href,
-              image: url('/avatar.png').href,
+              image: url('/avatar-128.webp').href,
               description: '青柠夜栈的搭建与维护者。',
               sameAs: ['https://github.com/ReidLiao'],
             },

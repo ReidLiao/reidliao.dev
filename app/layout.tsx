@@ -9,6 +9,9 @@ import { url } from '~/lib'
 import { sansFont } from '~/lib/font'
 import { seo } from '~/lib/seo'
 
+const sourceWarning =
+  '⚠️ WARNING：本站内容版权所有 © 2026 青柠夜栈 | Dark Lime Stack，reidliao.dev，未经允许禁止转载、复制、爬取，违者追究。'
+
 export const metadata: Metadata = {
   metadataBase: seo.url,
   title: {
@@ -102,9 +105,12 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        <noscript
+          dangerouslySetInnerHTML={{ __html: `<!-- ${sourceWarning} -->` }}
+        />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme')||'system';var d=document.documentElement;var dark=t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);d.classList.remove('light','dark','system');d.classList.add(dark?'dark':'light');d.style.colorScheme=dark?'dark':'light'}catch(_){}})();`,
+            __html: `(function(){try{var t=localStorage.getItem('theme')||'system';var d=document.documentElement;var dark=t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);d.classList.remove('light','dark','system');d.classList.add(dark?'dark':'light');d.style.colorScheme=dark?'dark':'light'}catch(_){}})();console.warn(${JSON.stringify(sourceWarning)});`,
           }}
         />
       </head>

@@ -8,10 +8,13 @@ import { Photos } from '~/app/(main)/Photos'
 import { PencilSwooshIcon } from '~/assets'
 import { BreadcrumbJsonLd } from '~/components/BreadcrumbJsonLd'
 import { Container } from '~/components/ui/Container'
-import { getSettings } from '~/sanity/queries'
+import { getLatestBlogPosts, getSettings } from '~/sanity/queries'
 
 export default async function BlogHomePage() {
-  const settings = await getSettings()
+  const [settings, posts] = await Promise.all([
+    getSettings(),
+    getLatestBlogPosts({ limit: 5, forDisplay: true }),
+  ])
 
   return (
     <>
@@ -29,7 +32,7 @@ export default async function BlogHomePage() {
               <PencilSwooshIcon className="h-5 w-5 flex-none" />
               <span className="ml-2">近期写作</span>
             </h2>
-            <BlogPosts />
+            <BlogPosts posts={posts ?? []} showEmptyState />
           </div>
           <aside className="space-y-10 lg:sticky lg:top-8 lg:h-fit lg:pl-16 xl:pl-20">
             <LimitedOffers

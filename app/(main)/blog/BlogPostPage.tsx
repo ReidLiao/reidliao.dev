@@ -37,7 +37,7 @@ export function BlogPostPage({
   publishedDate,
   children,
 }: {
-  post: PostDetail
+  post: Omit<PostDetail, 'body'>
   publishedDate: string
   children: React.ReactNode
 }) {
@@ -246,7 +246,7 @@ export function BlogPostPage({
       ) : null}
 
       <ClientOnly>
-        <BlogPostStateLoader post={post} />
+        <BlogPostStateLoader postId={post._id} />
       </ClientOnly>
     </Container>
     </>
