@@ -16,6 +16,16 @@ import {
   PortableTextBlocksNormal,
 } from '~/components/portable-text/PortableTextBlocks'
 import { PortableTextCodeBlock } from '~/components/portable-text/PortableTextCodeBlock'
+import {
+  PortableTextAccordion,
+  PortableTextAlert,
+  PortableTextBadge,
+  PortableTextCard,
+  PortableTextCollapsible,
+  PortableTextSeparator,
+  PortableTextTable,
+  PortableTextTabs,
+} from '~/components/portable-text/PortableTextContentBlocks'
 import { PortableTextDownload } from '~/components/portable-text/PortableTextDownload'
 import { PortableTextImage } from '~/components/portable-text/PortableTextImage'
 import { PortableTextTweet } from '~/components/portable-text/PortableTextTweet'
@@ -151,6 +161,14 @@ const components: PortableTextComponents = {
     codeBlock: PortableTextCodeBlockServer,
     download: PortableTextDownloadBlock,
     videoEmbed: PortableTextVideoEmbedBlock,
+    accordionBlock: PortableTextAccordion,
+    alertBlock: PortableTextAlert,
+    tableBlock: PortableTextTable,
+    tabsBlock: PortableTextTabs,
+    cardBlock: PortableTextCard,
+    badgeBlock: PortableTextBadge,
+    collapsibleBlock: PortableTextCollapsible,
+    separatorBlock: PortableTextSeparator,
   },
 
   marks: {

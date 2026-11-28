@@ -394,5 +394,280 @@ export default defineType({
         },
       },
     }),
+    defineArrayMember({
+      type: 'object',
+      name: 'accordionBlock',
+      title: 'Accordion',
+      fields: [
+        defineField({
+          name: 'items',
+          title: '折叠条目',
+          type: 'array',
+          of: [
+            defineArrayMember({
+              type: 'object',
+              name: 'accordionItem',
+              fields: [
+                defineField({
+                  name: 'title',
+                  title: '标题',
+                  type: 'string',
+                  validation: (Rule) => Rule.required(),
+                }),
+                defineField({
+                  name: 'content',
+                  title: '内容',
+                  type: 'text',
+                  rows: 4,
+                  validation: (Rule) => Rule.required(),
+                }),
+              ],
+              preview: { select: { title: 'title' } },
+            }),
+          ],
+          validation: (Rule) => Rule.required().min(1),
+        }),
+      ],
+      preview: {
+        select: { items: 'items' },
+        prepare({ items }) {
+          return {
+            title: 'Accordion',
+            subtitle: `${Array.isArray(items) ? items.length : 0} 个折叠条目`,
+          }
+        },
+      },
+    }),
+    defineArrayMember({
+      type: 'object',
+      name: 'alertBlock',
+      title: 'Alert',
+      fields: [
+        defineField({
+          name: 'variant',
+          title: '样式',
+          type: 'string',
+          options: {
+            list: [
+              { title: '提示', value: 'info' },
+              { title: '成功', value: 'success' },
+              { title: '警告', value: 'warning' },
+              { title: '错误', value: 'error' },
+            ],
+            layout: 'radio',
+          },
+          initialValue: 'info',
+        }),
+        defineField({
+          name: 'title',
+          title: '标题',
+          type: 'string',
+          validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+          name: 'content',
+          title: '内容',
+          type: 'text',
+          rows: 4,
+          validation: (Rule) => Rule.required(),
+        }),
+      ],
+      preview: {
+        select: { title: 'title' },
+        prepare: ({ title }) => ({ title: title || 'Alert' }),
+      },
+    }),
+    defineArrayMember({
+      type: 'object',
+      name: 'tableBlock',
+      title: 'Table',
+      fields: [
+        defineField({
+          name: 'caption',
+          title: '表格说明（可选）',
+          type: 'string',
+        }),
+        defineField({
+          name: 'headers',
+          title: '表头',
+          type: 'array',
+          of: [defineArrayMember({ type: 'string' })],
+          validation: (Rule) => Rule.required().min(1),
+        }),
+        defineField({
+          name: 'rows',
+          title: '数据行',
+          type: 'array',
+          of: [
+            defineArrayMember({
+              type: 'object',
+              name: 'tableRow',
+              fields: [
+                defineField({
+                  name: 'cells',
+                  title: '单元格（顺序与表头对应）',
+                  type: 'array',
+                  of: [defineArrayMember({ type: 'string' })],
+                }),
+              ],
+              preview: {
+                select: { cells: 'cells' },
+                prepare: ({ cells }) => ({
+                  title: Array.isArray(cells) ? cells.join(' · ') : '数据行',
+                }),
+              },
+            }),
+          ],
+        }),
+      ],
+      preview: {
+        select: { caption: 'caption' },
+        prepare: ({ caption }) => ({ title: caption || 'Table' }),
+      },
+    }),
+    defineArrayMember({
+      type: 'object',
+      name: 'tabsBlock',
+      title: 'Tabs',
+      fields: [
+        defineField({
+          name: 'tabs',
+          title: '标签页',
+          type: 'array',
+          of: [
+            defineArrayMember({
+              type: 'object',
+              name: 'tabItem',
+              fields: [
+                defineField({
+                  name: 'title',
+                  title: '标签名称',
+                  type: 'string',
+                  validation: (Rule) => Rule.required(),
+                }),
+                defineField({
+                  name: 'content',
+                  title: '内容',
+                  type: 'text',
+                  rows: 4,
+                  validation: (Rule) => Rule.required(),
+                }),
+              ],
+              preview: { select: { title: 'title' } },
+            }),
+          ],
+          validation: (Rule) => Rule.required().min(1),
+        }),
+      ],
+      preview: {
+        select: { tabs: 'tabs' },
+        prepare({ tabs }) {
+          return {
+            title: 'Tabs',
+            subtitle: `${Array.isArray(tabs) ? tabs.length : 0} 个标签页`,
+          }
+        },
+      },
+    }),
+    defineArrayMember({
+      type: 'object',
+      name: 'cardBlock',
+      title: 'Card',
+      fields: [
+        defineField({ name: 'title', title: '标题', type: 'string' }),
+        defineField({
+          name: 'description',
+          title: '内容',
+          type: 'text',
+          rows: 4,
+          validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+          name: 'badge',
+          title: '徽章文字（可选）',
+          type: 'string',
+        }),
+      ],
+      preview: {
+        select: { title: 'title' },
+        prepare: ({ title }) => ({ title: title || 'Card' }),
+      },
+    }),
+    defineArrayMember({
+      type: 'object',
+      name: 'badgeBlock',
+      title: 'Badge',
+      fields: [
+        defineField({
+          name: 'label',
+          title: '文字',
+          type: 'string',
+          validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+          name: 'variant',
+          title: '样式',
+          type: 'string',
+          options: {
+            list: [
+              { title: '墨绿强调', value: 'accent' },
+              { title: 'Zinc 中性', value: 'neutral' },
+            ],
+            layout: 'radio',
+          },
+          initialValue: 'accent',
+        }),
+      ],
+      preview: {
+        select: { title: 'label' },
+        prepare: ({ title }) => ({ title: title || 'Badge' }),
+      },
+    }),
+    defineArrayMember({
+      type: 'object',
+      name: 'collapsibleBlock',
+      title: 'Collapsible',
+      fields: [
+        defineField({
+          name: 'title',
+          title: '展开标题',
+          type: 'string',
+          validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+          name: 'content',
+          title: '内容',
+          type: 'text',
+          rows: 4,
+          validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+          name: 'defaultOpen',
+          title: '默认展开',
+          type: 'boolean',
+          initialValue: false,
+        }),
+      ],
+      preview: {
+        select: { title: 'title' },
+        prepare: ({ title }) => ({ title: title || 'Collapsible' }),
+      },
+    }),
+    defineArrayMember({
+      type: 'object',
+      name: 'separatorBlock',
+      title: 'Separator',
+      fields: [
+        defineField({
+          name: 'label',
+          title: '中间文字（可选）',
+          type: 'string',
+        }),
+      ],
+      preview: {
+        select: { title: 'label' },
+        prepare: ({ title }) => ({ title: title || 'Separator' }),
+      },
+    }),
   ],
 })
