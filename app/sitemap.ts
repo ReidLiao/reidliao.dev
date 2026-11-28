@@ -28,6 +28,9 @@ export default async function sitemap() {
       url: url('/links').href,
     },
     {
+      url: url('/resources').href,
+    },
+    {
       url: url('/submit').href,
     },
   ] satisfies MetadataRoute.Sitemap

@@ -9,6 +9,7 @@ import friendLink from './schemas/friendLink'
 import offerSupplier from './schemas/offerSupplier'
 import post from './schemas/post'
 import project from './schemas/project'
+import resource from './schemas/resource'
 import settings from './schemas/settings'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
@@ -21,6 +22,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     friendLink,
     blockContent,
     project,
+    resource,
     offerSupplier,
     settings,
   ],
