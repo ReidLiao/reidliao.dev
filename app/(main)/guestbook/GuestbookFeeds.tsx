@@ -145,7 +145,7 @@ function Message({
               <button
                 type="button"
                 onClick={() => setIsReplying((value) => !value)}
-                className="inline-flex items-center rounded-md px-1.5 py-0.5 text-[11px] text-zinc-600 transition hover:bg-lime-50 hover:text-lime-700 dark:text-zinc-400 dark:hover:bg-lime-950/30 dark:hover:text-lime-300"
+                className="inline-flex items-center rounded-md px-1.5 py-0.5 text-[11px] text-zinc-600 transition hover:bg-emerald-50 hover:text-emerald-700 dark:text-zinc-400 dark:hover:bg-emerald-950/30 dark:hover:text-emerald-400"
               >
                 {message.reply ? '修改回复' : '回复'}
               </button>
@@ -178,7 +178,7 @@ function Message({
             maxLength={600}
             rows={3}
             placeholder="写一条站长回复..."
-            className="block w-full resize-y rounded-lg border border-zinc-200 bg-white/70 px-3 py-2 text-sm text-zinc-800 outline-hidden transition placeholder:text-zinc-400 focus:border-lime-500 focus:ring-2 focus:ring-lime-500/20 dark:border-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-200 dark:placeholder:text-zinc-500 dark:focus:border-lime-400 dark:focus:ring-lime-400/20"
+            className="block w-full resize-y rounded-lg border border-zinc-200 bg-white/70 px-3 py-2 text-sm text-zinc-800 outline-hidden transition placeholder:text-zinc-400 focus:border-emerald-700 focus:ring-2 focus:ring-emerald-700/20 dark:border-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-200 dark:placeholder:text-zinc-500 dark:focus:border-emerald-400 dark:focus:ring-emerald-400/20"
           />
           <div className="mt-2 flex items-center justify-between gap-3">
             <span className="text-[11px] text-zinc-500 dark:text-zinc-400">
@@ -229,9 +229,9 @@ function Message({
             className="h-10 w-10 flex-shrink-0 rounded-full bg-zinc-200 ring-2 ring-zinc-200 [clip-path:circle(46%_at_50%_50%)] dark:bg-zinc-800 dark:ring-zinc-800"
             unoptimized
           />
-          <div className="min-w-0 flex-1 rounded-xl border border-y-zinc-200 border-r-zinc-200 border-l-2 border-lime-500/70 bg-white/70 px-3 py-2.5 dark:border-y-zinc-800 dark:border-r-zinc-800 dark:border-lime-400/60 dark:bg-zinc-900/60">
+          <div className="min-w-0 flex-1 rounded-xl border border-y-zinc-200 border-r-zinc-200 border-l-2 border-emerald-700/70 bg-white/70 px-3 py-2.5 dark:border-y-zinc-800 dark:border-r-zinc-800 dark:border-emerald-400/60 dark:bg-zinc-900/60">
             <div className="flex items-center gap-2">
-              <span className="rounded-full bg-lime-500/15 px-2 py-0.5 text-[11px] font-medium text-lime-700 dark:bg-lime-400/15 dark:text-lime-300">
+              <span className="rounded-full bg-emerald-700/15 px-2 py-0.5 text-[11px] font-medium text-emerald-700 dark:bg-emerald-400/15 dark:text-emerald-400">
                 站长
               </span>
               <time

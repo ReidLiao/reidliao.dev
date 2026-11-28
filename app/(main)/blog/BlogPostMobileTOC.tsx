@@ -35,7 +35,7 @@ export function BlogPostMobileTOC({ headings }: { headings: Node[] }) {
       ref={detailsRef}
       className="group mb-8 rounded-2xl border border-zinc-200/70 bg-white/70 backdrop-blur-xs dark:border-zinc-700/50 dark:bg-zinc-900/50 lg:hidden"
     >
-      <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-4 py-3 text-sm font-medium text-zinc-700 outline-hidden hover:text-zinc-900 focus-visible:ring-2 focus-visible:ring-lime-500/70 dark:text-zinc-300 dark:hover:text-zinc-100 dark:focus-visible:ring-lime-400/70">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-4 py-3 text-sm font-medium text-zinc-700 outline-hidden hover:text-zinc-900 focus-visible:ring-2 focus-visible:ring-emerald-700/70 dark:text-zinc-300 dark:hover:text-zinc-100 dark:focus-visible:ring-emerald-400/70">
         <span className="inline-flex items-center gap-2">
           <Layers3Icon className="h-4 w-4" />
           文章目录
@@ -67,9 +67,9 @@ export function BlogPostMobileTOC({ headings }: { headings: Node[] }) {
               href={`#${node.id}`}
               onClick={onNavigate}
               className={
-                'relative block truncate rounded-md px-2 py-1.5 text-[13px] leading-5 text-zinc-600 transition-colors hover:bg-lime-500/10 hover:text-lime-700 dark:text-zinc-400 dark:hover:bg-lime-400/10 dark:hover:text-lime-300' +
+                'relative block truncate rounded-md px-2 py-1.5 text-[13px] leading-5 text-zinc-600 transition-colors hover:bg-emerald-700/10 hover:text-emerald-700 dark:text-zinc-400 dark:hover:bg-emerald-400/10 dark:hover:text-emerald-400' +
                 (node.id === highlightedHeadingId
-                  ? ' border-l-2 border-lime-500 font-semibold text-zinc-900 dark:border-lime-400 dark:text-zinc-100'
+                  ? ' border-l-2 border-emerald-700 font-semibold text-zinc-900 dark:border-emerald-400 dark:text-zinc-100'
                   : '') +
                 (node.style === 'h3' ? ' pl-5' : '') +
                 (node.style === 'h4' ? ' pl-8' : '')

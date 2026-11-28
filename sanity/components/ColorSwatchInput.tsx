@@ -3,7 +3,7 @@ import { Menu, MenuButton, MenuItem } from '@sanity/ui/menu'
 import { set, type StringInputProps } from 'sanity'
 
 const swatches: Record<string, string> = {
-  lime: '#84cc16',
+  lime: '#047857',
   emerald: '#10b981',
   sky: '#0ea5e9',
   amber: '#f59e0b',

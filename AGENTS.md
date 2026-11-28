@@ -5,7 +5,7 @@
 
 ## 技术栈
 - Next.js 14 (App Router) + React 18 + pnpm 8.15.8
-- Tailwind CSS 3（zinc 暗色 + **lime** 强调色）+ framer-motion
+- Tailwind CSS 3（zinc 暗色 + **墨绿** 强调色）+ framer-motion
 - Drizzle ORM + Neon (PostgreSQL)；Sanity 3 + Studio (`/studio`)；Clerk；Resend + react-email；Upstash Redis
 
 ## 部署红线（2GB VPS，违背会 OOM 死机）
@@ -25,7 +25,7 @@
 1. 文章主图必填（Sanity 手传）；**不**恢复自动封面、`GeneratedCover`、`/api/og/post`
 2. **不**加 Footer 社交图标行、博客分类 Tab、移动端悬浮反应条
 3. **不**引入新的分析 / 统计 SaaS
-4. UI 保持 zinc + **lime** 强调色；全局 focus **不**强制写死 `border-radius`
+4. UI 保持 zinc + **墨绿** 强调色；全局 focus **不**强制写死 `border-radius`
 5. 新增代码高亮语言时：必须同时改 `PortableTextCodeBlock` 注册表 **和** Sanity `languageAlternatives`
 6. 文案口径：自建者 / 开源深度定制 / 持续维护；**不**提 cali.so fork 等对比话术
 7. 中文走系统字体，**不**挂巨型 CJK webfont；英文用 Manrope

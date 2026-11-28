@@ -284,7 +284,7 @@ export function PortableTextDownload({
                 >
                   <button
                     type="button"
-                    className="-my-1 -mr-1 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-zinc-500 transition hover:bg-white hover:text-lime-600 dark:hover:bg-zinc-800 dark:hover:text-lime-400"
+                    className="-my-1 -mr-1 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-zinc-500 transition hover:bg-white hover:text-emerald-700 dark:hover:bg-zinc-800 dark:hover:text-emerald-400"
                     onClick={() => copyText(value.extractCode, 'code')}
                     aria-label="复制提取码"
                   >
@@ -305,7 +305,7 @@ export function PortableTextDownload({
                 >
                   <button
                     type="button"
-                    className="-my-1 ml-0 inline-flex h-8 w-8 translate-y-0.5 items-center justify-center text-zinc-600 transition hover:text-lime-600 dark:text-zinc-400 dark:hover:text-lime-400"
+                    className="-my-1 ml-0 inline-flex h-8 w-8 translate-y-0.5 items-center justify-center text-zinc-600 transition hover:text-emerald-700 dark:text-zinc-400 dark:hover:text-emerald-400"
                     onClick={() => copyText(value.note, 'note')}
                     aria-label="复制备注"
                   >
@@ -319,7 +319,7 @@ export function PortableTextDownload({
               </p>
             ) : null}
             {active.checksum ? (
-              <div className="mt-2.5 max-w-md overflow-hidden rounded-lg bg-zinc-950/95 px-2.5 py-1.5 font-mono text-[10px] leading-relaxed text-lime-400/90">
+              <div className="mt-2.5 max-w-md overflow-hidden rounded-lg bg-zinc-950/95 px-2.5 py-1.5 font-mono text-[10px] leading-relaxed text-emerald-400/90">
                 <div className="flex items-center justify-between gap-2">
                   <span className="shrink-0 text-zinc-500">
                     {checksumLabel(active.checksum)}
@@ -329,7 +329,7 @@ export function PortableTextDownload({
                   >
                     <button
                       type="button"
-                      className="-my-1 -mr-1 inline-flex h-10 w-10 shrink-0 items-center justify-center text-zinc-500 transition hover:text-lime-300"
+                      className="-my-1 -mr-1 inline-flex h-10 w-10 shrink-0 items-center justify-center text-zinc-500 transition hover:text-emerald-700"
                       onClick={() => copyText(active.checksum, 'sha')}
                       aria-label="复制校验和"
                     >
@@ -355,7 +355,7 @@ export function PortableTextDownload({
               <select
                 value={safeIndex}
                 onChange={(e) => setSelected(Number(e.target.value))}
-                className="h-10 w-full min-w-0 cursor-pointer appearance-none truncate rounded-full border border-lime-600/60 bg-lime-500/10 py-0 pl-3.5 pr-8 text-sm font-medium text-lime-800 outline-hidden transition focus:ring-2 focus:ring-lime-500/25 dark:border-lime-400/50 dark:bg-lime-400/10 dark:text-lime-300 dark:focus:ring-lime-400/20 sm:min-w-[7.5rem]"
+                className="h-10 w-full min-w-0 cursor-pointer appearance-none truncate rounded-full border border-emerald-700/60 bg-emerald-700/10 py-0 pl-3.5 pr-8 text-sm font-medium text-emerald-700 outline-hidden transition focus:ring-2 focus:ring-emerald-700/25 dark:border-emerald-400/50 dark:bg-emerald-400/10 dark:text-emerald-400 dark:focus:ring-emerald-400/20 sm:min-w-[7.5rem]"
               >
                 {files.map((file, idx) => (
                   <option key={file._key || `${file.url}-${idx}`} value={idx}>
@@ -365,7 +365,7 @@ export function PortableTextDownload({
               </select>
               <span
                 aria-hidden
-                className="pointer-events-none absolute inset-y-0 right-2.5 flex items-center text-lime-700 dark:text-lime-300"
+                className="pointer-events-none absolute inset-y-0 right-2.5 flex items-center text-emerald-700 dark:text-emerald-400"
               >
                 <svg
                   viewBox="0 0 12 12"
@@ -379,7 +379,7 @@ export function PortableTextDownload({
               </span>
             </label>
           ) : singleBadge ? (
-            <span className="hidden h-10 max-w-full shrink-0 items-center self-end truncate rounded-full border border-lime-600/60 px-3.5 text-xs font-medium text-lime-800 dark:border-lime-400/50 dark:text-lime-300 sm:inline-flex">
+            <span className="hidden h-10 max-w-full shrink-0 items-center self-end truncate rounded-full border border-emerald-700/60 px-3.5 text-xs font-medium text-emerald-700 dark:border-emerald-400/50 dark:text-emerald-400 sm:inline-flex">
               {singleBadge}
             </span>
           ) : null}
@@ -388,7 +388,7 @@ export function PortableTextDownload({
             href={active.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex h-10 w-full shrink-0 items-center justify-center gap-2 rounded-full bg-lime-700 px-4 text-sm font-semibold text-white outline-offset-2 transition hover:bg-lime-800 active:bg-lime-900 active:text-white/80 dark:bg-lime-400 dark:text-zinc-950 dark:hover:bg-lime-300 dark:active:bg-lime-500 sm:w-auto sm:px-5"
+            className="inline-flex h-10 w-full shrink-0 items-center justify-center gap-2 rounded-full bg-emerald-700 px-4 text-sm font-semibold text-white outline-offset-2 transition hover:bg-emerald-800 active:bg-emerald-900 active:text-white/80 dark:bg-emerald-400 dark:text-zinc-950 dark:hover:bg-emerald-300 dark:active:bg-emerald-400 sm:w-auto sm:px-5"
           >
             前往下载
             <ExternalLinkIcon className="h-3.5 w-3.5 opacity-80" />

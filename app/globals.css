@@ -3,12 +3,12 @@
 @plugin "@tailwindcss/typography";
 @plugin "@headlessui/tailwindcss";
 @source "../node_modules/@tremor";
-@source inline("{hover:,ui-selected:,}bg-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-{50,100,200,300,400,500,600,700,800,900,950}");
-@source inline("{hover:,ui-selected:,}text-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-{50,100,200,300,400,500,600,700,800,900,950}");
-@source inline("{hover:,ui-selected:,}border-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-{50,100,200,300,400,500,600,700,800,900,950}");
-@source inline("ring-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-{50,100,200,300,400,500,600,700,800,900,950}");
-@source inline("stroke-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-{50,100,200,300,400,500,600,700,800,900,950}");
-@source inline("fill-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("{hover:,ui-selected:,}bg-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("{hover:,ui-selected:,}text-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("{hover:,ui-selected:,}border-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("ring-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("stroke-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("fill-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-{50,100,200,300,400,500,600,700,800,900,950}");
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -122,8 +122,13 @@ html.theme-transition *::after {
 }
 
 ::selection {
-  background-color: var(--color-lime-500);
-  color: var(--color-lime-950);
+  background-color: var(--color-emerald-700);
+  color: white;
+}
+
+html.dark ::selection {
+  background-color: var(--color-emerald-400);
+  color: var(--color-zinc-950);
 }
 
 main:has([data-donate-page]) ~ footer [data-footer-newsletter] {
@@ -136,13 +141,13 @@ main:has([data-donate-page]) ~ footer [data-footer-newsletter] {
   outline: none;
   box-shadow:
     0 0 0 2px var(--bg-color, var(--color-zinc-50)),
-    0 0 0 4px color-mix(in srgb, var(--color-lime-500) 55%, transparent);
+    0 0 0 4px color-mix(in srgb, var(--color-emerald-700) 55%, transparent);
 }
 html.dark
   :where(a, button, [role='button'], input, textarea, select, [tabindex]):focus-visible {
   box-shadow:
     0 0 0 2px var(--bg-color, var(--color-primary-900)),
-    0 0 0 4px color-mix(in srgb, var(--color-lime-400) 60%, transparent);
+    0 0 0 4px color-mix(in srgb, var(--color-emerald-400) 60%, transparent);
 }
 
 @keyframes typing-pulse {

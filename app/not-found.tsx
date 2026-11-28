@@ -11,7 +11,7 @@ export default function NotFoundPage() {
 
       <main className="relative flex min-h-screen flex-col items-center justify-center px-6 py-24 text-center">
         <Container className="max-w-lg">
-          <p className="font-mono text-xs tracking-widest text-lime-600 dark:text-lime-400">
+          <p className="font-mono text-xs tracking-widest text-emerald-700 dark:text-emerald-400">
             HTTP 404
           </p>
           <p className="mt-3 font-mono text-sm text-zinc-400 dark:text-zinc-500">
@@ -39,21 +39,21 @@ export default function NotFoundPage() {
             </Link>
             <Link
               href="/blog"
-              className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-transparent px-5 py-2.5 text-sm font-medium text-zinc-700 transition hover:border-lime-500/40 hover:text-lime-600 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-lime-400/40 dark:hover:text-lime-400"
+              className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-transparent px-5 py-2.5 text-sm font-medium text-zinc-700 transition hover:border-emerald-700/40 hover:text-emerald-700 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-emerald-400/40 dark:hover:text-emerald-400"
             >
               <ScriptIcon className="h-4 w-4" />
               博客
             </Link>
             <Link
               href="/vps"
-              className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-transparent px-5 py-2.5 text-sm font-medium text-zinc-700 transition hover:border-lime-500/40 hover:text-lime-600 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-lime-400/40 dark:hover:text-lime-400"
+              className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-transparent px-5 py-2.5 text-sm font-medium text-zinc-700 transition hover:border-emerald-700/40 hover:text-emerald-700 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-emerald-400/40 dark:hover:text-emerald-400"
             >
               <CloudIcon className="h-4 w-4" />
               机房
             </Link>
             <Link
               href="/guestbook"
-              className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-transparent px-5 py-2.5 text-sm font-medium text-zinc-700 transition hover:border-lime-500/40 hover:text-lime-600 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-lime-400/40 dark:hover:text-lime-400"
+              className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-transparent px-5 py-2.5 text-sm font-medium text-zinc-700 transition hover:border-emerald-700/40 hover:text-emerald-700 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-emerald-400/40 dark:hover:text-emerald-400"
             >
               <UsersIcon className="h-4 w-4" />
               留言墙

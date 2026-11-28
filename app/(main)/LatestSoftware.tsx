@@ -18,7 +18,7 @@ export function LatestSoftware({ items }: { items: HomepageSoftware[] }) {
             <li key={_key}>
               <Link
                 href={url}
-                className="group flex min-h-11 items-center gap-3 rounded-md py-2 text-sm font-medium text-zinc-900 hover:text-lime-700 dark:text-zinc-100 dark:hover:text-lime-400"
+                className="group flex min-h-11 items-center gap-3 rounded-md py-2 text-sm font-medium text-zinc-900 hover:text-emerald-700 dark:text-zinc-100 dark:hover:text-emerald-400"
               >
                 {icon ? (
                   <Image

@@ -49,7 +49,7 @@ export function FloatingContact() {
               href="mailto:hi@reidliao.dev"
               aria-label="发送邮件"
               title="发送邮件"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-zinc-200 bg-white/90 text-zinc-600 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur transition hover:border-lime-500/50 hover:text-lime-700 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-lime-500 dark:border-zinc-700 dark:bg-zinc-900/90 dark:text-zinc-300 dark:ring-white/10 dark:hover:border-lime-400/50 dark:hover:text-lime-300 dark:focus-visible:ring-lime-400"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-zinc-200 bg-white/90 text-zinc-600 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur transition hover:border-emerald-700/50 hover:text-emerald-700 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-emerald-700 dark:border-zinc-700 dark:bg-zinc-900/90 dark:text-zinc-300 dark:ring-white/10 dark:hover:border-emerald-400/50 dark:hover:text-emerald-400 dark:focus-visible:ring-emerald-400"
             >
               <svg
                 aria-hidden="true"
@@ -69,7 +69,7 @@ export function FloatingContact() {
               title="微信公众号二维码"
               aria-expanded={wechatOpen}
               onClick={() => setWechatOpen((value) => !value)}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-zinc-200 bg-white/90 text-zinc-600 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur transition hover:border-lime-500/50 hover:text-lime-700 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-lime-500 dark:border-zinc-700 dark:bg-zinc-900/90 dark:text-zinc-300 dark:ring-white/10 dark:hover:border-lime-400/50 dark:hover:text-lime-300 dark:focus-visible:ring-lime-400"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-zinc-200 bg-white/90 text-zinc-600 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur transition hover:border-emerald-700/50 hover:text-emerald-700 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-emerald-700 dark:border-zinc-700 dark:bg-zinc-900/90 dark:text-zinc-300 dark:ring-white/10 dark:hover:border-emerald-400/50 dark:hover:text-emerald-400 dark:focus-visible:ring-emerald-400"
             >
               <svg
                 aria-hidden="true"
@@ -92,7 +92,7 @@ export function FloatingContact() {
           setOpen((value) => !value)
           setWechatOpen(false)
         }}
-        className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-zinc-200 bg-white/90 text-zinc-600 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur transition hover:border-lime-500/50 hover:text-lime-700 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-lime-500 dark:border-zinc-700 dark:bg-zinc-900/90 dark:text-zinc-300 dark:ring-white/10 dark:hover:border-lime-400/50 dark:hover:text-lime-300 dark:focus-visible:ring-lime-400"
+        className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-zinc-200 bg-white/90 text-zinc-600 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur transition hover:border-emerald-700/50 hover:text-emerald-700 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-emerald-700 dark:border-zinc-700 dark:bg-zinc-900/90 dark:text-zinc-300 dark:ring-white/10 dark:hover:border-emerald-400/50 dark:hover:text-emerald-400 dark:focus-visible:ring-emerald-400"
       >
         <svg
           aria-hidden="true"

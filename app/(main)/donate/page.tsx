@@ -70,7 +70,7 @@ export default async function DonatePage() {
           <span className="inline-flex items-center gap-2 font-mono text-xs text-zinc-500 dark:text-zinc-400">
             <span
               aria-hidden="true"
-              className="h-2 w-2 animate-pulse rounded-full bg-lime-500 shadow-[0_0_10px_rgba(132,204,22,0.7)] dark:bg-lime-400"
+              className="h-2 w-2 animate-pulse rounded-full bg-emerald-700 shadow-[0_0_10px_rgba(4,120,87,0.7)] dark:bg-emerald-400"
             />
             感谢支持
           </span>
@@ -107,7 +107,7 @@ export default async function DonatePage() {
                       <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
                         支付宝
                       </h3>
-                      <span className="rounded-full bg-lime-500/10 px-2 py-0.5 text-[11px] font-medium text-lime-700 ring-1 ring-lime-500/20 dark:bg-lime-400/10 dark:text-lime-300 dark:ring-lime-400/20">
+                      <span className="rounded-full bg-emerald-700/10 px-2 py-0.5 text-[11px] font-medium text-emerald-700 ring-1 ring-emerald-700/20 dark:bg-emerald-400/10 dark:text-emerald-400 dark:ring-emerald-400/20">
                         推荐
                       </span>
                     </div>
@@ -134,7 +134,7 @@ export default async function DonatePage() {
                       <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
                         微信支付
                       </h3>
-                      <span className="rounded-full bg-lime-500/10 px-2 py-0.5 text-[11px] font-medium text-lime-700 ring-1 ring-lime-500/20 dark:bg-lime-400/10 dark:text-lime-300 dark:ring-lime-400/20">
+                      <span className="rounded-full bg-emerald-700/10 px-2 py-0.5 text-[11px] font-medium text-emerald-700 ring-1 ring-emerald-700/20 dark:bg-emerald-400/10 dark:text-emerald-400 dark:ring-emerald-400/20">
                         推荐
                       </span>
                     </div>
@@ -178,7 +178,7 @@ export default async function DonatePage() {
             捐完欢迎去
             <Link
               href="/guestbook"
-              className="transition hover:text-lime-600 dark:hover:text-lime-400"
+              className="transition hover:text-emerald-700 dark:hover:text-emerald-400"
             >
               留言墙
             </Link>

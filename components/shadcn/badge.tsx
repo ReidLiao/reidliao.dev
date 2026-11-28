@@ -13,7 +13,7 @@ function Badge({
 }: BadgeProps) {
   const variants = {
     default:
-      'border-transparent bg-lime-500/10 text-lime-700 ring-lime-500/20 dark:bg-lime-400/10 dark:text-lime-300 dark:ring-lime-400/20',
+      'border-transparent bg-emerald-700/10 text-emerald-700 ring-emerald-700/20 dark:bg-emerald-400/10 dark:text-emerald-400 dark:ring-emerald-400/20',
     secondary:
       'border-transparent bg-zinc-100 text-zinc-600 ring-zinc-900/5 dark:bg-zinc-800 dark:text-zinc-300 dark:ring-white/10',
     outline:

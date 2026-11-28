@@ -130,7 +130,7 @@ export function BlogPostPage({
                 {showUpdated && post.updatedAt ? (
                   <time
                     dateTime={post.updatedAt}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-lime-500/10 px-2.5 py-1 text-xs font-medium text-lime-700 ring-1 ring-lime-500/20 dark:bg-lime-400/10 dark:text-lime-300 dark:ring-lime-400/20"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-emerald-700/10 px-2.5 py-1 text-xs font-medium text-emerald-700 ring-1 ring-emerald-700/20 dark:bg-emerald-400/10 dark:text-emerald-400 dark:ring-emerald-400/20"
                     title="最近更新"
                   >
                     <PencilSwooshIcon className="h-4 w-4" />

@@ -67,13 +67,13 @@ export default function SubmitPage() {
             <div className="mt-3 flex flex-col items-start gap-2 text-sm text-zinc-600 dark:text-zinc-400">
               <a
                 href="mailto:hi@reidliao.dev"
-                className="transition hover:text-lime-700 dark:hover:text-lime-400"
+                className="transition hover:text-emerald-700 dark:hover:text-emerald-400"
               >
                 hi@reidliao.dev
               </a>
               <Link
                 href="/guestbook"
-                className="transition hover:text-lime-700 dark:hover:text-lime-400"
+                className="transition hover:text-emerald-700 dark:hover:text-emerald-400"
               >
                 留言墙
               </Link>

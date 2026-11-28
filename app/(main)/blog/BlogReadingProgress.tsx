@@ -13,7 +13,7 @@ export function BlogReadingProgress() {
 
   return (
     <motion.div
-      className="fixed inset-x-0 top-0 z-[60] h-0.5 origin-left bg-lime-500 dark:bg-lime-400"
+      className="fixed inset-x-0 top-0 z-[60] h-0.5 origin-left bg-emerald-700 dark:bg-emerald-400"
       style={{ scaleX }}
       aria-hidden="true"
     />

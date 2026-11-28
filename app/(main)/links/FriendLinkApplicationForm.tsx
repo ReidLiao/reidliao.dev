@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-const fieldClass = 'mt-1.5 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2.5 text-sm text-zinc-900 outline-hidden transition placeholder:text-zinc-400 focus:border-lime-600 focus:ring-2 focus:ring-lime-500/20 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-lime-400'
+const fieldClass = 'mt-1.5 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2.5 text-sm text-zinc-900 outline-hidden transition placeholder:text-zinc-400 focus:border-emerald-700 focus:ring-2 focus:ring-emerald-700/20 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-emerald-400'
 
 export function FriendLinkApplicationForm() {
   const [message, setMessage] = React.useState('')
@@ -55,7 +55,7 @@ export function FriendLinkApplicationForm() {
       <button type="submit" disabled={pending} className="inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-black px-6 text-sm font-semibold text-white transition hover:bg-zinc-800 disabled:cursor-wait disabled:opacity-60 dark:bg-black dark:hover:bg-zinc-800">
         {pending ? '正在提交…' : '提交申请'}
       </button>
-      <p role="status" aria-live="polite" className={`min-h-5 text-sm ${status === 'success' ? 'text-lime-700 dark:text-lime-300' : status === 'error' ? 'text-rose-700 dark:text-rose-300' : 'text-zinc-500 dark:text-zinc-400'}`}>
+      <p role="status" aria-live="polite" className={`min-h-5 text-sm ${status === 'success' ? 'text-emerald-700 dark:text-emerald-400' : status === 'error' ? 'text-rose-700 dark:text-rose-300' : 'text-zinc-500 dark:text-zinc-400'}`}>
         {message}
       </p>
     </form>

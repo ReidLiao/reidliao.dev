@@ -75,11 +75,11 @@ export default async function FriendLinksPage() {
             <ul className="mt-4 grid gap-3 sm:grid-cols-2">
               {friendLinks.map((friend) => (
                 <li key={friend._id}>
-                  <a href={friend.url} target="_blank" rel="noopener noreferrer" className="flex h-full items-start gap-3 rounded-2xl border border-zinc-200 bg-white/70 p-4 transition hover:border-lime-500/50 dark:border-zinc-800 dark:bg-zinc-900/60 dark:hover:border-lime-400/40">
+                  <a href={friend.url} target="_blank" rel="noopener noreferrer" className="flex h-full items-start gap-3 rounded-2xl border border-zinc-200 bg-white/70 p-4 transition hover:border-emerald-700/50 dark:border-zinc-800 dark:bg-zinc-900/60 dark:hover:border-emerald-400/40">
                     {friend.avatar?.asset?.url ? (
                       <Image src={friend.avatar.asset.url} alt="" width={44} height={44} unoptimized className="h-11 w-11 shrink-0 rounded-xl object-cover" />
                     ) : (
-                      <span aria-hidden="true" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-lime-500/10 font-semibold text-lime-800 dark:text-lime-300">{friend.siteName.slice(0, 1)}</span>
+                      <span aria-hidden="true" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 font-semibold text-emerald-700 dark:bg-emerald-400/10 dark:text-emerald-400">{friend.siteName.slice(0, 1)}</span>
                     )}
                     <span className="min-w-0">
                       <span className="block truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">{friend.siteName}</span>

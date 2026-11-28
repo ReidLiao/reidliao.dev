@@ -44,7 +44,7 @@ export function Footer() {
                     <Link
                       key={href}
                       href={href}
-                      className="transition hover:text-lime-600 dark:hover:text-lime-400"
+                      className="transition hover:text-emerald-700 dark:hover:text-emerald-400"
                     >
                       {text}
                     </Link>

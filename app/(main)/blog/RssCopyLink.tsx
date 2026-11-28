@@ -19,18 +19,18 @@ export function RssCopyLink() {
     <button
       type="button"
       aria-label={copied ? 'RSS 链接已复制' : '复制 RSS 订阅链接'}
-      className="group inline-flex items-center gap-1.5 text-sm font-medium text-zinc-600 transition hover:text-lime-600 dark:text-zinc-400 dark:hover:text-lime-400"
+      className="group inline-flex items-center gap-1.5 text-sm font-medium text-zinc-600 transition hover:text-emerald-700 dark:text-zinc-400 dark:hover:text-emerald-400"
       onClick={handleCopy}
     >
       <AtomIcon
         aria-hidden="true"
-        className="h-5 w-5 text-zinc-500 transition group-hover:text-lime-600 dark:text-zinc-400 dark:group-hover:text-lime-400"
+        className="h-5 w-5 text-zinc-500 transition group-hover:text-emerald-700 dark:text-zinc-400 dark:group-hover:text-emerald-400"
       />
       <span>RSS 订阅</span>
       {copied && (
         <span
           aria-live="polite"
-          className="text-xs font-normal text-lime-600 dark:text-lime-400"
+          className="text-xs font-normal text-emerald-700 dark:text-emerald-400"
         >
           链接已复制
         </span>

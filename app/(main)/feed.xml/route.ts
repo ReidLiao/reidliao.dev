@@ -97,11 +97,11 @@ function renderPortableText(body: unknown) {
             const href = safeHref(annotation?.href)
             if (href) text = `<a href="${escapeHtml(href)}">${text}</a>`
           } else if (markType === 'textBackground') {
-            const bg = annotation?.color === 'zinc' ? '#e4e4e7' : '#d9f99d'
+            const bg = annotation?.color === 'zinc' ? '#e4e4e7' : '#ecfdf5'
             text = `<mark style="background-color:${bg};color:#18181b">${text}</mark>`
           } else if (markType === 'textColor') {
             const colors: Record<string, string> = {
-              lime: '#65a30d', emerald: '#047857', sky: '#0369a1',
+              lime: '#047857', emerald: '#047857', sky: '#0369a1',
               amber: '#b45309', rose: '#be123c', violet: '#6d28d9', zinc: '#52525b',
             }
             const color = typeof annotation?.color === 'string' ? colors[annotation.color] : colors.lime

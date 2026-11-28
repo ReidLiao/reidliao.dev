@@ -168,7 +168,7 @@ export default async function BlogPage(
                     key={tab.slug ?? 'all'}
                     href={queryHref(tab.slug, 1)}
                     aria-current={active ? 'page' : undefined}
-                    className={`relative inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border px-3.5 text-sm font-medium transition after:absolute after:inset-x-0 after:-inset-y-1 after:content-[''] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-2 dark:focus-visible:ring-lime-400 dark:focus-visible:ring-offset-zinc-900 ${active ? 'border-lime-400 bg-lime-400 text-zinc-950' : empty ? 'border-zinc-200 text-zinc-400 hover:border-lime-500 hover:text-zinc-600 dark:border-zinc-800 dark:text-zinc-500 dark:hover:border-lime-400 dark:hover:text-zinc-300' : 'border-zinc-300 text-zinc-700 hover:border-lime-500 hover:text-lime-700 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-lime-400 dark:hover:text-lime-300'}`}
+                    className={`relative inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border px-3.5 text-sm font-medium transition after:absolute after:inset-x-0 after:-inset-y-1 after:content-[''] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 dark:focus-visible:ring-emerald-400 dark:focus-visible:ring-offset-zinc-900 ${active ? 'border-emerald-700 bg-emerald-700 text-white dark:border-emerald-400 dark:bg-emerald-400 dark:text-zinc-950' : empty ? 'border-zinc-200 text-zinc-400 hover:border-emerald-700 hover:text-zinc-600 dark:border-zinc-800 dark:text-zinc-500 dark:hover:border-emerald-400 dark:hover:text-zinc-300' : 'border-zinc-300 text-zinc-700 hover:border-emerald-700 hover:text-emerald-700 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-emerald-400 dark:hover:text-emerald-400'}`}
                   >
                     {tab.title}
                     <span
@@ -187,13 +187,13 @@ export default async function BlogPage(
               })}
             </nav>
           </CategoryScrollFade>
-          <Link href="/submit" className="hidden h-9 shrink-0 items-center justify-center gap-2 rounded-full border border-lime-600 px-3 text-xs font-medium text-lime-700 transition hover:bg-lime-400/10 sm:inline-flex sm:px-4 sm:text-sm dark:border-lime-400 dark:text-lime-300 dark:hover:bg-lime-400/10">
+          <Link href="/submit" className="hidden h-9 shrink-0 items-center justify-center gap-2 rounded-full border border-emerald-700 px-3 text-xs font-medium text-emerald-700 transition hover:bg-emerald-700/10 sm:inline-flex sm:px-4 sm:text-sm dark:border-emerald-400 dark:text-emerald-400 dark:hover:bg-emerald-400/10">
             投稿推荐
             <span aria-hidden="true">→</span>
           </Link>
         </div>
         <div className="mt-2 sm:hidden">
-          <Link href="/submit" className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-full border border-lime-600 px-4 text-sm font-medium text-lime-700 transition hover:bg-lime-400/10 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-lime-500 dark:border-lime-400 dark:text-lime-300 dark:hover:bg-lime-400/10 dark:focus-visible:ring-lime-400">
+          <Link href="/submit" className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-full border border-emerald-700 px-4 text-sm font-medium text-emerald-700 transition hover:bg-emerald-700/10 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-emerald-700 dark:border-emerald-400 dark:text-emerald-400 dark:hover:bg-emerald-400/10 dark:focus-visible:ring-emerald-400">
             投稿推荐
             <span aria-hidden="true">→</span>
           </Link>
@@ -209,7 +209,7 @@ export default async function BlogPage(
           </p>
           <Link
             href="/submit"
-            className="mt-5 inline-flex h-9 items-center justify-center rounded-full bg-lime-400 px-4 text-sm font-medium text-zinc-950 transition hover:bg-lime-300 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-2 dark:focus-visible:ring-lime-400 dark:focus-visible:ring-offset-zinc-900"
+            className="mt-5 inline-flex h-9 items-center justify-center rounded-full bg-emerald-700 px-4 text-sm font-medium text-white transition hover:bg-emerald-800 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 dark:bg-emerald-400 dark:text-zinc-950 dark:hover:bg-emerald-300 dark:focus-visible:ring-emerald-400 dark:focus-visible:ring-offset-zinc-900"
           >
             去投稿推荐
           </Link>
@@ -217,12 +217,12 @@ export default async function BlogPage(
       ) : null}
       {totalPages > 1 ? (
         <nav aria-label="文章分页" className="mt-10 flex items-center justify-center gap-3">
-          <Link aria-label="上一页" aria-disabled={currentPage <= 1} className={`relative inline-flex h-8 w-8 items-center justify-center rounded-full border text-sm after:absolute after:-inset-1.5 after:content-[''] ${currentPage <= 1 ? 'pointer-events-none border-zinc-200 text-zinc-400 dark:border-zinc-800' : 'border-zinc-300 text-zinc-700 hover:border-lime-500 hover:text-lime-700 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-lime-400'}`} href={queryHref(safeCategory, Math.max(1, currentPage - 1))}>‹</Link>
+          <Link aria-label="上一页" aria-disabled={currentPage <= 1} className={`relative inline-flex h-8 w-8 items-center justify-center rounded-full border text-sm after:absolute after:-inset-1.5 after:content-[''] ${currentPage <= 1 ? 'pointer-events-none border-zinc-200 text-zinc-400 dark:border-zinc-800' : 'border-zinc-300 text-zinc-700 hover:border-emerald-700 hover:text-emerald-700 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-emerald-400'}`} href={queryHref(safeCategory, Math.max(1, currentPage - 1))}>‹</Link>
           {pageNumbers.map((pageNumber) => {
             const active = pageNumber === currentPage
-            return <Link key={pageNumber} href={queryHref(safeCategory, pageNumber)} aria-current={active ? 'page' : undefined} className={`relative inline-flex h-8 min-w-8 items-center justify-center rounded-full border px-2.5 text-sm font-medium transition after:absolute after:-inset-1.5 after:content-[''] ${active ? 'border-lime-400 bg-lime-400 text-zinc-950' : 'border-zinc-300 text-zinc-700 hover:border-lime-500 hover:text-lime-700 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-lime-400 dark:hover:text-lime-300'}`}>{pageNumber}</Link>
+            return <Link key={pageNumber} href={queryHref(safeCategory, pageNumber)} aria-current={active ? 'page' : undefined} className={`relative inline-flex h-8 min-w-8 items-center justify-center rounded-full border px-2.5 text-sm font-medium transition after:absolute after:-inset-1.5 after:content-[''] ${active ? 'border-emerald-700 bg-emerald-700 text-white dark:border-emerald-400 dark:bg-emerald-400 dark:text-zinc-950' : 'border-zinc-300 text-zinc-700 hover:border-emerald-700 hover:text-emerald-700 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-emerald-400 dark:hover:text-emerald-400'}`}>{pageNumber}</Link>
           })}
-          <Link aria-label="下一页" aria-disabled={currentPage >= totalPages} className={`relative inline-flex h-8 w-8 items-center justify-center rounded-full border text-sm after:absolute after:-inset-1.5 after:content-[''] ${currentPage >= totalPages ? 'pointer-events-none border-zinc-200 text-zinc-400 dark:border-zinc-800' : 'border-zinc-300 text-zinc-700 hover:border-lime-500 hover:text-lime-700 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-lime-400'}`} href={queryHref(safeCategory, Math.min(totalPages, currentPage + 1))}>›</Link>
+          <Link aria-label="下一页" aria-disabled={currentPage >= totalPages} className={`relative inline-flex h-8 w-8 items-center justify-center rounded-full border text-sm after:absolute after:-inset-1.5 after:content-[''] ${currentPage >= totalPages ? 'pointer-events-none border-zinc-200 text-zinc-400 dark:border-zinc-800' : 'border-zinc-300 text-zinc-700 hover:border-emerald-700 hover:text-emerald-700 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-emerald-400'}`} href={queryHref(safeCategory, Math.min(totalPages, currentPage + 1))}>›</Link>
         </nav>
       ) : null}
     </Container>

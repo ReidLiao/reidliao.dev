@@ -23,7 +23,7 @@ const filterStyle =
 const filterOn =
   'border-zinc-800 bg-zinc-800 text-white hover:border-zinc-700 hover:bg-zinc-700 hover:text-white dark:border-zinc-600 dark:bg-zinc-700 dark:text-white dark:hover:border-zinc-500 dark:hover:bg-zinc-600'
 const avatarRing =
-  'ring-1 ring-zinc-200 group-hover/supplier:ring-lime-500 dark:ring-zinc-700 dark:group-hover/supplier:ring-lime-400'
+  'ring-1 ring-zinc-200 group-hover/supplier:ring-emerald-700 dark:ring-zinc-700 dark:group-hover/supplier:ring-emerald-400'
 const categoryTotals = [
   ['限时', '限时'],
   ['免费', '免费'],
@@ -136,7 +136,7 @@ export function LimitedOffers({
         </h2>
         <Link
           href={allLink?.trim() || '/vps'}
-          className="inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-md text-xs font-semibold text-lime-700 hover:underline dark:text-lime-400"
+          className="inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-md text-xs font-semibold text-emerald-700 hover:underline dark:text-emerald-400"
         >
           全部活动
           <span aria-hidden="true">→</span>
@@ -166,7 +166,7 @@ export function LimitedOffers({
                 className="group/supplier -ml-4 h-12 w-12 shrink-0 cursor-pointer rounded-full first:ml-0 hover:bg-transparent dark:hover:bg-transparent"
               >
                 <span
-                  className={`grid h-10 w-10 place-items-center overflow-hidden rounded-full border-2 border-white bg-zinc-100 text-xs font-semibold text-zinc-700 dark:border-zinc-900 dark:bg-zinc-800 dark:text-zinc-200 ${company === name ? 'ring-2 ring-lime-600 dark:ring-lime-400' : avatarRing}`}
+                  className={`grid h-10 w-10 place-items-center overflow-hidden rounded-full border-2 border-white bg-zinc-100 text-xs font-semibold text-zinc-700 dark:border-zinc-900 dark:bg-zinc-800 dark:text-zinc-200 ${company === name ? 'ring-2 ring-emerald-700 dark:ring-emerald-400' : avatarRing}`}
                 >
                   <SupplierAvatar name={name} logo={logo} />
                 </span>
@@ -248,7 +248,7 @@ export function LimitedOffers({
                 </span>
                 <span
                   title={offer.displayTitle}
-                  className="min-w-0 flex-1 text-sm leading-5 text-zinc-900 group-hover/offer:text-lime-700 dark:text-zinc-100 dark:group-hover/offer:text-lime-400"
+                  className="min-w-0 flex-1 text-sm leading-5 text-zinc-900 group-hover/offer:text-emerald-700 dark:text-zinc-100 dark:group-hover/offer:text-emerald-400"
                 >
                   <span className="block truncate font-semibold">
                     {offer.company ? (

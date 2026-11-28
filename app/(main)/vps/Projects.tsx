@@ -52,7 +52,7 @@ export async function Projects() {
             >
               <span
                 aria-hidden="true"
-                className="h-2 w-2 flex-none bg-lime-500 dark:bg-lime-400"
+                className="h-2 w-2 flex-none bg-emerald-700 dark:bg-emerald-400"
               />
               <span className="font-mono text-xs font-medium text-zinc-500 dark:text-zinc-400">
                 {String(groupIndex + 1).padStart(2, '0')} —

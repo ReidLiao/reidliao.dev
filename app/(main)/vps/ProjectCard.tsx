@@ -18,7 +18,7 @@ import { type Project } from '~/sanity/schemas/project'
 
 const badgeClassNames: Record<string, string> = {
   本站在用:
-    'bg-lime-500/10 text-lime-700 ring-lime-500/20 dark:bg-lime-400/10 dark:text-lime-300 dark:ring-lime-400/20',
+    'bg-emerald-700/10 text-emerald-700 ring-emerald-700/20 dark:bg-emerald-400/10 dark:text-emerald-400 dark:ring-emerald-400/20',
   推荐:
     'bg-blue-500/10 text-blue-700 ring-blue-500/20 dark:bg-blue-400/10 dark:text-blue-300 dark:ring-blue-400/20',
   优惠:
@@ -64,7 +64,7 @@ export function ProjectCard({
     <Card
       as="li"
       key={_id}
-      className="w-full rounded-2xl border border-zinc-200 bg-white p-5 transition-[transform,border-color] duration-200 ease-out hover:-translate-y-1 hover:border-lime-500/50 focus-within:border-lime-500/60 has-[:active]:border-lime-500/70 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-lime-400/50 dark:focus-within:border-lime-400/60 dark:has-[:active]:border-lime-400/70"
+      className="w-full rounded-2xl border border-zinc-200 bg-white p-5 transition-[transform,border-color] duration-200 ease-out hover:-translate-y-1 hover:border-emerald-700/50 focus-within:border-emerald-700/60 has-[:active]:border-emerald-700/70 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-emerald-400/50 dark:focus-within:border-emerald-400/60 dark:has-[:active]:border-emerald-400/70"
       onMouseEnter={() => setIsHovering(true)}
       onMouseMove={handleMouseMove}
       onMouseLeave={() => setIsHovering(false)}
@@ -107,7 +107,7 @@ export function ProjectCard({
         href={url}
         target="_blank"
         rel="noopener noreferrer sponsored"
-        className="relative z-40 mt-4 inline-flex min-h-11 items-center gap-2 rounded-md text-sm font-medium text-zinc-600 underline decoration-zinc-300 underline-offset-4 transition hover:text-lime-600 hover:decoration-lime-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime-500 active:text-lime-700 dark:text-zinc-200 dark:decoration-zinc-600 dark:hover:text-lime-400 dark:hover:decoration-lime-400 dark:active:text-lime-300"
+        className="relative z-40 mt-4 inline-flex min-h-11 items-center gap-2 rounded-md text-sm font-medium text-zinc-600 underline decoration-zinc-300 underline-offset-4 transition hover:text-emerald-700 hover:decoration-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700 active:text-emerald-700 dark:text-zinc-200 dark:decoration-zinc-600 dark:hover:text-emerald-400 dark:hover:decoration-emerald-400 dark:active:text-emerald-400"
       >
         <span>前往查看</span>
         <ExternalLinkIcon className="h-4 w-4 flex-none" aria-hidden="true" />
@@ -116,7 +116,7 @@ export function ProjectCard({
       <AnimatePresence>
         {isHovering && (
           <motion.footer
-            className="pointer-events-none absolute -inset-x-4 -inset-y-6 z-30 select-none rounded-2xl border border-lime-500/30 shadow-[0_0_18px_-12px_rgba(132,204,22,0.9)] sm:-inset-x-6 sm:rounded-2xl"
+            className="pointer-events-none absolute -inset-x-4 -inset-y-6 z-30 select-none rounded-2xl border border-emerald-700/30 shadow-[0_0_18px_-12px_rgba(4,120,87,0.9)] sm:-inset-x-6 sm:rounded-2xl"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             style={{

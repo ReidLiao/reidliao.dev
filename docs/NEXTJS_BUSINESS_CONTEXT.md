@@ -32,7 +32,7 @@
 | 数据库 | Neon Postgres + Drizzle（留言、评论、订阅、newsletter） |
 | 缓存/计数 | Upstash Redis（浏览量、反应、访客 geo） |
 | 邮件 | Resend + react-email |
-| 样式 | Tailwind 3 + typography；暗色 `class`；主强调色 **lime** |
+| 样式 | Tailwind 3 + typography；暗色 `class`；主强调色墨绿（浅色 `#047857`、深色 `#34D399`） |
 | 动效 | framer-motion；`MotionProvider` → `reducedMotion="user"` |
 | 包管理 | pnpm 8.15.8（Docker corepack） |
 | 部署 | 本机构建 Docker 镜像 → 传到 VPS → Dockge / Compose；前置 Nginx Proxy Manager（底层为 OpenResty，`Server` 头显示 `openresty` 属正常） |
@@ -132,7 +132,7 @@
 ### 5.1 视觉语言
 
 - 背景：浅 zinc / 深 `primary.900`（`#000212`）+ 网格 SVG + 顶部径向渐变
-- 强调色：**lime**（导航激活、hover、selection、focus ring、部分 CTA）
+- 强调色：墨绿（导航激活、hover、selection、focus ring、部分 CTA；浅色 `#047857`、深色 `#34D399`）
 - 字体：Manrope（latin only）；**中文走系统字体**（不要擅自挂巨型 CJK webfont）
 - 卡片：文章卡 `rounded-3xl` + 主图 dominant 色变量；机房卡有 spotlight hover
 - 避免：紫渐变模板风、奶油衬线风、报纸密排风；勿为「好看」堆卡片/徽章/统计条
@@ -149,7 +149,7 @@
 
 - `globals.css`：`prefers-reduced-motion: reduce` 关闭动画与平滑滚动
 - `MotionProvider`：`reducedMotion="user"`
-- **Focus ring**：双层 box-shadow（背景色 + lime）；**禁止**在全局 focus 上写死 `border-radius`（曾导致下载块 `<select>` 聚焦变方，已修）
+- **Focus ring**：双层 box-shadow（背景色 + 墨绿）；**禁止**在全局 focus 上写死 `border-radius`（曾导致下载块 `<select>` 聚焦变方，已修）
 - 标题块：hover 显示 `#` 锚点；H1–H4 需一致 `opacity-100`
 
 ### 5.4 文章页体验
@@ -233,7 +233,7 @@ docker buildx build --platform linux/amd64 \
 
 ### 7.4 UI 打磨与撤回
 
-- **已做**：自定义滚动条；reduced-motion；博客列表 `loading` 骨架 + 空状态；移动导航 focus 改 lime；下载 select focus 圆角修复
+- **已做**：自定义滚动条；reduced-motion；博客列表 `loading` 骨架 + 空状态；移动导航 focus 使用墨绿；下载 select focus 圆角修复
 - **已撤**：Footer 社交图标行；博客分类 Tab；移动反应条；**整套自动封面 / OG 动态图 / category-accent**
 - **主人明确不要**：统计类外部服务、为统计而统计、自动生成封面
 
@@ -268,7 +268,7 @@ Clerk 变量不在 `env.mjs` Zod 里，由 Clerk SDK 直接读。
 1. **主图必填**；不要恢复自动封面或 `/api/og/post`。
 2. **不要**重新加 Footer 社交行、分类 Tab、移动端反应条（除非主人再要求）。
 3. **不要**引入新的分析/统计 SaaS「因为好用」。
-4. UI 保持 zinc + **lime**；全局 focus **不要**强制 `border-radius`。
+4. UI 保持 zinc + **墨绿**；全局 focus **不要**强制 `border-radius`。
 5. 新增代码高亮语言时：同时改 `PortableTextCodeBlock` 注册表 **和** Sanity `languageAlternatives`。
 6. 改部署相关时：保留 `.dockerignore` + `--secret id=env,src=.env` 构建方式。
 7. 文案与「自建者 / 开源深度定制」口径保持一致；勿提 cali.so fork。

@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
     const { error } = await resend.emails.send({
       from: emailConfig.from,
       to: 'hi@reidliao.dev',
-      reply_to: 'hi@reidliao.dev',
+      replyTo: 'hi@reidliao.dev',
       subject: `投稿推荐：${input.name}`,
       text: details.join('\n'),
     })

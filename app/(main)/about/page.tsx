@@ -196,19 +196,19 @@ export default function AboutPage() {
               </Link>
               <Link
                 href="/vps"
-                className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-zinc-200 bg-transparent px-4 py-2 text-xs font-medium text-zinc-700 transition hover:border-lime-500/40 hover:text-lime-600 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-lime-400/40 dark:hover:text-lime-400"
+                className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-zinc-200 bg-transparent px-4 py-2 text-xs font-medium text-zinc-700 transition hover:border-emerald-700/40 hover:text-emerald-700 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-emerald-400/40 dark:hover:text-emerald-400"
               >
                 自用机房
               </Link>
               <Link
                 href="/guestbook"
-                className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-zinc-200 bg-transparent px-4 py-2 text-xs font-medium text-zinc-700 transition hover:border-lime-500/40 hover:text-lime-600 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-lime-400/40 dark:hover:text-lime-400"
+                className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-zinc-200 bg-transparent px-4 py-2 text-xs font-medium text-zinc-700 transition hover:border-emerald-700/40 hover:text-emerald-700 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-emerald-400/40 dark:hover:text-emerald-400"
               >
                 留言交流
               </Link>
               <Link
                 href="/donate"
-                className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-zinc-200 bg-transparent px-4 py-2 text-xs font-medium text-zinc-700 transition hover:border-lime-500/40 hover:text-lime-600 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-lime-400/40 dark:hover:text-lime-400"
+                className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-zinc-200 bg-transparent px-4 py-2 text-xs font-medium text-zinc-700 transition hover:border-emerald-700/40 hover:text-emerald-700 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-emerald-400/40 dark:hover:text-emerald-400"
               >
                 捐赠
               </Link>
@@ -238,15 +238,15 @@ export default function AboutPage() {
           </p>
           <ul className="mt-4 space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
             <li className="flex gap-2">
-              <span className="text-lime-600 dark:text-lime-400">▸</span>
+              <span className="text-emerald-700 dark:text-emerald-400">▸</span>
               完整 root 权限，可自由定制内核参数与服务
             </li>
             <li className="flex gap-2">
-              <span className="text-lime-600 dark:text-lime-400">▸</span>
+              <span className="text-emerald-700 dark:text-emerald-400">▸</span>
               可预期的资源配额，适合长期稳定运行个人服务
             </li>
             <li className="flex gap-2">
-              <span className="text-lime-600 dark:text-lime-400">▸</span>
+              <span className="text-emerald-700 dark:text-emerald-400">▸</span>
               博客宿主 + 运维试验田，一举两得
             </li>
           </ul>
@@ -268,7 +268,7 @@ export default function AboutPage() {
             {deployReasons.map((item) => (
               <div
                 key={item.title}
-                className="border-l-2 border-lime-500/50 pl-4 dark:border-lime-400/40"
+                className="border-l-2 border-emerald-700/50 pl-4 dark:border-emerald-400/40"
               >
                 <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
                   {item.title}
@@ -295,12 +295,12 @@ export default function AboutPage() {
         <ul className="mt-5 grid grid-cols-2 gap-x-6 gap-y-2 font-mono text-xs text-zinc-600 dark:text-zinc-400 sm:grid-cols-4">
           {techStack.map((item) => (
             <li key={item} className="flex items-center gap-2">
-              <span className="text-lime-600 dark:text-lime-400">$</span>
+              <span className="text-emerald-700 dark:text-emerald-400">$</span>
               {item}
             </li>
           ))}
         </ul>
-        <pre className="mt-6 overflow-x-auto rounded-lg bg-zinc-950 px-4 py-4 font-mono text-xs leading-relaxed text-lime-400">
+        <pre className="mt-6 overflow-x-auto rounded-lg bg-zinc-950 px-4 py-4 font-mono text-xs leading-relaxed text-emerald-400">
           <code>
             <span className="text-zinc-500"># 部署链路</span>
             {'\n'}
@@ -387,7 +387,7 @@ export default function AboutPage() {
               >
                 {entry.date}
               </time>
-              <div className="min-w-0 flex-1 border-l-2 border-lime-500/40 pl-4 dark:border-lime-400/30">
+              <div className="min-w-0 flex-1 border-l-2 border-emerald-700/40 pl-4 dark:border-emerald-400/30">
                 <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
                   {entry.title}
                 </p>
@@ -401,7 +401,7 @@ export default function AboutPage() {
       </section>
 
       <section className="mt-16 border-t border-zinc-100 pt-10 dark:border-zinc-700/40">
-        <Link href="/links" className="group inline-flex min-h-11 items-center gap-2 rounded-lg text-sm font-semibold text-zinc-800 transition hover:text-lime-700 dark:text-zinc-200 dark:hover:text-lime-400">
+        <Link href="/links" className="group inline-flex min-h-11 items-center gap-2 rounded-lg text-sm font-semibold text-zinc-800 transition hover:text-emerald-700 dark:text-zinc-200 dark:hover:text-emerald-400">
           友情链接与申请
           <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">→</span>
         </Link>

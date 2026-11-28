@@ -56,11 +56,11 @@
 
 .article-body {
   --tw-prose-body: var(--color-zinc-600);
-  --tw-prose-links: var(--color-lime-700);
-  --tw-prose-links-hover: var(--color-lime-800);
-  --tw-prose-underline: color-mix(in srgb, var(--color-lime-700) 35%, transparent);
-  --tw-prose-underline-hover: var(--color-lime-800);
-  --tw-prose-quote-borders: var(--color-lime-600);
+  --tw-prose-links: var(--color-emerald-700);
+  --tw-prose-links-hover: var(--color-emerald-800);
+  --tw-prose-underline: color-mix(in srgb, var(--color-emerald-700) 35%, transparent);
+  --tw-prose-underline-hover: var(--color-emerald-800);
+  --tw-prose-quote-borders: var(--color-emerald-700);
   font-size: 16px;
   line-height: 1.8;
 
@@ -124,11 +124,11 @@
 
 .dark .article-body {
   --tw-prose-body: var(--color-zinc-300);
-  --tw-prose-links: var(--color-lime-400);
-  --tw-prose-links-hover: var(--color-lime-300);
-  --tw-prose-underline: color-mix(in srgb, var(--color-lime-400) 45%, transparent);
-  --tw-prose-underline-hover: var(--color-lime-300);
-  --tw-prose-quote-borders: var(--color-lime-400);
+  --tw-prose-links: var(--color-emerald-400);
+  --tw-prose-links-hover: var(--color-emerald-400);
+  --tw-prose-underline: color-mix(in srgb, var(--color-emerald-400) 45%, transparent);
+  --tw-prose-underline-hover: var(--color-emerald-400);
+  --tw-prose-quote-borders: var(--color-emerald-400);
 }
 
 .dark .comment__message {

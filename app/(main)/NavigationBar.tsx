@@ -27,14 +27,14 @@ function NavItem({
         className={clsxm(
           'relative block whitespace-nowrap px-3 py-2 transition',
           isActive
-            ? 'text-lime-600 dark:text-lime-400'
-            : 'hover:text-lime-600 dark:hover:text-lime-400'
+            ? 'text-emerald-700 dark:text-emerald-400'
+            : 'hover:text-emerald-700 dark:hover:text-emerald-400'
         )}
       >
         {children}
         {isActive && (
           <motion.span
-            className="absolute inset-x-1 -bottom-px h-px bg-gradient-to-r from-lime-700/0 via-lime-700/70 to-lime-700/0 dark:from-lime-400/0 dark:via-lime-400/40 dark:to-lime-400/0"
+            className="absolute inset-x-1 -bottom-px h-px bg-gradient-to-r from-emerald-700/0 via-emerald-700/70 to-emerald-700/0 dark:from-emerald-400/0 dark:via-emerald-400/40 dark:to-emerald-400/0"
             layoutId="active-nav-item"
           />
         )}
@@ -111,7 +111,7 @@ function MobileNavItem({
 function Mobile(props: PopoverProps<'div'>) {
   return (
     <Popover {...props}>
-      <Popover.Button className="group flex min-h-11 items-center rounded-full bg-gradient-to-b from-zinc-50/20 to-white/80 px-4 py-2 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-md focus:outline-hidden focus-visible:ring-2 focus-visible:ring-lime-500/70 dark:from-zinc-900/30 dark:to-zinc-800/80 dark:text-zinc-200 dark:ring-white/10 dark:hover:ring-white/20 dark:focus-visible:ring-lime-400/70">
+      <Popover.Button className="group flex min-h-11 items-center rounded-full bg-gradient-to-b from-zinc-50/20 to-white/80 px-4 py-2 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-md focus:outline-hidden focus-visible:ring-2 focus-visible:ring-emerald-700/70 dark:from-zinc-900/30 dark:to-zinc-800/80 dark:text-zinc-200 dark:ring-white/10 dark:hover:ring-white/20 dark:focus-visible:ring-emerald-400/70">
         前往
         {/* Chevron */}
         <svg

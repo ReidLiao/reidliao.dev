@@ -62,7 +62,7 @@ export default async function ConfirmPage(
         </form>
         <Link
           href="/"
-          className="mt-4 inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-medium text-zinc-700 transition hover:text-lime-700 dark:text-zinc-300 dark:hover:text-lime-400"
+          className="mt-4 inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-medium text-zinc-700 transition hover:text-emerald-700 dark:text-zinc-300 dark:hover:text-emerald-400"
         >
           返回首页
         </Link>

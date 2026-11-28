@@ -69,7 +69,7 @@ export function DonationAddress({
               {network}
             </span>
             {note ? (
-              <span className="rounded-full bg-lime-500/10 px-2 py-0.5 text-[11px] font-medium text-lime-700 ring-1 ring-lime-500/20 dark:bg-lime-400/10 dark:text-lime-300 dark:ring-lime-400/20">
+              <span className="rounded-full bg-emerald-700/10 px-2 py-0.5 text-[11px] font-medium text-emerald-700 ring-1 ring-emerald-700/20 dark:bg-emerald-400/10 dark:text-emerald-400 dark:ring-emerald-400/20">
                 {note}
               </span>
             ) : null}
@@ -80,7 +80,7 @@ export function DonationAddress({
           <button
             type="button"
             onClick={handleCopy}
-            className="relative mt-3 inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 px-2.5 py-1.5 text-xs font-medium text-zinc-600 transition after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] hover:border-lime-500/40 hover:text-lime-600 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-lime-400/40 dark:hover:text-lime-400"
+            className="relative mt-3 inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 px-2.5 py-1.5 text-xs font-medium text-zinc-600 transition after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] hover:border-emerald-700/40 hover:text-emerald-700 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-emerald-400/40 dark:hover:text-emerald-400"
             aria-label={`复制 ${currency} 捐赠地址`}
           >
             <ClipboardCheckIcon className="h-3.5 w-3.5" />

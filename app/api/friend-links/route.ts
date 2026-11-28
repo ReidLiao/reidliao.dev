@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
     const { error } = await resend.emails.send({
       from: emailConfig.from,
       to: 'hi@reidliao.dev',
-      reply_to: 'hi@reidliao.dev',
+      replyTo: 'hi@reidliao.dev',
       subject: `友情链接申请：${input.siteName}`,
       text: [
         `站名：${input.siteName}`,

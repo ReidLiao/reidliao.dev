@@ -127,7 +127,7 @@ export function BlogPostTableOfContents({ headings }: { headings: Node[] }) {
             node.style === 'h3' && 'ml-1',
             node.style === 'h4' && 'ml-2',
             node.id === highlightedHeadingId
-              ? 'text-zinc-900 before:absolute before:left-0 before:top-0.5 before:h-4 before:w-0.5 before:rounded-full before:bg-lime-500 dark:text-zinc-200 dark:before:bg-lime-400'
+              ? 'text-zinc-900 before:absolute before:left-0 before:top-0.5 before:h-4 before:w-0.5 before:rounded-full before:bg-emerald-700 dark:text-zinc-200 dark:before:bg-emerald-400'
               : 'hover:text-zinc-700 dark:hover:text-zinc-400 group-hover:[&:not(:hover)]:text-zinc-500 dark:group-hover:[&:not(:hover)]:text-zinc-400'
           )}
           aria-label={node.id === highlightedHeadingId ? '当前位置' : undefined}

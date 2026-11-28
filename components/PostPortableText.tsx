@@ -74,7 +74,7 @@ function preserveNumberingAcrossCodeBlocks(value: unknown) {
 }
 
 const textColorClass: Record<string, string> = {
-  lime: 'text-lime-700 dark:text-lime-400',
+  lime: 'text-emerald-700 dark:text-emerald-400',
   emerald: 'text-emerald-700 dark:text-emerald-300',
   sky: 'text-sky-700 dark:text-sky-300',
   amber: 'text-amber-700 dark:text-amber-300',
@@ -84,7 +84,7 @@ const textColorClass: Record<string, string> = {
 }
 
 const textBackgroundClass: Record<string, string> = {
-  lime: 'rounded-xs bg-lime-300 px-0.5 text-zinc-950 dark:bg-lime-400',
+  lime: 'rounded-xs bg-emerald-50 px-0.5 text-emerald-700 dark:bg-emerald-400 dark:text-zinc-950',
   zinc: 'rounded-xs bg-zinc-200 px-0.5 text-zinc-900 dark:bg-zinc-700 dark:text-zinc-100',
 }
 
@@ -170,7 +170,7 @@ const components: PortableTextComponents = {
         <PeekabooLink
           href={value.href}
           rel={rel}
-          className="text-lime-700 decoration-lime-700/50 hover:text-lime-800 hover:decoration-lime-800 dark:text-lime-400 dark:decoration-lime-400/50 dark:hover:text-lime-300 dark:hover:decoration-lime-300"
+          className="text-emerald-700 decoration-emerald-700/50 hover:text-emerald-800 hover:decoration-emerald-800 dark:text-emerald-400 dark:decoration-emerald-400/50 dark:hover:text-emerald-400 dark:hover:decoration-emerald-400"
           faviconClassName="rounded-full"
         >
           {children}

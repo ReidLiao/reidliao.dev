@@ -123,7 +123,7 @@ export function Newsletter({
             autoComplete="email"
             required
             className={clsxm(
-              'min-w-0 appearance-none rounded-lg border border-zinc-900/10 bg-white px-3 py-[calc(theme(spacing.2)-1px)] placeholder:text-zinc-400 focus:border-lime-500 focus:outline-hidden focus:ring-4 focus:ring-lime-500/10 dark:border-zinc-700 dark:bg-zinc-700/[0.15] dark:text-zinc-200 dark:placeholder:text-zinc-500 dark:focus:border-lime-400/50 dark:focus:ring-lime-400/5 sm:text-sm',
+              'min-w-0 appearance-none rounded-lg border border-zinc-900/10 bg-white px-3 py-[calc(theme(spacing.2)-1px)] placeholder:text-zinc-400 focus:border-emerald-700 focus:outline-hidden focus:ring-4 focus:ring-emerald-700/10 dark:border-zinc-700 dark:bg-zinc-700/[0.15] dark:text-zinc-200 dark:placeholder:text-zinc-500 dark:focus:border-emerald-400/50 dark:focus:ring-emerald-400/5 sm:text-sm',
               'flex-auto'
             )}
           />

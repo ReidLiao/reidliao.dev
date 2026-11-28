@@ -53,7 +53,7 @@ export default function ProjectsPage() {
           <span className="inline-flex items-center gap-2 font-mono text-xs text-zinc-500 dark:text-zinc-400">
             <span
               aria-hidden="true"
-              className="h-2 w-2 animate-pulse rounded-full bg-lime-500 shadow-[0_0_10px_rgba(132,204,22,0.7)] dark:bg-lime-400"
+              className="h-2 w-2 animate-pulse rounded-full bg-emerald-700 shadow-[0_0_10px_rgba(4,120,87,0.7)] dark:bg-emerald-400"
             />
             运行中
           </span>
