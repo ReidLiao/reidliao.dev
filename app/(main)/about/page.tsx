@@ -8,6 +8,8 @@ import { BreadcrumbJsonLd } from '~/components/BreadcrumbJsonLd'
 import { PeekabooLink } from '~/components/links/PeekabooLink'
 import { Container } from '~/components/ui/Container'
 import { WechatSubscribe } from '~/components/WechatSubscribe'
+import { Badge } from '~/components/shadcn/badge'
+import { Card, CardDescription } from '~/components/shadcn/card'
 import { url } from '~/lib'
 import { pageMetadata } from '~/lib/page-metadata'
 import { seo } from '~/lib/seo'
@@ -64,6 +66,11 @@ const deployReasons = [
 ]
 
 const changelog = [
+  {
+    date: '2026-11-25',
+    title: 'v1.3.0',
+    detail: '升级至 Next.js 16，并迁移至腾讯云。',
+  },
   {
     date: '2026-11-22',
     title: '迁移至腾讯云',
@@ -264,19 +271,16 @@ export default function AboutPage() {
             ：本地交叉编译镜像 → 推送 VPS → Dockge 运行容器 → Nginx Proxy
             Manager 反代对外。源码在 GitHub 公开，我会按自建场景持续迭代。
           </p>
-          <div className="mt-5 space-y-4">
+          <div className="mt-5 grid gap-3 sm:grid-cols-3">
             {deployReasons.map((item) => (
-              <div
-                key={item.title}
-                className="border-l-2 border-emerald-700/50 pl-4 dark:border-emerald-400/40"
-              >
+              <Card key={item.title} className="p-4">
                 <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
                   {item.title}
                 </p>
-                <p className="mt-1 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+                <CardDescription className="mt-2 text-xs leading-relaxed">
                   {item.detail}
-                </p>
-              </div>
+                </CardDescription>
+              </Card>
             ))}
           </div>
         </section>
@@ -292,12 +296,9 @@ export default function AboutPage() {
         <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-400">
           构建与运行分离，小内存 VPS 也能稳定承载完整博客服务。
         </p>
-        <ul className="mt-5 grid grid-cols-2 gap-x-6 gap-y-2 font-mono text-xs text-zinc-600 dark:text-zinc-400 sm:grid-cols-4">
+        <ul className="mt-5 flex flex-wrap gap-2">
           {techStack.map((item) => (
-            <li key={item} className="flex items-center gap-2">
-              <span className="text-emerald-700 dark:text-emerald-400">$</span>
-              {item}
-            </li>
+            <li key={item}><Badge variant="secondary" className="font-mono text-xs">{item}</Badge></li>
           ))}
         </ul>
         <pre className="mt-6 overflow-x-auto rounded-lg bg-zinc-950 px-4 py-4 font-mono text-xs leading-relaxed text-emerald-400">
@@ -353,14 +354,12 @@ export default function AboutPage() {
         </h2>
         <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
           本站跑在轻量 VPS 上，带宽与磁盘都很宝贵。文章里的软件与工具通过正文
-          <strong className="text-zinc-800 dark:text-zinc-200">
-            下载块
-          </strong>
-          提供：支持多平台 / 多版本、按系统自动预选，以及提取码一键复制；文件本身
+          <strong className="text-zinc-800 dark:text-zinc-200">下载块</strong>
+          提供：支持多平台 / 多版本、按系统自动预选；文件本身
           <strong className="text-zinc-800 dark:text-zinc-200">
             不托管在本机
           </strong>
-          ，统一走第三方网盘（阿里云盘、123 盘等）。
+          ，全站统一走夸克网盘，无需提取码。
         </p>
         <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
           这样下载更快，服务器也能专心做展示与写作。链接失效欢迎在{' '}
@@ -378,16 +377,17 @@ export default function AboutPage() {
         <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-400">
           运维与站点大事记——不记流水账，只记值得回看的节点。
         </p>
-        <ol className="mt-6 space-y-6">
+        <ol className="relative mt-6 space-y-6 border-l border-zinc-200 pl-6 dark:border-zinc-700">
           {changelog.map((entry) => (
-            <li key={`${entry.date}-${entry.title}`} className="flex gap-4">
+            <li key={`${entry.date}-${entry.title}`} className="relative flex flex-col gap-1 sm:flex-row sm:gap-4">
+              <span aria-hidden="true" className="absolute -left-[1.84rem] top-1.5 h-2 w-2 rounded-full border-2 border-emerald-700 bg-zinc-50 dark:border-emerald-400 dark:bg-zinc-900" />
               <time
                 dateTime={entry.date}
-                className="w-20 shrink-0 whitespace-nowrap pt-0.5 font-mono text-xs tabular-nums text-zinc-600 dark:text-zinc-400"
+                className="shrink-0 whitespace-nowrap pt-0.5 font-mono text-xs tabular-nums text-zinc-600 dark:text-zinc-400 sm:w-24"
               >
                 {entry.date}
               </time>
-              <div className="min-w-0 flex-1 border-l-2 border-emerald-700/40 pl-4 dark:border-emerald-400/30">
+              <div className="min-w-0 flex-1">
                 <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
                   {entry.title}
                 </p>

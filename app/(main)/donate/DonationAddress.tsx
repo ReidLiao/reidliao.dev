@@ -5,6 +5,7 @@ import QRCode from 'qrcode'
 import React from 'react'
 
 import { ClipboardCheckIcon } from '~/assets'
+import { Button } from '~/components/shadcn/button'
 
 type DonationAddressProps = {
   currency: string
@@ -77,15 +78,17 @@ export function DonationAddress({
           <p className="mt-4 break-all font-mono text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
             {address}
           </p>
-          <button
+          <Button
             type="button"
+            variant="outline"
+            size="sm"
             onClick={handleCopy}
-            className="relative mt-3 inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 px-2.5 py-1.5 text-xs font-medium text-zinc-600 transition after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] hover:border-emerald-700/40 hover:text-emerald-700 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-emerald-400/40 dark:hover:text-emerald-400"
+            className="relative mt-3 h-8 gap-1.5 rounded-lg px-2.5 text-xs text-zinc-600 after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] dark:text-zinc-300"
             aria-label={`复制 ${currency} 捐赠地址`}
           >
             <ClipboardCheckIcon className="h-3.5 w-3.5" />
             {copied ? '地址已复制' : '复制地址'}
-          </button>
+          </Button>
           {copyError ? (
             <p role="alert" aria-live="assertive" className="mt-2 text-xs text-red-600 dark:text-red-400">
               {copyError}

@@ -3,6 +3,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { BreadcrumbJsonLd } from '~/components/BreadcrumbJsonLd'
+import { Badge } from '~/components/shadcn/badge'
+import { Card } from '~/components/shadcn/card'
 import { Container } from '~/components/ui/Container'
 import { url } from '~/lib'
 import { pageMetadata } from '~/lib/page-metadata'
@@ -82,13 +84,13 @@ export default async function DonatePage() {
 
       <div className="mt-12 grid gap-8 lg:grid-cols-[minmax(0,1.6fr)_minmax(18rem,1fr)] lg:items-start">
         <div className="min-w-0 space-y-10">
-          <section className="rounded-2xl border border-zinc-200 bg-white/70 p-5 dark:border-zinc-800 dark:bg-zinc-900/60">
+          <Card as="section" className="bg-white/70 p-5 dark:bg-zinc-900/60">
             <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">为什么捐赠</h2>
             <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">捐赠用于支付本站 VPS 与域名续费，让这个独立维护的技术博客继续稳定运行。金额随意，5 / 10 / 20 元只是参考。</p>
             <div className="mt-4 flex flex-wrap gap-2" aria-label="建议金额">
               {[5, 10, 20].map((amount) => <span key={amount} className="rounded-lg border border-zinc-300 px-3 py-1.5 font-mono text-sm text-zinc-700 dark:border-zinc-700 dark:text-zinc-300">¥{amount}</span>)}
             </div>
-          </section>
+          </Card>
           <section aria-labelledby="payment-heading">
             <h2
               id="payment-heading"
@@ -100,16 +102,16 @@ export default async function DonatePage() {
               桌面端请用手机扫码；手机端可保存二维码后用对应 App 扫描。扫码后输入金额，并备注昵称便于核实。
             </p>
             <div className="mt-4 grid gap-4 lg:grid-cols-2">
-              <article className="rounded-2xl border border-zinc-200 p-5 dark:border-zinc-800">
+              <Card as="article" className="p-5">
                 <div className="flex flex-col gap-4 xl:flex-row xl:items-center">
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
                         支付宝
                       </h3>
-                      <span className="rounded-full bg-emerald-700/10 px-2 py-0.5 text-[11px] font-medium text-emerald-700 ring-1 ring-emerald-700/20 dark:bg-emerald-400/10 dark:text-emerald-400 dark:ring-emerald-400/20">
+                      <Badge>
                         推荐
-                      </span>
+                      </Badge>
                     </div>
                     <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
                       打开支付宝扫码
@@ -126,17 +128,17 @@ export default async function DonatePage() {
                     />
                   </div>
                 </div>
-              </article>
-              <article className="rounded-2xl border border-zinc-200 p-5 dark:border-zinc-800">
+              </Card>
+              <Card as="article" className="p-5">
                 <div className="flex flex-col gap-4 xl:flex-row xl:items-center">
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
                         微信支付
                       </h3>
-                      <span className="rounded-full bg-emerald-700/10 px-2 py-0.5 text-[11px] font-medium text-emerald-700 ring-1 ring-emerald-700/20 dark:bg-emerald-400/10 dark:text-emerald-400 dark:ring-emerald-400/20">
+                      <Badge>
                         推荐
-                      </span>
+                      </Badge>
                     </div>
                     <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
                       打开微信扫码
@@ -153,7 +155,7 @@ export default async function DonatePage() {
                     />
                   </div>
                 </div>
-              </article>
+              </Card>
             </div>
           </section>
 
@@ -187,8 +189,9 @@ export default async function DonatePage() {
         </div>
 
         <aside className="space-y-5">
-          <section
-            className="rounded-2xl border border-zinc-200 bg-white/70 p-5 shadow-xs shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/60"
+          <Card
+            as="section"
+            className="bg-white/70 p-5 shadow-xs shadow-zinc-900/5 dark:bg-zinc-900/60"
             aria-labelledby="donors-heading"
           >
             <h2
@@ -231,11 +234,11 @@ export default async function DonatePage() {
                 ))}
               </ul>
             )}
-          </section>
-          <section className="rounded-2xl border border-zinc-200 bg-white/70 p-5 shadow-xs shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/60">
+          </Card>
+          <Card as="section" className="bg-white/70 p-5 shadow-xs shadow-zinc-900/5 dark:bg-zinc-900/60">
             <h2 className="text-base font-semibold text-zinc-800 dark:text-zinc-100">捐后说明</h2>
             <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">支付完成后欢迎在留言墙告诉我昵称，我会手动核实并更新感谢名单。上榜仅展示昵称与日期；不提供自助上榜，也不公开邮箱或钱包信息。</p>
-          </section>
+          </Card>
         </aside>
       </div>
     </Container>

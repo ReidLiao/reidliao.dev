@@ -1,8 +1,10 @@
 'use client'
 
 import React from 'react'
-
-const fieldClass = 'mt-2 w-full rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 outline-hidden transition placeholder:text-zinc-400 focus:border-emerald-700 focus:ring-2 focus:ring-emerald-700/20 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-emerald-400 dark:focus:ring-emerald-400/20'
+import { Button } from '~/components/shadcn/button'
+import { Card } from '~/components/shadcn/card'
+import { Input } from '~/components/shadcn/input'
+import { Textarea } from '~/components/shadcn/textarea'
 
 export function SubmitRecommendationForm() {
   const [status, setStatus] = React.useState<{
@@ -41,7 +43,7 @@ export function SubmitRecommendationForm() {
   }
 
   return (
-    <form onSubmit={submit} className="mt-0 w-full max-w-none rounded-3xl border border-zinc-200 bg-white/70 p-5 shadow-xs shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/60 sm:p-8">
+    <Card as="form" onSubmit={submit} className="mt-0 w-full max-w-none rounded-3xl bg-white/70 p-5 shadow-xs shadow-zinc-900/5 dark:bg-zinc-900/60 sm:p-8">
       <fieldset className="grid gap-6" disabled={pending}>
         <legend className="sr-only">投稿内容</legend>
         <fieldset>
@@ -60,37 +62,37 @@ export function SubmitRecommendationForm() {
         </fieldset>
         <label className="block text-sm font-medium text-zinc-800 dark:text-zinc-200">
           名称 <span className="text-rose-600" aria-label="必填">*</span>
-          <input name="name" required maxLength={100} className={fieldClass} placeholder="软件或资源名称" />
+          <Input name="name" required maxLength={100} className="mt-2" placeholder="软件或资源名称" />
         </label>
         <label className="block text-sm font-medium text-zinc-800 dark:text-zinc-200">
           一句话介绍 <span className="text-rose-600" aria-label="必填">*</span>
-          <textarea name="introduction" required maxLength={300} rows={3} className={fieldClass} placeholder="它解决什么问题，或有什么值得推荐的地方？" />
+          <Textarea name="introduction" required maxLength={300} rows={3} className="mt-2" placeholder="它解决什么问题，或有什么值得推荐的地方？" />
         </label>
         <label className="block text-sm font-medium text-zinc-800 dark:text-zinc-200">
           官网或下载链接 <span className="text-rose-600" aria-label="必填">*</span>
-          <input name="url" required type="url" maxLength={2048} className={fieldClass} placeholder="https://" />
+          <Input name="url" required type="url" maxLength={2048} className="mt-2" placeholder="https://" />
         </label>
         <label className="block text-sm font-medium text-zinc-800 dark:text-zinc-200">
           投稿人昵称 <span className="text-rose-600" aria-label="必填">*</span>
-          <input name="nickname" required maxLength={80} className={fieldClass} placeholder="怎么称呼你？" />
+          <Input name="nickname" required maxLength={80} className="mt-2" placeholder="怎么称呼你？" />
         </label>
         <label className="block text-sm font-medium text-zinc-800 dark:text-zinc-200">
           邮箱（选填）
-          <input name="email" type="email" maxLength={254} autoComplete="email" className={fieldClass} placeholder="仅用于核实或通知，不会公开" />
+          <Input name="email" type="email" maxLength={254} autoComplete="email" className="mt-2" placeholder="仅用于核实或通知，不会公开" />
         </label>
         <label aria-hidden="true" className="absolute -left-[10000px] top-auto h-px w-px overflow-hidden">
           留空此项
           <input name="website" tabIndex={-1} autoComplete="off" />
         </label>
         <div className="flex flex-col gap-3">
-          <button type="submit" className="inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-black px-6 text-sm font-semibold text-white transition hover:bg-zinc-800 disabled:cursor-wait disabled:opacity-60 dark:bg-black dark:hover:bg-zinc-800">
+          <Button type="submit" disabled={pending} className="h-12 w-full rounded-xl bg-zinc-900 px-6 text-sm font-semibold text-white hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300">
             {pending ? '正在提交…' : '提交推荐'}
-          </button>
+          </Button>
           <p role="status" aria-live="polite" className={`text-sm ${status.kind === 'success' ? 'text-emerald-700 dark:text-emerald-400' : status.kind === 'idle' ? 'text-zinc-500 dark:text-zinc-400' : 'text-rose-700 dark:text-rose-300'}`}>
             {status.message}
           </p>
         </div>
       </fieldset>
-    </form>
+    </Card>
   )
 }
