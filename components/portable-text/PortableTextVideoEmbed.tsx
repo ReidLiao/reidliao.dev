@@ -108,7 +108,7 @@ export function PortableTextVideoEmbed({
           {value.title}
         </figcaption>
       ) : null}
-      <div className="overflow-hidden rounded-2xl border border-zinc-200/80 bg-zinc-950 shadow-sm dark:border-zinc-700/50 md:rounded-3xl">
+      <div className="overflow-hidden rounded-2xl border border-zinc-200/80 bg-zinc-950 shadow-xs dark:border-zinc-700/50 md:rounded-3xl">
         {embed.kind === 'direct' ? (
           <video
             controls

@@ -168,7 +168,7 @@ export default async function BlogPage(
                     key={tab.slug ?? 'all'}
                     href={queryHref(tab.slug, 1)}
                     aria-current={active ? 'page' : undefined}
-                    className={`relative inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border px-3.5 text-sm font-medium transition after:absolute after:inset-x-0 after:-inset-y-1 after:content-[''] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-2 dark:focus-visible:ring-lime-400 dark:focus-visible:ring-offset-zinc-900 ${active ? 'border-lime-400 bg-lime-400 text-zinc-950' : empty ? 'border-zinc-200 text-zinc-400 hover:border-lime-500 hover:text-zinc-600 dark:border-zinc-800 dark:text-zinc-500 dark:hover:border-lime-400 dark:hover:text-zinc-300' : 'border-zinc-300 text-zinc-700 hover:border-lime-500 hover:text-lime-700 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-lime-400 dark:hover:text-lime-300'}`}
+                    className={`relative inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border px-3.5 text-sm font-medium transition after:absolute after:inset-x-0 after:-inset-y-1 after:content-[''] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-2 dark:focus-visible:ring-lime-400 dark:focus-visible:ring-offset-zinc-900 ${active ? 'border-lime-400 bg-lime-400 text-zinc-950' : empty ? 'border-zinc-200 text-zinc-400 hover:border-lime-500 hover:text-zinc-600 dark:border-zinc-800 dark:text-zinc-500 dark:hover:border-lime-400 dark:hover:text-zinc-300' : 'border-zinc-300 text-zinc-700 hover:border-lime-500 hover:text-lime-700 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-lime-400 dark:hover:text-lime-300'}`}
                   >
                     {tab.title}
                     <span
@@ -193,7 +193,7 @@ export default async function BlogPage(
           </Link>
         </div>
         <div className="mt-2 sm:hidden">
-          <Link href="/submit" className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-full border border-lime-600 px-4 text-sm font-medium text-lime-700 transition hover:bg-lime-400/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 dark:border-lime-400 dark:text-lime-300 dark:hover:bg-lime-400/10 dark:focus-visible:ring-lime-400">
+          <Link href="/submit" className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-full border border-lime-600 px-4 text-sm font-medium text-lime-700 transition hover:bg-lime-400/10 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-lime-500 dark:border-lime-400 dark:text-lime-300 dark:hover:bg-lime-400/10 dark:focus-visible:ring-lime-400">
             投稿推荐
             <span aria-hidden="true">→</span>
           </Link>
@@ -209,7 +209,7 @@ export default async function BlogPage(
           </p>
           <Link
             href="/submit"
-            className="mt-5 inline-flex h-9 items-center justify-center rounded-full bg-lime-400 px-4 text-sm font-medium text-zinc-950 transition hover:bg-lime-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-2 dark:focus-visible:ring-lime-400 dark:focus-visible:ring-offset-zinc-900"
+            className="mt-5 inline-flex h-9 items-center justify-center rounded-full bg-lime-400 px-4 text-sm font-medium text-zinc-950 transition hover:bg-lime-300 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:ring-offset-2 dark:focus-visible:ring-lime-400 dark:focus-visible:ring-offset-zinc-900"
           >
             去投稿推荐
           </Link>

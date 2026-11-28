@@ -1,6 +1,83 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.cjs";
+@plugin "@tailwindcss/typography";
+@plugin "@headlessui/tailwindcss";
+@source "../node_modules/@tremor";
+@source inline("{hover:,ui-selected:,}bg-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("{hover:,ui-selected:,}text-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("{hover:,ui-selected:,}border-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("ring-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("stroke-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("fill-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-{50,100,200,300,400,500,600,700,800,900,950}");
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --default-ring-width: 3px;
+  --default-ring-color: var(--color-blue-500);
+  --color-primary-900: #000212;
+  --color-tremor-brand-faint: #eff6ff;
+  --color-tremor-brand-muted: #bfdbfe;
+  --color-tremor-brand-subtle: #60a5fa;
+  --color-tremor-brand: #3b82f6;
+  --color-tremor-brand-emphasis: #1d4ed8;
+  --color-tremor-brand-inverted: #ffffff;
+  --color-tremor-background-muted: #f9fafb;
+  --color-tremor-background-subtle: #f3f4f6;
+  --color-tremor-background: #ffffff;
+  --color-tremor-background-emphasis: #374151;
+  --color-tremor-border: #e5e7eb;
+  --color-tremor-ring: #e5e7eb;
+  --color-tremor-content-subtle: #9ca3af;
+  --color-tremor-content: #6b7280;
+  --color-tremor-content-emphasis: #374151;
+  --color-tremor-content-strong: #111827;
+  --color-tremor-content-inverted: #ffffff;
+  --color-dark-tremor-brand-faint: #0b1229;
+  --color-dark-tremor-brand-muted: #172554;
+  --color-dark-tremor-brand-subtle: #1e40af;
+  --color-dark-tremor-brand: #3b82f6;
+  --color-dark-tremor-brand-emphasis: #60a5fa;
+  --color-dark-tremor-brand-inverted: #030712;
+  --color-dark-tremor-background-muted: #131a2b;
+  --color-dark-tremor-background-subtle: #1f2937;
+  --color-dark-tremor-background: #111827;
+  --color-dark-tremor-background-emphasis: #d1d5db;
+  --color-dark-tremor-border: #1f2937;
+  --color-dark-tremor-ring: #1f2937;
+  --color-dark-tremor-content-subtle: #4b5563;
+  --color-dark-tremor-content: #6b7280;
+  --color-dark-tremor-content-emphasis: #e5e7eb;
+  --color-dark-tremor-content-strong: #f9fafb;
+  --color-dark-tremor-content-inverted: #000000;
+  --animate-typing: typing-pulse 1.35s steps(1, end) infinite;
+  --shadow-tremor-input: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-tremor-card: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-tremor-dropdown: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-dark-tremor-input: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-dark-tremor-card: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-dark-tremor-dropdown: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --radius-tremor-small: 0.375rem;
+  --radius-tremor-default: 0.5rem;
+  --radius-tremor-full: 9999px;
+  --text-tremor-label: 0.75rem;
+  --text-tremor-default: 0.875rem;
+  --text-tremor-default--line-height: 1.25rem;
+  --text-tremor-title: 1.125rem;
+  --text-tremor-title--line-height: 1.75rem;
+  --text-tremor-metric: 1.875rem;
+  --text-tremor-metric--line-height: 2.25rem;
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
 
 html,
 body {
@@ -15,10 +92,10 @@ html {
 }
 
 html.light {
-  --bg-color: theme('colors.zinc.50');
+  --bg-color: var(--color-zinc-50);
 }
 html.dark {
-  --bg-color: theme('colors.primary.900');
+  --bg-color: var(--color-primary-900);
 }
 
 /* Smooth theme switch: only while ThemeSwitcher toggles */
@@ -45,8 +122,8 @@ html.theme-transition *::after {
 }
 
 ::selection {
-  background-color: theme('colors.lime.500');
-  color: theme('colors.lime.950');
+  background-color: var(--color-lime-500);
+  color: var(--color-lime-950);
 }
 
 main:has([data-donate-page]) ~ footer [data-footer-newsletter] {
@@ -58,14 +135,14 @@ main:has([data-donate-page]) ~ footer [data-footer-newsletter] {
 :where(a, button, [role='button'], input, textarea, select, [tabindex]):focus-visible {
   outline: none;
   box-shadow:
-    0 0 0 2px var(--bg-color, theme('colors.zinc.50')),
-    0 0 0 4px theme('colors.lime.500' / 55%);
+    0 0 0 2px var(--bg-color, var(--color-zinc-50)),
+    0 0 0 4px color-mix(in srgb, var(--color-lime-500) 55%, transparent);
 }
 html.dark
   :where(a, button, [role='button'], input, textarea, select, [tabindex]):focus-visible {
   box-shadow:
-    0 0 0 2px var(--bg-color, theme('colors.primary.900')),
-    0 0 0 4px theme('colors.lime.400' / 60%);
+    0 0 0 2px var(--bg-color, var(--color-primary-900)),
+    0 0 0 4px color-mix(in srgb, var(--color-lime-400) 60%, transparent);
 }
 
 @keyframes typing-pulse {
@@ -81,10 +158,10 @@ html.dark
 /* Themed, slim scrollbar */
 html {
   scrollbar-width: thin;
-  scrollbar-color: theme('colors.zinc.300') transparent;
+  scrollbar-color: var(--color-zinc-300) transparent;
 }
 html.dark {
-  scrollbar-color: theme('colors.zinc.700') transparent;
+  scrollbar-color: var(--color-zinc-700) transparent;
 }
 ::-webkit-scrollbar {
   width: 10px;
@@ -94,19 +171,19 @@ html.dark {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: theme('colors.zinc.300');
+  background-color: var(--color-zinc-300);
   background-clip: content-box;
   border: 2px solid transparent;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background-color: theme('colors.zinc.400');
+  background-color: var(--color-zinc-400);
 }
 html.dark ::-webkit-scrollbar-thumb {
-  background-color: theme('colors.zinc.700');
+  background-color: var(--color-zinc-700);
 }
 html.dark ::-webkit-scrollbar-thumb:hover {
-  background-color: theme('colors.zinc.600');
+  background-color: var(--color-zinc-600);
 }
 
 /* Respect users who prefer reduced motion */

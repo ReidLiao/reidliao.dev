@@ -188,7 +188,7 @@ export default async function DonatePage() {
 
         <aside className="space-y-5">
           <section
-            className="rounded-2xl border border-zinc-200 bg-white/70 p-5 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/60"
+            className="rounded-2xl border border-zinc-200 bg-white/70 p-5 shadow-xs shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/60"
             aria-labelledby="donors-heading"
           >
             <h2
@@ -232,7 +232,7 @@ export default async function DonatePage() {
               </ul>
             )}
           </section>
-          <section className="rounded-2xl border border-zinc-200 bg-white/70 p-5 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/60">
+          <section className="rounded-2xl border border-zinc-200 bg-white/70 p-5 shadow-xs shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/60">
             <h2 className="text-base font-semibold text-zinc-800 dark:text-zinc-100">捐后说明</h2>
             <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">支付完成后欢迎在留言墙告诉我昵称，我会手动核实并更新感谢名单。上榜仅展示昵称与日期；不提供自助上榜，也不公开邮箱或钱包信息。</p>
           </section>

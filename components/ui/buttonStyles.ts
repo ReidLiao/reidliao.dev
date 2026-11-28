@@ -1,5 +1,5 @@
 export const buttonBaseStyles =
-  'inline-flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium outline-offset-2 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-500/70 disabled:pointer-events-none disabled:opacity-50 active:transition-none dark:focus-visible:ring-lime-400/70'
+  'inline-flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium outline-offset-2 transition focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-lime-500/70 disabled:pointer-events-none disabled:opacity-50 active:transition-none dark:focus-visible:ring-lime-400/70'
 
 export const buttonVariantStyles = {
   primary:

@@ -78,7 +78,7 @@ export function Newsletter({
       className={clsxm(
         'relative transition-opacity',
         'rounded-2xl border border-zinc-100 p-6 dark:border-zinc-700/40',
-        isFooter && 'bg-white shadow-sm dark:bg-zinc-900',
+        isFooter && 'bg-white shadow-xs dark:bg-zinc-900',
         isSubmitting && 'pointer-events-none opacity-70'
       )}
       onSubmit={onSubmit}
@@ -123,7 +123,7 @@ export function Newsletter({
             autoComplete="email"
             required
             className={clsxm(
-              'min-w-0 appearance-none rounded-lg border border-zinc-900/10 bg-white px-3 py-[calc(theme(spacing.2)-1px)] placeholder:text-zinc-400 focus:border-lime-500 focus:outline-none focus:ring-4 focus:ring-lime-500/10 dark:border-zinc-700 dark:bg-zinc-700/[0.15] dark:text-zinc-200 dark:placeholder:text-zinc-500 dark:focus:border-lime-400/50 dark:focus:ring-lime-400/5 sm:text-sm',
+              'min-w-0 appearance-none rounded-lg border border-zinc-900/10 bg-white px-3 py-[calc(theme(spacing.2)-1px)] placeholder:text-zinc-400 focus:border-lime-500 focus:outline-hidden focus:ring-4 focus:ring-lime-500/10 dark:border-zinc-700 dark:bg-zinc-700/[0.15] dark:text-zinc-200 dark:placeholder:text-zinc-500 dark:focus:border-lime-400/50 dark:focus:ring-lime-400/5 sm:text-sm',
               'flex-auto'
             )}
           />

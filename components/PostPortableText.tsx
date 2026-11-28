@@ -84,8 +84,8 @@ const textColorClass: Record<string, string> = {
 }
 
 const textBackgroundClass: Record<string, string> = {
-  lime: 'rounded-sm bg-lime-300 px-0.5 text-zinc-950 dark:bg-lime-400',
-  zinc: 'rounded-sm bg-zinc-200 px-0.5 text-zinc-900 dark:bg-zinc-700 dark:text-zinc-100',
+  lime: 'rounded-xs bg-lime-300 px-0.5 text-zinc-950 dark:bg-lime-400',
+  zinc: 'rounded-xs bg-zinc-200 px-0.5 text-zinc-900 dark:bg-zinc-700 dark:text-zinc-100',
 }
 
 // PortableTextComponentProps also contains renderNode; keep it server-side.
@@ -200,7 +200,7 @@ export function PostPortableText(props: {
 }) {
   return (
     <PortableText
-      value={preserveNumberingAcrossCodeBlocks(props.value) as typeof props.value}
+      value={preserveNumberingAcrossCodeBlocks(props.value)}
       components={props.components ?? components}
     />
   )

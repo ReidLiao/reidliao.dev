@@ -1,6 +1,8 @@
+@reference "./globals.css";
+
 .prismjs {
   --tw-prose-pre-bg: transparent;
-  --tw-prose-pre-code: theme('colors.zinc.600');
+  --tw-prose-pre-code: var(--color-zinc-600);
   background: transparent;
   font-size: 12px;
   padding: 0.875rem 1rem;
@@ -10,7 +12,7 @@
   @apply antialiased;
 }
 
-@screen md {
+@media (min-width: 48rem) {
   .prismjs {
     font-size: 0.875rem;
     padding: 1.25rem 1.5rem;
@@ -20,7 +22,7 @@
 .dark {
   .prismjs {
     --tw-prose-pre-bg: transparent;
-    --tw-prose-pre-code: theme('colors.zinc.300');
+    --tw-prose-pre-code: var(--color-zinc-300);
     background: transparent;
   }
 }

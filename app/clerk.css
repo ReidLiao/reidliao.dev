@@ -1,19 +1,21 @@
+@reference "./globals.css";
+
 .cl-card, .cl-userButtonPopoverCard {
   @apply backdrop-blur-xl backdrop-saturate-150 border shadow-xl shadow-zinc-500/10;
   @apply bg-zinc-50/80 text-zinc-800 border-zinc-200;
   @apply py-4;
-  --accent: theme('colors.zinc.900');
-  --accentDark: theme('colors.zinc.800');
+  --accent: var(--color-zinc-900);
+  --accentDark: var(--color-zinc-800);
 }
 
 .cl-formButtonPrimary {
-  --accent: theme('colors.zinc.900');
-  --accentDark: theme('colors.zinc.800');
+  --accent: var(--color-zinc-900);
+  --accentDark: var(--color-zinc-800);
   @apply text-zinc-50;
 }
 
 .cl-modalBackdrop {
-  @apply backdrop-blur-sm backdrop-saturate-150;
+  @apply backdrop-blur-xs backdrop-saturate-150;
   @apply bg-zinc-100/40;
 }
 
@@ -59,8 +61,8 @@
   }
 
   [class*="cl-internal-"] {
-    --accent: theme('colors.zinc.50');
-    --accentDark: theme('colors.zinc.200');
+    --accent: var(--color-zinc-50);
+    --accentDark: var(--color-zinc-200);
     --border: hsla(0, 0%, 100%, 0.08);
     --accentLightest: hsla(0, 0%, 100%, 0.04);
     --accentLighter: hsla(0, 0%, 100%, 0.16);
@@ -126,8 +128,8 @@
   }
 
   .cl-formButtonPrimary {
-    --accent: theme('colors.zinc.50');
-    --accentDark: theme('colors.zinc.200');
+    --accent: var(--color-zinc-50);
+    --accentDark: var(--color-zinc-200);
     @apply text-zinc-900;
   }
 

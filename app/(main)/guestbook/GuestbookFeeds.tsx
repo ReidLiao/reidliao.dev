@@ -178,7 +178,7 @@ function Message({
             maxLength={600}
             rows={3}
             placeholder="写一条站长回复..."
-            className="block w-full resize-y rounded-lg border border-zinc-200 bg-white/70 px-3 py-2 text-sm text-zinc-800 outline-none transition placeholder:text-zinc-400 focus:border-lime-500 focus:ring-2 focus:ring-lime-500/20 dark:border-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-200 dark:placeholder:text-zinc-500 dark:focus:border-lime-400 dark:focus:ring-lime-400/20"
+            className="block w-full resize-y rounded-lg border border-zinc-200 bg-white/70 px-3 py-2 text-sm text-zinc-800 outline-hidden transition placeholder:text-zinc-400 focus:border-lime-500 focus:ring-2 focus:ring-lime-500/20 dark:border-zinc-700 dark:bg-zinc-900/50 dark:text-zinc-200 dark:placeholder:text-zinc-500 dark:focus:border-lime-400 dark:focus:ring-lime-400/20"
           />
           <div className="mt-2 flex items-center justify-between gap-3">
             <span className="text-[11px] text-zinc-500 dark:text-zinc-400">

@@ -10,7 +10,7 @@ import {
 export const runtime = 'nodejs'
 
 function imageResponse(body: Buffer, contentType: string, hit: boolean) {
-  return new NextResponse(body, {
+  return new NextResponse(new Uint8Array(body), {
     status: 200,
     headers: {
       'Content-Type': contentType,

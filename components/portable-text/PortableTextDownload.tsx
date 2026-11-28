@@ -355,7 +355,7 @@ export function PortableTextDownload({
               <select
                 value={safeIndex}
                 onChange={(e) => setSelected(Number(e.target.value))}
-                className="h-10 w-full min-w-0 cursor-pointer appearance-none truncate rounded-full border border-lime-600/60 bg-lime-500/10 py-0 pl-3.5 pr-8 text-sm font-medium text-lime-800 outline-none transition focus:ring-2 focus:ring-lime-500/25 dark:border-lime-400/50 dark:bg-lime-400/10 dark:text-lime-300 dark:focus:ring-lime-400/20 sm:min-w-[7.5rem]"
+                className="h-10 w-full min-w-0 cursor-pointer appearance-none truncate rounded-full border border-lime-600/60 bg-lime-500/10 py-0 pl-3.5 pr-8 text-sm font-medium text-lime-800 outline-hidden transition focus:ring-2 focus:ring-lime-500/25 dark:border-lime-400/50 dark:bg-lime-400/10 dark:text-lime-300 dark:focus:ring-lime-400/20 sm:min-w-[7.5rem]"
               >
                 {files.map((file, idx) => (
                   <option key={file._key || `${file.url}-${idx}`} value={idx}>

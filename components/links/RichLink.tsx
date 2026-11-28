@@ -82,7 +82,7 @@ export const RichLink = React.forwardRef<HTMLAnchorElement, RichLinkProps>(
               alt=""
               aria-hidden="true"
               className={clsxm(
-                'inline h-4 w-4 rounded-sm object-cover',
+                'inline h-4 w-4 rounded-xs object-cover',
                 faviconClassName
               )}
               width={16}

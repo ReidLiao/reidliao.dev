@@ -49,7 +49,7 @@ export default function SubmitPage() {
           <SubmitRecommendationForm />
         </div>
         <aside className="space-y-4" aria-label="投稿说明与联系信息">
-          <section className="rounded-2xl border border-zinc-200 bg-white/70 p-5 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/60">
+          <section className="rounded-2xl border border-zinc-200 bg-white/70 p-5 shadow-xs shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/60">
             <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
               投稿规则与处理
             </h2>
@@ -61,7 +61,7 @@ export default function SubmitPage() {
               提交后我会先体验和核实，通常在 7 个工作日内处理；合适的会写成文章或收录进机房页，不合适的就不收录。
             </p>
           </section>
-          <section className="rounded-2xl border border-zinc-200 bg-white/70 p-5 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/60">
+          <section className="rounded-2xl border border-zinc-200 bg-white/70 p-5 shadow-xs shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/60">
             <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">隐私与联系</h2>
             <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">昵称用于必要的署名；邮箱为选填，仅用于核实信息或通知，不会公开。推荐内容可能经编辑后署名收录。</p>
             <div className="mt-3 flex flex-col items-start gap-2 text-sm text-zinc-600 dark:text-zinc-400">

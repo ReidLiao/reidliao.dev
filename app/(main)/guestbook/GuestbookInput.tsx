@@ -210,7 +210,7 @@ export function GuestbookInput() {
             <TextareaAutosize
               id="guestbook-message"
               ref={textareaRef}
-              className="block w-full shrink-0 resize-none border-0 bg-transparent p-0 text-sm leading-6 text-zinc-800 placeholder-zinc-400 outline-none transition-[height] will-change-[height] focus:outline-none focus:ring-0 dark:text-zinc-200 dark:placeholder-zinc-500"
+              className="block w-full shrink-0 resize-none border-0 bg-transparent p-0 text-sm leading-6 text-zinc-800 placeholder-zinc-400 outline-hidden transition-[height] will-change-[height] focus:outline-hidden focus:ring-0 dark:text-zinc-200 dark:placeholder-zinc-500"
               value={message}
               onChange={(event) => setMessage(event.target.value)}
               placeholder={

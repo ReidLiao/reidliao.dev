@@ -95,13 +95,13 @@ export function FirstVisitAnnouncement({
           }
           previousFocusRef.current = null
         }}
-        className="max-h-[calc(100dvh-2rem)] max-w-xl gap-0 overflow-y-auto rounded-3xl border-zinc-700 bg-zinc-900 p-0 text-zinc-100 shadow-2xl shadow-black/40 outline-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 focus:shadow-none focus-visible:shadow-none"
+        className="max-h-[calc(100dvh-2rem)] max-w-xl gap-0 overflow-y-auto rounded-3xl border-zinc-700 bg-zinc-900 p-0 text-zinc-100 shadow-2xl shadow-black/40 outline-hidden focus:outline-hidden focus-visible:outline-hidden focus:ring-0 focus-visible:ring-0 focus:shadow-none focus-visible:shadow-none"
       >
         <button
           type="button"
           onClick={close}
           aria-label="关闭公告"
-          className="group absolute right-2 top-2 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-400"
+          className="group absolute right-2 top-2 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full focus:outline-hidden focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-lime-400"
         >
           <span
             aria-hidden="true"
@@ -155,7 +155,7 @@ export function FirstVisitAnnouncement({
                 target="_blank"
                 rel="noreferrer noopener"
                 onClick={close}
-                className="mt-5 inline-flex h-10 items-center justify-center rounded-full bg-lime-400 px-5 text-sm font-semibold text-zinc-950 transition hover:bg-lime-300 active:scale-[0.98] focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-400"
+                className="mt-5 inline-flex h-10 items-center justify-center rounded-full bg-lime-400 px-5 text-sm font-semibold text-zinc-950 transition hover:bg-lime-300 active:scale-[0.98] focus:outline-hidden focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-lime-400"
               >
                 {announcement.buttonText}
               </a>
@@ -163,7 +163,7 @@ export function FirstVisitAnnouncement({
               <Link
                 href={buttonLink}
                 onClick={close}
-                className="mt-5 inline-flex h-10 items-center justify-center rounded-full bg-lime-400 px-5 text-sm font-semibold text-zinc-950 transition hover:bg-lime-300 active:scale-[0.98] focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-400"
+                className="mt-5 inline-flex h-10 items-center justify-center rounded-full bg-lime-400 px-5 text-sm font-semibold text-zinc-950 transition hover:bg-lime-300 active:scale-[0.98] focus:outline-hidden focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-lime-400"
               >
                 {announcement.buttonText}
               </Link>

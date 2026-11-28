@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-const fieldClass = 'mt-2 w-full rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-lime-600 focus:ring-2 focus:ring-lime-500/20 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-lime-400 dark:focus:ring-lime-400/20'
+const fieldClass = 'mt-2 w-full rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 outline-hidden transition placeholder:text-zinc-400 focus:border-lime-600 focus:ring-2 focus:ring-lime-500/20 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-lime-400 dark:focus:ring-lime-400/20'
 
 export function SubmitRecommendationForm() {
   const [status, setStatus] = React.useState<{
@@ -41,7 +41,7 @@ export function SubmitRecommendationForm() {
   }
 
   return (
-    <form onSubmit={submit} className="mt-0 w-full max-w-none rounded-3xl border border-zinc-200 bg-white/70 p-5 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/60 sm:p-8">
+    <form onSubmit={submit} className="mt-0 w-full max-w-none rounded-3xl border border-zinc-200 bg-white/70 p-5 shadow-xs shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/60 sm:p-8">
       <fieldset className="grid gap-6" disabled={pending}>
         <legend className="sr-only">投稿内容</legend>
         <fieldset>
