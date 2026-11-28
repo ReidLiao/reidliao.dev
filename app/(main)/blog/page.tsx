@@ -174,7 +174,7 @@ export default async function BlogPage(
                     <span
                       className={
                         active
-                          ? 'text-zinc-950/70'
+                          ? 'text-current'
                           : empty
                             ? 'text-zinc-400 dark:text-zinc-500'
                             : 'text-zinc-500 dark:text-zinc-400'
